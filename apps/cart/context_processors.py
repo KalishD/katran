@@ -1,4 +1,9 @@
 from .cart import Cart
 
 def cart(request):
-    return {'cart': Cart(request)}
+    print('Return Cart:')
+    
+    cart = Cart(request)
+    print('cart', cart)
+    print('cart.keys()', cart.cart)
+    return {'cart': cart}
