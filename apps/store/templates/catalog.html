@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Каталог пневматического инструмента{% endblock %}
+{% block content %}
+  <div class="columns">
+    {% include "side-bar.html" %}
+    <div class="column">
+      {% for c in categories %}
+        <h3 class="title is-6">{{ c.title }}</h3>
+        {% for p in c.get_products %}
+        <p class="title is-7"><a class="no-hl-link" href="{% url 'product_detail' p.category.slug p.slug %}"><p>{{p.title}}</p></a>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+
+    <h1>{{ category.title }}</h1>
+
+    {% for product in products %}
+
+    <p>{{product.title}} | <a href="{% url 'product_detail' product.category.slug product.slug %}">Details</a> </p>
+
+    {% endfor %}
+
+{% endblock %}

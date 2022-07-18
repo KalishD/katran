@@ -1,0 +1,29 @@
+<div class="column is-one-quarter p-4 pl-5">
+  <aside class="menu">
+      <p class="menu-label">
+          Категории товаров
+      </p>
+      <ul class="menu-list">
+          {% for category in menu_categories %}
+          <li>
+              <a href="{% url 'category_detail' category.slug %}">{{category.title}}</a>
+          </li>
+          {% endfor %}
+      </ul>
+  </aside>
+  <div class="katran--free_space"></div>
+  <div>
+    <p class="menu-label">Популярные товары</p>
+    {% for p in featured_product %}
+    <a href="{% url 'product_detail' p.category.slug p.slug %}"">
+      <div class="fav-prod-sidebar--item">
+        <div class="fav-prod-sidebar--item-img">
+          <img class="img-responsive" src="{{ p.image.url }}" style="max-width: 80% !important;"></img>
+        </div>
+        <div class="fav-prod-sidebar--item-title">{{ p.title }}</div>
+        <div class="fav-prod-sidebar--item-price">{{ p.price }}<span class="price"> руб.</span></div>
+      </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>

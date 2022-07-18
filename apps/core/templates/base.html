@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="main_container" class="container">
+    {% block messages %}{% endblock %}
+
+    <nav id="navbarapp" class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <!-- <a class="navbar-item is-hidden-desktop" href="{% url 'frontpage' %}">
+          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        </a> -->
+    
+        <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+    
+      <div id="navbarBasicExample"  class="navbar-menu" :class="{ 'is-active': menuClass }">
+        <div class="navbar-start">
+          <a class="navbar-item" href="{% url 'frontpage' %}">
+            Главная
+          </a>
+    
+          <a class="navbar-item">
+            Продукция
+          </a>
+    
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link" href="{% url 'catalog' %}">
+              Каталог
+            </a>
+    
+            <div class="navbar-dropdown">
+              {% for c in menu_categories %}
+                  <a class="navbar-item" href="{% url 'category_detail' c.slug %}">
+                      {{ c.title }}
+                  </a>
+              {% endfor %}
+            </div>
+          </div>
+
+          <a class="navbar-item">
+            Статьи
+          </a>
+
+          <a class="navbar-item">
+            О Нас
+          </a>
+
+          <a class="navbar-item">
+            Контакты
+          </a>
+        </div>
+    
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-primary" href="{% url 'cart' %}">
+                <strong><i class="fa-solid fa-cart-shopping"></i>([[ numItems ]])</strong>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <hr>
+    <div class="columns">
+      <div class="column is-one-third has-text-centered">
+          <div>
+              <img src="{% static 'images/katran-logo.jpg' %}" alt="">
+          </div>
+      </div>
+      <div class="column has-text-centered">
+          <div>
+              <p class="heading">ЗВОНИТЕ НАМ ПН-ПТ 9:30 - 17:30</p>
+              <p class="title is-5"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
+          </div>
+      </div>
+      <div class="column has-text-centered">
+          <div>
+              <p class="heading">г. Санкт-Петербург, Английский пр., д. 33</p>
+              <p class="title is-5"><a class="no-hl-link" href="mailto:OFFICE@KATRAN-PNEVMO.RU"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</a></p>
+          </div>
+      </div>
+    </div>
+    <hr>
+    {% block content %}
+
+    {% endblock %}
+
+  </div>
+  <footer class="footer mt-6">
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <div class="mb-5">
+            <img src="{% static 'images/katran-logo.jpg' %}" alt="">
+          </div>
+          <div class="content">
+            <p>ООО "Катран-Пневмо"</p>
+            <p>Продажа пневматического инструмента</p>
+            <p>Информация на сайте не является публичной офертой</p>
+          </div>
+        </div>
+        <div class="column">
+          <div>
+            <h3 class="title is-3">Контакты</h3>
+            <p class="heading">ЗВОНИТЕ НАМ ПН-ПТ 9:30 - 17:30</p>
+            <p class="title is-5"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</p>
+            <p class="title is-5"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 714 20 30</p>
+            <p class="title is-6"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</p>
+          </div>
+        </div>
+        <div class="column">
+          <div>
+            <h3 class="title is-3">Наш адрес</h3>
+            <p><i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, лит. А, пом. 5Н, оф. 101</p>
+            <p><i class="fa-solid fa-clock"></i>&nbsp;&nbsp;График работы: ПН-ПТ 9:30 - 17:30</p>
+          </div>
+        </div>
+        <div class="column">
+          <div>
+            <h3 class="title is-3">Информация</h3>
+            <aside class="menu">
+              <ul class="menu-list">
+                  <li>
+                    <a href="#">Реквизиты</a>
+                  </li>
+                  <li>
+                    <a href="#">О Нас</a>
+                  </li>
+                  <li>
+                    <a href="#">Контакты</a>
+                  </li>
+                  <li>
+                    <a href="#">Статьи</a>
+                  </li>
+              </ul>
+            </aside>       
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <footer class="footer katran-footer">
+    
+  </footer>
+  <script src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
+    <script>
+			var store = new Vuex.Store({
+				state: {
+					numItems: {{ cart.get_total_length }},
+					totalCost: {{ cart.get_total_cost }}          
+				},
+				mutations: {
+					increment(state, quantity) {
+						state.numItems += quantity;
+					},
+          changeTotalCost(state, newCost) {
+						state.totalCost += newCost;
+					}
+				}
+			});
+      
+      var navbarapp = new Vue({
+        el: '#navbarapp',
+        delimiters: ['[[',']]'],
+        store: store,
+        data () {
+					return {
+						menuClass: false
+					}
+				},
+        computed:{
+          numItems: function(){
+            return parseInt(store.state.numItems)
+          }
+        },
+        methods: {
+					toggleMenu() {
+						this.menuClass = !this.menuClass;
+					}
+				}
+      });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

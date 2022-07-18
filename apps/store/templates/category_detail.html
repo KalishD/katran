@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Каталог {{ category.title }}{% endblock %}
+{% block content %}
+    <div class="columns">
+        {% include "side-bar.html" %}
+        <div class="column">
+            <h1 class="title is-3">{{ category.title }}</h1>
+            <hr>
+            <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Наименование</th>
+                    <th>Производитель</th>
+                    <th>Цена</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <th><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}"></a></th>
+                            <td><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><p>{{product.title}}</p></a></td>
+                            <td>{{ product.brand }}</td>
+                            <td>{{ product.price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            
+            
+            
+        </div>
+    </div>
+{% endblock %}

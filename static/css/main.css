@@ -1,0 +1,189 @@
+:root {
+    --main-bg-color: brown;
+    --katran-yelow: #f1ac2b;
+    --katran-red: #e41817;
+    --katran-dark: #09131f;
+    --katran-font-color: #09131f;
+}
+
+#main_container{
+    
+}
+.katran_top-header{
+    /* padding-top: 1rem;
+    padding-bottom: 1rem; */
+}
+hr{
+    margin: 1rem 0 !important;
+}
+footer.footer.katran-footer{
+    background-color: var(--katran-dark);
+}
+.fa-at,
+.fa-phone-flip,
+.fa-location-dot,
+.fa-clock
+{
+    color: var(--katran-yelow) !important;
+}
+a.no-hl-link{color: #09131f;}
+a.no-hl-link:hover{color: black;}
+.katran--free_space{min-height: 2rem;height: 2rem;content: "";}
+.frontpage--category_tiles p.title{text-shadow: 1px 1px 5px #f8f6fc;}
+.product_table td{ vertical-align: middle;}
+@media screen and (min-width: 350px) and (max-width:769px){
+    .frontpage--category_tiles .tile.is-child{
+        min-height: 10rem;
+    }
+    .frontpage--category_tiles .tile.is-parent{
+        padding: .75rem .75rem 0 .75rem;
+    
+    }
+    .frontpage--category_tiles .tile.is-ancestor {
+        margin: 0;
+    }
+    .frontpage--category_tiles .tile.is-vertical.is-parent{
+        padding: .75rem 0;
+    }
+  }
+  @media screen and (min-width:769px){
+    .frontpage--category_tiles .tile.is-vertical.is-parent{
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+  }
+  @media screen and (min-width: 769px) and (max-width:800px){
+    .frontpage--category_tiles p.title{
+        font-size: 1.1rem !important;
+    }
+  }
+  @media screen and (min-width: 800px) and (max-width:1220px){
+    .frontpage--category_tiles p.title{
+        font-size: 1.15rem !important;
+    }
+  }
+  @media screen and (min-width: 1025px) and (max-width:1220px){
+    .frontpage--category_tiles p.title{
+        font-size: 1.25rem !important;
+    }
+  }
+  @media screen and (min-width: 1220px) and (max-width:1408px){
+    .frontpage--category_tiles p.title{
+        font-size: 1.75rem !important;
+    }
+    .frontpage--category_tiles .tile.is-ancestor{
+        min-height: 20em !important;
+        height: 20em !important;
+    }
+  }
+  @media screen and (min-width: 1408px) {
+    .frontpage--category_tiles{}
+    .frontpage--category_tiles .tile.is-ancestor{
+        min-height: 20em !important;
+        height: 20em !important;
+    }
+  
+  .tile.is-vertical > .tile.is-child:not(:last-child) {
+    margin-bottom: 1rem !important;
+  }
+  }
+  
+.frontpage--category_tiles .grinder_tile{
+    background-image: url("/static/images/categories/shlifovalnye.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .angle_tile{
+    background-image: url("/static/images/categories/uglovye.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .cang_tile{
+    background-image: url("/static/images/categories/czangovye.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .strate_tile{
+    background-image: url("/static/images/categories/pryamye.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .trambov_tile{
+    background-image: url("/static/images/categories/trambovki.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .hammer_tile{
+    background-image: url("/static/images/categories/molotki.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .otboy_tile{
+    background-image: url("/static/images/categories/otbojnye.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .rubil_tile{
+    background-image: url("/static/images/categories/rubilnye.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .beton_tile{
+    background-image: url("/static/images/categories/betonolomy.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .tools_tile{
+    background-image: url("/static/images/categories/golovki.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .wrench_tile{
+    background-image: url("/static/images/categories/gajkoverty.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .vint_tile{
+    background-image: url("/static/images/categories/vintoverty.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .drill_tile{
+    background-image: url("/static/images/categories/dreli.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .paint_tile{
+    background-image: url("/static/images/categories/okrasochnoe.jpg");
+    background-size: cover;    
+}
+.frontpage--category_tiles .zap_tile{
+    background-image: url("/static/images/categories/zapchasti.jpg");
+    background-size: cover;    
+}
+
+
+/* SIDEBAR */
+.fav-prod-sidebar--title{background: none;padding: 10px 5px 10px 7.5px;font-weight: 600; border-bottom:2px solid #e41817;}
+/*.fav-prod-sidebar--title:after{content: ""; width:100%; height: 100%; border-left: :1px solid #e41817;}*/
+.fav-prod-sidebar--title span{color:#09131f;font-size: 1rem;}
+.fav-prod-sidebar--item{position: relative;}
+.fav-prod-sidebar--item-title{position: absolute;color:#fff;background: #09131f;bottom:45px;left:0;padding:5px;font-size: 14px;}
+.fav-prod-sidebar--item-price{position: absolute;color:#fff;background: #e41817;bottom:0;left:0;padding:5px;font-size: 17px;}
+
+
+@media only screen and (min-width: 770px) and (max-width:1299px) {
+    /* .home-page--hello{background-position-x:right;background-size: cover;} */
+  
+    /*.home-page--main-banner{margin: 1rem 2rem 0rem;}*/
+    /* .col-9{width:calc(75% - 15px);}
+    .col-92{width:calc(37.5% - 15px);}
+    .col-92.banner-first,
+    .col-92.banner-last{width:calc(37.5% - 7.5px);}
+    .col-6{width:calc(50% - 15px);}
+    .col-6.banner-first,
+    .col-6.banner-last{width:calc(50% - 7.5px) !important;}
+    .col-3{width:calc(25% - 15px);}
+    .col-3.banner-last,
+    .col-3.banner-first{width:calc(25% - 7.5px) !important;} */
+    .fav-prod-sidebar--item-title {
+      position: absolute;
+      color: #fff;
+      /*background: #09131f;*/
+      bottom: 45px;
+      left: 0;
+      padding: 2px 5px;
+      font-size: 16px;
+    }
+    .fav-prod-sidebar--title span{font-size: 1.5rem !important;}
+    .home-page--icon-text{margin:25px 0 25px 5px !important;font-size: 1.5rem;}
+    .home-page--cat-banner-img{height:80%;}
+  }
+ 

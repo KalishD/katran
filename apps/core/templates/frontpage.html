@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="columns">
+    {% include "side-bar.html" %}
+    <div class="column has-text-centered">
+        <h2 class="title is-3">Российский производитель пневмоинструмента</h2>
+        <p class="subtitle is-5">ООО "Катран-Пневмо"</p>
+        <div class="content pl-5 pr-5">
+            <p>
+                ООО «Катран-Пневмо» — компания, основанная в 1990 году для оснащения судостроительной 
+                промышленности качественным пневмоинструментом, специализируется на продажах инструментов 
+                и машиностроительного оборудования по системе В2В. Мы предлагаем купить оптом промышленный 
+                пневматический инструмент в Санкт-Петербурге и Ленинградской области.
+            </p>
+            <p>
+                Благодаря нашему интернет-магазину katran-pnevmo.ru, мы смогли предоставить покупателям 
+                по всей России самый большой ассортимент оригинального и высококачественного пневмоинструмента, 
+                который произведен нами и именитыми профильными предприятиями. 
+            </p>
+        </div>
+        <h3 class="title is-4">Продукция ООО "Катран-Пневмо"</h3>
+        {% for kp in all_products %}
+          <p>{{kp.title}}</p>
+        {%  endfor %}
+    </div>
+
+</div>
+<div class="frontpage--category_tiles">
+  <div class="tile is-ancestor">
+    <div class="tile is-5 is-parent">
+      <div class="tile is-child box grinder_tile">
+        <p class="title">Шлифовальные машины</p>
+      </div>
+    </div>
+    <div class="tile is-parent">
+      <div class="tile is-6 is-vertical is-parent">
+        <div class="tile is-child box angle_tile">
+          <p class="title">угловые</p>
+        </div>
+        <div class="tile is-child box cang_tile">
+          <p class="title">цанговые</p>
+        </div>
+      </div>
+      <div class="tile is-6 is-vertical is-parent">
+        <div class="tile is-child box strate_tile">
+          <p class="title">прямые</p>
+        </div>
+        <div class="tile is-child box trambov_tile">
+          <p class="title">Трамбовки</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tile is-ancestor">
+    <div class="tile is-5 is-parent">
+      <div class="tile is-child box hammer_tile">
+        <p class="title">Молотки</p>
+      </div>
+    </div>
+    <div class="tile is-parent">
+      <div class="tile is-6 is-vertical is-parent">
+        <div class="tile is-child box otboy_tile">
+          <p class="title">отбойные</p>
+        </div>
+        <div class="tile is-child box rubil_tile">
+          <p class="title">рубильные</p>
+        </div>
+      </div>
+      <div class="tile is-6 is-vertical is-parent">
+        <div class="tile is-child box beton_tile">
+          <p class="title">Бетоноломы</p>
+        </div>
+        <div class="tile is-child box tools_tile">
+          <p class="title">Инструментальные принадлежности</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tile is-ancestor">
+    <div class="tile is-5 is-parent">
+      <div class="tile is-child box wrench_tile">
+        <p class="title">Гайковерты</p>
+      </div>
+    </div>
+    <div class="tile is-parent">
+      <div class="tile is-6 is-vertical is-parent">
+        <div class="tile is-child box vint_tile">
+          <p class="title">Винтоверты</p>
+        </div>
+        <div class="tile is-child box drill_tile">
+          <p class="title">Сверлильные машины</p>
+        </div>
+      </div>
+      <div class="tile is-6 is-vertical is-parent">
+        <div class="tile is-child box paint_tile">
+          <p class="title">Окрасочное оборудование</p>
+        </div>
+        <div class="tile is-child box zap_tile">
+          <p class="title">Запчасти</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}{% endblock %}
