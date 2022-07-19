@@ -18,6 +18,42 @@
 
 {% block scripts %}
 <script>
- 
+  var productapp = new Vue({
+    el: '#productapp',
+    delimiters: ['[[',']]'],
+    data (){
+        return {
+
+        }
+    },
+    mounted(){
+        console.log('Mounted');
+    },
+    methods: {
+        addToCart(product_id){
+            console.log('Product_id', product_id);
+            var data = {
+                'product_id': product_id,
+                'update': false,
+                'quantity': 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Hello');
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
+  });
 </script>
 {% endblock %}
