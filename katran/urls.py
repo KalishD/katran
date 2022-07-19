@@ -23,7 +23,7 @@ from apps.cart.views import cart_detail
 from apps.core.views import frontpage
 from apps.store.views import category_detail, product_detail, catalog
 
-from apps.store.api import api_add_to_cart, api_remove_from_cart
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,8 +31,7 @@ urlpatterns = [
     path('cart/', cart_detail, name='cart'),
 
     # API
-    path('api/api_add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
-    path('api/api_remove_from_cart/', api_remove_from_cart, name='api_remove_from_cart'),
+
 
     # STORE
     path('<slug:category_slug>/<slug:slug>', product_detail, name='product_detail'),

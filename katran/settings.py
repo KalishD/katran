@@ -77,7 +77,7 @@ TEMPLATES = [
                 'apps.store.context_processors.menu_category',
                 'apps.store.context_processors.featured_product',
                 'apps.store.context_processors.all_products',
-                'apps.cart.context_processors.cart',
+
                 
             ],
         },
