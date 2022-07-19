@@ -31,8 +31,8 @@ urlpatterns = [
     path('cart/', cart_detail, name='cart'),
 
     # API
-    path('api/add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
-    path('api/remove_from_cart/', api_remove_from_cart, name='api_remove_from_cart'),
+    path('api/api_add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
+    path('api/api_remove_from_cart/', api_remove_from_cart, name='api_remove_from_cart'),
 
     # STORE
     path('<slug:category_slug>/<slug:slug>', product_detail, name='product_detail'),

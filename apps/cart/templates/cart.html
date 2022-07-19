@@ -1,6 +1,4 @@
 {% extends 'base.html' %}
-{% block  messages%}
-{% endblock %}
 {% block content %}
 <div class="columns">
   {% include "side-bar.html" %}
@@ -73,7 +71,8 @@
         },
         computed:{
           numItems: function(){
-            return parseInt(store.state.numItems)
+            return parseInt(store.state.numItems);
+            
           },
           totalCost: function(){
             return parseFloat(store.state.totalCost)
@@ -91,7 +90,7 @@
               store.commit('increment', 1);
               store.commit('changeTotalCost', parseFloat(price));
 
-              fetch('/api/add_to_cart/',{
+              fetch('/api/api_add_to_cart/',{
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',
@@ -101,6 +100,7 @@
                   body: JSON.stringify(data)
               })
               .then((response) => {
+                  console.log('Cart.html VUE JS ')
                   console.log(response)
 
                   for(var i = 0; i < this.products.length; i++){
@@ -129,7 +129,7 @@
 
               store.commit('increment', -1);
               store.commit('changeTotalCost', -parseFloat(price));
-              fetch('/api/add_to_cart/',{
+              fetch('/api/api_add_to_cart/',{
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',
@@ -161,7 +161,7 @@
                   'product_id': product_id
               };
 
-              fetch('/api/remove_from_cart/',{
+              fetch('/api/api_remove_from_cart/',{
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',

@@ -18,6 +18,7 @@
 
 {% block scripts %}
 <script>
+    console.log('Product Page Script');
     var productapp = new Vue({
         el: '#productapp',
         delimeters: ['[[',']]'],
@@ -41,7 +42,7 @@
                     'quantity': 1
                 };
 
-                fetch('/api/add_to_cart/',{
+                fetch('/api/api_add_to_cart/',{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -1,4 +1,3 @@
-from email.policy import default
 from io import BytesIO
 from django.core.files import File
 from PIL import Image

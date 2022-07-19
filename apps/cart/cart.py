@@ -13,7 +13,10 @@ class Cart(object):
         self.cart = cart
     
     def __iter__(self):
-        product_ids = self.cart.keys()        
+        print('__iter__')
+
+        product_ids = self.cart.keys()    
+            
         product_clean_ids = []
 
         for p in product_ids:
@@ -22,7 +25,6 @@ class Cart(object):
             self.cart[str(p)]['product'] = Product.objects.get(pk=p)
 
         for item in self.cart.values():
-            item['price'] = float(item['price'])
             item['total_price'] = float(item['price']) * int(item['quantity'])
 
             yield item
@@ -41,11 +43,17 @@ class Cart(object):
             quantity = int(quantity)
             self.cart[product_id]['quantity'] = quantity
         else:
-            self.cart[product_id]['quantity'] = self.cart[product_id]['quantity'] +1
-            # self.cart[product_id]['quantity'] += 1
+            # self.cart[product_id]['quantity'] = self.cart[product_id]['quantity'] +1
+            self.cart[product_id]['quantity'] += 1
 
         self.save()
-
+    
+    def has_product(self, product_id):
+        if str(product_id) in self.cart:
+            return True
+        else:
+            return False
+    
     def remove(self, product_id):
         if product_id in self.cart:
             del self.cart[product_id]
@@ -60,7 +68,7 @@ class Cart(object):
         return sum(int(item['quantity']) for item in self.cart.values())
 
     def get_total_cost(self):
-        print('CART: ', self.cart.values())
+        print('Get Total Cost __ CART: ', self.cart.values())
         for i in self.cart.values():
-            print('ITEM: ', i)
+            print('Get Total Cost __ ITEM: ', i)
         return sum(float(item['total_price']) for item in self.cart.values())
