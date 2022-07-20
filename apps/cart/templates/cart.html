@@ -2,10 +2,128 @@
 {% block content %}
 <div class="columns">
   {% include "side-bar.html" %}
-  <div class="column has-text-centered">
-      <div id="cartapp">
-        <h1>Cart</h1>
-      </div>
+  <div id="cartapp" class="column has-text-centered">
+    <h1 class="title is-3">Ваш заказ</h1>
+    <hr>
+    {% if cart %}
+      <table class="table is-striped is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Наименование</th>
+            <th>Цена</th>
+            <th><abbr title="Количество">Кол-во</abbr></th>
+            <th>Сумма</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% comment %}
+         
+          {% endcomment %}
+          <tr v-for="product in products">
+            <th>[[ product.title ]]</th>
+            <th>[[ product.price ]]</th>
+            <th>
+              <button class="button is-danger is-small" @click="decrementQuantity(product.id, product.quantity)">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              &nbsp;
+              <!-- &nbsp; -->
+              [[ product.quantity ]]
+              &nbsp;
+              <!-- &nbsp; -->
+              <button class="button is-success is-small" @click="incrementQuantity(product.id, product.quantity)">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </th>
+            <th>[[ product.total_price ]]</th>
+            <th><button class="button is-danger is-small" @click="removeFromCart(product.id)"><i class="fa-solid fa-trash-can"></i></button></th>
+          </tr>
+          
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Итого</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    {% else %}
+      <h3 class="title is-5">Ваша корзина пуста</h3>
+      <p class="subtitle is-7">Чтобы начать покупки перейдите в <a href="{% url 'catalog' %}">Каталог</a></p>
+    {%endif%}
   </div>
+  
 </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    var cartapp = new Vue({
+      el: '#cartapp',
+      delimiters: ['[[',']]'],
+      data (){
+          return {
+            products: [{{ productsstring|safe }}]
+          }
+      },
+      methods: {
+        incrementQuantity(product_id, quantity){
+          console.log('Increment quantity Product_id', product_id);
+          var data = {
+                'product_id': product_id,
+                'update': true,
+                'quantity': parseInt(quantity) + 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Increment quantity Product_id:', product_id);
+                for (var i = 0; i < this.products.length; i++){
+                  var product = this.products[i];
+
+                  if (product.id === product_id){
+                    this.products[i].quantity = parseInt(this.products[i].quantity) +1;
+                    this.products[i].total_price = parseFloat(this.products[i].total_price) + parseFloat(this.products[i].price) ;
+                  }
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        },
+        removeFromCart(product_id){
+            console.log('Removing Product_id: ', product_id);
+            var data = {
+                'product_id': product_id
+            };
+            fetch('/api/api_remove_from_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Removing Product_id: ', product_id);
+                this.products = this.products.filter(product => product.id !== product_id);
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+      }
+    });
+  </script>
 {% endblock %}
