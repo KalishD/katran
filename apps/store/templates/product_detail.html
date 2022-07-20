@@ -21,6 +21,7 @@
   var productapp = new Vue({
     el: '#productapp',
     delimiters: ['[[',']]'],
+    store: store,
     data (){
         return {
 
@@ -48,6 +49,7 @@
             })
             .then((response) => {
                 console.log('Hello');
+                store.commit('increment', 1);
             })
             .catch(function(error){
                 console.log(error);
