@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load core_extras %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -18,10 +19,6 @@
 
     <nav id="navbarapp" class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <!-- <a class="navbar-item is-hidden-desktop" href="{% url 'frontpage' %}">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-        </a> -->
-    
         <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>

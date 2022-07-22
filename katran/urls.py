@@ -19,24 +19,29 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 
-from apps.cart.views import cart_detail
+from apps.cart.views import cart_detail, success
 from apps.core.views import frontpage
-from apps.store.views import category_detail, product_detail, catalog
+from apps.store.views import category_detail, product_detail, catalog, brand_detail
 
-from apps.store.api import api_add_to_cart, api_remove_from_cart
+from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', frontpage, name='frontpage'),
     path('cart/', cart_detail, name='cart'),
+    path('cart/success/', success, name='success'),
 
     # API
     path('api/api_add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
     path('api/api_remove_from_cart/', api_remove_from_cart, name='api_remove_from_cart'),
+    path('api/api_checkout/', api_checkout, name='api_checkout'),
 
     # STORE
+    path('brands/<slug:slug>', brand_detail, name='brand_detail'),
     path('<slug:category_slug>/<slug:slug>', product_detail, name='product_detail'),
     path('<slug:slug>', category_detail, name='category_detail'),
+    
+
     path('catalog/', catalog, name='catalog'),
 ]
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,6 @@
-<div class="column is-one-quarter p-4 pl-5">
+<div class="column is-one-quarter p-4 pl-5 ">
   <aside class="menu">
-      <p class="menu-label">
+      <p class="menu-label has-text-centered-touch has-text-left-desktop">
           Категории товаров
       </p>
       <ul class="menu-list">
@@ -12,8 +12,8 @@
       </ul>
   </aside>
   <div class="katran--free_space"></div>
-  <div>
-    <p class="menu-label">Популярные товары</p>
+  <div class="is-hidden-touch">
+    <p class="menu-label has-text-centered-touch has-text-left-desktop">Популярные товары</p>
     {% for p in featured_product %}
     <a href="{% url 'product_detail' p.category.slug p.slug %}"">
       <div class="fav-prod-sidebar--item">

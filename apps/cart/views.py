@@ -19,3 +19,6 @@ def cart_detail(request):
     }
     
     return render(request, 'cart.html', context)
+
+def success(request):
+    return render(request, 'success.html')

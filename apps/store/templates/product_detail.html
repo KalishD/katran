@@ -3,11 +3,30 @@
 {% block content %}
     <div class="columns">
         {% include "side-bar.html" %}
-        <div class="column has-text-centered">
+        <div class="column has-text-centered-touch">
             <div id="productapp">
-                <h1>{{ product.title }}</h1>
-                <h2>{{ product.price }}</h2>
-                <button @click="addToCart({{ product.id }})">В корзину</button>
+                <h1 class="title is-3">{{ product.title }}</h1>
+                <div class="columns is-desktop">
+                    <div class="column is-half">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                    </div>
+                    <div class="column">
+                        <div class="has-text-centered">
+                            <p class="title is-5">Цена с НДС: <span class="fc-red">{{ product.price }}</span></p>
+                            <button class="button is-black is-normal" @click="addToCart({{ product.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+                            <p class="title is-5 fc-red mt-6 mb-3">Краткое описание</p>
+                        </div>
+                        <p class="content">
+                            {{ product.description }}
+                        </p>
+                        <div class="has-text-centered">
+                            <p class="title is-5 fc-red mt-6 mb-3">Технические характеристики</p>
+                        </div>
+                        <p class="content">
+                            {{ product.description }}
+                        </p>
+                    </div>
+                </div>              
             </div>
         </div>
     </div>

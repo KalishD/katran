@@ -3,31 +3,31 @@
 {% block content %}
     <div class="columns">
         {% include "side-bar.html" %}
-        <div class="column">
+        <div class="column has-text-centered-touch has-text-left-desktop">
             <h1 class="title is-3">{{ category.title }}</h1>
             <hr>
-            <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Наименование</th>
-                    <th>Производитель</th>
-                    <th>Цена</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for product in products %}
+            <div class="table-container">
+                <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
+                    <thead>
                         <tr>
-                            <th><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}"></a></th>
-                            <td><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><p>{{product.title}}</p></a></td>
-                            <td>{{ product.brand }}</td>
-                            <td>{{ product.price }}</td>
+                        <th></th>
+                        <th>Наименование</th>
+                        <th>Производитель</th>
+                        <th>Цена</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
-            
-            
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <th class="th-w-img p-0"><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}"></a></th>
+                                <td><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><p>{{product.title}}</p></a></td>
+                                <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
+                                <td>{{ product.price }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             
         </div>
     </div>

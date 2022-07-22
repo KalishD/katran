@@ -1,10 +1,13 @@
 import json
 
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from apps.cart.cart import Cart
 
 from .models import Product
+
+from apps.order.utils import checkout
+from apps.order.models import Order, OrderItem
 
 def api_add_to_cart(request):
   jsonresponse = {'success': True}
@@ -24,11 +27,33 @@ def api_add_to_cart(request):
   return JsonResponse(jsonresponse)
 
 def api_remove_from_cart(request):
-  jsonresponse = {'success': True}
   data = json.loads(request.body)
+  jsonresponse = {'success': True}
+  
   product_id = str(data['product_id'])
 
   cart = Cart(request)
   cart.remove(product_id)
+
+  return JsonResponse(jsonresponse)
+
+def api_checkout(request):
+  cart = Cart(request)
+  data = json.loads(request.body)
+  jsonresponse = {'success': True}
+  name = data['name']
+  email = data['email']
+  phone = data['phone']
+  address = data['address']
+
+  orderid = checkout(request, name, email, phone, address)
+
+  paid = True
+
+  if paid == True:
+    order = Order.objects.get(pk=orderid)
+    order.save()
+
+    cart.clear()
 
   return JsonResponse(jsonresponse)

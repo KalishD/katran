@@ -8,7 +8,7 @@ from apps.store.models import Category, Product, Brand
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
   list_display = ("title","product_count")
-  fields = ("title","slug","description")
+  fields = ("title","slug","description", "image")
   prepopulated_fields = {'slug': ('title',) }
 
   def product_count(self, obj):

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Category
+from .models import Product, Category, Brand
 
 
 def product_detail(request, category_slug, slug):
@@ -22,3 +22,11 @@ def catalog(request):
     context = {'categories': categories}
 
     return render(request, 'catalog.html', context)
+
+def brand_detail(request, slug):
+    brand = get_object_or_404(Brand, slug=slug)
+    products = brand.products.all()
+
+    context = {'brand': brand, 'products': products}
+
+    return render(request, 'brand_detail.html', context)

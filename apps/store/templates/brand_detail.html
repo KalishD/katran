@@ -4,8 +4,17 @@
     <div class="columns">
         {% include "side-bar.html" %}
         <div class="column">
-            <h1 class="title is-3">{{ brand.title }}</h1>
+            <div class="columns is-desktop has-text-centered-touch has-text-left-desktop">
+                <div class="column">
+                    <h1 class="title is-3">{{ brand.title }}</h1>
+                    <p class="subtitle is-5">{{ brand.description }}</p>
+                </div>
+                <div class="column">
+                    <img src="{{ brand.thumbnail.url }}" alt="Пневмоинструмент фирмы {{ brand.title }}" title="Пневмоинструмент фирмы {{ brand.title }}">
+                </div>
+            </div>
             <hr>
+            <div class="table-container">
             <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
                 <thead>
                   <tr>
@@ -18,7 +27,7 @@
                 <tbody>
                     {% for product in products %}
                         <tr>
-                            <th><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}"></a></th>
+                            <th class="th-w-img p-0"><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}"></a></th>
                             <td><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><p>{{product.title}}</p></a></td>
                             <td>{{ product.brand }}</td>
                             <td>{{ product.price }}</td>
@@ -26,7 +35,7 @@
                     {% endfor %}
                 </tbody>
               </table>
-            
+            </div>
             
             
         </div>

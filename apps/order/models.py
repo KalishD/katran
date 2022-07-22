@@ -8,7 +8,7 @@ class Order(models.Model):
   name = models.CharField(max_length=255, null=False, blank=False)
   email = models.EmailField(null=False, blank=False)
   phone = PhoneNumberField(null=False, blank=False)
-  address = models.CharField(max_length=200, null=False, blank=False)
+  address = models.TextField(null=False, blank=False)
 
   created_at = models.DateTimeField(auto_now_add=True)
 

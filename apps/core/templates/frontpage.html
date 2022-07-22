@@ -21,6 +21,15 @@
             </p>
         </div>
         <h3 class="title is-4">Продукция ООО "Катран-Пневмо"</h3>
+        <p> Start test</p>
+        {% for c in menu_categories %}
+        <p>{{c.title}}</p>
+          {% for p in c.product_set %}
+            <p>1</p>
+            <p>{{p.title}}</p>
+          {% endfor %}
+        {% endfor %}
+        <p>End test</p>
         {% for kp in all_products %}
           <p>{{kp.title}}</p>
         {%  endfor %}

@@ -5,8 +5,9 @@
   <div id="cartapp" class="column has-text-centered">
     <h1 class="title is-3">Ваш заказ</h1>
     <hr>
-    {% if cart %}
-      <table class="table is-striped is-hoverable is-fullwidth">
+    <div v-if="products.length > 0">
+    <div class="table-container">
+      <table class="table is-striped is-hoverable is-fullwidth is-desktop">
         <thead>
           <tr>
             <th>Наименование</th>
@@ -17,13 +18,10 @@
           </tr>
         </thead>
         <tbody>
-          {% comment %}
-         
-          {% endcomment %}
           <tr v-for="product in products">
-            <th>[[ product.title ]]</th>
+            <th class="th-w-title">[[ product.title ]]</th>
             <th>[[ product.price ]]</th>
-            <th>
+            <th class="th-w-quantity">
               <button class="button is-danger is-small" @click="decrementQuantity(product.id, product.quantity, product.price)">
                 <i class="fa-solid fa-minus"></i>
               </button>
@@ -50,10 +48,79 @@
           </tr>
         </tfoot>
       </table>
-    {% else %}
+    </div>
+    <hr>
+    <!-- Order Form -->
+    <h1 class="title is-3">Оформление заказа</h1>
+    <p class="subtitle is-6 mt-1">Мы осуществляем доставку транспортными компаниями до терминала в Вашем городе.<br/>Если Вы находитесь в Санкт-Петербурге, Вы можете забрать заказ самостоятельно по адресу:<br/><span class="fc-red">г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, лит. А, пом. 5Н, оф. 101</span></p>
+    <hr>
+    <div class="katran_order-form ml-1 mr-1">
+      <form v-on:submit.prevent="submitForm()">    
+        <div class="field">
+          <label class="label">ФИО/Огранизация</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" :class="{ 'is-danger': nameErrorClass }" type="text" name="name" v-model="name" placeholder="ФИО/Огранизация">
+            <span class="icon is-small is-left">
+              <i class="fas fa-person"></i>
+            </span>
+            <span class="icon is-small is-right" :class="{ 'hidden': !nameErrorClass }">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+          </div>
+          <p class="help is-danger" :class="{ 'hidden': !nameErrorClass }">Укажите Ваше имя или название компании.</p>
+        </div>
+          
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" :class="{ 'is-danger': emailErrorClass }" type="text" name="email" v-model="email" placeholder="Email" value="">
+            <span class="icon is-small is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <span class="icon is-small is-right" :class="{ 'hidden': !emailErrorClass }">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+          </div>
+          <p class="help is-danger" :class="{ 'hidden': !emailErrorClass }">Неверный email</p>
+        </div>
+
+        <div class="field">
+          <label class="label">Телефон</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" :class="{ 'is-danger': phoneErrorClass }" type="text" name="phone" v-model="phone" placeholder="Телефон" value="">
+            <span class="icon is-small is-left">
+              <i class="fas fa-phone"></i>
+            </span>
+            <span class="icon is-small is-right" :class="{ 'hidden': !phoneErrorClass }">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+          </div>
+          <p class="help is-danger" :class="{ 'hidden': !phoneErrorClass }">Неверный номер телефона</p>
+        </div>
+        
+        <div class="field">
+          <label class="label">Адрес</label>
+          <div class="control">
+            <textarea class="textarea" :class="{ 'is-danger': addressErrorClass }" name="address" v-model="address" placeholder="Адрес"></textarea>
+            <span class="icon is-small is-right" :class="{ 'hidden': !addressErrorClass }">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+          </div>
+          <p class="help is-danger" :class="{ 'hidden': !addressErrorClass }">Необходимо указать адрес доставки.</p>
+        </div>
+          
+        <div class="field mt-6">
+          <div class="control">
+            <button class="button is-black is-medium">Сделать заказ</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+    <div v-else>
       <h3 class="title is-5">Ваша корзина пуста</h3>
       <p class="subtitle is-7">Чтобы начать покупки перейдите в <a href="{% url 'catalog' %}">Каталог</a></p>
-    {%endif%}
+    </div>
   </div>
   
 </div>
@@ -67,6 +134,17 @@
       store: store,
       data (){
           return {
+            emailRegex: '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$',
+            phoneRegex: '^(\\+7|7|8)?[\\s\\-]?\\(?[489][0-9]{2}\\)?[\\s\\-]?[0-9]{3}[\\s\\-]?[0-9]{2}[\\s\\-]?[0-9]{2}$',
+            nameErrorClass: false,
+            emailErrorClass: false,
+            phoneErrorClass: false,
+            addressErrorClass: false,
+            errors: [],
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
             products: [{{ productsstring|safe }}]
           }
       },
@@ -79,6 +157,57 @@
           }
         },
       methods: {
+        submitForm (){
+          console.log('Order Checkout');
+
+          var data = {
+            'name': this.name,
+            'email': this.email,
+            'phone': this.phone,
+            'address': this.address
+          };
+          this.errors = [];
+          this.emailErrorClass = false;
+          this.phoneErrorClass = false;
+          this.addressErrorClass = false;
+          console.log('Data', data);
+
+          
+          if(!this.name){
+            this.errors.push('Требуется указать имя или организация.');
+            this.nameErrorClass = !this.nameErrorClass;
+          } else if((!this.email) || (!this.email.match(this.emailRegex))){
+            this.errors.push('Требуется указать email.');
+            this.emailErrorClass = !this.emailErrorClass;
+          } else if((!this.phone) || (!this.phone.match(this.phoneRegex))){
+            this.errors.push('Требуется указать телефон.');
+            this.phoneErrorClass = !this.phoneErrorClass;
+          } else if(!this.address){
+            this.errors.push('Требуется указать адрес доставки.');
+            this.addressErrorClass = !this.addressErrorClass;
+          }
+          console.log(this.errors);
+          if (!this.errors.length) {
+            console.log('Zero Errors!')
+            fetch('/api/api_checkout/',{
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRFToken': '{{ csrf_token }}'
+                  },
+                  credentials: 'same-origin',
+                  body: JSON.stringify(data)
+              })
+              .then((response) => {
+                  console.log('Success');
+
+                  window.location.href = '/cart/success/';
+              })
+              .catch(function(error){
+                  console.log(error);
+              })
+            }
+        },
         incrementQuantity(product_id, quantity, price){
           console.log('Increment quantity Product_id', product_id);
           var data = {
@@ -119,39 +248,48 @@
             'update': true,
             'quantity': parseInt(quantity) - 1
           };
-          store.commit('increment', -1);
-          store.commit('changeTotalCost', -parseFloat(price));
-          fetch('/api/api_add_to_cart/',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            credentials: 'same-origin',
-            body: JSON.stringify(data)
-          })
-            .then((response) => {
-                console.log('Increment quantity Product_id:', product_id);
-                for (var i = 0; i < this.products.length; i++){
-                  var product = this.products[i];
+          if (parseInt(quantity) - 1 === 0){
+            this.removeFromCart(product_id, quantity, price)
+          }else{
+            store.commit('increment', -1);
+            store.commit('changeTotalCost', -parseFloat(price));
+            fetch('/api/api_add_to_cart/',{
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': '{{ csrf_token }}'
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify(data)
+            })
+              .then((response) => {
+                  console.log('Increment quantity Product_id:', product_id);
+                  for (var i = 0; i < this.products.length; i++){
+                    var product = this.products[i];
 
-                  if (product.id === product_id){
-                    this.products[i].quantity = parseInt(this.products[i].quantity) - 1;
-                    this.products[i].total_price = parseFloat(this.products[i].total_price) - parseFloat(this.products[i].price) ;
+                    if (product.id === product_id){
+                      this.products[i].quantity = parseInt(this.products[i].quantity) - 1;
+                      this.products[i].total_price = parseFloat(this.products[i].total_price) - parseFloat(this.products[i].price) ;
+                    }
                   }
-                }
-            })
-            .catch(function(error){
-                console.log(error);
-            })
+              })
+              .catch(function(error){
+                  console.log(error);
+              })
+            }
         },
         removeFromCart(product_id, quantity, price){
             console.log('Removing Product_id: ', product_id);
             var data = {
                 'product_id': product_id
             };
-            store.commit('increment', -quantity);
-            store.commit('changeTotalCost', -parseFloat(price * quantity));
+            if (parseInt(quantity) > 1){
+              store.commit('increment', -quantity);
+              store.commit('changeTotalCost', -parseFloat(price * quantity));
+            }else{
+              store.commit('increment', -1);
+              store.commit('changeTotalCost', -parseFloat(price));
+            }
             fetch('/api/api_remove_from_cart/',{
                 method: 'POST',
                 headers: {
