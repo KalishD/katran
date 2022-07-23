@@ -4,6 +4,9 @@
     --katran-dark: #09131f;
     --katran-font-color: #09131f;
 }
+body{
+    color: var(--katran-font-color) !important;
+}
 .navbar-link:not(.is-arrowless)::after {
     border-color: var(--katran-font-color);
     margin-top: -.375em;
