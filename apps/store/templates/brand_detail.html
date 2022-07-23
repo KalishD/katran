@@ -27,7 +27,7 @@
                 <tbody>
                     {% for product in products %}
                         <tr>
-                            <th class="th-w-img p-0"><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}"></a></th>
+                            <th class="th-w-img p-0"><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}" title="{{ product.title }}"></a></th>
                             <td><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><p>{{product.title}}</p></a></td>
                             <td>{{ product.brand }}</td>
                             <td>{{ product.price }}</td>
