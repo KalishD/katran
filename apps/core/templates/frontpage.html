@@ -24,8 +24,7 @@
         <p> Start test</p>
         {% for c in menu_categories %}
         <p>{{c.title}}</p>
-          {% for p in c.product_set %}
-            <p>1</p>
+          {% for p in c.get_products %}
             <p>{{p.title}}</p>
           {% endfor %}
         {% endfor %}
