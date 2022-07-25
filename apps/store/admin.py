@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.html import format_html
 
-from apps.store.models import Category, Product, Brand
+from apps.store.models import Category, Product, Brand, Variable, VariableItem
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
@@ -67,4 +67,6 @@ class ProductAdmin(admin.ModelAdmin):
     )
     return format_html('<a href={}>{}</a>', url, obj.category)
 
+admin.site.register(Variable)
+admin.site.register(VariableItem)
 

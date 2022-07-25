@@ -95,3 +95,17 @@ class Product(models.Model):
 
         return thumbnail
 
+class VariableItem(models.Model):
+    title = models.CharField(max_length=255)
+    dimention = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.title
+
+class Variable(models.Model):
+    product = models.ForeignKey(Product, related_name='variables', on_delete=models.CASCADE)
+    varitem = models.ForeignKey(VariableItem, related_name='variables', on_delete=models.DO_NOTHING)
+    value = models.FloatField()
+
+    def __str__(self):
+        return self.varitem.title
