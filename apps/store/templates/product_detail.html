@@ -5,28 +5,57 @@
         {% include "side-bar.html" %}
         <div class="column has-text-centered-touch">
             <div id="productapp">
-                <h1 class="title is-3">{{ product.title }}</h1>
+                
                 <div class="columns is-desktop">
                     <div class="column is-half">
                         <img src="{{ product.image.url }}" alt="{{ product.title }}" title="{{ product.title }}">
                     </div>
                     <div class="column">
                         <div class="has-text-centered">
-                            <p class="title is-5">Цена с НДС: <span class="fc-red">{{ product.price }}</span></p>
+                            <h1 class="title is-3">{{ product.title }}</h1>
+                            <p class="subtitle is-5">Купить со склада в Санкт-Петербурге </p>
+                            <p class="title is-5">по цене с НДС: <span class="fc-red">{{ product.price|floatformat:2 }}</span></p>
                             <button class="button is-black is-normal" @click="addToCart({{ product.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
-                            <p class="title is-5 fc-red mt-6 mb-3">Краткое описание</p>
+                            <article class="media has-text-left mt-3">
+                                <figure class="media-left">
+                                  <p class="image is-64x64">
+                                    <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">
+                                        <img src="{{ product.brand.thumbnail.url }}"
+                                            alt="Пневмоинструмент фирмы {{ product.brand }}"
+                                            title="Пневмоинструмент фирмы {{ product.brand }}">
+                                    </a>
+                                  </p>
+                                </figure>
+                                <div class="media-content">
+                                  <div class="content">
+                                    <p>
+                                      Производитель: <strong><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></strong>
+                                      <br>
+                                      {{ product.brand.description }}
+                                    </p>
+                                  </div>
+                              </article>
+                            
+                            <p class="title is-5 fc-red mt-3 mb-3">Краткое описание</p>
                         </div>
                         <p class="content">
                             {{ product.description }}
                         </p>
+                        {% if variables %}
                         <div class="has-text-centered">
                             <p class="title is-5 fc-red mt-6 mb-3">Технические характеристики</p>
                         </div>
-                        <p class="content">
-                            {% for var in variables%}
-                            <p>{{ var.varitem.title }}{{ var.value }}{{var.varitem.dimention}}</p>
-                            {% endfor %}
-                        </p>
+                        <table class="table is-striped is-hoverable is-fullwidth" >
+                            <tbody>
+                                {% for var in variables %}
+                                    <tr>
+                                        <td>{{ var.varitem.title }}</td>
+                                        <td>{{ var.value }}&nbsp;&nbsp;{{var.varitem.dimention}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
                     </div>
                 </div>              
             </div>
