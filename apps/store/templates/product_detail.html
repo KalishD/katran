@@ -23,7 +23,9 @@
                             <p class="title is-5 fc-red mt-6 mb-3">Технические характеристики</p>
                         </div>
                         <p class="content">
-                            {{ product.description }}
+                            {% for var in variables%}
+                            <p>{{ var.varitem.title }}{{ var.value }}{{var.varitem.dimention}}</p>
+                            {% endfor %}
                         </p>
                     </div>
                 </div>              

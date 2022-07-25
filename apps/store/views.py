@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Category, Brand
+from .models import Product, Category, Brand, Variable
 
 
 def product_detail(request, category_slug, slug):
     product = get_object_or_404(Product, slug=slug)
-
-    context = {'product': product}
+    variables = product.variable_set.all()
+    context = {'product': product, 'variables': variables}
 
     return render(request, 'product_detail.html', context)
 

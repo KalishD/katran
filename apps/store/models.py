@@ -105,8 +105,8 @@ class VariableItem(models.Model):
         return self.title
 
 class Variable(models.Model):
-    product = models.ForeignKey(Product, related_name='variables', on_delete=models.CASCADE)
-    varitem = models.ForeignKey(VariableItem, related_name='variables', on_delete=models.DO_NOTHING)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    varitem = models.ForeignKey(VariableItem, on_delete=models.DO_NOTHING)
     value = models.FloatField()
 
     def __str__(self):

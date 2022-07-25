@@ -66,7 +66,13 @@ class ProductAdmin(admin.ModelAdmin):
       + urlencode({"category_id": f"{obj.category.id}"})
     )
     return format_html('<a href={}>{}</a>', url, obj.category)
+  
 
-admin.site.register(Variable)
+# admin.site.register(Variable)
+@admin.register(Variable)
+class VariableAdmin(admin.ModelAdmin):
+  # filter_horizontal = ('product',)
+  pass
+
 admin.site.register(VariableItem)
 
