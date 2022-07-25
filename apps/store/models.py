@@ -33,6 +33,8 @@ class Brand(models.Model):
         verbose_name = 'Производитель'
         verbose_name_plural = 'Производители'
         
+    def get_products(self):
+        return Product.objects.filter(category=self)   
     
     def __str__(self):
         return self.title

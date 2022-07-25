@@ -1,4 +1,4 @@
-from .models import Category, Product
+from .models import Category, Product, Brand
 from django.shortcuts import get_object_or_404
 
 
@@ -15,3 +15,7 @@ def all_products(request):
 def featured_product(request):
     featured_product = Product.objects.filter(is_features=True)
     return {'featured_product':featured_product}
+
+def menu_brands(request):
+    brands = Brand.objects.all()
+    return {'menu_brands': brands}

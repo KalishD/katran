@@ -49,6 +49,19 @@
               {% endfor %}
             </div>
           </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link" href="{% url 'catalog' %}">
+              Производители
+            </a>
+    
+            <div class="navbar-dropdown">
+              {% for b in menu_brands %}
+                  <a class="navbar-item" href="{% url 'brand_detail' b.slug %}">
+                      {{ b.title }}
+                  </a>
+              {% endfor %}
+            </div>
+          </div>
 
           <a class="navbar-item">
             Статьи
