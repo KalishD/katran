@@ -14,7 +14,16 @@
                         <div class="has-text-centered">
                             <h1 class="title is-3">{{ product.title }}</h1>
                             <p class="subtitle is-5">Купить со склада в Санкт-Петербурге </p>
-                            <p class="title is-5">по цене с НДС: <span class="fc-red">{{ product.price|floatformat:2 }}</span></p>
+                            <p class="title is-5">по цене с НДС:
+                                <!-- <span class="fc-red">{{ product.price|floatformat:2 }}</span> -->
+                                <span class="fc-red">
+                                {% if product.price != 0 %}
+                                    {{ product.price|floatformat:2 }}
+                                {% else %}
+                                    По запросу
+                                {% endif %}
+                                </span>
+                            </p>
                             <button class="button is-black is-normal" @click="addToCart({{ product.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
                             <article class="media has-text-left mt-3">
                                 <figure class="media-left">
@@ -38,9 +47,11 @@
                             
                             <p class="title is-5 fc-red mt-3 mb-3">Краткое описание</p>
                         </div>
-                        <p class="content">
-                            {{ product.description }}
-                        </p>
+                        {% if product.description %}
+                            <p class="content">
+                                {{ product.description }}
+                            </p>
+                        {% endif %}
                         {% if variables %}
                         <div class="has-text-centered">
                             <p class="title is-5 fc-red mt-6 mb-3">Технические характеристики</p>

@@ -21,7 +21,15 @@
           <img class="img-responsive" src="{{ p.image.url }}" style="max-width: 80% !important;"></img>
         </div>
         <div class="fav-prod-sidebar--item-title">{{ p.title }}</div>
-        <div class="fav-prod-sidebar--item-price">{{ p.price|floatformat:2 }}<span class="price"> руб.</span></div>
+        <div class="fav-prod-sidebar--item-price">
+          <td>
+            {% if p.price != 0 %}
+              {{ p.price|floatformat:2 }}<span class="price"> руб.</span>
+            {% else %}
+                По запросу
+            {% endif %}
+        </td>
+          </div>
       </div>
       </a>
     {% endfor %}
