@@ -25,6 +25,11 @@
                                 </span>
                             </p>
                             <button class="button is-black is-normal" @click="addToCart({{ product.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+                            <article class="message is-primary" v-if="showAddToCartMessage">
+                                <div class="message-body">
+                                  <strong>{{ product.title }}</strong> добавлен в корзину.
+                                </div>
+                            </article>
                             <article class="media has-text-left mt-3">
                                 <figure class="media-left">
                                   <p class="image is-64x64">
@@ -85,7 +90,7 @@
     store: store,
     data (){
         return {
-
+            showAddToCartMessage: false
         }
     },
     mounted(){
@@ -110,7 +115,11 @@
             })
             .then((response) => {
                 console.log('Hello');
+                this.showAddToCartMessage = true;
                 store.commit('increment', 1);
+                setTimeout(()=>{
+                    this.showAddToCartMessage = false;
+                }, 2000)
             })
             .catch(function(error){
                 console.log(error);

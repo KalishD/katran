@@ -50,7 +50,10 @@ class CategoryAdmin(admin.ModelAdmin):
   fields = ("title","slug","ordering")
   prepopulated_fields = {'slug': ('title',) }
   
-
+class VariableInline(admin.TabularInline):
+  model = Variable
+  raw_id_fields = ['product']
+  
 # admin.site.register(Product)
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -58,7 +61,7 @@ class ProductAdmin(admin.ModelAdmin):
   search_fields = ("title__contains",)
   fields = ("category","brand","sku","title","slug","description","price","is_features","image")
   prepopulated_fields = {'slug': ('title',) }
-
+  inlines = [VariableInline]
   def product_category(self,obj):
     url = (
       reverse("admin:store_product_changelist")
@@ -67,6 +70,7 @@ class ProductAdmin(admin.ModelAdmin):
     )
     return format_html('<a href={}>{}</a>', url, obj.category)
   
+
 
 # admin.site.register(Variable)
 @admin.register(Variable)

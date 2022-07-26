@@ -10,17 +10,39 @@
                 <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
                     <thead>
                         <tr>
-                        <th></th>
-                        <th>Наименование</th>
-                        <th>Производитель</th>
-                        <th>Цена</th>
+                            <th></th>
+                            <th>Наименование</th>
+                            {% for var in var_titles %}
+                                <th>{{var}}</th>
+                            {% endfor %}
+                            <th>Производитель</th>
+                            <th>Цена</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for product in products %}
                             <tr>
-                                <th class="th-w-img p-0"><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}" title="{{ product.title }}"></a></th>
-                                <td><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><p>{{product.title}}</p></a></td>
+                                <td class="th-w-img p-0">
+                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
+                                        <img src="{{ product.thumbnail.url }}"
+                                        alt="{{ product.title }}"
+                                        title="{{ product.title }}">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
+                                        <p>{{product.title}}</p>
+                                    </a>
+                                </td>
+                                {% if product.variable_set.all %}
+                                    {% for var in product.variable_set.all %}
+                                        <td>{{var.value}}&nbsp;{{var.varitem.dimention}}</td>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for var in var_titles %}
+                                        <td></td>
+                                    {% endfor%}
+                                {% endif %}
                                 <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
                                 <td>
                                     {% if product.price != 0 %}

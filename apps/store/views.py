@@ -12,8 +12,11 @@ def product_detail(request, category_slug, slug):
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
     products = category.products.all()
-
-    context = {'category': category, 'products': products}
+    var_titles = []
+    first_product_vars = category.products.first().variable_set.all()
+    for var in first_product_vars:
+        var_titles.append(var)
+    context = {'category': category, 'products': products, 'var_titles': var_titles}
 
     return render(request, 'category_detail.html', context)
 
