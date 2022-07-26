@@ -71,7 +71,7 @@ class Product(models.Model):
     thumbnail = models.ImageField(upload_to="uploads/", blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add= True)
-
+    variables = models.ManyToManyField('VariableItem', through='Variable', related_name='variables')
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
