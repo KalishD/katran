@@ -70,8 +70,6 @@ class ProductAdmin(admin.ModelAdmin):
     )
     return format_html('<a href={}>{}</a>', url, obj.category)
   
-
-
 # admin.site.register(Variable)
 @admin.register(Variable)
 class VariableAdmin(admin.ModelAdmin):

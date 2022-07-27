@@ -3,17 +3,23 @@
 {% block content %}
     <div class="columns">
         {% include "side-bar.html" %}
-        <div class="column has-text-centered-touch has-text-left-desktop">
+        <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
             <h1 class="title is-3">{{ category.title }}</h1>
             <hr>
-            <div class="table-container">
+            <div class="table-container is-fullwidth product-table">
                 <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
                     <thead>
                         <tr>
                             <th></th>
                             <th>Наименование</th>
                             {% for var in var_titles %}
-                                <th>{{var}}</th>
+                                <th>
+                                    {{var}}
+                                    <br>
+                                    {% if var.varitem.dimention %}
+                                        {{ var.varitem.dimention}}
+                                    {% endif %}
+                                </th>
                             {% endfor %}
                             <th>Производитель</th>
                             <th>Цена</th>
@@ -36,7 +42,7 @@
                                 </td>
                                 {% if product.variable_set.all %}
                                     {% for var in product.variable_set.all %}
-                                        <td>{{var.value}}&nbsp;{{var.varitem.dimention}}</td>
+                                        <td>{{var.value}}</td>
                                     {% endfor %}
                                 {% else %}
                                     {% for var in var_titles %}

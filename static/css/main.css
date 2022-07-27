@@ -7,12 +7,19 @@
 body{
     color: var(--katran-font-color) !important;
 }
+.product-table{
+    font-size: .75em !important;
+}
 .navbar-link:not(.is-arrowless)::after {
     border-color: var(--katran-font-color);
     margin-top: -.375em;
     right: 1.125em;
   }
 .hidden{display: none !important;}
+.table-container {
+width: 100% !important;
+min-width: 100% !important;
+}
 .th-w-img{
     min-width: 60px;
 }

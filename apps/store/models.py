@@ -34,7 +34,7 @@ class Brand(models.Model):
         verbose_name_plural = 'Производители'
         
     def get_products(self):
-        return Product.objects.filter(category=self)   
+        return Product.objects.filter(brand=self)   
     
     def __str__(self):
         return self.title
@@ -99,7 +99,7 @@ class Product(models.Model):
 
 class VariableItem(models.Model):
     title = models.CharField(max_length=255)
-    dimention = models.CharField(max_length=255)
+    dimention = models.CharField(max_length=255, blank=True, null=True,)
     
     def __str__(self):
         return self.title
@@ -107,7 +107,7 @@ class VariableItem(models.Model):
 class Variable(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     varitem = models.ForeignKey(VariableItem, on_delete=models.DO_NOTHING)
-    value = models.FloatField()
+    value = models.CharField(max_length=255)
 
     def __str__(self):
         return self.varitem.title

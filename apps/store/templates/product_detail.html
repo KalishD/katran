@@ -15,7 +15,6 @@
                             <h1 class="title is-3">{{ product.title }}</h1>
                             <p class="subtitle is-5">Купить со склада в Санкт-Петербурге </p>
                             <p class="title is-5">по цене с НДС:
-                                <!-- <span class="fc-red">{{ product.price|floatformat:2 }}</span> -->
                                 <span class="fc-red">
                                 {% if product.price != 0 %}
                                     {{ product.price|floatformat:2 }}
