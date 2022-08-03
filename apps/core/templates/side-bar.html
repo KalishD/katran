@@ -15,7 +15,7 @@
   <div class="is-hidden-touch">
     <p class="menu-label has-text-centered-touch has-text-left-desktop">Популярные товары</p>
     {% for p in featured_product %}
-    <a href="{% url 'product_detail' p.category.slug p.slug %}"">
+    <a href="{% url 'product_detail' p.category.slug p.slug %}">
       <div class="fav-prod-sidebar--item">
         <div class="fav-prod-sidebar--item-img">
           <img class="img-responsive" src="{{ p.image.url }}" style="max-width: 80% !important;"></img>

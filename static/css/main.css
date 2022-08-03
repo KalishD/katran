@@ -10,6 +10,9 @@ body{
 .product-table{
     font-size: .75em !important;
 }
+.katran-content{
+    line-height: 2;
+}
 .navbar-link:not(.is-arrowless)::after {
     border-color: var(--katran-font-color);
     margin-top: -.375em;

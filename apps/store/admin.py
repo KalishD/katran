@@ -62,6 +62,7 @@ class ProductAdmin(admin.ModelAdmin):
   fields = ("category","brand","sku","title","slug","description","price","is_features","image")
   prepopulated_fields = {'slug': ('title',) }
   inlines = [VariableInline]
+  save_as = True
   def product_category(self,obj):
     url = (
       reverse("admin:store_product_changelist")

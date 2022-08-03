@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from apps.cart.views import cart_detail, success
-from apps.core.views import frontpage
+from apps.core.views import frontpage, production
 from apps.store.views import category_detail, product_detail, catalog, brand_detail
 
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
@@ -43,6 +43,7 @@ urlpatterns = [
     
 
     path('catalog/', catalog, name='catalog'),
+    path('production/', production, name='production'),
 ]
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

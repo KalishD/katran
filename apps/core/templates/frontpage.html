@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% block title %}Оптовая продажа пневматического инструмента по всей России. Офис и склад в Санкт-Петербурге. Предлагаем купить инструменты юридическим лицам по самым доступным ценам в Санкт-Петербурге.{% endblock %}
 {% block content %}
 
 <div class="columns">
@@ -29,9 +29,6 @@
           {% endfor %}
         {% endfor %}
         <p>End test</p>
-        {% for kp in all_products %}
-          <p>{{kp.title}}</p>
-        {%  endfor %}
     </div>
 
 </div>

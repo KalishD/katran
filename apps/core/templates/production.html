@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Продукция ООО "Катран-Пневмо" {% endblock %}
+{% block content %}
+    <div class="columns" id="productionsapp">
+      {% include "side-bar.html" %}
+      <div class="column has-text-centered-touch">
+        <div class="title-wrapper has-text-centered">
+          <p class="subtitle is-6">Пневматический инструмент</p>
+          <h2 class="title is-3">Шлифовальные машины</h2>
+          <p class="subtitle is-6">Пневматические шлифовальные машины производства ООО «Катран-Пневмо» </p>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <h3 class="title is-4">Цанговая шлифмашина МП-006</h3>
+            <p class="content katran-content">
+              Компактная и мощная цанговая  шлифмашина (бормашинка) производства Катран-Пневмо. Пнедназначена для обработки штампов и пресс-форм, шлифования и зачистки поверхностей и других аналогичных работ.
+              <br>
+              Патент на полезную модель шлифовальной машины МП-006 №1987
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/mp-006.jpg' %}" alt="">
+            <button class="button is-black is-normal" @click="addToCart({{ mp006.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+            <a href="{% url 'product_detail' mp006.category.slug mp006.slug %}" class="button is-black is-normal">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+          </div>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <h3 class="title is-4">Цанговая шлифмашина МП-011</h3>
+            <p class="katran-content">
+              Машина МП-011 предназначена для обработки штампов и пресс-форм, шлифования и зачистки поверхностей и других аналогичных работ.
+              <br>
+              Патент на полезную модель шлифовальной машины МП-011 №19874
+              <blockquote>Модификация МП-011С предназначена для шлифования и зачистки поверхностей кругами ПП 63 х 20 х20 мм с допустимой окружной скоростью не менее 40 м/с</blockquote>
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/mp-011.jpg' %}" alt="">
+            <button class="button is-black is-normal" @click="addToCart({{ mp01122.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+            <a href="{% url 'product_detail' mp01122.category.slug mp01122.slug %}" class="button is-black is-normal">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+          </div>
+        </div>
+        <div class="columns ml-3 mr-3">
+          <div class="column is-one-third-desktop" style="min-height: 20rem; background: #f00;">
+            <h2>Slide 1</h2>
+          </div>
+          <div class="column is-one-third-desktop" style="min-height: 20rem; background: #f00;">
+            <h2>Slide 2</h2>
+          </div>
+          <div class="column is-one-third-desktop" style="min-height: 20rem; background: #f00;">
+            <h2>Slide 3</h2>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column is-full">
+            <div class="carousel">
+              <div class="item-1 m-1" style="min-height: 20rem; background: #f00;">
+                <h2>Slide 1</h2>
+              </div>
+              <div class="item-2 m-1" style="min-height: 20rem; background: #f00;">
+                <h2>Slide 2</h2>
+              </div>
+              <div class="item-3 m-1" style="min-height: 20rem; background: #f00;">
+                <h2>Slide 3</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Initialize all div with carousel class
+var options = {
+  slidesToScroll: 1,
+	slidesToShow: 3,
+  loop: true
+}
+var carousels = bulmaCarousel.attach('.carousel', options);
+
+// Loop on each carousel initialized
+for(var i = 0; i < carousels.length; i++) {
+	// Add listener to  event
+	carousels[i].on('before:show', state => {
+		console.log(state);
+	});
+}
+</script>
+<script>
+  var productionsapp = new Vue({
+    el: '#productionsapp',
+    delimiters: ['[[',']]'],
+    store: store,
+    data (){
+        return {
+            showAddToCartMessage: false
+        }
+    },
+    mounted(){
+        console.log('Mounted');
+    },
+    methods: {
+        addToCart(product_id){
+            console.log('Adding Product_id', product_id);
+            var data = {
+                'product_id': product_id,
+                'update': false,
+                'quantity': 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Hello');
+                this.showAddToCartMessage = true;
+                store.commit('increment', 1);
+                setTimeout(()=>{
+                    this.showAddToCartMessage = false;
+                }, 2000)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
+  });
+</script>
+{% endblock %}

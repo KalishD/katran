@@ -65,7 +65,7 @@
                                 {% for var in variables %}
                                     <tr>
                                         <td>{{ var.varitem.title }}</td>
-                                        <td>{{ var.value }}&nbsp;&nbsp;{{var.varitem.dimention}}</td>
+                                        <td>{{ var.value }}&nbsp;&nbsp;{% if var.varitem.dimention %}{{var.varitem.dimention}}{% endif %}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
