@@ -22,13 +22,11 @@
         </div>
         <div class="fav-prod-sidebar--item-title">{{ p.title }}</div>
         <div class="fav-prod-sidebar--item-price">
-          <td>
             {% if p.price != 0 %}
               {{ p.price|floatformat:2 }}<span class="price"> руб.</span>
             {% else %}
                 По запросу
             {% endif %}
-        </td>
           </div>
       </div>
       </a>

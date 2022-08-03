@@ -15,7 +15,7 @@
             <h3 class="title is-4">Цанговая шлифмашина МП-006</h3>
             <p class="content katran-content">
               Компактная и мощная цанговая  шлифмашина (бормашинка) производства Катран-Пневмо. Пнедназначена для обработки штампов и пресс-форм, шлифования и зачистки поверхностей и других аналогичных работ.
-              <br>
+              <br><br>
               Патент на полезную модель шлифовальной машины МП-006 №1987
             </p>
           </div>
@@ -30,27 +30,132 @@
             <h3 class="title is-4">Цанговая шлифмашина МП-011</h3>
             <p class="katran-content">
               Машина МП-011 предназначена для обработки штампов и пресс-форм, шлифования и зачистки поверхностей и других аналогичных работ.
-              <br>
+              <br><br>
               Патент на полезную модель шлифовальной машины МП-011 №19874
+              <br><br>
               <blockquote>Модификация МП-011С предназначена для шлифования и зачистки поверхностей кругами ПП 63 х 20 х20 мм с допустимой окружной скоростью не менее 40 м/с</blockquote>
             </p>
           </div>
           <div class="column is-half has-text-centered">
             <img src="{% static 'images/production/mp-011.jpg' %}" alt="">
-            <button class="button is-black is-normal" @click="addToCart({{ mp01122.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
-            <a href="{% url 'product_detail' mp01122.category.slug mp01122.slug %}" class="button is-black is-normal">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
           </div>
         </div>
-        <div class="columns ml-3 mr-3">
-          <div class="column is-one-third-desktop" style="min-height: 20rem; background: #f00;">
-            <h2>Slide 1</h2>
+        <div class="columns is-full ml-2 mr-2 production--product-block">
+        {% for p in mp011_list %}
+          <div class="column fav-prod-sidebar--item">
+            <div class="fav-prod-sidebar--item-img">
+              <img class="img-responsive" src="{{ p.image.url }}" alt="{{p.title}}" style="max-width: 80% !important;"></img>
+            </div>
+            <div class="productionpage--info-wrap">
+              <div class="productionpage--item-title mb-2">{{ p.title }}</div>
+              <button class="button is-black is-small" @click="addToCart({{ p.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+              <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+            </div>
           </div>
-          <div class="column is-one-third-desktop" style="min-height: 20rem; background: #f00;">
-            <h2>Slide 2</h2>
+        {% endfor %}       
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <h3 class="title is-4">Торцевая шлифовальная машина МПС-2215</h3>
+            <p class="katran-content">
+                Торцевая профессиональная пневматическая шлифмашина МПС-2215М. Выпускается в вариантах исполнения для работы армированными шлифовальными и отрезными дисками диаметром 230 х 180 мм, а также чашечными щетками диаметром до 125 мм.
+                <br><br>
+                Машина применяется в металлургии, машиностроении, производстве мостовых и железобетонных конструкций, при производстве труб и прокладке трубопроводов, в энергетике и на транспорте.
+                <br><br>
+                Патент на полезную модель шлифовальной машины МПС-2215М №19874
+            </p>
           </div>
-          <div class="column is-one-third-desktop" style="min-height: 20rem; background: #f00;">
-            <h2>Slide 3</h2>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/mps-2215m.jpg' %}" alt="">
           </div>
+        </div>
+        <div class="columns is-full ml-2 mr-2 production--product-block mb-2">
+        {% for p in mp011_list %}
+          <div class="column fav-prod-sidebar--item">
+            <div class="fav-prod-sidebar--item-img">
+              <img class="img-responsive" src="{{ p.image.url }}" alt="{{p.title}}" style="max-width: 80% !important;"></img>
+            </div>
+            <div class="productionpage--info-wrap">
+              <div class="productionpage--item-title mb-2">{{ p.title }}</div>
+              <button class="button is-black is-small" @click="addToCart({{ p.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+              <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+            </div>
+          </div>
+        {% endfor %}       
+        </div>
+        <div class="title-wrapper has-text-centered mt-6">
+          <p class="subtitle is-6">Пневматический инструмент</p>
+          <h2 class="title is-3">Пневматическая машина ПВМ-12</h2>
+          <p class="subtitle is-6">Сверлильная машина, пневмоприводы</p>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <p class="katran-content">
+              Пневматическая реверсивная машина применяется в качестве пневматического привода маханизмов и вальцевания труб. В комплекте с домкратом — для сверления отверстий.
+              <br><br>
+              Отличается высокой надежностью и повышенным ресурсом.
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/pvm-12.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="columns is-full ml-2 mr-2 production--product-block">
+        {% for p in mp011_list %}
+          <div class="column fav-prod-sidebar--item">
+            <div class="fav-prod-sidebar--item-img">
+              <img class="img-responsive" src="{{ p.image.url }}" alt="{{p.title}}" style="max-width: 80% !important;"></img>
+            </div>
+            <div class="productionpage--info-wrap">
+              <div class="productionpage--item-title mb-2">{{ p.title }}</div>
+              <button class="button is-black is-small" @click="addToCart({{ p.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+              <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+            </div>
+          </div>
+        {% endfor %}       
+        </div>
+        <div class="title-wrapper has-text-centered mt-6">
+          <p class="subtitle is-6">Пневматический инструмент</p>
+          <h2 class="title is-3">Пневматические виброзащищенные трамбовки</h2>
+          <p class="subtitle is-6">Пневмомолотки серии РМ: РМ-8А, РМ-12А, РМ-16А</p>
+        </div>
+
+
+        
+        <div class="title-wrapper has-text-centered mt-6">
+          <p class="subtitle is-6">Пневматический инструмент</p>
+          <h2 class="title is-3">Пневматические рубильные молотки</h2>
+          <p class="subtitle is-6">Пневмомолотки серии РМ: РМ-8А, РМ-12А, РМ-16А</p>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <p class="katran-content">
+              Молотки серии РМ предназначены для обрубки на отливках остатков прибылей и заливов, удаления пригара и стержней, вырубки дефектов, подготовки отливок под заварку и других аналогичных работ.
+              <br><br>
+              Выпускаются в варианте исполнения с концевой пружиной и без неё.
+              <br><br>
+              Модели РМ-8А, РМ-12А, РМ-16А (по энергии удара, Дж)
+              <br><br>
+              Патент на полезную модель рубильных молотков серии РМ №122602
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/rm.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="columns is-full ml-2 mr-2 production--product-block">
+        {% for p in rm_list %}
+          <div class="column fav-prod-sidebar--item">
+            <div class="fav-prod-sidebar--item-img">
+              <img class="img-responsive" src="{{ p.image.url }}" alt="{{p.title}}" style="max-width: 80% !important;"></img>
+            </div>
+            <div class="productionpage--info-wrap">
+              <div class="productionpage--item-title mb-2">{{ p.title }}</div>
+              <button class="button is-black is-small" @click="addToCart({{ p.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+              <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+            </div>
+          </div>
+        {% endfor %}       
         </div>
         <div class="columns">
           <div class="column is-full">
