@@ -7,6 +7,11 @@
 body{
     color: var(--katran-font-color) !important;
 }
+.slider-item{margin-left: .375rem; margin-right: .375rem;}
+.button{
+    padding-left: calc(.75em - 1px) !important;
+    padding-right: calc(.75em - 1px) !important;
+}
 .product-table{
     font-size: .75em !important;
 }

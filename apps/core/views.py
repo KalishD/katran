@@ -3,17 +3,17 @@ from django.shortcuts import render
 from apps.store.models import Product
 
 def frontpage(request):
-    katran_products = Product.objects.filter(brand = 1)    
+    katran_products = Product.objects.filter(brand = 1)
+    
     # featured_product = Product.objects.filter(is_features=True)
     context = {
         'katran_products': katran_products,
+        'katran_products_count': range(katran_products.count()),
     }
 
     return render(request, 'frontpage.html', context)
 
 def production(request):
-    # katran_products = Product.objects.filter(brand = 'Катран-Пневмо')    
-    # featured_product = Product.objects.filter(is_features=True)
     mp006 = Product.objects.filter(sku = 1011040).first()
     mp01122 = Product.objects.filter(sku = 1011030).first()
     mp01115 = Product.objects.filter(sku = 1011020).first()
@@ -26,10 +26,6 @@ def production(request):
     mp011_list = [mp01115,mp01122,mp011s]
     rm_list = [rm8,rm12,rm16]
     tramb_list = [tp28a, tpv3a]
-    # mp011_list.append(mp01115)
-    # mp011_list.append(mp01122)
-    # mp011_list.append(mp011s)
-
     context = {
         'mp006': mp006,
         'mp01122': mp01122,

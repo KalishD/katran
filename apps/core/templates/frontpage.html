@@ -4,7 +4,7 @@
 
 <div class="columns">
     {% include "side-bar.html" %}
-    <div class="column has-text-centered">
+    <div class="column has-text-centered is-three-quarters">
         <h2 class="title is-3">Российский производитель пневмоинструмента</h2>
         <p class="subtitle is-5">ООО "Катран-Пневмо"</p>
         <div class="content pl-5 pr-5">
@@ -21,14 +21,18 @@
             </p>
         </div>
         <h3 class="title is-4">Продукция ООО "Катран-Пневмо"</h3>
-        <p> Start test</p>
-        {% for c in menu_categories %}
-        <p>{{c.title}}</p>
-          {% for p in c.get_products %}
-            <p>{{p.title}}</p>
-          {% endfor %}
-        {% endfor %}
-        <p>End test</p>
+        
+        <div class="carousel-wrapper" style = "overflow-x: hidden;">
+          <div class="carousel">
+            {% for p in katran_products %}
+              <div class="item-{{ forloop.counter }} m-2" style="min-height: 20rem;">
+                <img src="{{p.image.url}}" alt="">
+                <h2>{{p}}</h2>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        
     </div>
 
 </div>
@@ -110,4 +114,28 @@
   </div>
 </div>
 {% endblock %}
-{% block scripts %}{% endblock %}
+{% block scripts %}
+
+<script>
+  // Initialize all div with carousel class
+  var options = {
+    slidesToScroll: 2,
+    slidesToShow: 4,
+    loop: true,
+    infinite: true,
+    navigationSwipe: true
+  };
+  // Initialize all div with carousel class
+  var carousels = bulmaCarousel.attach('.carousel', options);
+  console.log('Carousel: ', carousels);
+  console.log(carousels[0].slidesToShow);
+  // Loop on each carousel initialized
+  for(var i = 0; i < carousels.length; i++) {
+    // Add listener to  event
+    carousels[i].on('before:show', state => {
+      console.log('State: ', state);
+    });
+  }
+  </script>
+
+{% endblock %}
