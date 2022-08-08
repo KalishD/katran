@@ -100,7 +100,7 @@
             <img src="{% static 'images/production/pvm-12.jpg' %}" alt="">
           </div>
         </div>
-        <div class="columns is-full ml-2 mr-2 production--product-block">
+        <div class="columns is-full ml-2 mr-2 production--product-block mb-3">
         {% for p in mp011_list %}
           <div class="column fav-prod-sidebar--item">
             <div class="fav-prod-sidebar--item-img">
@@ -117,10 +117,45 @@
         <div class="title-wrapper has-text-centered mt-6">
           <p class="subtitle is-6">Пневматический инструмент</p>
           <h2 class="title is-3">Пневматические виброзащищенные трамбовки</h2>
-          <p class="subtitle is-6">Пневмомолотки серии РМ: РМ-8А, РМ-12А, РМ-16А</p>
+          <p class="subtitle is-6">Пневмотрамбовки ТП-28А и ТПВ-3А производства ООО «Катран-Пневмо»</p>
         </div>
-
-
+        <div class="columns mt-6">
+          <div class="column is-full content">
+            <h3 class="title is-4 has-text-centered">Пневматическая виброзащищенная трамбовка ТП-28А</h3>
+            <img src="{% static 'images/production/tp-28a.jpg' %}" alt="">
+            <p>Пневмотрамбовка ТП-28А предназначена для уплотнения формовочных смесей в литейном производстве и других аналогичных работ. Снабжена повышенной виброзащитой.
+              <br><br>
+              Патент на полезную модель пневматической трамбовки ТП-28А № 123354
+              </p>
+          </div>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <h3 class="title is-4">Пневматическая виброзащищенная трамбовка ТПВ-3А</h3>
+            <p class="katran-content">
+              Пневмотрамбовка виброзащищенная ТПВ-3А предназначена для работ по послойному уплотнению формовочной смеси в литейном производстве.
+              <br><br>
+              Верстачная пневмотрамбовка ТПВ-3А имеет компактные размеры и небольшой вес для удобства работы в ограниченных пространствах. Прочная конструкция корпуса и металлический башмак значительно продлевает срок эксплуатации. Инструмент не нагревается при работе. Оснащена повышенной виброзащитой.
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/tpv-3a.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="columns is-full ml-2 mr-2 production--product-block mb-3">
+          {% for p in tramb_list %}
+            <div class="column fav-prod-sidebar--item">
+              <div class="fav-prod-sidebar--item-img">
+                <img class="img-responsive" src="{{ p.image.url }}" alt="{{p.title}}" style="max-width: 80% !important;"></img>
+              </div>
+              <div class="productionpage--info-wrap">
+                <div class="productionpage--item-title mb-2">{{ p.title }}</div>
+                <button class="button is-black is-small" @click="addToCart({{ p.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+                <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+              </div>
+            </div>
+          {% endfor %}       
+          </div>
         
         <div class="title-wrapper has-text-centered mt-6">
           <p class="subtitle is-6">Пневматический инструмент</p>

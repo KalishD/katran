@@ -21,8 +21,11 @@ def production(request):
     rm8 = Product.objects.filter(sku = 1040560).first()
     rm12 = Product.objects.filter(sku = 1040550).first()
     rm16 = Product.objects.filter(sku = 1040540).first()
+    tp28a = Product.objects.filter(sku = 1090150).first()
+    tpv3a = Product.objects.filter(sku = 1090160).first()
     mp011_list = [mp01115,mp01122,mp011s]
     rm_list = [rm8,rm12,rm16]
+    tramb_list = [tp28a, tpv3a]
     # mp011_list.append(mp01115)
     # mp011_list.append(mp01122)
     # mp011_list.append(mp011s)
@@ -37,6 +40,7 @@ def production(request):
         'rm16': rm16,
         'mp011_list': mp011_list,
         'rm_list': rm_list,
+        'tramb_list': tramb_list,
     }
 
     return render(request, 'production.html', context)
