@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Продукция ООО "Катран-Пневмо" {% endblock %}
+{% block content %}
+    <div class="columns" id="productionsapp">
+      {% include "side-bar.html" %}
+      <div class="column has-text-centered-touch">
+        <div class="title-wrapper has-text-centered">
+          <p class="subtitle is-6">Пневматический инструмент</p>
+          <h2 class="title is-3">Шлифовальные машины</h2>
+          <p class="subtitle is-6">Пневматические шлифовальные машины производства ООО «Катран-Пневмо» </p>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <h3 class="title is-4">Цанговая шлифмашина МП-006</h3>
+            <p class="content katran-content">
+              Компактная и мощная цанговая  шлифмашина (бормашинка) производства Катран-Пневмо. Пнедназначена для обработки штампов и пресс-форм, шлифования и зачистки поверхностей и других аналогичных работ.
+              <br><br>
+              Патент на полезную модель шлифовальной машины МП-006 №1987
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/mp-006.jpg' %}" alt="">
+            <button class="button is-black is-normal" @click="addToCart({{ mp006.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+            <a href="{% url 'product_detail' mp006.category.slug mp006.slug %}" class="button is-black is-normal">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+          </div>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <h3 class="title is-4">Цанговая шлифмашина МП-011</h3>
+            <p class="katran-content">
+              Машина МП-011 предназначена для обработки штампов и пресс-форм, шлифования и зачистки поверхностей и других аналогичных работ.
+              <br><br>
+              Патент на полезную модель шлифовальной машины МП-011 №19874
+              <br><br>
+              <blockquote>Модификация МП-011С предназначена для шлифования и зачистки поверхностей кругами ПП 63 х 20 х20 мм с допустимой окружной скоростью не менее 40 м/с</blockquote>
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/mp-011.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="columns is-full ml-2 mr-2 production--product-block">
+        {% for p in mp011_list %}
+          <div class="column fav-prod-sidebar--item">
+            <div class="fav-prod-sidebar--item-img">
+              <img class="img-responsive" src="{{ p.image.url }}" alt="{{p.title}}" style="max-width: 80% !important;"></img>
+            </div>
+            <div class="productionpage--info-wrap">
+              <div class="productionpage--item-title mb-2">{{ p.title }}</div>
+              <button class="button is-black is-small" @click="addToCart({{ p.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+              <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+            </div>
+          </div>
+        {% endfor %}       
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <h3 class="title is-4">Торцевая шлифовальная машина МПС-2215</h3>
+            <p class="katran-content">
+                Торцевая профессиональная пневматическая шлифмашина МПС-2215М. Выпускается в вариантах исполнения для работы армированными шлифовальными и отрезными дисками диаметром 230 х 180 мм, а также чашечными щетками диаметром до 125 мм.
+                <br><br>
+                Машина применяется в металлургии, машиностроении, производстве мостовых и железобетонных конструкций, при производстве труб и прокладке трубопроводов, в энергетике и на транспорте.
+                <br><br>
+                Патент на полезную модель шлифовальной машины МПС-2215М №19874
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/mps-2215m.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="columns is-full ml-2 mr-2 production--product-block mb-2">
+        {% for p in mp011_list %}
+          <div class="column fav-prod-sidebar--item">
+            <div class="fav-prod-sidebar--item-img">
+              <img class="img-responsive" src="{{ p.image.url }}" alt="{{p.title}}" style="max-width: 80% !important;"></img>
+            </div>
+            <div class="productionpage--info-wrap">
+              <div class="productionpage--item-title mb-2">{{ p.title }}</div>
+              <button class="button is-black is-small" @click="addToCart({{ p.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+              <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+            </div>
+          </div>
+        {% endfor %}       
+        </div>
+        <div class="title-wrapper has-text-centered mt-6">
+          <p class="subtitle is-6">Пневматический инструмент</p>
+          <h2 class="title is-3">Пневматическая машина ПВМ-12</h2>
+          <p class="subtitle is-6">Сверлильная машина, пневмоприводы</p>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <p class="katran-content">
+              Пневматическая реверсивная машина применяется в качестве пневматического привода маханизмов и вальцевания труб. В комплекте с домкратом — для сверления отверстий.
+              <br><br>
+              Отличается высокой надежностью и повышенным ресурсом.
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/pvm-12.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="columns is-full ml-2 mr-2 production--product-block mb-3">
+        {% for p in mp011_list %}
+          <div class="column fav-prod-sidebar--item">
+            <div class="fav-prod-sidebar--item-img">
+              <img class="img-responsive" src="{{ p.image.url }}" alt="{{p.title}}" style="max-width: 80% !important;"></img>
+            </div>
+            <div class="productionpage--info-wrap">
+              <div class="productionpage--item-title mb-2">{{ p.title }}</div>
+              <button class="button is-black is-small" @click="addToCart({{ p.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+              <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+            </div>
+          </div>
+        {% endfor %}       
+        </div>
+        <div class="title-wrapper has-text-centered mt-6">
+          <p class="subtitle is-6">Пневматический инструмент</p>
+          <h2 class="title is-3">Пневматические виброзащищенные трамбовки</h2>
+          <p class="subtitle is-6">Пневмотрамбовки ТП-28А и ТПВ-3А производства ООО «Катран-Пневмо»</p>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-full content">
+            <h3 class="title is-4 has-text-centered">Пневматическая виброзащищенная трамбовка ТП-28А</h3>
+            <img src="{% static 'images/production/tp-28a.jpg' %}" alt="">
+            <p>Пневмотрамбовка ТП-28А предназначена для уплотнения формовочных смесей в литейном производстве и других аналогичных работ. Снабжена повышенной виброзащитой.
+              <br><br>
+              Патент на полезную модель пневматической трамбовки ТП-28А № 123354
+              </p>
+          </div>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <h3 class="title is-4">Пневматическая виброзащищенная трамбовка ТПВ-3А</h3>
+            <p class="katran-content">
+              Пневмотрамбовка виброзащищенная ТПВ-3А предназначена для работ по послойному уплотнению формовочной смеси в литейном производстве.
+              <br><br>
+              Верстачная пневмотрамбовка ТПВ-3А имеет компактные размеры и небольшой вес для удобства работы в ограниченных пространствах. Прочная конструкция корпуса и металлический башмак значительно продлевает срок эксплуатации. Инструмент не нагревается при работе. Оснащена повышенной виброзащитой.
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/tpv-3a.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="columns is-full ml-2 mr-2 production--product-block mb-3">
+          {% for p in tramb_list %}
+            <div class="column fav-prod-sidebar--item">
+              <div class="fav-prod-sidebar--item-img">
+                <img class="img-responsive" src="{{ p.image.url }}" alt="{{p.title}}" style="max-width: 80% !important;"></img>
+              </div>
+              <div class="productionpage--info-wrap">
+                <div class="productionpage--item-title mb-2">{{ p.title }}</div>
+                <button class="button is-black is-small" @click="addToCart({{ p.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+                <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+              </div>
+            </div>
+          {% endfor %}       
+          </div>
+        
+        <div class="title-wrapper has-text-centered mt-6">
+          <p class="subtitle is-6">Пневматический инструмент</p>
+          <h2 class="title is-3">Пневматические рубильные молотки</h2>
+          <p class="subtitle is-6">Пневмомолотки серии РМ: РМ-8А, РМ-12А, РМ-16А</p>
+        </div>
+        <div class="columns mt-6">
+          <div class="column is-half content">
+            <p class="katran-content">
+              Молотки серии РМ предназначены для обрубки на отливках остатков прибылей и заливов, удаления пригара и стержней, вырубки дефектов, подготовки отливок под заварку и других аналогичных работ.
+              <br><br>
+              Выпускаются в варианте исполнения с концевой пружиной и без неё.
+              <br><br>
+              Модели РМ-8А, РМ-12А, РМ-16А (по энергии удара, Дж)
+              <br><br>
+              Патент на полезную модель рубильных молотков серии РМ №122602
+            </p>
+          </div>
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/rm.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="columns is-full ml-2 mr-2 production--product-block">
+        {% for p in rm_list %}
+          <div class="column fav-prod-sidebar--item">
+            <div class="fav-prod-sidebar--item-img">
+              <img class="img-responsive" src="{{ p.image.url }}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ" style="max-width: 80% !important;"></img>
+              <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small ">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+            </div>
+            <div class="productionpage--info-wrap">
+              <div class="productionpage--item-title mb-2">{{ p.title }}</div>
+              <button class="button is-black is-small" @click="addToCart({{ p.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+              <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+            </div>
+          </div>
+        {% endfor %}       
+        </div>
+        
+      </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Initialize all div with carousel class
+var options = {
+  slidesToScroll: 1,
+	slidesToShow: 3,
+  loop: true
+}
+var carousels = bulmaCarousel.attach('.carousel', options);
+
+// Loop on each carousel initialized
+for(var i = 0; i < carousels.length; i++) {
+	// Add listener to  event
+	carousels[i].on('before:show', state => {
+		console.log(state);
+	});
+}
+</script>
+<script>
+  var productionsapp = new Vue({
+    el: '#productionsapp',
+    delimiters: ['[[',']]'],
+    store: store,
+    data (){
+        return {
+            showAddToCartMessage: false
+        }
+    },
+    mounted(){
+        console.log('Mounted');
+    },
+    methods: {
+        addToCart(product_id){
+            console.log('Adding Product_id', product_id);
+            var data = {
+                'product_id': product_id,
+                'update': false,
+                'quantity': 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Hello');
+                this.showAddToCartMessage = true;
+                store.commit('increment', 1);
+                setTimeout(()=>{
+                    this.showAddToCartMessage = false;
+                }, 2000)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
+  });
+</script>
+{% endblock %}

@@ -16,8 +16,6 @@ def featured_product(request):
     featured_product = Product.objects.filter(is_features=True)
     return {'featured_product':featured_product}
 
-# def product_list_by_cat(request, slug):
-#     category = get_object_or_404(Category, slug=slug)
-#     products = category.products.all()
-
-#     return {'product_list_by_cat':products}
+def menu_brands(request):
+    brands = Brand.objects.all()
+    return {'menu_brands': brands}

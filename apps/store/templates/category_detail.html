@@ -3,31 +3,65 @@
 {% block content %}
     <div class="columns">
         {% include "side-bar.html" %}
-        <div class="column">
+        <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
             <h1 class="title is-3">{{ category.title }}</h1>
             <hr>
-            <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Наименование</th>
-                    <th>Производитель</th>
-                    <th>Цена</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for product in products %}
+            <div class="table-container is-fullwidth product-table">
+                <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
+                    <thead>
                         <tr>
-                            <th><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}"></a></th>
-                            <td><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><p>{{product.title}}</p></a></td>
-                            <td>{{ product.brand }}</td>
-                            <td>{{ product.price }}</td>
+                            <th></th>
+                            <th>Наименование</th>
+                            {% for var in var_titles %}
+                                <th>
+                                    {{var}}
+                                    <br>
+                                    {% if var.varitem.dimention %}
+                                        {{ var.varitem.dimention}}
+                                    {% endif %}
+                                </th>
+                            {% endfor %}
+                            <th>Производитель</th>
+                            <th>Цена</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
-            
-            
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td class="th-w-img p-0">
+                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
+                                        <img src="{{ product.thumbnail.url }}"
+                                        alt="{{ product.title }}"
+                                        title="{{ product.title }}">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
+                                        <p>{{product.title}}</p>
+                                    </a>
+                                </td>
+                                {% if product.variable_set.all %}
+                                    {% for var in product.variable_set.all %}
+                                        <td>{{var.value}}</td>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for var in var_titles %}
+                                        <td></td>
+                                    {% endfor%}
+                                {% endif %}
+                                <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
+                                <td>
+                                    {% if product.price != 0 %}
+                                        {{ product.price|floatformat:2 }}
+                                    {% else %}
+                                        По запросу
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             
         </div>
     </div>

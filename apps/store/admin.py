@@ -3,12 +3,12 @@ from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.html import format_html
 
-from apps.store.models import Category, Product, Brand
+from apps.store.models import Category, Product, Brand, Variable, VariableItem
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
   list_display = ("title","product_count")
-  fields = ("title","slug","description")
+  fields = ("title","slug","description", "image")
   prepopulated_fields = {'slug': ('title',) }
 
   def product_count(self, obj):
@@ -50,7 +50,10 @@ class CategoryAdmin(admin.ModelAdmin):
   fields = ("title","slug","ordering")
   prepopulated_fields = {'slug': ('title',) }
   
-
+class VariableInline(admin.TabularInline):
+  model = Variable
+  raw_id_fields = ['product']
+  
 # admin.site.register(Product)
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -58,7 +61,8 @@ class ProductAdmin(admin.ModelAdmin):
   search_fields = ("title__contains",)
   fields = ("category","brand","sku","title","slug","description","price","is_features","image")
   prepopulated_fields = {'slug': ('title',) }
-
+  inlines = [VariableInline]
+  save_as = True
   def product_category(self,obj):
     url = (
       reverse("admin:store_product_changelist")
@@ -66,5 +70,12 @@ class ProductAdmin(admin.ModelAdmin):
       + urlencode({"category_id": f"{obj.category.id}"})
     )
     return format_html('<a href={}>{}</a>', url, obj.category)
+  
+# admin.site.register(Variable)
+@admin.register(Variable)
+class VariableAdmin(admin.ModelAdmin):
+  # filter_horizontal = ('product',)
+  pass
 
+admin.site.register(VariableItem)
 

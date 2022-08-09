@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 {% load static %}
+{% load core_extras %}
 <html lang="ru">
 <head>
+  
+
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
     <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
-  <div id="main_container" class="container">
+  <div id="main_container" class="container is-widescreen">
     {% block messages %}{% endblock %}
 
     <nav id="navbarapp" class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <!-- <a class="navbar-item is-hidden-desktop" href="{% url 'frontpage' %}">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-        </a> -->
-    
         <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -35,7 +36,7 @@
             Главная
           </a>
     
-          <a class="navbar-item">
+          <a class="navbar-item" href="{% url 'production' %}">
             Продукция
           </a>
     
@@ -48,6 +49,19 @@
               {% for c in menu_categories %}
                   <a class="navbar-item" href="{% url 'category_detail' c.slug %}">
                       {{ c.title }}
+                  </a>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link" href="{% url 'catalog' %}">
+              Производители
+            </a>
+    
+            <div class="navbar-dropdown">
+              {% for b in menu_brands %}
+                  <a class="navbar-item" href="{% url 'brand_detail' b.slug %}">
+                      {{ b.title }}
                   </a>
               {% endfor %}
             </div>
@@ -159,35 +173,40 @@
   <footer class="footer katran-footer">
     
   </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
   <script src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
-    <script>
-			var store = new Vuex.Store({
-				state: {
-					numItems: {{ cart.get_total_length }},
-					totalCost: {{ cart.get_total_cost }}          
-				},
-				mutations: {
-					increment(state, quantity) {
-						state.numItems += quantity;
-					},
-          changeTotalCost(state, newCost) {
+  <script>
+    var store = new Vuex.Store({
+      state: {
+        numItems:{{ cart.get_total_length }},
+        totalCost:{{ cart.get_total_cost }}
+      },
+      mutations: {
+        increment(state, quantity){
+          state.numItems += quantity;
+        },
+        changeTotalCost(state, newCost) {
 						state.totalCost += newCost;
 					}
 				}
-			});
       
-      var navbarapp = new Vue({
+    });
+    var navbarapp = new Vue({
         el: '#navbarapp',
         delimiters: ['[[',']]'],
         store: store,
         data () {
 					return {
-						menuClass: false
+						menuClass: false,
 					}
 				},
         computed:{
           numItems: function(){
             return parseInt(store.state.numItems)
+          },
+          totalCost: function(){
+            return parseFloat(store.state.totalCost)
           }
         },
         methods: {
@@ -196,7 +215,7 @@
 					}
 				}
       });
-    </script>
+  </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
