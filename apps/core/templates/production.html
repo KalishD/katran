@@ -182,7 +182,8 @@
         {% for p in rm_list %}
           <div class="column fav-prod-sidebar--item">
             <div class="fav-prod-sidebar--item-img">
-              <img class="img-responsive" src="{{ p.image.url }}" alt="{{p.title}}" style="max-width: 80% !important;"></img>
+              <img class="img-responsive" src="{{ p.image.url }}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ" style="max-width: 80% !important;"></img>
+              <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small ">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
             </div>
             <div class="productionpage--info-wrap">
               <div class="productionpage--item-title mb-2">{{ p.title }}</div>

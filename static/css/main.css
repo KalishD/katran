@@ -3,6 +3,7 @@
     --katran-red: #e41817;
     --katran-dark: #09131f;
     --katran-font-color: #09131f;
+    --katran-shadow-color: rgba(0, 0, 0, .1);
 }
 body{
     color: var(--katran-font-color) !important;
@@ -11,6 +12,38 @@ body{
 .button{
     padding-left: calc(.75em - 1px) !important;
     padding-right: calc(.75em - 1px) !important;
+}
+.carousel-wrapper{overflow-x: hidden;}
+.carousel-item{
+    min-height: 20rem;
+    transition: .2s;
+}
+.carousel-item:hover{
+    box-shadow: 0 0 7px 0 var(--katran-shadow-color);
+    z-index:1;
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+}
+.carousel-item--img-wrapper{
+    position: relative;
+}
+.carousel-item--img-wrapper img{
+    max-width: 80% !important;
+}
+.carousel-item--img-wrapper .carousel-item--more-btn{
+    position: absolute;
+    z-index:1;
+    left:50%;
+    bottom: 25%;
+    transition: .2s;
+    transform:scale(.9);
+    transform: translateX(-50%);
+    opacity: 0;
+}
+.carousel-item--img-wrapper:hover .carousel-item--more-btn{
+    transform:scale(1.05);
+    opacity: 1;
+    transform: translateX(-50%);
 }
 .product-table{
     font-size: .75em !important;

@@ -2,7 +2,7 @@
 {% block title %}Оптовая продажа пневматического инструмента по всей России. Офис и склад в Санкт-Петербурге. Предлагаем купить инструменты юридическим лицам по самым доступным ценам в Санкт-Петербурге.{% endblock %}
 {% block content %}
 
-<div class="columns">
+<div class="columns" id="frontpageapp">
     {% include "side-bar.html" %}
     <div class="column has-text-centered is-three-quarters">
         <h2 class="title is-3">Российский производитель пневмоинструмента</h2>
@@ -22,12 +22,19 @@
         </div>
         <h3 class="title is-4">Продукция ООО "Катран-Пневмо"</h3>
         
-        <div class="carousel-wrapper" style = "overflow-x: hidden;">
+        <div class="carousel-wrapper">
           <div class="carousel">
             {% for p in katran_products %}
-              <div class="item-{{ forloop.counter }} m-2" style="min-height: 20rem;">
-                <img src="{{p.image.url}}" alt="">
-                <h2>{{p}}</h2>
+              <div class="item-{{ forloop.counter }} m-2 carousel-item">
+                <div class="carousel-item--img-wrapper">
+                  <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+                  <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                </div>
+                <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+                <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+                <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+                <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
+                <p class="subtitle is-6">с НДС</p>
               </div>
             {% endfor %}
           </div>
@@ -120,22 +127,23 @@
   // Initialize all div with carousel class
   var options = {
     slidesToScroll: 2,
-    slidesToShow: 4,
+    slidesToShow: 5,
     loop: true,
     infinite: true,
-    navigationSwipe: true
-  };
+    navigationSwipe: true,
+    pagination: false,
+  }
   // Initialize all div with carousel class
   var carousels = bulmaCarousel.attach('.carousel', options);
-  console.log('Carousel: ', carousels);
-  console.log(carousels[0].slidesToShow);
+
   // Loop on each carousel initialized
   for(var i = 0; i < carousels.length; i++) {
     // Add listener to  event
     carousels[i].on('before:show', state => {
       console.log('State: ', state);
     });
-  }
-  </script>
+  };
+</script>
+
 
 {% endblock %}
