@@ -3,24 +3,20 @@
 {% load core_extras %}
 <html lang="ru">
 <head>
-  
-
-
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
-    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
-    <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
   <div id="main_container" class="container is-widescreen">
     {% block messages %}{% endblock %}
-
     <nav id="navbarapp" class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -95,7 +91,7 @@
     <div class="columns">
       <div class="column is-one-third has-text-centered">
           <div>
-              <img src="{% static 'images/katran-logo.jpg' %}" alt="">
+              <a href="{% url 'frontpage' %}" class="no-hl-link"><img src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент"></a>
           </div>
       </div>
       <div class="column has-text-centered">
@@ -122,7 +118,7 @@
       <div class="columns">
         <div class="column">
           <div class="mb-5">
-            <img src="{% static 'images/katran-logo.jpg' %}" alt="">
+            <img src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент">
           </div>
           <div class="content">
             <p>ООО "Катран-Пневмо"</p>

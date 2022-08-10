@@ -1,14 +1,18 @@
-from django.shortcuts import render
+from unicodedata import category
+from django.shortcuts import render, get_object_or_404
 
-from apps.store.models import Product
+from apps.store.models import Product, Category
 
 def frontpage(request):
-    katran_products = Product.objects.filter(brand = 1)
-    
+    katran_products = Product.objects.filter(brand = 1).order_by('sku')
+    # cangairgrinders
+    # cangairgrinders = Category.objects.filter(slug = 'cangairgrinders')[0]
+    cangairgrinders = Product.objects.filter(category = 1).order_by('sku')
+    # cangairgrinders_products = cangairgrinders.products.all()
     # featured_product = Product.objects.filter(is_features=True)
     context = {
         'katran_products': katran_products,
-        'katran_products_count': range(katran_products.count()),
+        'cangairgrinders': cangairgrinders,
     }
 
     return render(request, 'frontpage.html', context)

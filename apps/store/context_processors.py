@@ -13,7 +13,7 @@ def all_products(request):
     return {'all_products':products}
 
 def featured_product(request):
-    featured_product = Product.objects.filter(is_features=True)
+    featured_product = Product.objects.filter(is_features=True).order_by('?')[:5]
     return {'featured_product':featured_product}
 
 def menu_brands(request):

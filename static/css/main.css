@@ -8,6 +8,16 @@
 body{
     color: var(--katran-font-color) !important;
 }
+.home-page-banner-item{
+    position: relative;
+}
+.home-page-banner-wrapper{
+    position: absolute;
+    bottom: 2rem;
+    width: calc(100% - 2rem);
+    left: 1rem;
+    z-index: 1;
+}
 .slider-item{margin-left: .375rem; margin-right: .375rem;}
 .button{
     padding-left: calc(.75em - 1px) !important;
