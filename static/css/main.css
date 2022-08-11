@@ -23,7 +23,7 @@ body{
     cursor:pointer;
     border: none;
     border-radius: 100%;
-    background: #f8f6fc;
+    background: rgba(9, 19, 31, .1);
     font-size: 2rem;
     width: 2.5rem;
     height: 2.5rem;
@@ -36,6 +36,7 @@ body{
     -webkit-transform: scale(1.05);
     transform: scale(1.05);
     box-shadow: 0 0 7px 0 var(--katran-shadow-color);
+    background: rgba(9, 19, 31, .15);
 }
 .slick-arrow .svg-inline--fa{
     vertical-align: -.1em !important;
