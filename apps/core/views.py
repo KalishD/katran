@@ -1,7 +1,6 @@
-from unicodedata import category
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 
-from apps.store.models import Product, Category
+from apps.store.models import Product
 
 def frontpage(request):
     katran_products = Product.objects.filter(brand = 1).order_by('sku')

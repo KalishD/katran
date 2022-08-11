@@ -79,11 +79,9 @@
     <div class="column is-full has-text-centered">
       <h3 class="title is-2 mt-6 mb-6">Продукция ООО "Катран-Пневмо"</h3>
       <p class="subtitle is-4">Пневматический инструмент российского производства</p>
-      <h1>{{cangairgrinders}}</h1>
-      <h1>{{katran_products}}</h1>
       <div class="carousel-wrapper">
         <div class="carousel" id="cang-carousel">
-          {% for p in katran_products %}
+          {% for p in cangairgrinders %}
             <div class="item-{{ forloop.counter }} m-2 carousel-item">
               <div class="carousel-item--img-wrapper">
                 <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
@@ -203,30 +201,51 @@
   </div>
 {% endblock %}
 {% block scripts %}
+<script type="text/javascript">
+  $(window).resize(function () {
+        $('.carousel').not('.slick-initialized').slick('resize');
+    });
 
-<script>
-  // Initialize all div with carousel class
-  var options = {
-    slidesToScroll: 1,
-    slidesToShow: 4,
-    loop: true,
-    infinite: true,
-    navigationSwipe: true,
-    pagination: false,
-  }
-  bulmaCarousel.attach('#katran-carousel', option);
-  bulmaCarousel.attach('#cang-carousel', option);
-  // Initialize all div with carousel class
-  // var carousels = bulmaCarousel.attach('.carousel', options);
+  $(window).on('orientationchange', function () {
+      $('.carousel').not('.slick-initialized').slick('resize');
+  });
 
-  // Loop on each carousel initialized
-  // for(var i = 0; i < carousels.length; i++) {
-    // Add listener to  event
-    // carousels[i].on('before:show', state => {
-      // console.log('State: ', state);
-    // });
-  // };
+  $(document).ready(function(){
+    $('.carousel').slick({
+      autoplay: true,
+      adaptiveHeight: true,
+      arrows: true,
+      dots: false,
+      slidesToShow: 4,
+      // mobileFirst: true,
+      prevArrow: '<button type="button" class="slick-prev"><i class="fa-solid fa-angle-left"></i></button>',
+      nextArrow: '<button type="button" class="slick-next"><i class="fa-solid fa-angle-right"></i></button>',
+      responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+                dots: true
+              }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
+    });
+  });
 </script>
-
-
 {% endblock %}
