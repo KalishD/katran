@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render
 
 from apps.store.models import Product
@@ -43,3 +44,8 @@ def production(request):
     }
 
     return render(request, 'production.html', context)
+
+
+def about(request):
+    context = {}
+    return render(request, 'about.html', context)

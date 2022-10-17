@@ -21,8 +21,9 @@ class Order(models.Model):
     ordering = ('-created_at','name', 'email')
 
 class OrderItem(models.Model):
-  order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
-  product = models.ForeignKey(Product, related_name="items", on_delete=models.DO_NOTHING)
+  # order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
+  order = models.ForeignKey(Order, on_delete=models.CASCADE)
+  product = models.ForeignKey(Product, related_name="products", on_delete=models.DO_NOTHING)
 
   price = models.FloatField()
   quantity = models.PositiveSmallIntegerField(default=1)
