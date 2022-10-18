@@ -3,24 +3,20 @@
 {% load core_extras %}
 <html lang="ru">
 <head>
-  
-
-
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
-    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
-    <link href="{% static 'css/main.css' %}" rel="stylesheet">
-    <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент</title>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
   <div id="main_container" class="container is-widescreen">
     {% block messages %}{% endblock %}
-
     <nav id="navbarapp" class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -71,7 +67,7 @@
             Статьи
           </a>
 
-          <a class="navbar-item">
+          <a href="{% url 'about' %}" class="navbar-item">
             О Нас
           </a>
 
@@ -95,7 +91,7 @@
     <div class="columns">
       <div class="column is-one-third has-text-centered">
           <div>
-              <img src="{% static 'images/katran-logo.jpg' %}" alt="">
+              <a href="{% url 'frontpage' %}" class="no-hl-link"><img src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент"></a>
           </div>
       </div>
       <div class="column has-text-centered">
@@ -122,7 +118,7 @@
       <div class="columns">
         <div class="column">
           <div class="mb-5">
-            <img src="{% static 'images/katran-logo.jpg' %}" alt="">
+            <img src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент">
           </div>
           <div class="content">
             <p>ООО "Катран-Пневмо"</p>
@@ -173,8 +169,9 @@
   <footer class="footer katran-footer">
     
   </footer>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
   <script src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
   <script>
     var store = new Vuex.Store({
