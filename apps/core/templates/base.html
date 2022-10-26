@@ -79,7 +79,7 @@
       
           <div class="navbar-end">
             <div class="navbar-item">
-              <form  method="get">
+              <form  method="get" action="{% url 'search' %}">
                 <div class="search" :class="{ 'is-active': searchClass }">
                   <div class="icon" @click="toggleSearch()"></div>
                   <div class="search-input">

@@ -19,7 +19,9 @@
         </thead>
         <tbody>
           <tr v-for="product in products">
-            <th class="th-w-title">[[ product.title ]]</th>
+            <th class="th-w-title">
+              <a :href="product.url">[[ product.title ]]</a>
+            </th>
             <th>[[ product.price ]]</th>
             <th class="th-w-quantity">
               <button class="button is-danger is-small" @click="decrementQuantity(product.id, product.quantity, product.price)">

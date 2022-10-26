@@ -17,13 +17,18 @@ from django.contrib import admin
 from django.urls import path
 
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap
 from django.conf import settings
 
 from apps.cart.views import cart_detail, success
 from apps.core.views import frontpage, production, about
-from apps.store.views import category_detail, product_detail, catalog, brand_detail
+from apps.store.views import category_detail, product_detail, catalog, brand_detail, search
 
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
+
+from .sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap
+
+sitemaps = {'static': StaticViewSitemap, 'product': ProductSitemap, 'category': CategorySitemap}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +36,7 @@ urlpatterns = [
     path('cart/', cart_detail, name='cart'),
     path('cart/success/', success, name='success'),
 
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     # API
     path('api/api_add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
     path('api/api_remove_from_cart/', api_remove_from_cart, name='api_remove_from_cart'),
@@ -45,6 +51,7 @@ urlpatterns = [
     path('catalog/', catalog, name='catalog'),
     path('production/', production, name='production'),
     path('about/', about, name='about'),
+    path('search/', search, name="search"),
 ]
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
