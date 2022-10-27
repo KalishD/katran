@@ -47,6 +47,9 @@ class Brand(models.Model):
 
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return '/%s' % (self.slug)
+        
     def make_thumbnail(self, image, size=(60, 60)):
         img = Image.open(image)
         img.convert('RGB')

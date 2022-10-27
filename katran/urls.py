@@ -26,9 +26,9 @@ from apps.store.views import category_detail, product_detail, catalog, brand_det
 
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
 
-from .sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap
+from .sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap, BrandSitemap
 
-sitemaps = {'static': StaticViewSitemap, 'product': ProductSitemap, 'category': CategorySitemap}
+sitemaps = {'static': StaticViewSitemap, 'product': ProductSitemap, 'category': CategorySitemap, 'brand': BrandSitemap}
 
 urlpatterns = [
     path('admin/', admin.site.urls),

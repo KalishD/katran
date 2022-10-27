@@ -1,7 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.shortcuts import reverse
 
-from apps.store.models import Category, Product
+from apps.store.models import Category, Product, Brand
 
 class StaticViewSitemap(Sitemap):
     def items(self):
@@ -20,3 +20,7 @@ class ProductSitemap(Sitemap):
 
     def lastmod(self, obj):
         return obj.created_at
+
+class BrandSitemap(Sitemap):
+    def items(self):
+        return Brand.objects.all()
