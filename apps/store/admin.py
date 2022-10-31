@@ -27,8 +27,31 @@ class ProductAdmin(admin.ModelAdmin):
     urls = super().get_urls()
     my_urls = [
         path('import-csv/', self.import_csv),
+        path('import-csv-price/', self.import_csv_price)
     ]
     return my_urls + urls
+  
+  def import_csv_price(self, request):
+    if request.method == "POST":
+      csv_file = request.FILES["csv_files"]
+      with io.TextIOWrapper(csv_file, encoding="utf-8") as text_file:
+        reader = csv.reader(text_file, lineterminator='\n', delimiter=';')
+        for row in reader:
+          try:
+            product = Product.objects.filter(sku=row[0]).first()
+            product.price = row[1]
+            product.save()
+          except:
+            print('Error! Product not found!', row)
+        self.message_user(request, "Your csv file has been imported")
+        return redirect("..")
+    form = CsvImportForm()
+    payload = {"form": form}
+    return render(
+      request, "csv_form.html", payload
+    )
+      
+  
   def import_csv(self, request):
     if request.method == "POST":
         csv_file = request.FILES["csv_files"]
@@ -37,7 +60,7 @@ class ProductAdmin(admin.ModelAdmin):
           for row in reader:
             try:
               slug = slugify(row[1])
-              Product.objects.uodate_or_create(
+              Product.objects.update_or_create(
                 title = row[1],
                 slug = slug,
                 sku = row[0],
