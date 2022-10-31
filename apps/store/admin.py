@@ -60,7 +60,7 @@ class ProductAdmin(admin.ModelAdmin):
           for row in reader:
             try:
               slug = slugify(row[1])
-              Product.objects.update_or_create(
+              product = Product.objects.update_or_create(
                 title = row[1],
                 slug = slug,
                 sku = row[0],
@@ -70,6 +70,15 @@ class ProductAdmin(admin.ModelAdmin):
                 category_id = 1,
                 brand_id = 1,
               )
+              """
+                i = /var_i/
+                while row[/var_i/]: 
+                  product.variable_set.create(
+                    varitem = /varid/,
+                    value = /value/
+                  )
+                  /var_i/ += 2
+              """
             except:
               print(row)
           self.message_user(request, "Your csv file has been imported")
