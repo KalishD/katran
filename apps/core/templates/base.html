@@ -17,97 +17,114 @@
 <body>
   <div id="main_container" class="container is-widescreen">
     {% block messages %}{% endblock %}
-    <nav id="navbarapp" class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-    
-      <div id="navbarBasicExample"  class="navbar-menu" :class="{ 'is-active': menuClass }">
-        <div class="navbar-start">
-          <a class="navbar-item" href="{% url 'frontpage' %}">
-            Главная
-          </a>
-    
-          <a class="navbar-item" href="{% url 'production' %}">
-            Продукция
-          </a>
-    
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" href="{% url 'catalog' %}">
-              Каталог
-            </a>
-    
-            <div class="navbar-dropdown">
-              {% for c in menu_categories %}
-                  <a class="navbar-item" href="{% url 'category_detail' c.slug %}">
-                      {{ c.title }}
-                  </a>
-              {% endfor %}
-            </div>
-          </div>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" href="{% url 'catalog' %}">
-              Производители
-            </a>
-    
-            <div class="navbar-dropdown">
-              {% for b in menu_brands %}
-                  <a class="navbar-item" href="{% url 'brand_detail' b.slug %}">
-                      {{ b.title }}
-                  </a>
-              {% endfor %}
-            </div>
-          </div>
-
-          <a class="navbar-item">
-            Статьи
-          </a>
-
-          <a href="{% url 'about' %}" class="navbar-item">
-            О Нас
-          </a>
-
-          <a class="navbar-item">
-            Контакты
+    <div class="header_wrapper" id="navbarapp">
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
           </a>
         </div>
-    
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button is-primary" href="{% url 'cart' %}">
-                <strong><i class="fa-solid fa-cart-shopping"></i>([[ numItems ]])</strong>
+      
+        <div id="navbarBasicExample"  class="navbar-menu" :class="{ 'is-active': menuClass }">
+          <div class="navbar-start">
+            <a class="navbar-item" href="{% url 'frontpage' %}">
+              Главная
+            </a>
+      
+            <a class="navbar-item" href="{% url 'production' %}">
+              Продукция
+            </a>
+      
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link" href="{% url 'catalog' %}">
+                Каталог
               </a>
+      
+              <div class="navbar-dropdown">
+                {% for c in menu_categories %}
+                    <a class="navbar-item" href="{% url 'category_detail' c.slug %}">
+                        {{ c.title }}
+                    </a>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link" href="{% url 'catalog' %}">
+                Производители
+              </a>
+      
+              <div class="navbar-dropdown">
+                {% for b in menu_brands %}
+                    <a class="navbar-item" href="{% url 'brand_detail' b.slug %}">
+                        {{ b.title }}
+                    </a>
+                {% endfor %}
+              </div>
+            </div>
+
+            <a class="navbar-item">
+              Статьи
+            </a>
+
+            <a href="{% url 'about' %}" class="navbar-item">
+              О Нас
+            </a>
+
+            <a class="navbar-item">
+              Контакты
+            </a>
+          </div>
+      
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <form  method="get" action="{% url 'search' %}">
+                <div class="search" :class="{ 'is-active': searchClass }">
+                  <div class="icon" @click="toggleSearch()"></div>
+                  <div class="search-input">
+                    <input id="katran-search" type="text" class="input" placeholder="Поиск..." name="query">
+                  </div>
+                </div>
+                <!-- <div class="field has-addons">
+                  <div class="control">
+                    <input type="text" class="input" placeholder="Поиск...">
+                  </div>
+                </div> -->
+              </form>
+            </div>
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-primary" href="{% url 'cart' %}">
+                  <strong><i class="fa-solid fa-cart-shopping"></i>([[ numItems ]])</strong>
+                </a>
+              </div>
             </div>
           </div>
         </div>
+      </nav>
+      <hr>
+      <div class="columns">
+        <div class="column is-one-third has-text-centered">
+            <div>
+                <a href="{% url 'frontpage' %}" class="no-hl-link"><img src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент"></a>
+            </div>
+        </div>
+        <div class="column has-text-centered">
+            <div>
+                <p class="heading">ЗВОНИТЕ НАМ ПН-ПТ 9:30 - 17:30</p>
+                <p class="title is-5"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
+            </div>
+        </div>
+        <div class="column has-text-centered">
+            <div>
+                <p class="heading">г. Санкт-Петербург, Английский пр., д. 33</p>
+                <p class="title is-5"><a class="no-hl-link" href="mailto:OFFICE@KATRAN-PNEVMO.RU"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</a></p>
+            </div>
+        </div>
       </div>
-    </nav>
-    <hr>
-    <div class="columns">
-      <div class="column is-one-third has-text-centered">
-          <div>
-              <a href="{% url 'frontpage' %}" class="no-hl-link"><img src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент"></a>
-          </div>
-      </div>
-      <div class="column has-text-centered">
-          <div>
-              <p class="heading">ЗВОНИТЕ НАМ ПН-ПТ 9:30 - 17:30</p>
-              <p class="title is-5"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
-          </div>
-      </div>
-      <div class="column has-text-centered">
-          <div>
-              <p class="heading">г. Санкт-Петербург, Английский пр., д. 33</p>
-              <p class="title is-5"><a class="no-hl-link" href="mailto:OFFICE@KATRAN-PNEVMO.RU"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</a></p>
-          </div>
-      </div>
+      <hr>
     </div>
-    <hr>
     {% block content %}
 
     {% endblock %}
@@ -196,6 +213,7 @@
         data () {
 					return {
 						menuClass: false,
+            searchClass: false,
 					}
 				},
         computed:{
@@ -209,7 +227,10 @@
         methods: {
 					toggleMenu() {
 						this.menuClass = !this.menuClass;
-					}
+					},
+          toggleSearch() {
+            this.searchClass = !this.searchClass;
+          }
 				}
       });
   </script>

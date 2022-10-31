@@ -11,6 +11,74 @@ body{
 .home-page-banner-item{
     position: relative;
 }
+.search{
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background: #f8f6fc;
+    transition: .5s;
+    box-shadow: 0 0 0 2.5px var(--katran-shadow-color);
+    overflow: hidden;
+    
+}
+
+.search.is-active{
+    width: 360px;
+}
+
+.search .icon{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background: #f8f6fc;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.search .icon::before{
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 3px solid var(--katran-dark);
+    border-radius: 50%;
+    transform: translate(-4px,-4px);
+}
+.search .icon::after{
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 10px;
+    background: var(--katran-dark);
+    transform: translate(6px,6px) rotate(315deg);
+}
+
+.search .search-input{
+    position: relative;
+    width: 310px;   
+    height: 50px;
+    left: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search .search-input input{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height:100%;
+    border: none;
+    outline: #f8f6fc;
+    box-shadow: none;
+    font-size: 18px;
+}
 .home-page-banner-wrapper{
     position: absolute;
     bottom: 2rem;
@@ -173,16 +241,29 @@ a.no-hl-link:hover{color: var(--katran-dark);}
     }
   }
   @media screen and (min-width: 800px) and (max-width:1220px){
+
     .frontpage--category_tiles p.title{
         font-size: 1.15rem !important;
     }
   }
   @media screen and (min-width: 1025px) and (max-width:1220px){
+    .search.is-active{
+        width: 200px;
+    }
+    .search .search-input{
+        width: 150px;
+    }
     .frontpage--category_tiles p.title{
         font-size: 1.25rem !important;
     }
   }
   @media screen and (min-width: 1220px) and (max-width:1408px){
+    .search.is-active{
+        width: 290px;
+    }
+    .search .search-input{
+        width: 240px;
+    }
     .frontpage--category_tiles p.title{
         font-size: 1.75rem !important;
     }
