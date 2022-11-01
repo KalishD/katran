@@ -17,6 +17,41 @@ class VariableInline(admin.TabularInline):
 class CsvImportForm(forms.Form):
     csv_files = forms.FileField()
 
+@admin.register(VariableItem)
+class VariableItemAdmin(admin.ModelAdmin):
+  change_list_template = "variableitem_changelist.html"
+  
+  def get_urls(self):
+    urls = super().get_urls()
+    my_urls = [
+      path('import-csv-var/', self.import_csv),
+    ]
+    return my_urls + urls
+    
+  def import_csv(self, request):
+    if request.method == "POST":
+      csv_file = request.FILES["csv_files"]
+      with io.TextIOWrapper(csv_file, encoding="utf-8") as text_file:
+        reader = csv.reader(text_file, lineterminator='\n', delimiter=',')
+        for row in reader:
+          try:
+            varitem = VariableItem.objects.get_or_create(
+              id = row[0],
+              title = row[1],
+              dimention = row[2],
+            )
+            # print(varitem)
+          except Exception as inst:
+            print(inst)
+            print('Exception:',row)
+        self.message_user(request, "Your csv file has been imported")
+        return redirect("..")
+    form = CsvImportForm()
+    payload = {"form": form}
+    return render(
+        request, "csv_form.html", payload
+    )
+    
 # admin.site.register(Product)
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -59,28 +94,31 @@ class ProductAdmin(admin.ModelAdmin):
           reader = csv.reader(text_file, lineterminator='\n', delimiter = ';')
           for row in reader:
             try:
-              slug = slugify(row[1])
-              product = Product.objects.update_or_create(
+              slug = slugify(str(row[1]))
+              print(row)
+              product = Product.objects.get_or_create(
+                sku = row[0],
                 title = row[1],
                 slug = slug,
-                sku = row[0],
                 description = row[2],
-                price = row[4],
+                price = row[5],
                 is_features = 0,
-                category_id = 1,
-                brand_id = 1,
+                category_id = row[4],
+                brand_id = row[3],
               )
-              """
-                i = /var_i/
-                while row[/var_i/]: 
-                  product.variable_set.create(
-                    varitem = /varid/,
-                    value = /value/
-                  )
-                  /var_i/ += 2
-              """
-            except:
-              print(row)
+              i = 7
+              tmp_row = []
+              while row[i] != '': 
+                # tmp_row.extend((row[i],row[i+1]))
+                product[0].variable_set.create(
+                  varitem = VariableItem.objects.filter(id = int(row[i]))[0],
+                  value = row[i+1]
+                )
+                i += 2              
+            except Exception as inst:
+              print(inst)
+              print('!!!_row_!!!',row)
+              print('!!!_iter_!!!', i)
           self.message_user(request, "Your csv file has been imported")
           return redirect("..")
     form = CsvImportForm()
@@ -158,6 +196,3 @@ class CategoryAdmin(admin.ModelAdmin):
 class VariableAdmin(admin.ModelAdmin):
   # filter_horizontal = ('product',)
   pass
-
-admin.site.register(VariableItem)
-
