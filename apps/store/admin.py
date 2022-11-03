@@ -74,7 +74,7 @@ class ProductAdmin(admin.ModelAdmin):
         for row in reader:
           try:
             product = Product.objects.filter(sku=row[0]).first()
-            product.price = row[1]
+            product.price = row[5]
             product.save()
           except:
             print('Error! Product not found!', row)
@@ -93,10 +93,11 @@ class ProductAdmin(admin.ModelAdmin):
         with io.TextIOWrapper(csv_file, encoding="utf-8") as text_file:
           reader = csv.reader(text_file, lineterminator='\n', delimiter = ';')
           for row in reader:
+            i = 7
             try:
               slug = slugify(str(row[1]))
               print(row)
-              product = Product.objects.get_or_create(
+              product = Product.objects.update_or_create(
                 sku = row[0],
                 title = row[1],
                 slug = slug,
@@ -106,11 +107,10 @@ class ProductAdmin(admin.ModelAdmin):
                 category_id = row[4],
                 brand_id = row[3],
               )
-              i = 7
               tmp_row = []
               while row[i] != '': 
                 # tmp_row.extend((row[i],row[i+1]))
-                product[0].variable_set.create(
+                product[0].variable_set.get_or_create(
                   varitem = VariableItem.objects.filter(id = int(row[i]))[0],
                   value = row[i+1]
                 )
