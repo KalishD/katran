@@ -11,13 +11,15 @@ def menu_category(request):
     categories = Category.objects.prefetch_related(
         Prefetch(
             'products',
-            queryset=Product.objects.exclude(pk__in=[x.pk for x in Product.objects.all()])
+            queryset=Product.objects.filter(pk__in=[x.pk for x in Product.objects.all()])
         )
     )
     # for category in categories:
     #     products = category.products.all()
     #     print('Products: ', products)
     print('Categories: ',categories)
+    for cat in categories:
+        print(cat.products.count())
     return {'menu_categories':categories}
 
 def all_products(request):
