@@ -40,7 +40,6 @@ class VariableItemAdmin(admin.ModelAdmin):
               title = row[1],
               dimention = row[2],
             )
-            # print(varitem)
           except Exception as inst:
             print(inst)
             print('Exception:',row)
