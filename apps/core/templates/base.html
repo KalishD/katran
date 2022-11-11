@@ -202,32 +202,32 @@
       
     });
     var navbarapp = new Vue({
-        el: '#navbarapp',
-        delimiters: ['[[',']]'],
-        store: store,
-        data () {
-					return {
-						menuClass: false,
-            searchClass: false,
-					}
-				},
-        computed:{
-          numItems: function(){
-            return parseInt(store.state.numItems)
-          },
-          totalCost: function(){
-            return parseFloat(store.state.totalCost)
-          }
+      el: '#navbarapp',
+      delimiters: ['[[',']]'],
+      store: store,
+      data () {
+        return {
+          menuClass: false,
+          searchClass: false,
+        }
+      },
+      computed:{
+        numItems: function(){
+          return parseInt(store.state.numItems)
         },
-        methods: {
-					toggleMenu() {
-						this.menuClass = !this.menuClass;
-					},
-          toggleSearch() {
-            this.searchClass = !this.searchClass;
-          }
-				}
-      });
+        totalCost: function(){
+          return parseFloat(store.state.totalCost)
+        }
+      },
+      methods: {
+        toggleMenu() {
+          this.menuClass = !this.menuClass;
+        },
+        toggleSearch() {
+          this.searchClass = !this.searchClass;
+        }
+      }
+    });
   </script>
     {% block scripts %}{% endblock %}
 </body>

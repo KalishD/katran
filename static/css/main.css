@@ -28,6 +28,17 @@ body{
 .search.is-active{
     width: 360px;
 }
+
+.menu-accordion-item_inner{
+    transition: .5s ease;
+}
+.menu-accordion-item.active .menu-accordion-item_inner{
+    height:0;
+    margin-top:0 !important;
+    margin-bottom: 0 !important;
+    overflow: hidden;
+}
+
 .smoo_after_title{
     font-size: 0.9em;
     color: var(--katran-font-sm-color);

@@ -7,7 +7,7 @@ from django.urls import path
 from django.shortcuts import render, redirect
 from slugify import slugify
 import csv, codecs, os, re, operator, io
-from apps.store.models import Category, Product, Brand, Variable, VariableItem
+from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory
 
 class VariableInline(admin.TabularInline):
   model = Variable
@@ -160,12 +160,17 @@ class BrandAdmin(admin.ModelAdmin):
 
   product_count.short_description = "Products"
 
-
+# admin.site.register(MainCategory)
+@admin.register(MainCategory)
+class MainCategoryAdmin(admin.ModelAdmin):
+  list_display = ("title",)
+  prepopulated_fields = {'slug': ('title',) }
+  fields = ("title","slug","ordering")
   
 # admin.site.register(Category)
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-  list_display = ("title", "product_count")
+  list_display = ("title", "main_category", "ordering","product_count")
 
   def product_count(self, obj):
     count = Product.objects.filter(category=obj).count()
@@ -184,7 +189,7 @@ class CategoryAdmin(admin.ModelAdmin):
     
 
   product_count.short_description = "Products"
-  fields = ("title","slug","ordering")
+  fields = ("main_category","title","slug","ordering")
   prepopulated_fields = {'slug': ('title',) }
   
 

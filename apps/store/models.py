@@ -3,12 +3,26 @@ from django.core.files import File
 from PIL import Image
 from django.db import models
 
+class MainCategory(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
+    ordering = models.PositiveIntegerField(default=0)
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
+        ordering = ('ordering',)
+        
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return '/%s' % (self.slug)
 
 class Category(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     ordering = models.PositiveSmallIntegerField(default=0)
-
+    main_category = models.ForeignKey(MainCategory, on_delete=models.DO_NOTHING, blank=True, null=True)
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
