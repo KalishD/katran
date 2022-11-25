@@ -27,6 +27,7 @@ def category_detail(request, slug):
     products = category.product_set.all()
     var_titles = []
     first_product_vars = category.product_set.first().variable_set.all() if category.product_set.first() else []
+    print(first_product_vars)
     for var in first_product_vars:
         var_titles.append(var)
     context = {'category': category, 'products': products, 'var_titles': var_titles}

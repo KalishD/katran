@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.core.files import File
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.html import format_html
@@ -6,8 +7,14 @@ from django import forms
 from django.urls import path
 from django.shortcuts import render, redirect
 from slugify import slugify
-import csv, codecs, os, re, operator, io
+import csv, codecs, os, re, operator, io, requests
+from io import BytesIO
+from PIL import Image
 from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory
+from urllib.parse import parse_qsl, urljoin, urlparse
+from urllib.request import urlopen
+from apps.core.utils import *
+from import_export.admin import ExportActionMixin
 
 class VariableInline(admin.TabularInline):
   model = Variable
@@ -53,7 +60,7 @@ class VariableItemAdmin(admin.ModelAdmin):
     
 # admin.site.register(Product)
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
   
   change_list_template = "products_changelist.html"
 
@@ -84,28 +91,41 @@ class ProductAdmin(admin.ModelAdmin):
     return render(
       request, "csv_form.html", payload
     )
-      
   
   def import_csv(self, request):
     if request.method == "POST":
         csv_file = request.FILES["csv_files"]
         with io.TextIOWrapper(csv_file, encoding="utf-8") as text_file:
           reader = csv.reader(text_file, lineterminator='\n', delimiter = ';')
-          for row in reader:
-            i = 7
+          for count, row in enumerate(reader, start=1):
+            # print('Product #',count, type(count))
+            # print('!!!_row_!!!',row)
+            i = 8
             try:
-              slug = slugify(str(row[1]))
-              print(row)
+              slug = slugify(str(row[2]))
               product = Product.objects.update_or_create(
-                sku = row[0],
-                title = row[1],
+                id = count,
+                sku = row[1],
+                title = row[2],
                 slug = slug,
-                description = row[2],
-                price = row[5],
+                description = row[3],
+                price = row[6],
                 is_features = 0,
-                category_id = row[4],
-                brand_id = row[3],
+                category_id = row[5],
+                brand_id = row[4],
               )
+              if row[7]:
+                url = row[7]
+                parse_object = urlparse(url)
+                domain = parse_object.netloc
+                path = parse_object.path
+                filename = url.split('/')[-1]
+                # print('Domain, path, filename',domain, path, filename)
+                response = requests.get(url)
+                response_content = BytesIO(urlopen(url).read())
+                pil_image = Image.open(response_content)
+                django_file = pil_to_django(pil_image)
+                product[0].image.save(filename, django_file)
               tmp_row = []
               while row[i] != '': 
                 # tmp_row.extend((row[i],row[i+1]))
@@ -113,11 +133,10 @@ class ProductAdmin(admin.ModelAdmin):
                   varitem = VariableItem.objects.filter(id = int(row[i]))[0],
                   value = row[i+1]
                 )
-                i += 2              
+                i += 2  
             except Exception as inst:
+              print('Error, line #', count)
               print(inst)
-              print('!!!_row_!!!',row)
-              print('!!!_iter_!!!', i)
           self.message_user(request, "Your csv file has been imported")
           return redirect("..")
     form = CsvImportForm()
