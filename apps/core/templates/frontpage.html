@@ -38,8 +38,19 @@
               <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
               <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
               <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-              <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
+              <p class="title is-4">
+                {% if p.price != 0 %}
+                  <span class="fc-red">
+                    {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                  </span>
+              </p>
               <p class="subtitle is-6">с НДС</p>
+                {% else %}
+                  <span class="fc-red">
+                    По запросу
+                  </span>
+              </p>
+                {% endif %}
             </div>
           {% endfor %}
         </div>
@@ -90,7 +101,19 @@
               <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
               <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
               <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-              <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
+              <p class="title is-4">
+                {% if p.price != 0 %}
+                  <span class="fc-red">
+                    {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                  </span>
+              </p>
+              <p class="subtitle is-6">с НДС</p>
+                {% else %}
+                  <span class="fc-red">
+                    По запросу
+                  </span>
+              </p>
+                {% endif %}
               <p class="subtitle is-6">с НДС</p>
             </div>
           {% endfor %}
@@ -114,7 +137,19 @@
               <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
               <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
               <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-              <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
+              <p class="title is-4">
+                {% if p.price != 0 %}
+                  <span class="fc-red">
+                    {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                  </span>
+              </p>
+              <p class="subtitle is-6">с НДС</p>
+                {% else %}
+                  <span class="fc-red">
+                    По запросу
+                  </span>
+              </p>
+                {% endif %}
               <p class="subtitle is-6">с НДС</p>
             </div>
           {% endfor %}
