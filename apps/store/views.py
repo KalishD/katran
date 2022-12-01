@@ -2,7 +2,10 @@ from itertools import product
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 
-from .models import Product, Category, Brand, Variable
+from .models import Product, Category, Brand, Variable, VariableItem
+
+from django.db.models import Count
+from django.db.models import Avg, Max, Min, Sum
 
 def search(request):
     query = request.GET.get('query')
@@ -26,11 +29,10 @@ def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
     products = category.product_set.all()
     var_titles = []
-    first_product_vars = category.product_set.first().variable_set.all() if category.product_set.first() else []
-    print(first_product_vars)
-    for var in first_product_vars:
-        var_titles.append(var)
-    context = {'category': category, 'products': products, 'var_titles': var_titles}
+    first_product_vars = category.product_set.all().annotate(count=Count('variables')).latest('count').variable_set.all()
+    all_cat_vars = VariableItem.objects.filter(id__in=list(category.product_set.all().order_by('variables').values_list('variables', flat=True).distinct()))
+
+    context = {'category': category, 'products': products, 'var_titles': first_product_vars, 'all_cat_vars': all_cat_vars}
 
     return render(request, 'category_detail.html', context)
 

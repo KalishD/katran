@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load store_extras %}
 {% block title %}Каталог {{ category.title }}{% endblock %}
 {% block content %}
     <div class="columns">
@@ -13,7 +14,9 @@
                         <tr>
                             <th></th>
                             <th>Наименование</th>
-                            {% for var in var_titles %}
+                            <th>Производитель</th>
+                            <th>Цена</th>
+                            {% comment %} {% for var in var_titles %}
                                 <th>
                                     {{var}}
                                     <br>
@@ -21,9 +24,17 @@
                                         {{ var.varitem.dimention}}
                                     {% endif %}
                                 </th>
-                            {% endfor %}
-                            <th>Производитель</th>
-                            <th>Цена</th>
+                            {% endfor %} {% endcomment %}
+
+                            {% for var in all_cat_vars %}
+                            <th>
+                                {{var}}
+                                <br>
+                                {% if var.dimention %}
+                                    {{ var.dimention}}
+                                {% endif %}
+                            </th>
+                        {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
@@ -41,15 +52,6 @@
                                         <p>{{product.title}}</p>
                                     </a>
                                 </td>
-                                {% if product.variable_set.all %}
-                                    {% for var in product.variable_set.all %}
-                                        <td>{{var.value}}</td>
-                                    {% endfor %}
-                                {% else %}
-                                    {% for var in var_titles %}
-                                        <td></td>
-                                    {% endfor%}
-                                {% endif %}
                                 <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
                                 <td>
                                     {% if product.price != 0 %}
@@ -58,6 +60,15 @@
                                         По запросу
                                     {% endif %}
                                 </td>
+                                {% for var in all_cat_vars %}
+                                    {% if product.variable_set|variable_by_var:var %}
+                                        {% with product.variable_set|variable_by_var:var as variable %}
+                                            <td>{{variable.value}}</td>
+                                        {% endwith %}
+                                    {% else %}
+                                        <td>-</td>
+                                    {% endif %}
+                                {% endfor %}
                             </tr>
                         {% endfor %}
                     </tbody>
