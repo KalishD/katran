@@ -160,7 +160,7 @@ body{
     opacity: 0;
     font-size: 1.25rem;
     border: 1px solid #000;
-    background: rgba(0, 0, 0, .1);
+    background: rgba(0255,255,255,0.3);
     color: #000;
 }
 .carousel-item--img-wrapper:hover .carousel-item--more-btn{

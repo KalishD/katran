@@ -54,11 +54,13 @@
                                 </td>
                                 <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
                                 <td>
+                                    <span class="fc-red">
                                     {% if product.price != 0 %}
                                         {{ product.price|floatformat:2 }}
                                     {% else %}
                                         По запросу
                                     {% endif %}
+                                    </span>
                                 </td>
                                 {% for var in all_cat_vars %}
                                     {% if product.variable_set|variable_by_var:var %}

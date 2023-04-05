@@ -14,36 +14,27 @@
                 </div>
             </div>
             <hr>
-            <div class="table-container">
-            <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Наименование</th>
-                    <th>Производитель</th>
-                    <th>Цена</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for product in products %}
-                        <tr>
-                            <th class="th-w-img p-0"><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}" title="{{ product.title }}"></a></th>
-                            <td><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><p>{{product.title}}</p></a></td>
-                            <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
-                            <td>
-                                {% if product.price != 0 %}
-                                    {{ product.price|floatformat:2 }}
-                                {% else %}
-                                    По запросу
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+            <div class="columns is-flex-wrap-wrap">
+                {% for product in products %}
+                  <div class="column is-one-quarter is-align-content-center is-justify-content-center">
+                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
+                      <img src="{{ product.image.url }}"
+                          alt="{{ product.title }}"
+                          title="{{ product.title }}">
+                      <h4 class="is-8">
+                        {{ product.title }}
+                      </h4>
+                      <p class="is-8 fc-red">
+                        {% if product.price != 0 %}
+                          {{ product.price|floatformat:2 }} с НДС
+                        {% else %}
+                          По запросу
+                        {% endif %}
+                      </p>
+                    </a>
+                  </div>
+                {% endfor %}
             </div>
-            
-            
         </div>
     </div>
 {% endblock %}
