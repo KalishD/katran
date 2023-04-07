@@ -44,7 +44,7 @@ def catalog(request):
 
 def brand_detail(request, slug):
     brand = get_object_or_404(Brand, slug=slug)
-    products = brand.products.all()
+    products = brand.products.all().order_by("category")
 
     context = {'brand': brand, 'products': products}
 

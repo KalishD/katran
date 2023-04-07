@@ -3,7 +3,7 @@
 {% block content %}
     <div class="columns">
         {% include "side-bar.html" %}
-        <div class="column">
+        <div class="column" id="productapp">
             <div class="columns is-desktop has-text-centered-touch has-text-left-desktop">
                 <div class="column">
                     <h1 class="title is-3">{{ brand.title }}</h1>
@@ -32,9 +32,59 @@
                         {% endif %}
                       </p>
                     </a>
+                    <button class="button is-black is-small" @click="addToCart({{ product.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
                   </div>
                 {% endfor %}
             </div>
         </div>
     </div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  var productapp = new Vue({
+    el: '#productapp',
+    delimiters: ['[[',']]'],
+    store: store,
+    data (){
+        return {
+            showAddToCartMessage: false
+        }
+    },
+    mounted(){
+        console.log('Mounted');
+    },
+    methods: {
+        addToCart(product_id){
+            console.log('Adding Product_id', product_id);
+            var data = {
+                'product_id': product_id,
+                'update': false,
+                'quantity': 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Hello');
+                this.showAddToCartMessage = true;
+                store.commit('increment', 1);
+                setTimeout(()=>{
+                    this.showAddToCartMessage = false;
+                }, 2000)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
+  });
+</script>
 {% endblock %}

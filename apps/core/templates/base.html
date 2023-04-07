@@ -7,11 +7,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент</title>
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
   <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
+  <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
@@ -182,8 +183,7 @@
     
   </footer>
   <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
   <script src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
   <script>
     var store = new Vuex.Store({
@@ -228,7 +228,47 @@
         }
       }
     });
-  </script>
+    var sidebarapp = new Vue({
+      el: '#sidebarapp',
+      delimiters: ['[[',']]'],
+      store: store,
+      data () {
+        return {
+          accClass: true,
+        }
+      },
+      computed:{
+
+      },
+      methods: {
+        toggleAccMenu(e) {
+          if (this.accClass){
+            e.target.parentElement.classList.remove("active");  
+          } else{
+            e.target.parentElement.classList.add("active");
+          }
+          this.accClass = !this.accClass;
+        },
+      }
+    });
+    //function raiseMenu() {
+    // Accordion Action
+    /*
+    const accordionItem = document.querySelectorAll(".menu-accordion-item");
+      console.log(accordionItem);
+      accordionItem.forEach((el) =>
+      el.addEventListener("click", () => {
+        if (el.classList.contains("active")) {
+          console.log("remove active");
+          el.classList.remove("active");
+        } else {
+          console.log("add active");
+          el.classList.add("active");
+        }
+      })
+    );
+    //}*/
+  </script> 
     {% block scripts %}{% endblock %}
 </body>
 </html>

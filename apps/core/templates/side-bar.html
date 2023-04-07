@@ -5,7 +5,7 @@
       </p>
       <ul class="menu-list" id="sidebarapp">
         {% for maincat in menu_main_categories %}
-        <li class="menu-accordion-item active" >
+        <li @click="toggleAccMenu" class="menu-accordion-item active">
           <a>{{maincat.title}}</a>
           <ul class="menu-accordion-item_inner">
             {% for cat in maincat.category_set.all %}
@@ -47,22 +47,3 @@
     {% endfor %}
   </div>
 </div>
-
-{% block scripts %}
-  <script type="text/javascript">
-    //function raiseMenu() {
-    // Accordion Action
-    const accordionItem = document.querySelectorAll(".menu-accordion-item");
-
-    accordionItem.forEach((el) =>
-      el.addEventListener("click", () => {
-        if (el.classList.contains("active")) {
-          el.classList.remove("active");
-        } else {
-          el.classList.add("active");
-        }
-      })
-    );
-    //}
-  </script> 
-{% endblock %}
