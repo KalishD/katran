@@ -2,13 +2,15 @@ from multiprocessing import context
 from django.shortcuts import render
 
 from apps.store.models import Product
-
+from apps.blog.models import Post
 def frontpage(request):
     katran_products = Product.objects.filter(brand = 1).order_by('sku')
     cangairgrinders = Product.objects.filter(category = 1).order_by('sku')
+    posts = Post.objects.all()
     context = {
         'katran_products': katran_products,
         'cangairgrinders': cangairgrinders,
+        'posts': posts,
     }
 
     return render(request, 'frontpage.html', context)

@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент</title>
+  
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -59,7 +60,24 @@
               <div class="navbar-dropdown">
                 {% for b in menu_brands %}
                     <a class="navbar-item" href="{% url 'brand_detail' b.slug %}">
-                        {{ b.title }}
+                      <article class="media has-text-left">
+                        <figure class="media-left">
+                          <p class="image is-24x24">
+                            <!-- <a class="no-hl-link" href="{% url 'brand_detail' b.slug %}"> -->
+                                <img src="{{ b.thumbnail.url }}"
+                                    alt="Пневмоинструмент фирмы {{ b }}"
+                                    title="Пневмоинструмент фирмы {{ b }}">
+                            <!-- </a> -->
+                          </p>
+                        </figure>
+                        <div class="media-content">
+                          <div class="content">
+                            <p>
+                              {{ b }}
+                              <!-- <a class="no-hl-link" href="{% url 'brand_detail' b.slug %}">{{ b }}</a> -->
+                            </p>
+                          </div>
+                      </article>
                     </a>
                 {% endfor %}
               </div>
@@ -103,7 +121,7 @@
       <div class="columns">
         <div class="column is-one-third has-text-centered">
             <div>
-                <a href="{% url 'frontpage' %}" class="no-hl-link"><img src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент"></a>
+                <a href="{% url 'frontpage' %}" class="no-hl-link"><img class="katran-logo-img" src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент"></a>
             </div>
         </div>
         <div class="column has-text-centered">
@@ -131,7 +149,7 @@
       <div class="columns">
         <div class="column">
           <div class="mb-5">
-            <img src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент">
+            <img class="katran-logo-img" src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент">
           </div>
           <div class="content">
             <p>ООО "Катран-Пневмо"</p>

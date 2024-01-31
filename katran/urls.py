@@ -23,12 +23,12 @@ from django.conf import settings
 from apps.cart.views import cart_detail, success
 from apps.core.views import frontpage, production, about
 from apps.store.views import category_detail, product_detail, catalog, brand_detail, search
-
+from apps.blog.views import blog, post_detail
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
 
-from .sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap, BrandSitemap
+from .sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap, BrandSitemap, PostsSitemap
 
-sitemaps = {'static': StaticViewSitemap, 'product': ProductSitemap, 'category': CategorySitemap, 'brand': BrandSitemap}
+sitemaps = {'static': StaticViewSitemap, 'product': ProductSitemap, 'category': CategorySitemap, 'brand': BrandSitemap, 'post': PostsSitemap}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -52,6 +52,11 @@ urlpatterns = [
     path('production/', production, name='production'),
     path('about/', about, name='about'),
     path('search/', search, name="search"),
+
+    #BLOG
+
+    path('blog/', blog, name="blog"),
+    path('<slug:postcategory_slug>/<slug:slug>', post_detail, name='post_detail'),
 ]
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

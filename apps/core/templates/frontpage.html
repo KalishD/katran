@@ -7,25 +7,25 @@
     {% include "side-bar.html" %}
     <div class="column has-text-centered is-three-quarters">
       <h2 class="title is-3">Российский производитель пневмоинструмента</h2>
-      <p class="subtitle is-5">ООО "Катран-Пневмо"</p>
+      <p class="subtitle is-5">Катран-Пневмо</p>
       <div class="content pl-5 pr-5">
         <p>
-          ООО «Катран-Пневмо» — компания, основанная в 1990 году для оснащения судостроительной 
+          Катран-Пневмо — компания, основанная в 1990 году для оснащения судостроительной 
           промышленности качественным пневмоинструментом, специализируется на продажах инструментов 
           и машиностроительного оборудования по системе В2В. Мы предлагаем купить оптом промышленный 
-          пневматический инструмент в Санкт-Петербурге и Ленинградской области.
+          пневматический инструмент с доставкой по России И СНГ.
         </p>
-        <p>
+        <!-- <p>
           Благодаря нашему интернет-магазину katran-pnevmo.ru, мы смогли предоставить покупателям 
           по всей России самый большой ассортимент оригинального и высококачественного пневмоинструмента, 
           который произведен нами и именитыми профильными предприятиями. 
-        </p>
+        </p> -->
       </div>
       <div class="content pl-5 pr-5 ">
-        <p class="title is-5 mt-6 mb-4">Подробнее о продукции выпускаемой ООО "Катран-Пневмо" Вы можете узнать по ссылке ниже.</p>  
+        <p class="title is-5 mt-6 mb-4">Подробнее о продукции выпускаемой Катран-Пневмо Вы можете узнать по ссылке ниже.</p>  
         <a href="{% url 'production' %}" class="button is-large is-black p-5"><i class="fa-solid fa-list"></i>&nbsp;&nbsp;УЗНАТЬ ПОДРОБНОСТИ</a>
       </div>
-      <h3 class="title is-3 mt-6">Продукция ООО "Катран-Пневмо"</h3>
+      <h3 class="title is-3 mt-6">Продукция Катран-Пневмо</h3>
       <p class="subtitle is-5">Пневматический инструмент российского производства</p>  
       <div class="carousel-wrapper">
         <div class="owl-carousel owl-theme">
@@ -88,7 +88,7 @@
   </div>
   <div class="columns">
     <div class="column is-full has-text-centered">
-      <h3 class="title is-3">Продукция ООО "Катран-Пневмо"</h3>
+      <h3 class="title is-3">Продукция Катран-Пневмо</h3>
       <p class="subtitle is-5">Пневматический инструмент российского производства</p>
       <div class="carousel-wrapper">
         <div class="carousel owl-carousel owl-theme" id="cang-carousel">
@@ -122,7 +122,7 @@
   </div>
   <div class="columns">
     <div class="column is-full has-text-centered">
-      <h3 class="title is-3 mt-6 mb-6">Продукция ООО "Катран-Пневмо"</h3>
+      <h3 class="title is-3 mt-6 mb-6">Продукция Катран-Пневмо</h3>
       <p class="subtitle is-5">Пневматический инструмент российского производства</p>
       
       <div class="carousel-wrapper">
@@ -265,6 +265,17 @@
       </div>
     </div>
   </div>
+  <div class="posts">
+    {% for p in posts %}
+      <p class="title">{{ p.title }}</p>
+      <p class="title">{{ p.category }}</p>
+      
+    {% endfor %}
+    <a class="navbar-link" href="{% url 'blog' %}">
+      Каталог
+    </a>
+  </div>
+  
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">

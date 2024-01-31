@@ -9,10 +9,11 @@
                 <div class="columns is-desktop">
                     <div class="column is-half">
                         <img src="{{ product.image.url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                        
                     </div>
                     <div class="column">
                         <div class="has-text-centered">
-                            <h1 class="title is-3">{{ product.title }}</h1>
+                            <h1 class="title is-3" id="product_name">{{ product.title }}</h1>
                             <p class="subtitle is-5">Купить со склада в Санкт-Петербурге </p>
                             <p class="title is-5">по цене с НДС:
                                 <span class="fc-red">
@@ -48,7 +49,7 @@
                                     </p>
                                   </div>
                               </article>
-                            
+                              <p id="copyToClipboard_btn" class="title is-6 copy_info-btn" @click="copyToClipboard()"><i class="fa fa-clipboard"></i>&nbsp;&nbsp;Скопировать информацию</p>
                             <p class="title is-5 fc-red mt-3 mb-3">Краткое описание</p>
                         </div>
                         {% if product.description %}
@@ -60,7 +61,7 @@
                         <div class="has-text-centered">
                             <p class="title is-5 fc-red mt-6 mb-3">Технические характеристики</p>
                         </div>
-                        <table class="table is-striped is-hoverable is-fullwidth" >
+                        <table class="table is-striped is-hoverable is-fullwidth" id="tech_variables">
                             <tbody>
                                 {% for var in variables %}
                                     <tr>
@@ -82,6 +83,38 @@
 {% endblock %}
 
 {% block scripts %}
+
+<script type="text/javascript">
+function copyToClipboard(e){
+        var copyToClipboardBTN = document.getElementById("copyToClipboard_btn");
+
+        var techVariables = document.getElementById("tech_variables").innerText;
+        var productName = document.getElementById("product_name").innerText;
+        var productURL = document.getElementById("product_name").baseURI;
+        var textToCopy = productName;
+        console.log("Hello");
+        textToCopy += "\n\nТехнические характеристики:\n";
+        textToCopy += techVariables;
+        textToCopy += "\nСсылка на товар: ";
+        textToCopy += productURL;
+
+        // copyToClipboardBTN.onclick = function(){
+        //     copyToClipboard(textToCopy);
+
+        // }
+
+        const storage = document.createElement('textarea');
+        storage.innerHTML = e;
+        document.body.appendChild(storage);
+
+        // Copy the text in the fake `textarea` and remove the `textarea`
+        storage.select();
+        storage.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        storage.parentElement.removeChild(storage);
+    }
+</script>
+
 <script>
   var productapp = new Vue({
     el: '#productapp',
@@ -96,6 +129,28 @@
         console.log('Mounted');
     },
     methods: {
+        copyToClipboard(){
+            var copyToClipboardBTN = document.getElementById("copyToClipboard_btn");
+
+            var techVariables = document.getElementById("tech_variables").innerText;
+            var productName = document.getElementById("product_name").innerText;
+            var productURL = document.getElementById("product_name").baseURI;
+            var textToCopy = productName;
+   
+            textToCopy += "\n\nТехнические характеристики:\n";
+            textToCopy += techVariables;
+            textToCopy += "\nСсылка на товар: ";
+            textToCopy += productURL;
+          
+            const storage = document.createElement('textarea');
+            storage.innerHTML = textToCopy;
+            document.body.appendChild(storage);
+            // Copy the text in the fake `textarea` and remove the `textarea`
+            storage.select();
+            storage.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            storage.parentElement.removeChild(storage);
+        },
         addToCart(product_id){
             console.log('Adding Product_id', product_id);
             var data = {

@@ -102,7 +102,10 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
             # print('!!!_row_!!!',row)
             i = 8
             try:
+              print('slug')
+              print(row[2])
               slug = slugify(str(row[2]))
+              print(slug)
               product = Product.objects.update_or_create(
                 id = count,
                 sku = row[1],

@@ -215,6 +215,15 @@ a.no-hl-link:hover{color: var(--katran-dark);}
 .frontpage--category_tiles p.title{text-shadow: 1px 1px 5px #f8f6fc;}
 .product_table td{ vertical-align: middle;}
 @media screen and (min-width: 350px) and (max-width:769px){
+    body{
+        overflow-x: hidden;
+    }
+    .katran-logo-img{
+        max-width: 90%;
+    }
+    .menu-label{
+        font-size: 1.5rem;
+    }
     .carousel-item--img-wrapper .carousel-item--more-btn{
         opacity: 1;
     }
@@ -236,7 +245,7 @@ a.no-hl-link:hover{color: var(--katran-dark);}
         padding: .75rem 0;
     }
   }
-  @media screen and (min-width:769px){
+@media screen and (min-width:769px){
     .frontpage--category_tiles .tile.is-vertical.is-parent{
         padding-top: 0 !important;
         padding-bottom: 0 !important;
@@ -386,3 +395,9 @@ a.no-hl-link:hover{color: var(--katran-dark);}
     .home-page--cat-banner-img{height:80%;}
   }
  
+  .copy_info-btn{
+    cursor: pointer;
+  }
+  .copy_info-btn .fa-clipboard{
+    color: var(--katran-yelow) !important;
+  }
