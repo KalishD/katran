@@ -13,6 +13,7 @@ def blog(request):
     posts = Post.objects.all().order_by("-created_at")
     context = {'posts': posts,}
 
+
     return render(request, 'blog.html', context)
 
 def post_detail(request, category_slug, slug):
