@@ -15,6 +15,10 @@ def frontpage(request):
 
     return render(request, 'frontpage.html', context)
 
+def politics(request):
+    context = {}
+    return render(request, 'politics.html', context)
+
 def production(request):
     mp006 = Product.objects.filter(sku = 1011040).first()
     mp01122 = Product.objects.filter(sku = 1011030).first()

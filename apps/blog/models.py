@@ -19,7 +19,7 @@ class Post(models.Model):
     body = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-    category = models.ForeignKey(PostCategory, on_delete=models.CASCADE)
+    postcategory = models.ForeignKey(PostCategory, on_delete=models.CASCADE)
 
     image = models.ImageField(upload_to="uploads/posts/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
     thumbnail = models.ImageField(upload_to="uploads/posts/", blank=True, null=True)
@@ -38,7 +38,7 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return '/%s/%s' % (self.category.slug, self.slug)
+        return '/%s/%s' % (self.postcategory.slug, self.slug)
 
     def make_thumbnail(self, image, size=(60, 60)):
         img = Image.open(image)

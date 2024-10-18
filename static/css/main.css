@@ -401,3 +401,7 @@ a.no-hl-link:hover{color: var(--katran-dark);}
   .copy_info-btn .fa-clipboard{
     color: var(--katran-yelow) !important;
   }
+  .search-btn{
+    justify-content: end;
+    display: flex;
+  }

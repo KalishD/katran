@@ -6,8 +6,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент</title>
-  
+  <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент в СПБ</title>
+  <meta iterprop="description" name="description" content=""/>
+  <meta iterprop="keywords" name="keywords" content=""/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -83,7 +84,7 @@
               </div>
             </div>
 
-            <a class="navbar-item">
+            <a href="{% url 'blog' %}" class="navbar-item">
               Статьи
             </a>
 
@@ -97,16 +98,7 @@
           </div>
       
           <div class="navbar-end">
-            <div class="navbar-item">
-              <form  method="get" action="{% url 'search' %}">
-                <div class="search" :class="{ 'is-active': searchClass }">
-                  <div class="icon" @click="toggleSearch()"></div>
-                  <div class="search-input">
-                    <input id="katran-search" type="text" class="input" placeholder="Поиск..." name="query">
-                  </div>
-                </div>
-              </form>
-            </div>
+
             <div class="navbar-item">
               <div class="buttons">
                 <a class="button is-primary" href="{% url 'cart' %}">
@@ -129,6 +121,16 @@
                 <p class="heading">ЗВОНИТЕ НАМ ПН-ПТ 9:30 - 17:30</p>
                 <p class="title is-5"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
             </div>
+            <div class="search-btn">
+              <form  method="get" action="{% url 'search' %}">
+                <div class="search" :class="{ 'is-active': searchClass }">
+                  <div class="icon" @click="toggleSearch()"></div>
+                  <div class="search-input">
+                    <input id="katran-search" type="text" class="input" placeholder="Поиск..." name="query">
+                  </div>
+                </div>
+              </form>
+            </div>
         </div>
         <div class="column has-text-centered">
             <div>
@@ -139,9 +141,12 @@
       </div>
       <hr>
     </div>
+
+
     {% block content %}
 
     {% endblock %}
+
 
   </div>
   <footer class="footer mt-6">
@@ -157,7 +162,7 @@
             <p>Информация на сайте не является публичной офертой</p>
           </div>
         </div>
-        <div class="column">
+        <div class="column is-multiline">
           <div>
             <h3 class="title is-3">Контакты</h3>
             <p class="heading">ЗВОНИТЕ НАМ ПН-ПТ 9:30 - 17:30</p>

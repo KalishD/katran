@@ -20,9 +20,9 @@ from import_export.admin import ExportActionMixin
 
 @admin.register(Post)
 class PostAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ("title","category","created_at")
+    list_display = ("title","postcategory","created_at")
     search_fields = ("title__contains",)
-    fields = ("category","title","slug","body","image")
+    fields = ("postcategory","title","slug","body","image")
     prepopulated_fields = {'slug': ('title',) }
 
 @admin.register(PostCategory)

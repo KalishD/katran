@@ -20,8 +20,9 @@ def search(request):
 
 def product_detail(request, category_slug, slug):
     product = get_object_or_404(Product, slug=slug)
+    category = product.category
     variables = product.variable_set.all()
-    context = {'product': product, 'variables': variables}
+    context = {'product': product, 'category': category, 'variables': variables}
 
     return render(request, 'product_detail.html', context)
 

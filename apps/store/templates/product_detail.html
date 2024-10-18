@@ -1,27 +1,37 @@
 {% extends 'base.html' %}
-{% block title %}{{ product.title }} купить по выгодной цене{% endblock %}
+{% block title %}Купить {{ product.title }} по цене 
+    {% if product.price != 0 %}
+        {{ product.price|floatformat:2 }}
+        c НДС
+    {% else %}
+        По запросу
+    {% endif %}
+{% endblock %}
 {% block content %}
     <div class="columns">
         {% include "side-bar.html" %}
         <div class="column has-text-centered-touch">
             <div id="productapp">
                 
-                <div class="columns is-desktop">
-                    <div class="column is-half">
-                        <img src="{{ product.image.url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                <div itemscope itemtype="http://schema.org/Product" class="columns is-desktop">
+                    <div class="column is-half-desktop is-full-mobile">
+                        <img itemprop="image" src="{{ product.image.url }}" alt="{{ product.title }}" title="{{ product.title }}">
                         
                     </div>
-                    <div class="column">
+                    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="column">
                         <div class="has-text-centered">
-                            <h1 class="title is-3" id="product_name">{{ product.title }}</h1>
+                            <h1 itemprop="name" class="title is-3" id="product_name">{{ product.title }}</h1>
                             <p class="subtitle is-5">Купить со склада в Санкт-Петербурге </p>
                             <p class="title is-5">по цене с НДС:
                                 <span class="fc-red">
-                                {% if product.price != 0 %}
-                                    {{ product.price|floatformat:2 }}
-                                {% else %}
-                                    По запросу
-                                {% endif %}
+                                    <meta itemprop="price" content={{ product.price|floatformat:2 }} />
+                                    <meta itemprop="priceCurrency" content="RUB" />
+                                    <link itemprop="availability" href="http://schema.org/InStock" />    
+                                        {% if product.price != 0 %}
+                                            {{ product.price|floatformat:2 }}
+                                        {% else %}
+                                            По запросу
+                                        {% endif %}
                                 </span>
                             </p>
                             <button class="button is-black is-normal" @click="addToCart({{ product.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
@@ -30,7 +40,7 @@
                                   <strong>{{ product.title }}</strong> добавлен в корзину.
                                 </div>
                             </article>
-                            <article class="media has-text-left mt-3">
+                            <article class="media has-text-left-desktop has-text-centered-mobile mt-3">
                                 <figure class="media-left">
                                   <p class="image is-64x64">
                                     <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">
@@ -43,18 +53,18 @@
                                 <div class="media-content">
                                   <div class="content">
                                     <p>
-                                      Производитель: <strong><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></strong>
+                                      Производитель: <strong><a itemprop="brand" class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></strong>
                                       <br>
                                       {{ product.brand.description }}
                                     </p>
                                   </div>
-                              </article>
-                              <p id="copyToClipboard_btn" class="title is-6 copy_info-btn" @click="copyToClipboard()"><i class="fa fa-clipboard"></i>&nbsp;&nbsp;Скопировать информацию</p>
-                            <p class="title is-5 fc-red mt-3 mb-3">Краткое описание</p>
+                            </article>
+                            <p id="copyToClipboard_btn" class="title is-6 copy_info-btn" @click="copyToClipboard()"><i class="fa fa-clipboard"></i>&nbsp;&nbsp;Скопировать информацию</p>
                         </div>
+                        <p class="title is-5 fc-red mt-3 mb-3">Краткое описание</p>
                         {% if product.description %}
-                            <p class="content">
-                                {{ product.description }}
+                            <p itemprop="description" class="content">
+                                {{ product.description | safe }}
                             </p>
                         {% endif %}
                         {% if variables %}
@@ -65,8 +75,8 @@
                             <tbody>
                                 {% for var in variables %}
                                     <tr>
-                                        <td>{{ var.varitem.title }}</td>
-                                        <td>{{ var.value }}&nbsp;&nbsp;{% if var.varitem.dimention %}{{var.varitem.dimention}}{% endif %}</td>
+                                        <td class="has-text-centered-desktop has-text-left-mobile">{{ var.varitem.title }}</td>
+                                        <td class="has-text-left">{{ var.value }}&nbsp;&nbsp;{% if var.varitem.dimention %}{{var.varitem.dimention}}{% endif %}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -86,32 +96,27 @@
 
 <script type="text/javascript">
 function copyToClipboard(e){
-        var copyToClipboardBTN = document.getElementById("copyToClipboard_btn");
+    var copyToClipboardBTN = document.getElementById("copyToClipboard_btn");
 
-        var techVariables = document.getElementById("tech_variables").innerText;
-        var productName = document.getElementById("product_name").innerText;
-        var productURL = document.getElementById("product_name").baseURI;
-        var textToCopy = productName;
-        console.log("Hello");
-        textToCopy += "\n\nТехнические характеристики:\n";
-        textToCopy += techVariables;
-        textToCopy += "\nСсылка на товар: ";
-        textToCopy += productURL;
+    var techVariables = document.getElementById("tech_variables").innerText;
+    var productName = document.getElementById("product_name").innerText;
+    var productURL = document.getElementById("product_name").baseURI;
+    var textToCopy = productName;
+    console.log("Hello");
+    textToCopy += "\n\nТехнические характеристики:\n";
+    textToCopy += techVariables;
+    textToCopy += "\nСсылка на товар: ";
+    textToCopy += productURL;
 
-        // copyToClipboardBTN.onclick = function(){
-        //     copyToClipboard(textToCopy);
+    const storage = document.createElement('textarea');
+    storage.innerHTML = e;
+    document.body.appendChild(storage);
 
-        // }
-
-        const storage = document.createElement('textarea');
-        storage.innerHTML = e;
-        document.body.appendChild(storage);
-
-        // Copy the text in the fake `textarea` and remove the `textarea`
-        storage.select();
-        storage.setSelectionRange(0, 99999);
-        document.execCommand('copy');
-        storage.parentElement.removeChild(storage);
+    // Copy the text in the fake `textarea` and remove the `textarea`
+    storage.select();
+    storage.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    storage.parentElement.removeChild(storage);
     }
 </script>
 
