@@ -4,28 +4,28 @@
 {% block content %}
 
 <div class="columns" id="frontpageapp">
-    {% include "side-bar.html" %}
-    <div class="column has-text-centered is-three-quarters">
-      <h2 class="title is-3">Российский производитель пневмоинструмента</h2>
+    
+    <div class="column has-text-centered is-full">
+      <h1 class="title is-3">Российский производитель пневмоинструмента</h1>
       <p class="subtitle is-5">Катран-Пневмо</p>
       <div class="content pl-5 pr-5">
-        <p>
+        <p class="has-text-justified">
           Катран-Пневмо — компания, основанная в 1990 году для оснащения судостроительной 
           промышленности качественным пневмоинструментом, специализируется на продажах инструментов 
           и машиностроительного оборудования по системе В2В. Мы предлагаем купить оптом промышленный 
           пневматический инструмент с доставкой по России И СНГ.
         </p>
-        <!-- <p>
+        <p class="has-text-justified">
           Благодаря нашему интернет-магазину katran-pnevmo.ru, мы смогли предоставить покупателям 
           по всей России самый большой ассортимент оригинального и высококачественного пневмоинструмента, 
           который произведен нами и именитыми профильными предприятиями. 
-        </p> -->
+        </p>
       </div>
       <div class="content pl-5 pr-5 ">
         <p class="title is-5 mt-6 mb-4">Подробнее о продукции выпускаемой Катран-Пневмо Вы можете узнать по ссылке ниже.</p>  
         <a href="{% url 'production' %}" class="button is-large is-black p-5"><i class="fa-solid fa-list"></i>&nbsp;&nbsp;УЗНАТЬ ПОДРОБНОСТИ</a>
       </div>
-      <h3 class="title is-3 mt-6">Продукция Катран-Пневмо</h3>
+      <h2 class="title is-3 mt-6">Продукция Катран-Пневмо</h2>
       <p class="subtitle is-5">Пневматический инструмент российского производства</p>  
       <div class="carousel-wrapper">
         <div class="owl-carousel owl-theme">
@@ -56,11 +56,13 @@
         </div>
       </div>
       <div class="columns mt-6 mb-6">
+      </div>
+      <div class="columns mt-6 mb-6">
         <div class="column is-one-third-desktop p-2">
           <div class="home-page-banner-item">
             <img src="{% static 'images/frontpage/home-page-banner-delivery.jpg' %}" alt="">
             <div class="home-page-banner-wrapper">
-              <p class="title is-6">БЫСТРАЯ ДОСТАВКА ДО ТК</p>
+              <h3 class="title is-6">БЫСТРАЯ ДОСТАВКА ДО ТК</h3>
               <p class="subtitle is-6">Отправка по всей России и СНГ! Бесплатная доставка до терминала транспортной компании</p>
             </div>
           </div>
@@ -69,7 +71,7 @@
           <div class="home-page-banner-item">
             <img src="{% static 'images/frontpage/home-page-banner-cogwheel.jpg' %}" alt="">
             <div class="home-page-banner-wrapper">
-              <p class="title is-6">ПРЕДПРОДАЖНАЯ ПОДГОТОВКА</p>
+              <h3 class="title is-6">ПРЕДПРОДАЖНАЯ ПОДГОТОВКА</h3>
               <p class="subtitle is-6">Весь инструмент проверен нашими специалистами и готов к работе "из коробки"</p>
             </div>
           </div>
@@ -78,7 +80,7 @@
           <div class="home-page-banner-item">
             <img src="{% static 'images/frontpage/home-page-banner-shield.jpg' %}" alt="">
             <div class="home-page-banner-wrapper">
-              <p class="title is-6">ГАРАНТИЙНОЕ ОБСЛУЖИВАНИЕ</p>
+              <h3 class="title is-6">ГАРАНТИЙНОЕ ОБСЛУЖИВАНИЕ</h3>
               <p class="subtitle is-6">Многолетний опыт наших специалистов, позволяет проводить ремонт любой сложности.</p>
             </div>
           </div>
@@ -88,7 +90,7 @@
   </div>
   <div class="columns">
     <div class="column is-full has-text-centered">
-      <h3 class="title is-3">Продукция Катран-Пневмо</h3>
+      <h2 class="title is-3">Продукция Катран-Пневмо</h2>
       <p class="subtitle is-5">Пневматический инструмент российского производства</p>
       <div class="carousel-wrapper">
         <div class="carousel owl-carousel owl-theme" id="cang-carousel">
@@ -122,7 +124,7 @@
   </div>
   <div class="columns">
     <div class="column is-full has-text-centered">
-      <h3 class="title is-3 mt-6 mb-6">Продукция Катран-Пневмо</h3>
+      <h2 class="title is-3 mt-6 mb-6">Продукция Катран-Пневмо</h2>
       <p class="subtitle is-5">Пневматический инструмент российского производства</p>
       
       <div class="carousel-wrapper">
@@ -158,113 +160,7 @@
   <div class="katran--free_space"></div>
   <div class="katran--free_space"></div>
   <div class="katran--free_space"></div>
-  <div class="frontpage--category_tiles">
-    <div class="tile is-ancestor">
-      <div class="tile is-5 is-parent">
-        <a href="{% url 'category_detail' 'cangairgrinders'%}" class="tile">
-          <div class="tile is-child box grinder_tile">
-            <p class="title">Шлифовальные машины</p>
-          </div>
-        </a>
-      </div>
-      <div class="tile is-parent">
-        <div class="tile is-6 is-vertical is-parent">
-          <a href="#" class="tile">
-            <div class="tile is-child box angle_tile">
-              <p class="title">угловые</p>
-            </div>
-          </a>
-          <a href="#" class="tile">
-            <div class="tile is-child box cang_tile">
-              <p class="title">цанговые</p>
-            </div>
-          </a>
-        </div>
-        <div class="tile is-6 is-vertical is-parent">
-          <a href="#" class="tile">
-            <div class="tile is-child box strate_tile">
-              <p class="title">прямые</p>
-            </div>
-          </a>
-          <a href="#" class="tile">
-            <div class="tile is-child box trambov_tile">
-              <p class="title">Трамбовки</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="tile is-ancestor">
-      <div class="tile is-5 is-parent">
-        <a href="#" class="tile">
-          <div class="tile is-child box hammer_tile">
-            <p class="title">Молотки</p>
-          </div>
-        </a>
-      </div>
-      <div class="tile is-parent">
-        <div class="tile is-6 is-vertical is-parent">
-          <a href="#" class="tile">
-            <div class="tile is-child box otboy_tile">
-              <p class="title">отбойные</p>
-            </div>
-          </a>
-          <a href="#" class="tile">
-            <div class="tile is-child box rubil_tile">
-              <p class="title">рубильные</p>
-            </div>
-          </a>
-        </div>
-        <div class="tile is-6 is-vertical is-parent">
-          <a href="#" class="tile">
-            <div class="tile is-child box beton_tile">
-              <p class="title">Бетоноломы</p>
-            </div>
-          </a>
-          <a href="#" class="tile">
-            <div class="tile is-child box tools_tile">
-              <p class="title">Инструментальные принадлежности</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="tile is-ancestor">
-      <div class="tile is-5 is-parent">
-        <a href="#" class="tile">
-          <div class="tile is-child box wrench_tile">
-            <p class="title">Гайковерты</p>
-          </div>
-        </a>
-      </div>
-      <div class="tile is-parent">
-        <div class="tile is-6 is-vertical is-parent">
-          <a href="#" class="tile">
-            <div class="tile is-child box vint_tile">
-              <p class="title">Винтоверты</p>
-            </div>
-          </a>
-          <a href="#" class="tile">
-            <div class="tile is-child box drill_tile">
-              <p class="title">Сверлильные машины</p>
-            </div>
-          </a>
-        </div>
-        <div class="tile is-6 is-vertical is-parent">
-          <a href="#" class="tile">
-            <div class="tile is-child box paint_tile">
-              <p class="title">Окрасочное оборудование</p>
-            </div>
-          </a>
-          <a href="#" class="tile">
-            <div class="tile is-child box zap_tile">
-              <p class="title">Запчасти</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <div class="posts">
     {% for p in posts %}
       <p class="title">{{ p.title }}</p>

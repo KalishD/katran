@@ -20,9 +20,9 @@
                     </div>
                     <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="column">
                         <div class="has-text-centered">
-                            <h1 itemprop="name" class="title is-3" id="product_name">{{ product.title }}</h1>
-                            <p class="subtitle is-5">Купить со склада в Санкт-Петербурге </p>
-                            <p class="title is-5">по цене с НДС:
+                            <h1 itemprop="name" class="title is-5" id="product_name">{{ product.title }}</h1>
+                            <p class="subtitle is-6">Купить со склада в Санкт-Петербурге </p>
+                            <p class="title is-6">по цене с НДС:
                                 <span class="fc-red">
                                     <meta itemprop="price" content={{ product.price|floatformat:2 }} />
                                     <meta itemprop="priceCurrency" content="RUB" />
@@ -40,26 +40,34 @@
                                   <strong>{{ product.title }}</strong> добавлен в корзину.
                                 </div>
                             </article>
-                            <article class="media has-text-left-desktop has-text-centered-mobile mt-3">
-                                <figure class="media-left">
-                                  <p class="image is-64x64">
-                                    <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">
-                                        <img src="{{ product.brand.thumbnail.url }}"
-                                            alt="Пневмоинструмент фирмы {{ product.brand }}"
-                                            title="Пневмоинструмент фирмы {{ product.brand }}">
-                                    </a>
-                                  </p>
-                                </figure>
-                                <div class="media-content">
-                                  <div class="content">
-                                    <p>
-                                      Производитель: <strong><a itemprop="brand" class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></strong>
-                                      <br>
-                                      {{ product.brand.description }}
+                            {% if product.brand %}
+                                <article class="media has-text-left-desktop has-text-left-mobile mt-3">
+                                    <figure class="media-left">
+                                    <p class="image is-64x64">
+                                        <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">
+                                            <img src="{{ product.brand.thumbnail.url }}"
+                                                alt="Пневмоинструмент фирмы {{ product.brand }}"
+                                                title="Пневмоинструмент фирмы {{ product.brand }}">
+                                        </a>
                                     </p>
-                                  </div>
-                            </article>
-                            <p id="copyToClipboard_btn" class="title is-6 copy_info-btn" @click="copyToClipboard()"><i class="fa fa-clipboard"></i>&nbsp;&nbsp;Скопировать информацию</p>
+                                    </figure>
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <p class="title is-6 has-text-left">
+                                            Производитель: <strong><a itemprop="brand" class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></strong>
+                                            </p>
+                                            <p class="subtitle is-6 has-text-left">
+                                            {{ product.brand.description }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                            {% endif %}
+                            <p id="copyToClipboard_btn" class="title is-6 copy_info-btn"
+                            @click="copyToClipboard()">
+                            <i class="fa fa-clipboard"></i>
+                            &nbsp;&nbsp;Скопировать информацию
+                    </p>
                         </div>
                         <p class="title is-5 fc-red mt-3 mb-3">Краткое описание</p>
                         {% if product.description %}

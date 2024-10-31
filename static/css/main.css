@@ -15,8 +15,8 @@ body{
 }
 .search{
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border-radius: 50px;
     background: #f8f6fc;
     transition: .5s;
@@ -47,8 +47,8 @@ body{
     position: absolute;
     top: 0;
     left: 0;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     background: var(--katran-white-color);
     border-radius: 50px;
     display: flex;
@@ -79,8 +79,8 @@ body{
 .search .search-input{
     position: relative;
     width: 310px;   
-    height: 50px;
-    left: 50px;
+    height: 45px;
+    left: 45px;
     display: flex;
     justify-content: center;
     align-items: center;

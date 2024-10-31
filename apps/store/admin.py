@@ -24,6 +24,13 @@ class VariableInline(admin.TabularInline):
 class CsvImportForm(forms.Form):
     csv_files = forms.FileField()
 
+# CSV Import Products
+class CsvImportProductForm(forms.Form):
+    csv_files = forms.FileField()
+    csv_files_1 = forms.FileField()
+
+
+
 @admin.register(VariableItem)
 class VariableItemAdmin(admin.ModelAdmin):
   change_list_template = "variableitem_changelist.html"
@@ -39,7 +46,7 @@ class VariableItemAdmin(admin.ModelAdmin):
     if request.method == "POST":
       csv_file = request.FILES["csv_files"]
       with io.TextIOWrapper(csv_file, encoding="utf-8") as text_file:
-        reader = csv.reader(text_file, lineterminator='\n', delimiter=',')
+        reader = csv.reader(text_file, lineterminator='\n', delimiter=';')
         for row in reader:
           try:
             varitem = VariableItem.objects.get_or_create(
@@ -89,7 +96,7 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
     form = CsvImportForm()
     payload = {"form": form}
     return render(
-      request, "csv_form.html", payload
+      request, "csv_form_price.html", payload
     )
   
   def import_csv(self, request):
@@ -100,25 +107,24 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
           for count, row in enumerate(reader, start=1):
             # print('Product #',count, type(count))
             # print('!!!_row_!!!',row)
-            i = 8
+            i = 7
             try:
-              print('slug')
-              print(row[2])
-              slug = slugify(str(row[2]))
-              print(slug)
+              slug = slugify(str(row[1]))
+              if row[0] == '2865':
+                print('DAG')
               product = Product.objects.update_or_create(
-                id = count,
-                sku = row[1],
-                title = row[2],
+                id = int(row[0]),
+                sku = int(row[0]),
+                title = row[1],
                 slug = slug,
-                description = row[3],
-                price = row[6],
+                description = row[5],
+                price = float(row[3].replace(',', '.')),
                 is_features = 0,
-                category_id = row[5],
-                brand_id = row[4],
+                category_id = int(row[2]) if row[2] != '' else None,
+                brand_id = int(row[6]) if row[6] != '' else None,
               )
-              if row[7]:
-                url = row[7]
+              if row[4]:
+                url = row[4]
                 parse_object = urlparse(url)
                 domain = parse_object.netloc
                 path = parse_object.path
@@ -126,20 +132,23 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
                 # print('Domain, path, filename',domain, path, filename)
                 response = requests.get(url)
                 response_content = BytesIO(urlopen(url).read())
-                pil_image = Image.open(response_content)
+                pil_image = Image.open(response_content).convert('RGB')
                 django_file = pil_to_django(pil_image)
                 product[0].image.save(filename, django_file)
               tmp_row = []
-              while row[i] != '': 
-                # tmp_row.extend((row[i],row[i+1]))
-                product[0].variable_set.get_or_create(
-                  varitem = VariableItem.objects.filter(id = int(row[i]))[0],
-                  value = row[i+1]
-                )
-                i += 2  
+              if row[i] != '':
+                while row[i] != '': 
+                  # tmp_row.extend((row[i],row[i+1]))
+                  product[0].variable_set.get_or_create(
+                    varitem = VariableItem.objects.filter(id = int(row[i]))[0],
+                    value = row[i+1]
+                  )
+                  i += 2  
             except Exception as inst:
               print('Error, line #', count)
               print(inst)
+              print(row[0])
+              print(i)
           self.message_user(request, "Your csv file has been imported")
           return redirect("..")
     form = CsvImportForm()
@@ -192,8 +201,16 @@ class MainCategoryAdmin(admin.ModelAdmin):
 # admin.site.register(Category)
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-  list_display = ("title", "main_category", "ordering","product_count")
+  
+  change_list_template = "category_changelist.html"
 
+  def get_urls(self):
+    urls = super().get_urls()
+    my_urls = [
+        path('import-csv/', self.import_csv),
+    ]
+    return my_urls + urls
+  
   def product_count(self, obj):
     count = Product.objects.filter(category=obj).count()
 
@@ -208,10 +225,71 @@ class CategoryAdmin(admin.ModelAdmin):
     form = super().get_form(request, obj, **kwargs)
     form.base_fields["title"].label = "Название: "
     return form
-    
 
+  def import_csv(self, request):
+    if request.method == "POST":
+        csv_file = request.FILES["csv_files"]
+        with io.TextIOWrapper(csv_file, encoding="utf-8") as text_file:
+          reader = csv.reader(text_file, lineterminator='\n', delimiter = ';')
+          for count, row in enumerate(reader, start=1):
+            try:
+              print('******')
+              print('Category #', count)
+              print('-=-=-=-=-=-=-=-=-')
+              print('row[0] :', row[0])
+              print('-=-=-=-=-=-=-=-=-')
+              print('row[1] :', row[1])
+              print('-=-=-=-=-=-=-=-=-')
+              slug = slugify(str(row[1]))
+              print('slug :', slug)
+              print('-=-=-=-=-=-=-=-=-')
+              print('Main Category ID check :')
+              cat_id = int(row[0])
+              print('cat_id', cat_id)
+              print('-')
+              if cat_id in range(1,17):
+                print('mcat #1')
+                mcat_id = 5
+              elif cat_id in range(17,20):
+                print('mcat #2')
+                mcat_id = 9
+              elif cat_id in range(20,23):
+                print('mcat #3')
+                mcat_id = 7
+              elif cat_id in range(23,26):
+                print('mcat #4')
+                mcat_id = 8
+              elif cat_id in range(26,34):
+                print('mcat #5')
+                mcat_id = 6
+                
+              print('main_category_id :', mcat_id)
+              print('-=-=-=-=-=-=-=-=-')
+              print('category create :')
+
+                  
+              category = Category.objects.update_or_create(
+                id = row[0],
+                title = row[1],
+                main_category_id = mcat_id, 
+                slug = slug,
+                description = row[1],
+                is_features = 0,
+              )
+            except Exception as inst:
+              print('Error, line #', count)
+              print(inst)
+          self.message_user(request, "Your csv file has been imported")
+          return redirect("..")
+    form = CsvImportForm()
+    payload = {"form": form}
+    return render(
+        request, "csv_form.html", payload
+    )
+      
+  list_display = ("title", "id", "main_category", "is_features", "description", "ordering","product_count")
   product_count.short_description = "Products"
-  fields = ("main_category","title","slug","ordering")
+  fields = ("title", "main_category", "is_features", "description", "ordering", "slug")
   prepopulated_fields = {'slug': ('title',) }
   
 

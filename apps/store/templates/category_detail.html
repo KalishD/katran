@@ -6,7 +6,8 @@
         {% include "side-bar.html" %}
         <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
             <h1 class="title is-3">{{ category.title }}</h1>
-            <hr>
+            <p class="subtitle is-6">{{ category.description }}</p>
+            <p></p>
             {% if products %}
             <div class="table-container is-fullwidth product-table">
                 <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
@@ -52,7 +53,13 @@
                                         <p>{{product.title}}</p>
                                     </a>
                                 </td>
-                                <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
+                                <td>
+                                    {% if product.brand%}
+                                        <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+
                                 <td>
                                     <span class="fc-red">
                                     {% if product.price != 0 %}
