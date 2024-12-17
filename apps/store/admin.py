@@ -16,6 +16,9 @@ from urllib.request import urlopen
 from apps.core.utils import *
 from import_export.admin import ExportActionMixin
 
+from django_summernote.admin import SummernoteModelAdmin
+
+
 class VariableInline(admin.TabularInline):
   model = Variable
   raw_id_fields = ['product']
@@ -67,7 +70,7 @@ class VariableItemAdmin(admin.ModelAdmin):
     
 # admin.site.register(Product)
 @admin.register(Product)
-class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
+class ProductAdmin(ExportActionMixin, SummernoteModelAdmin, admin.ModelAdmin):
   
   change_list_template = "products_changelist.html"
 
@@ -163,6 +166,7 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
   prepopulated_fields = {'slug': ('title',) }
   inlines = [VariableInline]
   save_as = True
+  summernote_fields = ('description',)
   def product_category(self,obj):
     url = (
       reverse("admin:store_product_changelist")

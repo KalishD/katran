@@ -15,23 +15,24 @@ from urllib.parse import parse_qsl, urljoin, urlparse
 from urllib.request import urlopen
 from apps.core.utils import *
 from import_export.admin import ExportActionMixin
-
+from django_summernote.admin import SummernoteModelAdmin
 # Register your models here.
 
 @admin.register(Post)
-class PostAdmin(ExportActionMixin, admin.ModelAdmin):
+class PostAdmin(ExportActionMixin, SummernoteModelAdmin, admin.ModelAdmin):
     list_display = ("title","postcategory","created_at")
     search_fields = ("title__contains",)
     fields = ("postcategory","title","slug","body","image")
+    summernote_fields = ('body',)
     prepopulated_fields = {'slug': ('title',) }
 
 @admin.register(PostCategory)
 class PostCategoryAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ("name","posts_count")
-    fields = ("name","slug","body")
+    fields = ("name","slug")
     prepopulated_fields = {'slug': ('name',) }
     def posts_count(self, obj):
-        count = Post.objects.filter(category=obj).count()
+        count = Post.objects.filter(postcategory=obj).count()
 
         url = (
         reverse("admin:blog_post_changelist")

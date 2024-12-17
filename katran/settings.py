@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
-
+    
     'apps.cart',
     'apps.core',
     'apps.store',
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
     'phonenumber_field',
     'fontawesomefree',
+    'django_summernote',
 
 ]
 

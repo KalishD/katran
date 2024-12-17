@@ -19,7 +19,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from django.conf import settings
-
+from django.conf.urls import include
 from apps.cart.views import cart_detail, success
 from apps.core.views import frontpage, production, about
 from apps.store.views import category_detail, product_detail, catalog, brand_detail, search
@@ -57,6 +57,7 @@ urlpatterns = [
 
     path('blog/', blog, name="blog"),
     path('<slug:slug>/', post_detail, name='post_detail'),
+    path('summernote/', include('django_summernote.urls')),
 ]
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

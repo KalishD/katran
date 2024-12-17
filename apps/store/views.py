@@ -22,7 +22,11 @@ def product_detail(request, category_slug, slug):
     product = get_object_or_404(Product, slug=slug)
     category = product.category
     variables = product.variable_set.all()
-    context = {'product': product, 'category': category, 'variables': variables}
+    keywords = 'Купить '\
+                + product.title\
+                + (' по цене ' + str(product.price) if product.price != 0 else '')\
+                + 'со склада в СПб'
+    context = {'product': product, 'category': category, 'variables': variables, 'keywords': keywords,}
 
     return render(request, 'product_detail.html', context)
 
