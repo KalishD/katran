@@ -209,6 +209,31 @@ footer.footer.katran-footer{
 {
     color: var(--katran-yelow) !important;
 }
+
+.category-top {
+    display: flex;
+    flex-wrap: wrap;
+    /*width: 80%;*/
+}
+.category-top a{
+
+}
+.category-top  a .category-block{
+    margin: 6pt 3pt 0 3pt;
+    height: 25pt;
+    border-radius: 50pt;
+    border: 1px #676f79 solid;
+    padding:  6.23pt 15pt;
+    width: fit-content;
+    cursor: pointer;
+}
+.category-top a .category-block  p{
+    line-height: 1;
+    font-size: 12.5pt;
+    color: #676f79;
+}
+
+
 a.no-hl-link{color: var(--katran-font-color);}
 a.no-hl-link:hover{color: var(--katran-dark);}
 .katran--free_space{min-height: 2rem;height: 2rem;content: "";}

@@ -7,15 +7,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент в СПБ</title>
-  <meta iterprop="description" name="description" content="{% block description %}{% endblock %}"/>
-  <meta iterprop="keywords" name="keywords" content="{% block keywords %}{% endblock %}"/>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  
   <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
+  
   <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  
+  <meta name="description" content="{% block description %}Пневмоинструмент{% endblock %} широкий выбор: характеристики, фото, видео, отзывы, в интернет-магазине katran-pnevmo.ru | 🚛 Доставка в Санкт-Петербурге и по России" />
+  <link rel="canonical" href="{% block canonicalurl %}https://katran-pnevmo.ru{% endblock %}" />
+  <meta property="og:site_name" content="Интернет-магазин пневматического инструмента katran-pnevmo.ru" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{% block ogurl %}https://katran-pnevmo.ru{% endblock %}" />
+  <meta property="og:title" content="{% block ogtitle %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент в СПБ" />
+  <meta property="og:image" content="{% block ogimage %}{% endblock %}" />
+  <meta property="og:country_name" content="Россия" />
+  <meta property="og:email" content="office@katran-pnevmo.ru" />
+  <meta iterprop="keywords" name="keywords" content="{% block keywords %}{% endblock %}"/>
+
 </head>
 <body>
   <div id="main_container" class="container is-widescreen">

@@ -56,7 +56,7 @@ urlpatterns = [
     #BLOG
 
     path('blog/', blog, name="blog"),
-    path('<slug:slug>/', post_detail, name='post_detail'),
+    path('blog/<slug:slug>/', post_detail, name='post_detail'),
     path('summernote/', include('django_summernote.urls')),
 ]
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

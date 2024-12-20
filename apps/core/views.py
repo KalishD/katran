@@ -1,16 +1,22 @@
 from multiprocessing import context
 from django.shortcuts import render
 
-from apps.store.models import Product
+from apps.store.models import Product, Category
 from apps.blog.models import Post
 def frontpage(request):
     katran_products = Product.objects.filter(brand = 1).order_by('sku')
     cangairgrinders = Product.objects.filter(category = 1).order_by('sku')
+    featurescategories = Category.objects.filter(is_features = 1).order_by('ordering')
     posts = Post.objects.all()
+    keywords = ''
+    description = ''
     context = {
         'katran_products': katran_products,
         'cangairgrinders': cangairgrinders,
         'posts': posts,
+        'featurescategories': featurescategories,
+        'keywords': keywords,
+        'description': description,
     }
 
     return render(request, 'frontpage.html', context)
@@ -32,6 +38,8 @@ def production(request):
     mp011_list = [mp01115,mp01122,mp011s]
     rm_list = [rm8,rm12,rm16]
     tramb_list = [tp28a, tpv3a]
+    keywords = ''
+    description = ''
     context = {
         'mp006': mp006,
         'mp01122': mp01122,
@@ -43,11 +51,18 @@ def production(request):
         'mp011_list': mp011_list,
         'rm_list': rm_list,
         'tramb_list': tramb_list,
+        'keywords': keywords,
+        'description': description,
     }
 
     return render(request, 'production.html', context)
 
 
 def about(request):
-    context = {}
+    keywords = ''
+    description = ''
+    context = {
+        'keywords': keywords,
+        'description': description,
+    }
     return render(request, 'about.html', context)

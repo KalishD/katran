@@ -15,7 +15,7 @@ def blog(request):
 
     return render(request, 'blog.html', context)
 
-def post_detail(request, postcategory_slug, slug):
+def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     context = {'post': post}
 
