@@ -1,86 +1,134 @@
 {% extends 'base.html' %}
 {% load store_extras %}
 {% block title %}Каталог {{ category.title }}{% endblock %}
-{% block description %}{% endblock %}
-{% block keywords %}{% endblock %}
+{% block description %} {{ description }} {% endblock %}
+{% block keywords %} {{ keywords }} {% endblock %}
 {% block content %}
-    <div class="columns">
-        {% include "side-bar.html" %}
-        <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
-            <h1 class="title is-3">{{ category.title }}</h1>
-            <p class="subtitle is-6">{{ category.description }}</p>
-            <p></p>
-            {% if products %}
-            <div class="table-container is-fullwidth product-table">
-                <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Наименование</th>
-                            <th>Производитель</th>
-                            <th>Цена</th>
+<style>
+  .tag.is-active { background-color: #3273dc !important; color: white !important; }
+  .sort-button .icon { visibility: hidden; }
+  .sort-button.is-active .icon { visibility: visible; }
+  .tag { cursor: pointer; transition: background-color 0.3s, color 0.3s; }
+  .tag:hover { background-color: #dbdbdb; }
+  .tag.is-active:hover { background-color: #2456a6 !important; }
+</style>
 
-                            {% for var in all_cat_vars %}
-                            <th>
-                                {{var}}
-                                <br>
-                                {% if var.dimention %}
-                                    {{ var.dimention}}
-                                {% endif %}
-                            </th>
-                        {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product in products %}
-                            <tr>
-                                <td class="th-w-img p-0">
-                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
-                                        <img src="{{ product.thumbnail.url }}"
-                                        alt="{{ product.title }}"
-                                        title="{{ product.title }}">
-                                    </a>
-                                </td>
-                                <td>
-                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
-                                        <p>{{product.title}}</p>
-                                    </a>
-                                </td>
-                                <td>
-                                    {% if product.brand%}
-                                        <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
-                                    {% else %}
-                                        -
-                                    {% endif %}
+<div class="columns">
+  {% include "side-bar.html" %}
+  <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="{% url 'category_detail' category.slug %}" class="no-hl-link">{{category.title}}</a></li>
+      </ul>
+    </nav>
 
-                                <td>
-                                    <span class="fc-red">
-                                    {% if product.price != 0 %}
-                                        {{ product.price|floatformat:2 }}
-                                    {% else %}
-                                        По запросу
-                                    {% endif %}
-                                    </span>
-                                </td>
-                                {% for var in all_cat_vars %}
-                                    {% if product.variable_set|variable_by_var:var %}
-                                        {% with product.variable_set|variable_by_var:var as variable %}
-                                            <td>{{variable.value}}</td>
-                                        {% endwith %}
-                                    {% else %}
-                                        <td>-</td>
-                                    {% endif %}
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% else %}
-                <h2 class="subtitle is-5">Нет товаров в этой категории</h2>
-            {% endif%}
-            
+    <h1 class="title is-3">{{ category.title }}</h1>
+    <p class="subtitle is-6">{{ category.description }}</p>
+
+    {% if products %}
+      <div class="field is-grouped">
+        <!-- Переключение вида -->
+        <div class="control">
+          <span class="tags has-addons">
+            <span class="tag is-dark">Вид:</span>
+            <span id="btnGrid" class="tag" onclick="switchView('grid')">
+              <span class="icon"><i class="fas fa-th"></i></span>
+            </span>
+            <span id="btnList" class="tag" onclick="switchView('list')">
+              <span class="icon"><i class="fas fa-bars"></i></span>
+            </span>
+          </span>
         </div>
-    </div>
+
+        <!-- Сортировка -->
+        <div class="control">
+          <span class="tags has-addons">
+            <span class="tag is-dark">Сортировать по:</span>
+            <span id="sortTitle" class="tag sort-button" onclick="changeSort('title')">
+              Название <span class="icon"><i id="iconTitle" class="fas"></i></span>
+            </span>
+            <span id="sortPrice" class="tag sort-button" onclick="changeSort('price')">
+              Цена <span class="icon"><i id="iconPrice" class="fas"></i></span>
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Контейнер товаров -->
+      <div id="productContainer"></div>
+    {% else %}
+      <h2 class="subtitle is-5">Нет товаров в этой категории</h2>
+    {% endif %}
+  </div>
+</div>
 {% endblock %}
 
+{% block scripts %}
+<script>
+  let currentView = 'grid';
+  let currentSortField = 'title';
+  let currentSortOrder = 'desc';
+  const slug = "{{ category.slug }}";
+
+  function loadView() {
+    const url = `/catalog/${slug}/${currentView}/?sort_field=${currentSortField}&sort_order=${currentSortOrder}`;
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('productContainer').innerHTML = html;
+        updateViewButtons();
+        updateSortButtons();
+      });
+  }
+
+  function switchView(view) {
+    currentView = view;
+    updateViewButtons();
+    loadView();
+  }
+
+  function changeSort(field) {
+    if (currentSortField === field) {
+      currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+    } else {
+      currentSortField = field;
+      currentSortOrder = 'asc';
+    }
+    updateSortButtons();
+    loadView();
+  }
+
+  function updateSortButtons() {
+    const sortTitleBtn = document.getElementById('sortTitle');
+    const sortPriceBtn = document.getElementById('sortPrice');
+    const iconTitle = document.getElementById('iconTitle');
+    const iconPrice = document.getElementById('iconPrice');
+
+    sortTitleBtn.classList.remove('is-active');
+    sortPriceBtn.classList.remove('is-active');
+    iconTitle.className = 'fas';
+    iconPrice.className = 'fas';
+
+    if (currentSortField === 'title') {
+      sortTitleBtn.classList.add('is-active');
+      iconTitle.classList.add(currentSortOrder === 'asc' ? 'fa-arrow-up' : 'fa-arrow-down');
+    } else if (currentSortField === 'price') {
+      sortPriceBtn.classList.add('is-active');
+      iconPrice.classList.add(currentSortOrder === 'asc' ? 'fa-arrow-up' : 'fa-arrow-down');
+    }
+  }
+
+  function updateViewButtons() {
+    document.getElementById('btnGrid').classList.toggle('is-active', currentView === 'grid');
+    document.getElementById('btnList').classList.toggle('is-active', currentView === 'list');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateSortButtons();
+    updateViewButtons();
+    loadView();
+  });
+</script>
+{% endblock %}

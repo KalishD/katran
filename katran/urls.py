@@ -22,7 +22,7 @@ from django.conf import settings
 from django.conf.urls import include
 from apps.cart.views import cart_detail, success
 from apps.core.views import frontpage, production, about
-from apps.store.views import category_detail, product_detail, catalog, brand_detail, search
+from apps.store.views import category_detail, product_detail, catalog, brand_detail, search, category_list, category_grid
 from apps.blog.views import blog, post_detail
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
 
@@ -43,10 +43,12 @@ urlpatterns = [
     path('api/api_checkout/', api_checkout, name='api_checkout'),
 
     # STORE
-    path('brands/<slug:slug>', brand_detail, name='brand_detail'),
-    path('<slug:category_slug>/<slug:slug>', product_detail, name='product_detail'),
-    path('<slug:slug>', category_detail, name='category_detail'),
+    path('brands/<slug:slug>/', brand_detail, name='brand_detail'),
     
+    path('catalog/<slug:slug>/', category_detail, name='category_detail'),
+    path('catalog/<slug:slug>/list/', category_list, name='category_list'),
+    path('catalog/<slug:slug>/grid/', category_grid, name='category_grid'),
+    path('catalog/<slug:category_slug>/<slug:slug>/', product_detail, name='product_detail'),
 
     path('catalog/', catalog, name='catalog'),
     path('production/', production, name='production'),
