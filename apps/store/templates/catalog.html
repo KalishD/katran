@@ -11,7 +11,7 @@
         <div class="columns is-flex-wrap-wrap">
             {% for product in c.get_products %}
               <div class="column is-one-quarter is-align-content-center is-justify-content-center">
-                <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
+                <a class="no-hl-link" href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">
                   <img src="{{ product.image.url }}"
                       alt="{{ product.title }}"
                       title="{{ product.title }}">

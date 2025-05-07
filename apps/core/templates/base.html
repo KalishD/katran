@@ -16,9 +16,10 @@
   
   <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
   
-  <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />  
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.1/dist/summernote.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.1/dist/summernote.min.css" rel="stylesheet">
   <meta name="description" content="{% block description %}Пневмоинструмент{% endblock %} широкий выбор: характеристики, фото, видео, отзывы, в интернет-магазине katran-pnevmo.ru | 🚛 Доставка в Санкт-Петербурге и по России" />
   <link rel="canonical" href="{% block canonicalurl %}https://katran-pnevmo.ru{% endblock %}" />
   <meta property="og:site_name" content="Интернет-магазин пневматического инструмента katran-pnevmo.ru" />
@@ -60,8 +61,8 @@
               </a>
       
               <div class="navbar-dropdown">
-                {% for c in menu_categories %}
-                    <a class="navbar-item" href="{% url 'category_detail' c.slug %}">
+                {% for c in menu_categories|dictsort:"id" %}
+                    <a class="navbar-item" href="{% url 'category_detail' c.main_category.slug c.slug %}">
                         {{ c.title }}
                     </a>
                 {% endfor %}
@@ -137,31 +138,35 @@
       </nav>
       <hr>
       <div class="columns">
-        <div class="column is-one-quarter has-text-centered">
-            <div>
-                <a href="{% url 'frontpage' %}" class="no-hl-link">
-                  <img class="katran-logo-img" 
-                  src="{% static 'images/katran-logo.jpg' %}" 
-                  alt="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ" 
-                  title="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ">
-                </a>
-            </div>
+        <div class="column is-one-quarter is-centered pr-6 pl-6">
+          <a href="{% url 'frontpage' %}" class="no-hl-link">
+            <img class="katran-logo-img" 
+                 src="{% static 'images/logo-d.png' %}" 
+                 alt="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ" 
+                 title="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ">
+          </a>
         </div>
-        <div class="column is-one-quarter has-text-right has-text-centered-mobile">
-            <div>
-                <p class="heading">ЗВОНИТЕ НАМ ПН-ПТ 9:30 - 17:30</p>
-                <p class="title is-5 mb-1"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
-                <p class="title is-5"><a class="no-hl-link" href="tel:+78127142030"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 714 20 30</a></p>
+        <div class="column is-tree-quarters">
+          <div class="columns">
+            <div class="column is-1"></div>
+            <div class="column is-8">
+              <div class="columns">
+                <div class="column has-text-right-desktop has-text-centered mt-12 is-half">
+                  <p class="heading has-text-weight-bold title is-4">ЗВОНИТЕ НАМ</p>
+                  <p class="subtitle has-text-weight-bold is-4"><i class="fa fa-clock" style="margin-right: .5rem"></i>ПН-ПТ 9:30 - 17:30</p>
+                  <p class="subtitle is-4 mb-1"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
+                  <p class="subtitle is-4"><a class="no-hl-link" href="tel:+78127142030"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 714 20 30</a></p>
+                </div>
+                <div class="column has-text-left-desktop has-text-centered mt-12 is-half">
+                  <p class="heading has-text-weight-bold title is-4">НАШ АДРЕС</p>
+                  <p class="subtitle is-5"><i class="fa fa-map-marker" style="margin-right: 1rem"></i>г. Санкт-Петербург, Английский пр., д. 33</p>
+                  <p class="subtitle is-5"><a class="no-hl-link" href="mailto:OFFICE@KATRAN-PNEVMO.RU"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</a></p>
+                </div>
+              </div>
             </div>
-            
+            <div class="column is-3"></div>
+          </div>
         </div>
-        <div class="column is-one-quarter has-text-left has-text-centered-mobile">
-            <div>
-                <p class="heading">г. Санкт-Петербург, Английский пр., д. 33</p>
-                <p class="title is-5"><a class="no-hl-link" href="mailto:OFFICE@KATRAN-PNEVMO.RU"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</a></p>
-            </div>
-        </div>
-        <div class="column is-one-quarter"></div>
       </div>
       <hr>
     </div>
@@ -227,7 +232,9 @@
     
   </footer>
   <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+  
+  <script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js'></script>  
   <script src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
   <script>
     var store = new Vuex.Store({

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}
+
+    Купить {{ product.title }} по цене 
+    {% if product.price != 0 %}
+        {{ product.price|floatformat:2 }}
+        c НДС
+    {% else %}
+        По запросу
+    {% endif %}
+
+{% endblock %}
+{% block description %}{% endblock %}
+{% block keywords %}
+    {{ keywords }}
+{% endblock %}
+
+{% block content %}
+    <div class="columns">
+        {% include "side-bar.html" %}
+        <div class="column has-text-centered-touch">
+            <div id="productapp">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

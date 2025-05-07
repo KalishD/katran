@@ -19,6 +19,15 @@
     <div class="columns">
         {% include "side-bar.html" %}
         <div class="column has-text-centered-touch">
+            <!-- Хлебные крошки -->
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+              <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="{% url 'main_category_detail' product.category.main_category.slug %}" class="no-hl-link">{{product.category.main_category.title}}</a></li>
+                <li><a href="{% url 'category_detail' product.category.main_category.slug product.category.slug %}" class="no-hl-link">{{product.category.title}}</a></li>
+                <li><a href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}" class="no-hl-link">{{product.title}}</a></li>
+              </ul>
+            </nav>
             <div id="productapp">
                 
                 <div itemscope itemtype="http://schema.org/Product" class="columns is-desktop">
@@ -28,7 +37,7 @@
                     </div>
                     <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="column">
                         <div class="has-text-centered">
-                            <h1 itemprop="name" class="title is-5" id="product_name">{{ product.title }}</h1>
+                            <h1 itemprop="name" class="title is-3" id="product_name">{{ product.title }}</h1>
                             <p class="subtitle is-6">Купить со склада в Санкт-Петербурге </p>
                             <p class="title is-3">цена:
                                 <span class="fc-red">
@@ -48,6 +57,9 @@
                                   <strong>{{ product.title }}</strong> добавлен в корзину.
                                 </div>
                             </article>
+                            <div class="box">
+                                
+                            
                             {% if product.brand %}
                                 <article class="media has-text-left-desktop has-text-left-mobile mt-3">
                                     <figure class="media-left">
@@ -71,11 +83,27 @@
                                     </div>
                                 </article>
                             {% endif %}
-                            <p id="copyToClipboard_btn" class="title is-6 copy_info-btn"
+                            <p class="has-text-left is-6"><span class="has-text-weight-bold is-6">Группа:</span> 
+                                <a class="no-hl-link" href="{% url 'main_category_detail' product.category.main_category.slug %}">{{ product.category.main_category }}</a></p>
+                            <p class="has-text-left is-6"><span class="has-text-weight-bold is-6">Категория:</span> <a class="no-hl-link" href="{% url 'category_detail' product.category.main_category.slug product.category.slug %}">{{ product.category }}</a></p>
+                            <p class="has-text-left"><i class="fa-solid fa-box-open"></i></i>
+                                <span>Бесплатная доставка до ТК</span>
+                            </p>
+                            <p class="has-text-left"><i class="fa-regular fa-star"></i>
+                                <span>Сертифицированная продукция</span>
+                            </p>
+                            <p class="has-text-left"><i class="fas fa-thumbs-up"></i>
+                                <span>Товар в наличии и под заказ</span>
+                            </p>
+                            <p class="has-text-left"><i class="fa-solid fa-truck"></i>
+                                <span>Доставка по РФ и СНГ</span>
+                            </p>
+                            <p id="copyToClipboard_btn" class="title is-6 copy_info-btn mt-3"
                             @click="copyToClipboard()">
                             <i class="fa fa-clipboard"></i>
                             &nbsp;&nbsp;Скопировать информацию
-                    </p>
+                            </p>
+                        </div>
                         </div>
                         <p class="title is-5 fc-red mt-3 mb-3">Краткое описание</p>
                         {% if product.description %}
@@ -110,31 +138,7 @@
 
 {% block scripts %}
 
-<script type="text/javascript">
-function copyToClipboard(e){
-    var copyToClipboardBTN = document.getElementById("copyToClipboard_btn");
 
-    var techVariables = document.getElementById("tech_variables").innerText;
-    var productName = document.getElementById("product_name").innerText;
-    var productURL = document.getElementById("product_name").baseURI;
-    var textToCopy = productName;
-    console.log("Hello");
-    textToCopy += "\n\nТехнические характеристики:\n";
-    textToCopy += techVariables;
-    textToCopy += "\nСсылка на товар: ";
-    textToCopy += productURL;
-
-    const storage = document.createElement('textarea');
-    storage.innerHTML = e;
-    document.body.appendChild(storage);
-
-    // Copy the text in the fake `textarea` and remove the `textarea`
-    storage.select();
-    storage.setSelectionRange(0, 99999);
-    document.execCommand('copy');
-    storage.parentElement.removeChild(storage);
-    }
-</script>
 
 <script>
   var productapp = new Vue({

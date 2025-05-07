@@ -37,7 +37,10 @@ class CsvImportProductForm(forms.Form):
 @admin.register(VariableItem)
 class VariableItemAdmin(admin.ModelAdmin):
   change_list_template = "variableitem_changelist.html"
-  
+  list_display = ("title","dimention")
+  search_fields = ("title__contains",)
+  fields = ("title","dimention")
+
   def get_urls(self):
     urls = super().get_urls()
     my_urls = [
@@ -166,7 +169,7 @@ class ProductAdmin(ExportActionMixin, SummernoteModelAdmin, admin.ModelAdmin):
   prepopulated_fields = {'slug': ('title',) }
   inlines = [VariableInline]
   save_as = True
-  summernote_fields = ('description',)
+  # summernote_fields = ('description',)
   def product_category(self,obj):
     url = (
       reverse("admin:store_product_changelist")
@@ -253,19 +256,19 @@ class CategoryAdmin(admin.ModelAdmin):
               print('-')
               if cat_id in range(1,17):
                 print('mcat #1')
-                mcat_id = 5
+                mcat_id = 1
               elif cat_id in range(17,20):
                 print('mcat #2')
-                mcat_id = 9
+                mcat_id = 2
               elif cat_id in range(20,23):
                 print('mcat #3')
-                mcat_id = 7
+                mcat_id = 3
               elif cat_id in range(23,26):
                 print('mcat #4')
-                mcat_id = 8
+                mcat_id = 5
               elif cat_id in range(26,34):
                 print('mcat #5')
-                mcat_id = 6
+                mcat_id = 4
                 
               print('main_category_id :', mcat_id)
               print('-=-=-=-=-=-=-=-=-')

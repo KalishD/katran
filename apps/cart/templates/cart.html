@@ -3,9 +3,9 @@
 <div class="columns">
   {% include "side-bar.html" %}
   <div id="cartapp" class="column has-text-centered">
-    <h1 class="title is-3">Ваш заказ</h1>
-    <hr>
     <div v-if="products.length > 0">
+	    <h1 class="title is-3">Ваш заказ</h1>
+    	<hr>
     <div class="table-container">
       <table class="table is-striped is-hoverable is-fullwidth is-desktop">
         <thead>
@@ -55,16 +55,21 @@
     <!-- Order Form -->
     <div class="columns">
       <div class="column is-half-tablet is-full-mobile">
-        <h2 class="title is-3">Оформление заказа</h2>
-        <p class="subtitle is-6 mt-1">
-          Мы осуществляем доставку транспортными компаниями до терминала в Вашем городе.
-        </p>
-        <p class="subtitle is-6 mt-1">
-          Если Вы находитесь в Санкт-Петербурге, Вы можете забрать заказ самостоятельно по адресу:
-        </p>
-        <p class="subtitle is-6 mt-1">
-          <span class="fc-red">г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, лит. А, пом. 5Н, оф. 101</span>
-        </p>      
+      	<div class="box">
+        	<!-- <h2 class="title is-3">Оформление заказа</h2> -->
+			<p class="has-text-centered mb-5 subtitle is-5"><i class="fa-solid fa-box-open mr-3"></i>
+			    <span>Мы осуществляем доставку транспортными компаниями до терминала в Вашем городе.</span>
+			</p>
+			<p class="has-text-centered mb-5 subtitle is-5"><i class="fa-solid fa-truck mr-3"></i>
+			    <span>Если Вы находитесь в Санкт-Петербурге, Вы можете забрать заказ самостоятельно по адресу:</span>
+			</p>
+			<p class="has-text-centered mb-5 subtitle is-5"><i class="fa fa-map-marker mr-3"></i>
+ 				<span class="fc-red">г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, лит. А, пом. 5Н, оф. 101</span>
+			</p>
+			<p class="has-text-centered subtitle is-5"><i class="fa-solid fa-at mr-3"></i>
+ 				<span>Укажите Ваш <span class="fc-red">e-mail</span>, мы обработаем Ваш запрос и пришлём счёт на оплату</span>
+			</p>
+      	</div>	
       </div>
       <div class="column is-half-tablet is-full-mobile">
         <div class="katran_order-form ml-1 mr-1">
@@ -111,7 +116,7 @@
               <p class="help is-danger" :class="{ 'hidden': !phoneErrorClass }">Неверный номер телефона</p>
             </div>
             
-            <div class="field">
+            <div class="field is-hidden">
               <label class="label">Адрес</label>
               <div class="control">
                 <textarea class="textarea" :class="{ 'is-danger': addressErrorClass }" name="address" v-model="address" placeholder="Адрес"></textarea>
@@ -131,75 +136,10 @@
         </div>
       </div>
     </div>
-    <h2 class="title is-3">Оформление заказа</h1>
-    <p class="subtitle is-6 mt-1">Мы осуществляем доставку транспортными компаниями до терминала в Вашем городе.<br/>Если Вы находитесь в Санкт-Петербурге, Вы можете забрать заказ самостоятельно по адресу:<br/><span class="fc-red">г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, лит. А, пом. 5Н, оф. 101</span></p>
-    <hr>
-    <div class="katran_order-form ml-1 mr-1">
-      <form v-on:submit.prevent="submitForm()">    
-        <div class="field">
-          <label class="label">ФИО/Огранизация</label>
-          <div class="control has-icons-left has-icons-right">
-            <input class="input" :class="{ 'is-danger': nameErrorClass }" type="text" name="name" v-model="name" placeholder="ФИО/Огранизация">
-            <span class="icon is-small is-left">
-              <i class="fas fa-person"></i>
-            </span>
-            <span class="icon is-small is-right" :class="{ 'hidden': !nameErrorClass }">
-              <i class="fas fa-exclamation-triangle"></i>
-            </span>
-          </div>
-          <p class="help is-danger" :class="{ 'hidden': !nameErrorClass }">Укажите Ваше имя или название компании.</p>
-        </div>
-          
-        <div class="field">
-          <label class="label">Email</label>
-          <div class="control has-icons-left has-icons-right">
-            <input class="input" :class="{ 'is-danger': emailErrorClass }" type="text" name="email" v-model="email" placeholder="Email" value="">
-            <span class="icon is-small is-left">
-              <i class="fas fa-envelope"></i>
-            </span>
-            <span class="icon is-small is-right" :class="{ 'hidden': !emailErrorClass }">
-              <i class="fas fa-exclamation-triangle"></i>
-            </span>
-          </div>
-          <p class="help is-danger" :class="{ 'hidden': !emailErrorClass }">Неверный email</p>
-        </div>
-
-        <div class="field">
-          <label class="label">Телефон</label>
-          <div class="control has-icons-left has-icons-right">
-            <input class="input" :class="{ 'is-danger': phoneErrorClass }" type="text" name="phone" v-model="phone" placeholder="Телефон" value="">
-            <span class="icon is-small is-left">
-              <i class="fas fa-phone"></i>
-            </span>
-            <span class="icon is-small is-right" :class="{ 'hidden': !phoneErrorClass }">
-              <i class="fas fa-exclamation-triangle"></i>
-            </span>
-          </div>
-          <p class="help is-danger" :class="{ 'hidden': !phoneErrorClass }">Неверный номер телефона</p>
-        </div>
-        
-        <div class="field">
-          <label class="label">Адрес</label>
-          <div class="control">
-            <textarea class="textarea" :class="{ 'is-danger': addressErrorClass }" name="address" v-model="address" placeholder="Адрес"></textarea>
-            <span class="icon is-small is-right" :class="{ 'hidden': !addressErrorClass }">
-              <i class="fas fa-exclamation-triangle"></i>
-            </span>
-          </div>
-          <p class="help is-danger" :class="{ 'hidden': !addressErrorClass }">Необходимо указать адрес доставки.</p>
-        </div>
-          
-        <div class="field mt-6">
-          <div class="control">
-            <button class="button is-black is-medium">Сделать заказ</button>
-          </div>
-        </div>
-      </form>
-    </div>
     </div>
     <div v-else>
-      <h3 class="title is-5">Ваша корзина пуста</h3>
-      <p class="subtitle is-7">Чтобы начать покупки перейдите в <a href="{% url 'catalog' %}">Каталог</a></p>
+      <h3 class="title is-3">Ваша корзина пуста</h3>
+      <p class="subtitle is-5">Чтобы начать покупки перейдите в <a href="{% url 'catalog' %}">Каталог</a></p>
     </div>
   </div>
   
@@ -259,12 +199,12 @@
           } else if((!this.email) || (!this.email.match(this.emailRegex))){
             this.errors.push('Требуется указать email.');
             this.emailErrorClass = !this.emailErrorClass;
-          } else if((!this.phone) || (!this.phone.match(this.phoneRegex))){
-            this.errors.push('Требуется указать телефон.');
-            this.phoneErrorClass = !this.phoneErrorClass;
-          } else if(!this.address){
-            this.errors.push('Требуется указать адрес доставки.');
-            this.addressErrorClass = !this.addressErrorClass;
+          // } else if((!this.phone) || (!this.phone.match(this.phoneRegex))){
+          //   this.errors.push('Требуется указать телефон.');
+          //   this.phoneErrorClass = !this.phoneErrorClass;
+          // } else if(!this.address){
+          //   this.errors.push('Требуется указать адрес доставки.');
+          //   this.addressErrorClass = !this.addressErrorClass;
           }
           console.log(this.errors);
           if (!this.errors.length) {

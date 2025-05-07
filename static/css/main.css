@@ -143,7 +143,7 @@ body{
 }
 /* .carousel-wrapper{overflow-x: hidden;} */
 .carousel-item{
-    min-height: 20rem;
+    /*min-height: 20rem;*/
     transition: .2s;
 }
 .carousel-item:hover{
@@ -212,9 +212,10 @@ footer.footer.katran-footer{
 .fa-phone-flip,
 .fa-location-dot,
 .fa-clock,
-.fa-square
+.fa-square,
+.fa-map-marker
 {
-    color: var(--katran-yelow) !important;
+    color: var(--katran-red) !important;
 }
 
 .category-top {
@@ -227,7 +228,7 @@ footer.footer.katran-footer{
 }
 .category-top  a .category-block{
     margin: 6pt 3pt 0 3pt;
-    height: 25pt;
+    /*height: 25pt;*/
     border-radius: 50pt;
     border: 1px #676f79 solid;
     padding:  6.23pt 15pt;
@@ -445,9 +446,43 @@ a.no-hl-link:hover{color: var(--katran-dark);}
     color: var(--katran-yelow) !important;
   }
 
-  .is-active { background-color: #3273dc !important; color: white !important; }
+  .tag.is-active { background-color: #3273dc !important; color: white !important; }
   .sort-button .icon { visibility: hidden; }
   .sort-button.is-active .icon { visibility: visible; }
   .tag { cursor: pointer; transition: background-color 0.3s, color 0.3s; }
   .tag:hover { background-color: #dbdbdb; }
   .tag.is-active:hover { background-color: #2456a6 !important; }
+  .cart-btn{position: absolute;top:1rem;right:1rem;}
+
+.katran-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Сам popup-окошко */
+.katran-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%;                    /* сразу под элементом */
+  left: 50%;
+  transform: translateX(-50%) translateY(0.5rem);
+  background-color: var(--katran-white-color);    /* белый фон */
+  box-shadow: 0 0 0 2.5px var(--katran-shadow-color);
+  color: var(--katran-font-color);               /* цвет текста из Bulma */
+  padding: 0.5rem 0.75rem;      /* внутренние отступы */
+  border-radius: 4px;           /* скругление */
+
+  font-size: 0.875rem;          /* примерно Bulma size-7 */
+  white-space: nowrap;          /* без переноса */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 20;
+}
+
+/* Показываем popup при наведении */
+.katran-tooltip:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(1rem);
+}

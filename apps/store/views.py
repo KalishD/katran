@@ -2,7 +2,7 @@ from itertools import product
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 
-from .models import Product, Category, Brand, Variable, VariableItem
+from .models import Product, Category, Brand, Variable, VariableItem, MainCategory
 
 from django.db.models import Count
 from django.db.models import Avg, Max, Min, Sum
@@ -20,7 +20,7 @@ def search(request):
 
     return render(request, 'search.html', contex)
 
-def product_detail(request, category_slug, slug):
+def product_detail(request, maincategory_slug, category_slug, slug):
     product = get_object_or_404(Product, slug=slug)
     category = product.category
     variables = product.variable_set.all()
@@ -39,7 +39,7 @@ def product_detail(request, category_slug, slug):
 
     return render(request, 'product_detail.html', context)
 
-def category_detail(request, slug):
+def category_detail(request, maincategory_slug, slug):
     category = get_object_or_404(Category, slug=slug)
     products = category.product_set.all()
     var_titles = []
@@ -59,7 +59,7 @@ def category_detail(request, slug):
         }
     return render(request, 'category_detail.html', context)
 
-def category_list(request, slug):
+def category_list(request, maincategory_slug, slug):
     category = get_object_or_404(Category, slug=slug)
     var_titles = []
     first_product_vars = category.product_set.all().annotate(count=Count('variables')).latest('count').variable_set.all()
@@ -79,7 +79,7 @@ def category_list(request, slug):
         }
     return render(request, 'category_detail_list.html', context)
 
-def category_grid(request, slug):
+def category_grid(request, maincategory_slug, slug):
     category = get_object_or_404(Category, slug=slug)
     sort_field = request.GET.get('sort_field', 'title')
     sort_order = request.GET.get('sort_order', 'asc')
@@ -93,6 +93,19 @@ def category_grid(request, slug):
         }
     return render(request, 'category_detail_grid.html', context)
 
+def main_category_detail(request, slug):
+    main_category = get_object_or_404(MainCategory, slug=slug)
+    # sort_field = request.GET.get('sort_field', 'title')
+    # sort_order = request.GET.get('sort_order', 'asc')
+    # if sort_field not in ['title', 'price']:
+        # sort_field = 'title'
+    # ordering = sort_field if sort_order == 'asc' else '-' + sort_field
+    # products = category.product_set.all().order_by(ordering)
+    context = {
+        'main_category': main_category, 
+        # 'products': products, 
+        }
+    return render(request, 'main_category_detail.html', context)
 
 def catalog(request):
     categories = Category.objects.all()

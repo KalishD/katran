@@ -8,10 +8,10 @@
         <li @click="toggleAccMenu" class="menu-accordion-item active">
           <a>{{maincat.title}}</a>
           <ul class="menu-accordion-item_inner">
-            {% for cat in maincat.category_set.all %}
+            {% for cat in maincat.category_set.all|dictsortreversed:"title" %}
               {% if cat.product_set.count != 0 %}
               <li>
-                <a href="{% url 'category_detail' cat.slug %}" class="no-hl-link">{{cat.title}} <span class="smoo_after_title">({{cat.product_set.count}})</span></a>
+                <a href="{% url 'category_detail' cat.main_category.slug cat.slug %}" class="no-hl-link">{{cat.title}} <span class="smoo_after_title">({{cat.product_set.count}})</span></a>
               </li>
               {% endif %}
             {% endfor %}
@@ -25,7 +25,7 @@
   <div class="is-hidden-touch">
     <p class="menu-label has-text-centered-touch has-text-left-desktop">Популярные товары</p>
     {% for p in featured_product %}
-    <a href="{% url 'product_detail' p.category.slug p.slug %}">
+    <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}">
       <div class="fav-prod-sidebar--item">
         <div class="fav-prod-sidebar--item-img">
           <img class="img-responsive" src="{{ p.image.url }}" style="max-width: 80% !important;"></img>

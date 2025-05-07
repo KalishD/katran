@@ -1,20 +1,23 @@
 from multiprocessing import context
 from django.shortcuts import render
 
-from apps.store.models import Product, Category
+from apps.store.models import Product, Category, Brand
 from apps.blog.models import Post
+
 def frontpage(request):
-    katran_products = Product.objects.filter(brand = 1).order_by('sku')
-    cangairgrinders = Product.objects.filter(category = 1).order_by('sku')
-    featurescategories = Category.objects.filter(is_features = 1).order_by('ordering')
+    katran_products = Product.objects.filter(brand = 1, category__main_category__in = range(1,2)).order_by('sku')
+    cangairgrinders = Product.objects.filter(category = 16).order_by('sku')
+    anglegrinders = Product.objects.filter(category = 15).order_by('-price')
+    airhammers = Product.objects.filter(category__in = range(5,6)).order_by('-price')
     posts = Post.objects.all()
-    keywords = ''
-    description = ''
+    keywords = 'Купить пневмоинструмент, пневматические молотки отбойные, пневматические молотки рубильные, российский пневмоинструмент'
+    description = 'Магазин пневматического иструмента, ООО "Катран-Пневмо" более 30 лет на рынке. Купить пневмоинструмент в СПб.'
     context = {
         'katran_products': katran_products,
         'cangairgrinders': cangairgrinders,
+        'anglegrinders': anglegrinders,
+        'airhammers': airhammers,
         'posts': posts,
-        'featurescategories': featurescategories,
         'keywords': keywords,
         'description': description,
     }
@@ -26,16 +29,14 @@ def politics(request):
     return render(request, 'politics.html', context)
 
 def production(request):
-    mp006 = Product.objects.filter(sku = 1011040).first()
-    mp01122 = Product.objects.filter(sku = 1011030).first()
-    mp01115 = Product.objects.filter(sku = 1011020).first()
-    mp011s = Product.objects.filter(sku = 1010140).first()
-    rm8 = Product.objects.filter(sku = 1040560).first()
-    rm12 = Product.objects.filter(sku = 1040550).first()
-    rm16 = Product.objects.filter(sku = 1040540).first()
-    tp28a = Product.objects.filter(sku = 1090150).first()
-    tpv3a = Product.objects.filter(sku = 1090160).first()
-    mp011_list = [mp01115,mp01122,mp011s]
+    mp006 = Product.objects.filter(sku = 4).first()
+    mp01122 = Product.objects.filter(sku = 5882).first()
+    rm8 = Product.objects.filter(sku = 17).first()
+    rm12 = Product.objects.filter(sku = 18).first()
+    rm16 = Product.objects.filter(sku = 19).first()
+    tp28a = Product.objects.filter(sku = 31).first()
+    tpv3a = Product.objects.filter(sku = 237).first()
+    mp011_list = [mp01122,]
     rm_list = [rm8,rm12,rm16]
     tramb_list = [tp28a, tpv3a]
     keywords = ''
@@ -43,8 +44,6 @@ def production(request):
     context = {
         'mp006': mp006,
         'mp01122': mp01122,
-        'mp01115': mp01115,
-        'mp011s':  mp011s,
         'rm8': rm8,
         'rm12': rm12,
         'rm16': rm16,

@@ -15,12 +15,13 @@
 
 <div class="columns">
   {% include "side-bar.html" %}
-  <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
+  <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters" id="productapp">
     <!-- Хлебные крошки -->
     <nav class="breadcrumb is-small" aria-label="breadcrumbs">
       <ul>
         <li><a href="/">Главная</a></li>
-        <li><a href="{% url 'category_detail' category.slug %}" class="no-hl-link">{{category.title}}</a></li>
+        <li><a href="{% url 'main_category_detail' category.main_category.slug %}" class="no-hl-link">{{category.main_category.title}}</a></li>
+        <li><a href="{% url 'category_detail' category.main_category.slug category.slug %}" class="no-hl-link">{{category.title}}</a></li>
       </ul>
     </nav>
 
@@ -66,14 +67,16 @@
 {% endblock %}
 
 {% block scripts %}
+
 <script>
   let currentView = 'grid';
   let currentSortField = 'title';
   let currentSortOrder = 'desc';
   const slug = "{{ category.slug }}";
+  const main_category_slug = "{{ category.main_category.slug }}";
 
   function loadView() {
-    const url = `/catalog/${slug}/${currentView}/?sort_field=${currentSortField}&sort_order=${currentSortOrder}`;
+    const url = `/catalog/${main_category_slug}/${slug}/${currentView}/?sort_field=${currentSortField}&sort_order=${currentSortOrder}`;
     fetch(url)
       .then(response => response.text())
       .then(html => {
@@ -132,3 +135,4 @@
   });
 </script>
 {% endblock %}
+
