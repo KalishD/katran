@@ -1,0 +1,68 @@
+{% load store_extras %}
+<div class="table-container is-fullwidth product-table">
+    <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Наименование</th>
+                <th>Производитель</th>
+                <th>Цена</th>
+
+                {% for var in all_cat_vars %}
+                <th>
+                    {{var}}
+                    <br>
+                    {% if var.dimention %}
+                        {{ var.dimention}}
+                    {% endif %}
+                </th>
+            {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td class="th-w-img p-0">
+                        <a class="no-hl-link" href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">
+                            <img src="{{ product.thumbnail.url }}"
+                            alt="{{ product.title }}"
+                            title="{{ product.title }}">
+                        </a>
+                    </td>
+                    <td>
+                        <a class="no-hl-link" href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">
+                            <p>{{product.title}}</p>
+                        </a>
+                    </td>
+                    <td>
+                        {% if product.brand%}
+                            <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
+                        {% else %}
+                            -
+                        {% endif %}
+
+                    <td>
+                        <span class="fc-red">
+                        {% if product.price != 0 %}
+                            {{ product.price|floatformat:2 }}
+                        {% else %}
+                            По запросу
+                        {% endif %}
+                        </span>
+                    </td>
+                    {% for var in all_cat_vars %}
+                        {% if product.variable_set|variable_by_var:var %}
+                            {% with product.variable_set|variable_by_var:var as variable %}
+                                <td>{{variable.value}}</td>
+                            {% endwith %}
+                        {% else %}
+                            <td>-</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+

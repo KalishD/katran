@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Каталог пневматического инструмента{% endblock %}
+{% block content %}
+<div class="columns">
+    {% include "side-bar.html" %}
+    <div class="column has-text-centered-touch">
+        {% for p in posts %}
+            <div class="column is-one-third">
+                <a class="no-hl-link" href="{% url 'post_detail' p.slug %}">
+                <div class="card">
+                    <header class="card-header">
+                        <h3 class="card-header-title">
+                            {{ p.title }}
+                        </h3>
+                    </header>
+
+                    <div class="card-image carousel-item--img-wrapper">
+                        <img src="{{p.image.url}}" alt="{{ p.title }}" title="{{ p.title }}">
+                        <a href="{% url 'post_detail' p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                    </div>
+                    <div class="card-content">
+                        <div class="content">
+                        {{ p.body|truncatechars_html:100}}
+                        <br>
+                        <time datetime="{{ p.created_at }}">{{ p.created_at }}</time>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">{{p.postcategory.name}}</p>    
+                    </footer>
+
+                </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

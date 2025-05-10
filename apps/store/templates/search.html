@@ -21,18 +21,24 @@
                         {% for product in products %}
                             <tr>
                                 <td class="th-w-img p-0">
-                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
+                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">
                                         <img src="{{ product.thumbnail.url }}"
                                         alt="{{ product.title }}"
                                         title="{{ product.title }}">
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
+                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">
                                         <p>{{product.title}}</p>
                                     </a>
                                 </td>
-                                <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
+                                <td>
+                                    {% if product.brand %}
+                                        <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
+                                    {% else %}
+                                        <p>-</p>
+                                    {% endif %}
+                                    
                                 <td>
                                     {% if product.price != 0 %}
                                         {{ product.price|floatformat:2 }}

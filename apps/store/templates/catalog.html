@@ -1,68 +1,33 @@
 {% extends 'base.html' %}
 {% block title %}Каталог пневматического инструмента{% endblock %}
+{% block description %}{% endblock %}
+{% block keywords %}{% endblock %}
 {% block content %}
   <div class="columns">
     {% include "side-bar.html" %}
     <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
       {% for c in categories %}
-        <h3 class="subtitle is-6">{{ c.title }}</h3>
-        <div class="table-container is-fullwidth product-table">
-          <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
-              <thead>
-                  <tr>
-                      <th></th>
-                      <th>Наименование</th>
-                      {% for var in c.get_products.first.variable_set.all %}
-                          <th>
-                              {{var}}
-                              <br>
-                              {% if var.varitem.dimention %}
-                                  {{ var.varitem.dimention}}
-                              {% endif %}
-                          </th>
-                      {% endfor %}
-                      <th>Производитель</th>
-                      <th>Цена</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {% for product in c.get_products  %}
-                      <tr>
-                          <td class="th-w-img p-0">
-                              <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
-                                  <img src="{{ product.thumbnail.url }}"
-                                  alt="{{ product.title }}"
-                                  title="{{ product.title }}">
-                              </a>
-                          </td>
-                          <td>
-                              <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
-                                  <p>{{product.title}}</p>
-                              </a>
-                          </td>
-                          {% if product.variable_set.all %}
-                              {% for var in product.variable_set.all %}
-                                  <td>{{var.value}}</td>
-                              {% endfor %}
-                          {% else %}
-                              {% for var in c.get_products.first.variable_set.all %}
-                                  <td></td>
-                              {% endfor%}
-                          {% endif %}
-                          <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
-                          <td>
-                            <span class="fc-red">
-                              {% if product.price != 0 %}
-                                  {{ product.price|floatformat:2 }}
-                              {% else %}
-                                  По запросу
-                              {% endif %}
-                            </span>
-                          </td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-            </table>
+        <h3 class="subtitle is-4">{{ c.title }}</h3>
+        <div class="columns is-flex-wrap-wrap">
+            {% for product in c.get_products %}
+              <div class="column is-one-quarter is-align-content-center is-justify-content-center">
+                <a class="no-hl-link" href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">
+                  <img src="{{ product.image.url }}"
+                      alt="{{ product.title }}"
+                      title="{{ product.title }}">
+                  <h4 class="is-8">
+                    {{ product.title }}
+                  </h4>
+                  <p class="is-8 fc-red">
+                    {% if product.price != 0 %}
+                      {{ product.price|floatformat:2 }} с НДС
+                    {% else %}
+                      По запросу
+                    {% endif %}
+                  </p>
+                </a>
+              </div>
+            {% endfor %}
         </div>
       {% endfor %}
     </div>

@@ -24,3 +24,7 @@ class ProductSitemap(Sitemap):
 class BrandSitemap(Sitemap):
     def items(self):
         return Brand.objects.all()
+
+class PostsSitemap(Sitemap):
+    def item(self):
+        return Post.objects.all()

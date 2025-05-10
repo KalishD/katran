@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Продукция ООО "Катран-Пневмо" {% endblock %}
+{% block content %}
+    <div class="columns" id="productionsapp">
+      {% include "side-bar.html" %}
+      <div class="column">
+      
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  // Initialize all div with carousel class
+  var options = {
+    slidesToScroll: 1,
+    slidesToShow: 3,
+    loop: true
+  }
+  var carousels = bulmaCarousel.attach('.carousel', options);
+
+  // Loop on each carousel initialized
+  for(var i = 0; i < carousels.length; i++) {
+    // Add listener to  event
+    carousels[i].on('before:show', state => {
+      console.log(state);
+    });
+  }
+
+  var productionsapp = new Vue({
+    el: '#productionsapp',
+    delimiters: ['[[',']]'],
+    store: store,
+    data (){
+        return {
+            showAddToCartMessage: false
+        }
+    },
+    mounted(){
+        console.log('Mounted');
+    },
+    methods: {
+        addToCart(product_id){
+            console.log('Adding Product_id', product_id);
+            var data = {
+                'product_id': product_id,
+                'update': false,
+                'quantity': 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Hello');
+                this.showAddToCartMessage = true;
+                store.commit('increment', 1);
+                setTimeout(()=>{
+                    this.showAddToCartMessage = false;
+                }, 2000)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
+  });
+</script>
+{% endblock %}

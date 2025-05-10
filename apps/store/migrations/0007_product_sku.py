@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='product',
             name='sku',
-            field=models.PositiveSmallIntegerField(default=1010140),
+            field=models.PositiveSmallIntegerField(default=6278),
             preserve_default=False,
         ),
     ]

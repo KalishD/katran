@@ -1,0 +1,34 @@
+<div class="columns is-multiline" id="">
+                
+    {% for p in products %}
+    <div class="column is-one-quarter has-text-centered is-relative">
+      <div class="carousel-item--img-wrapper">
+        <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+        <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+      </div>
+      <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+      <h2 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+      {% if p.brand %}
+        <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+      {% endif %}
+      <p class="title is-4">
+        {% if p.price != 0 %}
+          <span class="fc-red">
+            {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+          </span>
+      </p>
+      <p class="subtitle is-6">с НДС</p>
+        {% else %}
+          <span class="fc-red">
+            По запросу
+          </span>
+      </p>
+        {% endif %}
+        <!-- <button class="button is-black is-small cart-btn" @click="addToCart({{ p.id }})"><i class="fa-solid fa-cart-shopping"></i></button> -->
+    </div>
+  {% endfor %}
+</div>
+
+{% block scripts %}
+
+{% endblock %}

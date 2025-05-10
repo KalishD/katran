@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Продукция ООО "Катран-Пневмо" {% endblock %}
+{% block description %}{% endblock %}
+{% block keywords %}
+    {{ keywords }}
+{% endblock %}
 {% block content %}
     <div class="columns" id="productionsapp">
       {% include "side-bar.html" %}
@@ -212,24 +216,23 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-// Initialize all div with carousel class
-var options = {
-  slidesToScroll: 1,
-	slidesToShow: 3,
-  loop: true
-}
-var carousels = bulmaCarousel.attach('.carousel', options);
+<script type="text/javascript">
+  // Initialize all div with carousel class
+  var options = {
+    slidesToScroll: 1,
+    slidesToShow: 3,
+    loop: true
+  }
+  var carousels = bulmaCarousel.attach('.carousel', options);
 
-// Loop on each carousel initialized
-for(var i = 0; i < carousels.length; i++) {
-	// Add listener to  event
-	carousels[i].on('before:show', state => {
-		console.log(state);
-	});
-}
-</script>
-<script>
+  // Loop on each carousel initialized
+  for(var i = 0; i < carousels.length; i++) {
+    // Add listener to  event
+    carousels[i].on('before:show', state => {
+      console.log(state);
+    });
+  }
+
   var productionsapp = new Vue({
     el: '#productionsapp',
     delimiters: ['[[',']]'],

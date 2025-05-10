@@ -1,35 +1,63 @@
-<div class="column is-one-quarter p-4 pl-5 ">
+<div class="column is-one-quarter p-4 pl-5 is-hidden-mobile">
   <aside class="menu">
       <p class="menu-label has-text-centered-touch has-text-left-desktop">
           Категории товаров
       </p>
-      <ul class="menu-list">
-          {% for category in menu_categories %}
-          <li>
-              <a href="{% url 'category_detail' category.slug %}" class="no-hl-link">{{category.title}}</a>
-          </li>
-          {% endfor %}
+      <ul class="menu-list" id="sidebarapp">
+        {% for maincat in menu_main_categories %}
+        <li @click="toggleAccMenu" class="menu-accordion-item active">
+          <a>{{maincat.title}}</a>
+          <ul class="menu-accordion-item_inner">
+            {% for cat in maincat.category_set.all|dictsortreversed:"title" %}
+              {% if cat.product_set.count != 0 %}
+              <li>
+                <a href="{% url 'category_detail' cat.main_category.slug cat.slug %}" class="no-hl-link">{{cat.title}} <span class="smoo_after_title">({{cat.product_set.count}})</span></a>
+              </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+
       </ul>
   </aside>
   <div class="katran--free_space"></div>
   <div class="is-hidden-touch">
     <p class="menu-label has-text-centered-touch has-text-left-desktop">Популярные товары</p>
     {% for p in featured_product %}
-    <a href="{% url 'product_detail' p.category.slug p.slug %}">
-      <div class="fav-prod-sidebar--item">
-        <div class="fav-prod-sidebar--item-img">
-          <img class="img-responsive" src="{{ p.image.url }}" style="max-width: 80% !important;"></img>
-        </div>
-        <div class="fav-prod-sidebar--item-title">{{ p.title }}</div>
-        <div class="fav-prod-sidebar--item-price">
-            {% if p.price != 0 %}
-              {{ p.price|floatformat:2 }}<span class="price"> руб.</span>
-            {% else %}
-                По запросу
-            {% endif %}
+      <div class="box product_card carousel-item--img-wrapper">
+        <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+        <article class="media">
+          <div class="media-left">
+            <figure class="image is-128x128">
+              <img src="{{ p.image.url }}" alt="Image" />
+            </figure>
           </div>
+          <div class="media-content">
+            <div class="content">
+              <p class="has-text-left is-6"><span class="has-text-weight-bold is-6">
+                {{ p.title }}</span>
+              </p>
+              <p class="subtitle has-text-left is-7"><span class="has-text-weight-bold is-6">Группа:</span> 
+                {{ p.category.main_category }}</p>
+              <p class="has-text-left is-7"><span class="has-text-weight-bold is-6">Категория:</span> {{ p.category }}</p>
+                <hr class="katran-line-sep">
+                <p class="title has-text-left is-5 ">
+                <span class="has-text-weight-bold">Цена: </span>
+                <span class="fc-red">
+                {% if p.price != 0 %}
+                  {{ p.price|floatformat:2 }}<span class="price"> руб.</span>
+                {% else %}
+                    По запросу
+                {% endif %}
+              </span>
+              </p>
+            </div>
+          </div>
+        </article>
+        
+        </article>
       </div>
-      </a>
     {% endfor %}
   </div>
 </div>

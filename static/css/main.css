@@ -1,8 +1,10 @@
 :root {
+    --katran-white-color: #f8f6fc;
     --katran-yelow: #f1ac2b;
     --katran-red: #e41817;
     --katran-dark: #09131f;
     --katran-font-color: #09131f;
+    --katran-font-sm-color: #676f79;
     --katran-shadow-color: rgba(0, 0, 0, .1);
 }
 body{
@@ -13,8 +15,8 @@ body{
 }
 .search{
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     border-radius: 50px;
     background: #f8f6fc;
     transition: .5s;
@@ -22,18 +24,34 @@ body{
     overflow: hidden;
     
 }
-
+.box{
+    padding: 1rem;
+}
 .search.is-active{
     width: 360px;
 }
 
+.menu-accordion-item_inner{
+    transition: .5s ease;
+}
+.menu-accordion-item.active .menu-accordion-item_inner{
+    height:0;
+    margin-top:0 !important;
+    margin-bottom: 0 !important;
+    overflow: hidden;
+}
+
+.smoo_after_title{
+    font-size: 0.9em;
+    color: var(--katran-font-sm-color);
+}
 .search .icon{
     position: absolute;
     top: 0;
     left: 0;
-    width: 50px;
-    height: 50px;
-    background: #f8f6fc;
+    width: 45px;
+    height: 45px;
+    background: var(--katran-white-color);
     border-radius: 50px;
     display: flex;
     justify-content: center;
@@ -63,8 +81,8 @@ body{
 .search .search-input{
     position: relative;
     width: 310px;   
-    height: 50px;
-    left: 50px;
+    height: 45px;
+    left: 45px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,7 +93,7 @@ body{
     width: 100%;
     height:100%;
     border: none;
-    outline: #f8f6fc;
+    outline: var(--katran-white-color);
     box-shadow: none;
     font-size: 18px;
 }
@@ -87,6 +105,7 @@ body{
     z-index: 1;
 }
 .slider-item{margin-left: .375rem; margin-right: .375rem;}
+
 .slick-arrow{
     cursor:pointer;
     border: none;
@@ -100,28 +119,33 @@ body{
     z-index: 1;
     transition: .2s;
 }
+
 .slick-arrow:hover{
     -webkit-transform: scale(1.05);
     transform: scale(1.05);
     box-shadow: 0 0 7px 0 var(--katran-shadow-color);
     background: rgba(9, 19, 31, .15);
 }
+
 .slick-arrow .svg-inline--fa{
     vertical-align: -.1em !important;
 }
+
 .slick-next{
     right: 0;
 }
+
 .slick-prev{
     left:0;
 }
+
 .button{
     padding-left: calc(.75em - 1px) !important;
     padding-right: calc(.75em - 1px) !important;
 }
 /* .carousel-wrapper{overflow-x: hidden;} */
 .carousel-item{
-    min-height: 20rem;
+    /*min-height: 20rem;*/
     transition: .2s;
 }
 .carousel-item:hover{
@@ -133,25 +157,47 @@ body{
 .carousel-item--img-wrapper{
     position: relative;
 }
-.carousel-item--img-wrapper .carousel-item--more-btn{
+.carousel-item--img-wrapper .carousel-item--more-btn {
     position: absolute;
-    z-index:1;
-    left:50%;
-    bottom: 25%;
-    transition: .2s;
-    transform:scale(.9);
-    transform: translateX(-50%);
+    z-index: 1;
+    right: 1.5rem;
+    top: 3rem;
+    /* transform: translateX(-50%); */
+    transition: all 0.3s ease;
     opacity: 0;
-    font-size: 1.25rem;
-    border: 1px solid #000;
-    background: rgba(0, 0, 0, .1);
-    color: #000;
-}
-.carousel-item--img-wrapper:hover .carousel-item--more-btn{
-    transform:scale(1.05);
+  
+    background: rgba(179, 174, 174, 0.25);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+
+    /* Glassmorphism */
+    /* background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); */
+    color: #09131f;
+  
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+    text-shadow: none;
+  }
+  
+  .carousel-item--img-wrapper:hover .carousel-item--more-btn {
     opacity: 1;
-    transform: translateX(-50%);
-}
+    transform: translateY(-50%) scale(1.05);
+    color: #09131f;
+    background: rgba(255, 255, 255, 0.25); /* затемнение при наведении */
+  }
+  .carousel-item--img-wrapper:hover .carousel-item--more-btn:hover {
+    background: rgba(15, 15, 15, 0.15); /* затемнение при наведении */
+  }
 .product-table{
     font-size: .75em !important;
 }
@@ -189,16 +235,52 @@ footer.footer.katran-footer{
 .fa-at,
 .fa-phone-flip,
 .fa-location-dot,
-.fa-clock
+.fa-clock,
+.fa-square,
+.fa-map-marker
 {
-    color: var(--katran-yelow) !important;
+    color: var(--katran-red) !important;
 }
+
+.category-top {
+    display: flex;
+    flex-wrap: wrap;
+    /*width: 80%;*/
+}
+.category-top a{
+
+}
+.category-top  a .category-block{
+    margin: 6pt 3pt 0 3pt;
+    /*height: 25pt;*/
+    border-radius: 50pt;
+    border: 1px #676f79 solid;
+    padding:  6.23pt 15pt;
+    width: fit-content;
+    cursor: pointer;
+}
+.category-top a .category-block  p{
+    line-height: 1;
+    font-size: 12.5pt;
+    color: #676f79;
+}
+
+
 a.no-hl-link{color: var(--katran-font-color);}
 a.no-hl-link:hover{color: var(--katran-dark);}
 .katran--free_space{min-height: 2rem;height: 2rem;content: "";}
 .frontpage--category_tiles p.title{text-shadow: 1px 1px 5px #f8f6fc;}
 .product_table td{ vertical-align: middle;}
 @media screen and (min-width: 350px) and (max-width:769px){
+    body{
+        overflow-x: hidden;
+    }
+    .katran-logo-img{
+        max-width: 90%;
+    }
+    .menu-label{
+        font-size: 1.5rem;
+    }
     .carousel-item--img-wrapper .carousel-item--more-btn{
         opacity: 1;
     }
@@ -220,7 +302,7 @@ a.no-hl-link:hover{color: var(--katran-dark);}
         padding: .75rem 0;
     }
   }
-  @media screen and (min-width:769px){
+@media screen and (min-width:769px){
     .frontpage--category_tiles .tile.is-vertical.is-parent{
         padding-top: 0 !important;
         padding-bottom: 0 !important;
@@ -370,3 +452,90 @@ a.no-hl-link:hover{color: var(--katran-dark);}
     .home-page--cat-banner-img{height:80%;}
   }
  
+  .copy_info-btn{
+    cursor: pointer;
+  }
+  .copy_info-btn .fa-clipboard{
+    color: var(--katran-yelow) !important;
+  }
+  .search-btn{
+    justify-content: end;
+    display: flex;
+  }
+  .grid-list-view a{
+    color: var(--katran-font-sm-color) !important;
+  }
+
+  .grid-list-view a.active{
+    color: var(--katran-yelow) !important;
+  }
+
+  .tag.is-active { background-color: #3273dc !important; color: white !important; }
+  .sort-button .icon { visibility: hidden; }
+  .sort-button.is-active .icon { visibility: visible; }
+  .tag { cursor: pointer; transition: background-color 0.3s, color 0.3s; }
+  .tag:hover { background-color: #dbdbdb; }
+  .tag.is-active:hover { background-color: #2456a6 !important; }
+  .cart-btn{position: absolute;top:1rem;right:1rem;}
+
+.katran-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Сам popup-окошко */
+.katran-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%;                    /* сразу под элементом */
+  left: 50%;
+  transform: translateX(-50%) translateY(0.5rem);
+  background-color: var(--katran-white-color);    /* белый фон */
+  box-shadow: 0 0 0 2.5px var(--katran-shadow-color);
+  color: var(--katran-font-color);               /* цвет текста из Bulma */
+  padding: 0.5rem 0.75rem;      /* внутренние отступы */
+  border-radius: 4px;           /* скругление */
+
+  font-size: 0.875rem;          /* примерно Bulma size-7 */
+  white-space: nowrap;          /* без переноса */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 20;
+}
+
+/* Показываем popup при наведении */
+.katran-tooltip:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(1rem);
+}
+
+.product_card{
+    position: relative;
+    padding: 1rem;
+}
+.product_card p{
+    margin-bottom: 0 !important;
+    line-height: 1.5 !important;
+}
+.product_card p.is-6{
+    font-size: 1rem !important;
+}
+
+.product_card p.is-7{
+    font-size: .75rem !important;
+}
+
+hr.katran-line-sep{
+    margin: .25rem 0 !important;
+    /* box-shadow: 0 0 0 2.5px var(--katran-shadow-color); */
+    /* background: var(--katran-font-color); */
+    color: var(--katran-font-color);
+
+
+    background: rgba(231, 227, 227, 0.445);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+}

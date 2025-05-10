@@ -3,7 +3,7 @@
 {% block content %}
     <div class="columns">
         {% include "side-bar.html" %}
-        <div class="column">
+        <div class="column" id="productapp">
             <div class="columns is-desktop has-text-centered-touch has-text-left-desktop">
                 <div class="column">
                     <h1 class="title is-3">{{ brand.title }}</h1>
@@ -13,37 +13,86 @@
                     <img src="{{ brand.thumbnail.url }}" alt="Пневмоинструмент фирмы {{ brand.title }}" title="Пневмоинструмент фирмы {{ brand.title }}">
                 </div>
             </div>
-            <hr>
-            <div class="table-container">
-            <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Наименование</th>
-                    <th>Производитель</th>
-                    <th>Цена</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for product in products %}
-                        <tr>
-                            <th class="th-w-img p-0"><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><img src="{{ product.thumbnail.url }}" alt="{{ product.title }}" title="{{ product.title }}"></a></th>
-                            <td><a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}"><p>{{product.title}}</p></a></td>
-                            <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
-                            <td>
-                                {% if product.price != 0 %}
-                                    {{ product.price|floatformat:2 }}
-                                {% else %}
-                                    По запросу
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-              </table>
+
+            <div class="columns is-multiline">
+                            
+                {% for p in products %}
+                <div class="column is-one-quarter has-text-centered is-relative">
+                  <div class="carousel-item--img-wrapper">
+                    <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+                    <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                  </div>
+                  <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+                  <h2 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+                  {% if p.brand %}
+                    <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+                  {% endif %}
+                  <p class="title is-4">
+                    {% if p.price != 0 %}
+                      <span class="fc-red">
+                        {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                      </span>
+                  </p>
+                  <p class="subtitle is-6">с НДС</p>
+                    {% else %}
+                      <span class="fc-red">
+                        По запросу
+                      </span>
+                  </p>
+                    {% endif %}
+                    <button class="button is-black is-small cart-btn" @click="addToCart({{ p.id }})"><i class="fa-solid fa-cart-shopping"></i></button>
+                </div>
+              {% endfor %}
             </div>
-            
-            
         </div>
     </div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  var productapp = new Vue({
+    el: '#productapp',
+    delimiters: ['[[',']]'],
+    store: store,
+    data (){
+        return {
+            showAddToCartMessage: false
+        }
+    },
+    mounted(){
+        console.log('Mounted');
+    },
+    methods: {
+        addToCart(product_id){
+            console.log('Adding Product_id', product_id);
+            var data = {
+                'product_id': product_id,
+                'update': false,
+                'quantity': 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Hello');
+                this.showAddToCartMessage = true;
+                store.commit('increment', 1);
+                setTimeout(()=>{
+                    this.showAddToCartMessage = false;
+                }, 2000)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
+  });
+</script>
 {% endblock %}

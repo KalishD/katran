@@ -1,55 +1,122 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Оптовая продажа пневматического инструмента по всей России. Офис и склад в Санкт-Петербурге. Предлагаем купить инструменты юридическим лицам по самым доступным ценам в Санкт-Петербурге.{% endblock %}
+{% block ogtitle %}Оптовая продажа пневматического инструмента по всей России. Офис и склад в Санкт-Петербурге. Предлагаем купить инструменты юридическим лицам по самым доступным ценам в Санкт-Петербурге.{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+{% block canonicalurl %}{% endblock %}
+{% block ogurl %}{% endblock %}
+{% block ogimage %}{% endblock %}
 {% block content %}
 
 <div class="columns" id="frontpageapp">
-    {% include "side-bar.html" %}
-    <div class="column has-text-centered is-three-quarters">
-      <h2 class="title is-3">Российский производитель пневмоинструмента</h2>
-      <p class="subtitle is-5">ООО "Катран-Пневмо"</p>
-      <div class="content pl-5 pr-5">
-        <p>
-          ООО «Катран-Пневмо» — компания, основанная в 1990 году для оснащения судостроительной 
+    
+    <div class="column has-text-centered is-full">
+      <h1 class="title is-3">Российский производитель пневмоинструмента</h1>
+      <p class="subtitle is-5">Катран-Пневмо</p>
+      <div class="content">
+        <p class="has-text-justified">
+          Катран-Пневмо — компания, основанная в 1990 году для оснащения судостроительной 
           промышленности качественным пневмоинструментом, специализируется на продажах инструментов 
           и машиностроительного оборудования по системе В2В. Мы предлагаем купить оптом промышленный 
-          пневматический инструмент в Санкт-Петербурге и Ленинградской области.
+          пневматический инструмент с доставкой по России И СНГ.
         </p>
-        <p>
+        <p class="has-text-justified">
           Благодаря нашему интернет-магазину katran-pnevmo.ru, мы смогли предоставить покупателям 
           по всей России самый большой ассортимент оригинального и высококачественного пневмоинструмента, 
           который произведен нами и именитыми профильными предприятиями. 
         </p>
       </div>
-      <div class="content pl-5 pr-5 ">
-        <p class="title is-5 mt-6 mb-4">Подробнее о продукции выпускаемой ООО "Катран-Пневмо" Вы можете узнать по ссылке ниже.</p>  
-        <a href="{% url 'production' %}" class="button is-large is-black p-5"><i class="fa-solid fa-list"></i>&nbsp;&nbsp;УЗНАТЬ ПОДРОБНОСТИ</a>
+      <div class="content">
+        <p class="has-text-left subtitle is-4">
+          <span class="fc-red">Популярные</span> категории
+        </p>
+        <div class="category-top mb-6 columns is-multiline">
+          {% for fc in featured_cetegories %}
+            <a href="{% url 'category_detail' fc.main_category.slug fc.slug %}">
+              <div class="category-block">
+                <p>
+                  {{fc.title}}
+                </p>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
       </div>
-      <h3 class="title is-3 mt-6">Продукция ООО "Катран-Пневмо"</h3>
+<!--       <div class="content">
+        <p class="title is-5 mt-6 mb-4">Подробнее о продукции выпускаемой Катран-Пневмо Вы можете узнать по ссылке ниже.</p>  
+        <a href="{% url 'production' %}" class="button is-large p-5"><i class="fa-solid fa-list"></i>&nbsp;&nbsp;УЗНАТЬ ПОДРОБНОСТИ</a>
+      </div> -->
+      <h2 class="title is-3 mt-6">Продукция Катран-Пневмо</h2>
       <p class="subtitle is-5">Пневматический инструмент российского производства</p>  
       <div class="carousel-wrapper">
-        <div class="carousel" id="katran-carousel">
+        <div class="owl-carousel owl-theme">
           {% for p in katran_products %}
-            <div class="item-{{ forloop.counter }} m-2 carousel-item">
+            <div class="m-2">
               <div class="carousel-item--img-wrapper">
                 <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
               </div>
-              <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-              <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+              <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.main_category.slug  p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+              <h2 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
               <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-              <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-              <p class="subtitle is-6">с НДС</p>
+              <p class="title is-5">
+                {% if p.price != 0 %}
+                  <span class="fc-red">
+                    {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                  </span>
+              </p>
+              <p class="subtitle is-7">с НДС</p>
+                {% else %}
+                  <span class="fc-red">
+                    По запросу
+                  </span>
+              </p>
+                {% endif %}
             </div>
           {% endfor %}
         </div>
       </div>
+
+      <div class="columns mt-6 mb-6">
+      </div>
+
+    </div>
+  </div>
+<!--  -->
+  <div class="columns">
+    {% include "side-bar.html" %}
+    <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
+
+      <div class="columns">
+        <div class="column is-full has-text-centered">
+          <h2 class="title is-3">Бренды</h2>
+          <p class="subtitle is-5">Проверенные производители пневматического инструмента</p>
+          <div class="carousel-wrapper is-vcentered columns">
+            <div class="owl-carousel brands-carousel ">
+              {% for p in menu_brands %}
+                {% if p.get_products.count != 0 %}
+                  <div class="item-{{ forloop.counter }} m-2 column carousel-item katran-tooltip" data-tooltip="{{ p.title }}">
+                    <div class="carousel-item--img-wrapper">
+                      <a href="{% url 'brand_detail' p.slug %}"
+                      	class="">
+                        <img class="image" src="{{p.image.url}}" alt="{{ p.title }} | купить со склада в СПБ">
+                      </a>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="columns mt-6 mb-6">
         <div class="column is-one-third-desktop p-2">
           <div class="home-page-banner-item">
             <img src="{% static 'images/frontpage/home-page-banner-delivery.jpg' %}" alt="">
             <div class="home-page-banner-wrapper">
-              <p class="title is-6">БЫСТРАЯ ДОСТАВКА ДО ТК</p>
+              <h3 class="title is-6">БЫСТРАЯ ДОСТАВКА ДО ТК</h3>
               <p class="subtitle is-6">Отправка по всей России и СНГ! Бесплатная доставка до терминала транспортной компании</p>
             </div>
           </div>
@@ -58,7 +125,7 @@
           <div class="home-page-banner-item">
             <img src="{% static 'images/frontpage/home-page-banner-cogwheel.jpg' %}" alt="">
             <div class="home-page-banner-wrapper">
-              <p class="title is-6">ПРЕДПРОДАЖНАЯ ПОДГОТОВКА</p>
+              <h3 class="title is-6">ПРЕДПРОДАЖНАЯ ПОДГОТОВКА</h3>
               <p class="subtitle is-6">Весь инструмент проверен нашими специалистами и готов к работе "из коробки"</p>
             </div>
           </div>
@@ -67,188 +134,164 @@
           <div class="home-page-banner-item">
             <img src="{% static 'images/frontpage/home-page-banner-shield.jpg' %}" alt="">
             <div class="home-page-banner-wrapper">
-              <p class="title is-6">ГАРАНТИЙНОЕ ОБСЛУЖИВАНИЕ</p>
+              <h3 class="title is-6">ГАРАНТИЙНОЕ ОБСЛУЖИВАНИЕ</h3>
               <p class="subtitle is-6">Многолетний опыт наших специалистов, позволяет проводить ремонт любой сложности.</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="columns">
-    <div class="column is-full has-text-centered">
-      <h3 class="title is-3">Продукция ООО "Катран-Пневмо"</h3>
-      <p class="subtitle is-5">Пневматический инструмент российского производства</p>
-      <div class="carousel-wrapper">
-        <div class="carousel" id="cang-carousel">
-          {% for p in cangairgrinders %}
-            <div class="item-{{ forloop.counter }} m-2 carousel-item">
-              <div class="carousel-item--img-wrapper">
-                <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
-              </div>
-              <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-              <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
-              <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-              <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-              <p class="subtitle is-6">с НДС</p>
+      <div class="columns">
+        <div class="column is-full has-text-centered">
+          <h2 class="title is-3">Цанговые шлифмашины</h2>
+          <p class="subtitle is-5">доставка по РФ и СНГ</p>
+          <div class="carousel-wrapper">
+            <div class="carousel owl-carousel owl-theme" id="cang-carousel">
+              {% for p in cangairgrinders %}
+                <div class="item-{{ forloop.counter }} m-2 carousel-item">
+                  <div class="carousel-item--img-wrapper">
+                    <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+                    <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                  </div>
+                  <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+                  <h2 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+                  {% if p.brand %}
+                    <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+                  {% endif %}
+                  <p class="title is-5">
+                    {% if p.price != 0 %}
+                      <span class="fc-red">
+                        {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                      </span>
+                  </p>
+                  <p class="subtitle is-7">с НДС</p>
+                    {% else %}
+                      <span class="fc-red">
+                        По запросу
+                      </span>
+                  </p>
+                    {% endif %}
+                </div>
+              {% endfor %}
             </div>
-          {% endfor %}
+          </div>
         </div>
       </div>
+      <div class="columns">
+          <div class="column is-full has-text-centered">
+            <h2 class="title is-3 mt-6 mb-6">Угловые шлифмашины</h2>
+            <p class="subtitle is-5">со склада в Санкт-Петербурге</p>
+            
+            <div class="carousel-wrapper">
+              <div class="carousel owl-carousel owl-theme">
+                {% for p in anglegrinders %}
+                  <div class="item-{{ forloop.counter }} m-2 carousel-item">
+                    <div class="carousel-item--img-wrapper">
+                      <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+                      <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                    </div>
+                    <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+                    <h2 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+                    {% if p.brand %}
+                      <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+                    {% endif %}
+                    <p class="title is-5">
+                      {% if p.price != 0 %}
+                        <span class="fc-red">
+                          {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                        </span>
+                    </p>
+                    <p class="subtitle is-7">с НДС</p>
+                      {% else %}
+                        <span class="fc-red">
+                          По запросу
+                        </span>
+                    </p>
+                      {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>      
     </div>
   </div>
-  <div class="columns">
-    <div class="column is-full has-text-centered">
-      <h3 class="title is-3 mt-6 mb-6">Продукция ООО "Катран-Пневмо"</h3>
-      <p class="subtitle is-5">Пневматический инструмент российского производства</p>
+    
+  
+  <div class="katran--free_space"></div>
+  <div class="katran--free_space"></div>
+  <div class="katran--free_space"></div>
+
+  <div class="posts">
+    {% for p in posts %}
+      <p class="title">{{ p.title }}</p>
+      <p class="title">{{ p.category }}</p>
       
-      <div class="carousel-wrapper">
-        <div class="carousel">
-          {% for p in katran_products %}
-            <div class="item-{{ forloop.counter }} m-2 carousel-item">
-              <div class="carousel-item--img-wrapper">
-                <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
-              </div>
-              <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-              <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
-              <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-              <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-              <p class="subtitle is-6">с НДС</p>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
-  <div class="katran--free_space"></div>
-  <div class="katran--free_space"></div>
-  <div class="katran--free_space"></div>
-  <div class="frontpage--category_tiles">
-    <div class="tile is-ancestor">
-      <div class="tile is-5 is-parent">
-        <div class="tile is-child box grinder_tile">
-          <p class="title">Шлифовальные машины</p>
-        </div>
-      </div>
-      <div class="tile is-parent">
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box angle_tile">
-            <p class="title">угловые</p>
-          </div>
-          <div class="tile is-child box cang_tile">
-            <p class="title">цанговые</p>
-          </div>
-        </div>
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box strate_tile">
-            <p class="title">прямые</p>
-          </div>
-          <div class="tile is-child box trambov_tile">
-            <p class="title">Трамбовки</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="tile is-ancestor">
-      <div class="tile is-5 is-parent">
-        <div class="tile is-child box hammer_tile">
-          <p class="title">Молотки</p>
-        </div>
-      </div>
-      <div class="tile is-parent">
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box otboy_tile">
-            <p class="title">отбойные</p>
-          </div>
-          <div class="tile is-child box rubil_tile">
-            <p class="title">рубильные</p>
-          </div>
-        </div>
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box beton_tile">
-            <p class="title">Бетоноломы</p>
-          </div>
-          <div class="tile is-child box tools_tile">
-            <p class="title">Инструментальные принадлежности</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="tile is-ancestor">
-      <div class="tile is-5 is-parent">
-        <div class="tile is-child box wrench_tile">
-          <p class="title">Гайковерты</p>
-        </div>
-      </div>
-      <div class="tile is-parent">
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box vint_tile">
-            <p class="title">Винтоверты</p>
-          </div>
-          <div class="tile is-child box drill_tile">
-            <p class="title">Сверлильные машины</p>
-          </div>
-        </div>
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box paint_tile">
-            <p class="title">Окрасочное оборудование</p>
-          </div>
-          <div class="tile is-child box zap_tile">
-            <p class="title">Запчасти</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">
-  $(window).resize(function () {
-        $('.carousel').not('.slick-initialized').slick('resize');
-    });
-
-  $(window).on('orientationchange', function () {
-      $('.carousel').not('.slick-initialized').slick('resize');
-  });
-
   $(document).ready(function(){
-    $('.carousel').slick({
-      autoplay: true,
-      adaptiveHeight: true,
-      arrows: true,
-      dots: false,
-      slidesToShow: 4,
-      // mobileFirst: true,
-      prevArrow: '<button type="button" class="slick-prev"><i class="fa-solid fa-angle-left"></i></button>',
-      nextArrow: '<button type="button" class="slick-next"><i class="fa-solid fa-angle-right"></i></button>',
-      responsive: [
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
-                dots: true
-              }
+    $('.owl-carousel:not(".brands-carousel")').owlCarousel(
+      {
+        items: 4,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        responsive:{
+            0:{
+                items:2,
+                nav:true
             },
-            {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2
-              }
+            480:{
+                items:4,
+                nav:false
             },
-            {
-              breakpoint: 480,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-              }
+            700:{
+                items:5,
+                nav:false
+            },
+            1000:{
+                items:7,
+                nav:false,
+                loop:false
             }
-          ]
-    });
+        },
+      }
+    );
+    $('.brands-carousel').owlCarousel(
+      {
+        items: 10,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        autoplay:true,
+        responsive:{
+            0:{
+                items:3,
+                nav:true
+            },
+            480:{
+                items:3,
+                nav:false
+            },
+            700:{
+                items:5,
+                nav:false
+            },
+            1000:{
+                items:10,
+                nav:false,
+                loop:false
+            }
+        },
+      }
+    );
   });
 </script>
 {% endblock %}

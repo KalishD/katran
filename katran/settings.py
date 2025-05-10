@@ -44,13 +44,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
-
+    
     'apps.cart',
     'apps.core',
     'apps.store',
     'apps.order',
+    'apps.blog',
+
     'phonenumber_field',
     'fontawesomefree',
+    'django_summernote',
 
 ]
 
@@ -125,13 +128,17 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+USE_L10N = False
 
-USE_TZ = True
+LANGUAGE_CODE = 'ru-RU'
+
+# Пример вывода: 16 сентября 2012 
+DATE_FORMAT = 'd E Y'
 
 
 # Static files (CSS, JavaScript, Images)
