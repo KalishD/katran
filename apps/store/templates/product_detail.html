@@ -86,6 +86,7 @@
                             <p class="has-text-left is-6"><span class="has-text-weight-bold is-6">Группа:</span> 
                                 <a class="no-hl-link" href="{% url 'main_category_detail' product.category.main_category.slug %}">{{ product.category.main_category }}</a></p>
                             <p class="has-text-left is-6"><span class="has-text-weight-bold is-6">Категория:</span> <a class="no-hl-link" href="{% url 'category_detail' product.category.main_category.slug product.category.slug %}">{{ product.category }}</a></p>
+                            <hr class="katran-line-sep">
                             <p class="has-text-left"><i class="fa-solid fa-box-open"></i></i>
                                 <span>Бесплатная доставка до ТК</span>
                             </p>
@@ -98,6 +99,7 @@
                             <p class="has-text-left"><i class="fa-solid fa-truck"></i>
                                 <span>Доставка по РФ и СНГ</span>
                             </p>
+                            <hr class="katran-line-sep">
                             <p id="copyToClipboard_btn" class="title is-6 copy_info-btn mt-3"
                             @click="copyToClipboard()">
                             <i class="fa fa-clipboard"></i>
