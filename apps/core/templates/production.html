@@ -1,32 +1,71 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Продукция ООО "Катран-Пневмо" {% endblock %}
-{% block description %}{% endblock %}
-{% block keywords %}
-    {{ keywords }}
-{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
 {% block content %}
-    <div class="columns" id="productionsapp">
+    <div class="columns" >
       {% include "side-bar.html" %}
-      <div class="column has-text-centered-touch">
+      <div class="column has-text-centered-touch" id="productionsapp">
         <div class="title-wrapper has-text-centered">
           <p class="subtitle is-6">Пневматический инструмент</p>
           <h2 class="title is-3">Шлифовальные машины</h2>
           <p class="subtitle is-6">Пневматические шлифовальные машины производства ООО «Катран-Пневмо» </p>
         </div>
         <div class="columns mt-6">
-          <div class="column is-half content">
+          <div class="column is-half">
             <h3 class="title is-4">Цанговая шлифмашина МП-006</h3>
             <p class="content katran-content">
               Компактная и мощная цанговая  шлифмашина (бормашинка) производства Катран-Пневмо. Пнедназначена для обработки штампов и пресс-форм, шлифования и зачистки поверхностей и других аналогичных работ.
               <br><br>
               Патент на полезную модель шлифовальной машины МП-006 №1987
             </p>
+
+          <div class="column is-half has-text-centered is-relative is-spaced">
+            <div class="carousel-item--img-wrapper">
+              <figure class="image">
+                <img src="{{mp006.image.url}}" alt="{{ mp006.title }} | {{ mp006.category }} | купить со склада в СПБ">
+              </figure>
+              <a href="{% url 'product_detail' mp006.category.main_category.slug mp006.category.slug mp006.slug %}" class="button is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+              {% if mp006.brand %}
+              <figure class="image product-card_brand-image is-32x32">
+                <img src="{{mp006.brand.image.url}}" 
+                alt="{{ mp006.brand }} | {{ mp006.category }} | купить со склада в СПБ"
+                title="{{ mp006.brand }} | {{ mp006.category }} | купить со склада в СПБ">
+              </figure>
+              {% endif %}
+            </div>
+
+            <!-- main Category -->
+<!--             <p class="title is-6"><a href="{% url 'category_detail' mp006.category.main_category.slug mp006.category.slug %}" class="no-hl-link">{{ mp006.category.main_category }}</a></p> -->
+            <!-- category -->
+            <p class="subtitle is-6"><a href="{% url 'category_detail' mp006.category.main_category.slug mp006.category.slug %}" class="no-hl-link">{{ mp006.category }}</a></p>
+            <!-- Title -->
+            <p class="title is-6"><a href="{% url 'product_detail' mp006.category.main_category.slug mp006.category.slug mp006.slug %}" class="no-hl-link">{{ mp006.title }}</a></p>
+            {% if mp006.brand %}
+              <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' mp006.brand.slug %}">{{ mp006.brand }}</a></p>
+            {% endif %}
+            <p class="title is-4">
+              {% if mp006.price != 0 %}
+                <span class="fc-red">
+                  {{ mp006.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                </span>
+            </p>
+            <p class="subtitle is-6">с НДС</p>
+              {% else %}
+                <span class="fc-red">
+                  По запросу
+                </span>
+            </p>
+              {% endif %}
+              <button class="button is-black is-small cart-btn" @click="addToCart({{ mp006.id }})"><i class="fa-solid fa-cart-shopping"></i></button>
+            </div>
+
           </div>
           <div class="column is-half has-text-centered">
             <img src="{% static 'images/production/mp-006.jpg' %}" alt="">
-            <button class="button is-black is-normal" @click="addToCart({{ mp006.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
-            <a href="{% url 'product_detail' mp006.category.main_category.slug mp006.category.slug mp006.slug %}" class="button is-black is-normal">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+            <!-- <button class="button is-black is-normal" @click="addToCart({{ mp006.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+            <a href="{% url 'product_detail' mp006.category.main_category.slug mp006.category.slug mp006.slug %}" class="button is-black is-normal">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a> -->
           </div>
         </div>
         <div class="columns mt-6">
@@ -217,22 +256,6 @@
 
 {% block scripts %}
 <script type="text/javascript">
-  // Initialize all div with carousel class
-  var options = {
-    slidesToScroll: 1,
-    slidesToShow: 3,
-    loop: true
-  }
-  var carousels = bulmaCarousel.attach('.carousel', options);
-
-  // Loop on each carousel initialized
-  for(var i = 0; i < carousels.length; i++) {
-    // Add listener to  event
-    carousels[i].on('before:show', state => {
-      console.log(state);
-    });
-  }
-
   var productionsapp = new Vue({
     el: '#productionsapp',
     delimiters: ['[[',']]'],
@@ -276,5 +299,6 @@
         }
     }
   });
+
 </script>
 {% endblock %}

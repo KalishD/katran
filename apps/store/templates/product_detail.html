@@ -10,10 +10,8 @@
     {% endif %}
 
 {% endblock %}
-{% block description %}{% endblock %}
-{% block keywords %}
-    {{ keywords }}
-{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
 
 {% block content %}
     <div class="columns">
@@ -32,7 +30,16 @@
                 
                 <div itemscope itemtype="http://schema.org/Product" class="columns is-desktop">
                     <div class="column is-half-desktop is-full-mobile">
-                        <img itemprop="image" src="{{ product.image.url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                        <div class="image is-256x256">
+                            <img itemprop="image" src="{{ product.image.url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                            {% if product.brand %}
+                                <figure class="image product-card_brand-image is-64x64">
+                                    <img src="{{product.brand.image.url}}" 
+                                        alt="{{ product.brand }} | купить со склада в СПБ"
+                                        title="{{ product.brand }} | купить со склада в СПБ">
+                                </figure>
+                            {% endif %}
+                        </div>
                         
                     </div>
                     <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="column">
@@ -51,7 +58,7 @@
                                         {% endif %}
                                 </span>
                             </p>
-                            <button class="button is-black is-normal" @click="addToCart({{ product.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+                            <button class="button is-black is-normal" @click="addToCart({{ product.id }})">Купить &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
                             <article class="message is-primary" v-if="showAddToCartMessage">
                                 <div class="message-body">
                                   <strong>{{ product.title }}</strong> добавлен в корзину.
@@ -61,7 +68,7 @@
                                 
                             
                             {% if product.brand %}
-                                <article class="media has-text-left-desktop has-text-left-mobile mt-3">
+                                <article class="media has-text-left-desktop has-text-left-mobile mt-3 mb-3">
                                     <figure class="media-left">
                                     <p class="image is-64x64">
                                         <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">
@@ -72,7 +79,7 @@
                                     </p>
                                     </figure>
                                     <div class="media-content">
-                                        <div class="content">
+                                        <div class="">
                                             <p class="title is-6 has-text-left">
                                             Производитель: <strong><a itemprop="brand" class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></strong>
                                             </p>
@@ -82,6 +89,7 @@
                                         </div>
                                     </div>
                                 </article>
+                                <hr class="katran-line-sep">
                             {% endif %}
                             <p class="has-text-left is-6"><span class="has-text-weight-bold is-6">Группа:</span> 
                                 <a class="no-hl-link" href="{% url 'main_category_detail' product.category.main_category.slug %}">{{ product.category.main_category }}</a></p>
@@ -107,27 +115,29 @@
                             </p>
                         </div>
                         </div>
-                        <p class="title is-5 fc-red mt-3 mb-3">Краткое описание</p>
-                        {% if product.description %}
-                            <p itemprop="description" class="content">
-                                {{ product.description | safe }}
-                            </p>
-                        {% endif %}
-                        {% if variables %}
-                        <div class="has-text-centered">
-                            <p class="title is-5 fc-red mt-6 mb-3">Технические характеристики</p>
+                        <div class="box">
+                            {% if product.description %}
+                                <p class="title is-5 fc-red mt-3 mb-3">Краткое описание</p>
+                                <p itemprop="description" class="content">
+                                  {{ product.description | safe }}
+                                </p>
+                            {% endif %}
+                            {% if variables %}
+                            <div class="has-text-centered">
+                                <p class="title is-5 fc-red mt-6 mb-3">Технические характеристики</p>
+                            </div>
+                            <table class="table is-striped is-hoverable is-fullwidth" id="tech_variables">
+                                <tbody>
+                                    {% for var in variables %}
+                                        <tr>
+                                            <td class="has-text-centered-desktop has-text-left-mobile">{{ var.varitem.title }}</td>
+                                            <td class="has-text-left">{{ var.value }}&nbsp;&nbsp;{% if var.varitem.dimention %}{{var.varitem.dimention}}{% endif %}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% endif %}
                         </div>
-                        <table class="table is-striped is-hoverable is-fullwidth" id="tech_variables">
-                            <tbody>
-                                {% for var in variables %}
-                                    <tr>
-                                        <td class="has-text-centered-desktop has-text-left-mobile">{{ var.varitem.title }}</td>
-                                        <td class="has-text-left">{{ var.value }}&nbsp;&nbsp;{% if var.varitem.dimention %}{{var.varitem.dimention}}{% endif %}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {% endif %}
                     </div>
                 </div>              
             </div>

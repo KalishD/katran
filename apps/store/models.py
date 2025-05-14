@@ -99,6 +99,9 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True)
     price = models.FloatField()
     is_features = models.BooleanField(default=False)
+    is_sale = models.BooleanField(default=False)
+    is_bestseller = models.BooleanField(default=False)
+    article = models.CharField(max_length=255,blank=True, null=True)
 
     image = models.ImageField(upload_to="uploads/products/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
     thumbnail = models.ImageField(upload_to="uploads/products/thumb/", blank=True, null=True)

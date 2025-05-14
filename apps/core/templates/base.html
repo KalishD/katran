@@ -11,7 +11,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.1/dist/summernote.min.css" rel="stylesheet">
+
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
   
   <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
@@ -19,7 +21,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />  
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.1/dist/summernote.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.1/dist/summernote.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script>
+
   <meta name="description" content="{% block description %}Пневмоинструмент{% endblock %} широкий выбор: характеристики, фото, видео, отзывы, в интернет-магазине katran-pnevmo.ru | 🚛 Доставка в Санкт-Петербурге и по России" />
   <link rel="canonical" href="{% block canonicalurl %}https://katran-pnevmo.ru{% endblock %}" />
   <meta property="og:site_name" content="Интернет-магазин пневматического инструмента katran-pnevmo.ru" />
@@ -36,7 +39,7 @@
   <div id="main_container" >
     {% block messages %}{% endblock %}
     <div class="header_wrapper" id="navbarapp">
-      <nav class="navbar" role="navigation" aria-label="main navigation">
+      <nav class="navbar is-spaced has-shadow is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
           <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
@@ -55,8 +58,8 @@
               Продукция
             </a>
       
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link" href="{% url 'catalog' %}">
+            <div class="navbar-item has-dropdown" :class="{ 'is-active': dropdowns.catalog }">
+              <a class="navbar-link" @click="toggleDropdown('catalog')">
                 Каталог
               </a>
       
@@ -68,8 +71,8 @@
                 {% endfor %}
               </div>
             </div>
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link" href="{% url 'catalog' %}">
+            <div class="navbar-item has-dropdown" :class="{ 'is-active': dropdowns.brands }">
+              <a class="navbar-link" @click="toggleDropdown('brands')">
                 Производители
               </a>
       
@@ -137,7 +140,7 @@
         </div>
       </nav>
       <hr>
-      <div class="columns">
+      <div class="columns mt-12 is-vcentered">
         <div class="column is-one-quarter is-centered pr-6 pl-6">
           <a href="{% url 'frontpage' %}" class="no-hl-link">
             <img class="katran-logo-img" 
@@ -148,23 +151,23 @@
         </div>
         <div class="column is-tree-quarters">
           <div class="columns">
-            <div class="column is-1"></div>
+            <div class="column is-1 is-hidden-mobile"></div>
             <div class="column is-8">
               <div class="columns">
-                <div class="column has-text-right-desktop has-text-centered mt-12 is-half">
+                <div class="column has-text-right-desktop has-text-centered is-half">
                   <p class="heading has-text-weight-bold title is-4">ЗВОНИТЕ НАМ</p>
                   <p class="subtitle has-text-weight-bold is-4"><i class="fa fa-clock" style="margin-right: .5rem"></i>ПН-ПТ 9:30 - 17:30</p>
                   <p class="subtitle is-4 mb-1"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
                   <p class="subtitle is-4"><a class="no-hl-link" href="tel:+78127142030"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 714 20 30</a></p>
                 </div>
-                <div class="column has-text-left-desktop has-text-centered mt-12 is-half">
+                <div class="column has-text-left-desktop has-text-centered is-half">
                   <p class="heading has-text-weight-bold title is-4">НАШ АДРЕС</p>
                   <p class="subtitle is-5"><i class="fa fa-map-marker" style="margin-right: 1rem"></i>г. Санкт-Петербург, Английский пр., д. 33</p>
                   <p class="subtitle is-5"><a class="no-hl-link" href="mailto:OFFICE@KATRAN-PNEVMO.RU"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</a></p>
                 </div>
               </div>
             </div>
-            <div class="column is-3"></div>
+            <div class="column is-3 is-hidden-mobile"></div>
           </div>
         </div>
       </div>
@@ -260,6 +263,10 @@
         return {
           menuClass: false,
           searchClass: false,
+			    dropdowns: {
+			      catalog: false,
+			      brands: false,
+			    },
         }
       },
       computed:{
@@ -276,49 +283,45 @@
         },
         toggleSearch() {
           this.searchClass = !this.searchClass;
-        }
+        },
+        toggleDropdown(name) {
+			    this.dropdowns[name] = !this.dropdowns[name];
+			  },
       }
     });
     var sidebarapp = new Vue({
-      el: '#sidebarapp',
-      delimiters: ['[[',']]'],
-      store: store,
-      data () {
-        return {
-          accClass: true,
-        }
-      },
-      computed:{
+		  el: '#sidebarapp',
+		  delimiters: ['[[', ']]'],
+		  store: store,
+		  data() {
+		    return {
+		      accClass: {}, // объект вида { 1: false, 2: false, ... }
+		    };
+		  },
+		  mounted() {
+		    // Инициализируем все как false (закрытые)
+		    {% for maincat in menu_main_categories %}
+		      this.$set(this.accClass, {{ maincat.id }}, false);
+		    {% endfor %}
+		  },
+			methods: {
+			  toggleAccMenu(id) {
+			    const wasOpen = this.accClass[id];
 
-      },
-      methods: {
-        toggleAccMenu(e) {
-          if (this.accClass){
-            e.target.parentElement.classList.remove("active");  
-          } else{
-            e.target.parentElement.classList.add("active");
-          }
-          this.accClass = !this.accClass;
-        },
-      }
-    });
-    //function raiseMenu() {
-    // Accordion Action
-    /*
-    const accordionItem = document.querySelectorAll(".menu-accordion-item");
-      console.log(accordionItem);
-      accordionItem.forEach((el) =>
-      el.addEventListener("click", () => {
-        if (el.classList.contains("active")) {
-          console.log("remove active");
-          el.classList.remove("active");
-        } else {
-          console.log("add active");
-          el.classList.add("active");
-        }
-      })
-    );
-    //}*/
+			    // Закрыть все
+			    Object.keys(this.accClass).forEach(key => {
+			      this.accClass[key] = false;
+			    });
+
+			    // Если не был открыт — открыть его
+			    if (!wasOpen) {
+			      this.accClass[id] = true;
+			    }
+			  }
+			}
+
+		});
+
   </script> 
     {% block scripts %}{% endblock %}
 </body>

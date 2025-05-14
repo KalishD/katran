@@ -6,9 +6,13 @@
     --katran-font-color: #09131f;
     --katran-font-sm-color: #676f79;
     --katran-shadow-color: rgba(0, 0, 0, .1);
+    --katran-text-outline-color: #f8f6fc;
 }
 body{
     color: var(--katran-font-color) !important;
+}
+.mt-12 {
+    margin-top: 4rem !important;
 }
 .home-page-banner-item{
     position: relative;
@@ -25,8 +29,17 @@ body{
     
 }
 .box{
-    padding: 1rem;
+	padding: 1rem;
+	background-color: #fff;
+	border-radius: 6px;
+	box-shadow: 0 .5em 1em -.125em rgba(120, 120, 120, .1), 0 0 0 1px rgba(120, 120, 120, .02);
+	color: var(--katran-font-color);
 }
+
+.box:not(:last-child){
+	margin-bottom: 1rem;
+}
+
 .search.is-active{
     width: 360px;
 }
@@ -34,13 +47,15 @@ body{
 .menu-accordion-item_inner{
     transition: .5s ease;
 }
-.menu-accordion-item.active .menu-accordion-item_inner{
+.menu-accordion-item .menu-accordion-item_inner{
     height:0;
     margin-top:0 !important;
     margin-bottom: 0 !important;
     overflow: hidden;
 }
-
+.menu-accordion-item.active .menu-accordion-item_inner{
+  height:inherit;
+}
 .smoo_after_title{
     font-size: 0.9em;
     color: var(--katran-font-sm-color);
@@ -154,33 +169,28 @@ body{
     -webkit-transform: scale(1.05);
     transform: scale(1.05);
 }
+
 .carousel-item--img-wrapper{
     position: relative;
+    border: 1px solid rgba( 15, 15, 15, 0.1 );
 }
 .carousel-item--img-wrapper .carousel-item--more-btn {
     position: absolute;
     z-index: 1;
-    right: 1.5rem;
-    top: 3rem;
-    /* transform: translateX(-50%); */
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
     transition: all 0.3s ease;
     opacity: 0;
   
-    background: rgba(179, 174, 174, 0.25);
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 4px );
+    background: rgba(179, 174, 174, 0.75);
+    box-shadow: 0 8px 64px 0 rgba( 31, 38, 135, 0.60 );
+    backdrop-filter: blur( 2px );
+    -webkit-backdrop-filter: blur( 2px );
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
 
-    /* Glassmorphism */
-    /* background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); */
     color: #09131f;
-  
     padding: 0.5rem 1rem;
     font-size: 0.95rem;
     border-radius: 10px;
@@ -191,13 +201,23 @@ body{
   
   .carousel-item--img-wrapper:hover .carousel-item--more-btn {
     opacity: 1;
-    transform: translateY(-50%) scale(1.05);
+    /*transform: translateY(-50%) scale(1.05);*/
+    transform: translate(-50%, -50%) scale(1.0);
     color: #09131f;
-    background: rgba(255, 255, 255, 0.25); /* затемнение при наведении */
+    background: rgba(255, 255, 255, 0.70); /* затемнение при наведении */
   }
   .carousel-item--img-wrapper:hover .carousel-item--more-btn:hover {
-    background: rgba(15, 15, 15, 0.15); /* затемнение при наведении */
+    border: 1px solid rgba( 255, 255, 255, 0.8 );
+   background: rgba(255, 255, 255, 0.65); /* затемнение при наведении */
   }
+.product-card_brand-image{
+  position: absolute;
+  z-index: 10;
+  bottom: 2.5%;
+  right: 5%;
+}
+
+
 .product-table{
     font-size: .75em !important;
 }
@@ -529,8 +549,6 @@ a.no-hl-link:hover{color: var(--katran-dark);}
 
 hr.katran-line-sep{
     margin: .25rem 0 !important;
-    /* box-shadow: 0 0 0 2.5px var(--katran-shadow-color); */
-    /* background: var(--katran-font-color); */
     color: var(--katran-font-color);
 
 
@@ -538,4 +556,55 @@ hr.katran-line-sep{
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
     backdrop-filter: blur( 4px );
     -webkit-backdrop-filter: blur( 4px );
+}
+@media screen and (max-width: 768px) {
+  #categorySpoilerWrapper {
+    max-height: 180px; /* Видимая часть блока в закрытом виде */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.5s ease;
+    padding: 1rem;
+  }
+
+  #categorySpoilerWrapper.is-open {
+    max-height: 1000px; /* Достаточно большое значение для полного раскрытия */
+  }
+
+  /* Градиент-затемнение снизу */
+  #categorySpoilerWrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  #categorySpoilerWrapper.is-open::after {
+    opacity: 0;
+  }
+
+  .more-categories-toggle {
+    color: #3273dc;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s;
+    margin-top: 0.75rem;
+  }
+
+  .more-categories-toggle:hover {
+    color: #2056a8;
+  }
+}
+
+.carousel-item .title{
+  line-height: 1.25 !important;
 }
