@@ -496,7 +496,41 @@ a.no-hl-link:hover{color: var(--katran-dark);}
   .tag { cursor: pointer; transition: background-color 0.3s, color 0.3s; }
   .tag:hover { background-color: #dbdbdb; }
   .tag.is-active:hover { background-color: #2456a6 !important; }
-  .cart-btn{position: absolute;top:1rem;right:1rem;}
+ .cart-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* gap: 0.5rem; */
+  padding: 0.5rem;
+  width: 2.25rem;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  transition: width 0.3s ease, background 0.3s ease;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.cart-btn-label {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-width 0.3s ease, opacity 0.3s ease;
+}
+
+.cart-btn:hover {
+  width: 6rem;
+}
+
+.cart-btn:hover .cart-btn-label {
+  max-width: 3rem; /* или auto, если поддерживается */
+  opacity: 1;
+}
+
+
 
 .katran-tooltip {
   position: relative;

@@ -47,7 +47,11 @@
               </span>
           </p>
             {% endif %}
-            <button class="button is-black is-small cart-btn" @click="addToCart({{ p.id }})"><i class="fa-solid fa-cart-shopping"></i></button>
+            <button class="button is-black is-small cart-btn" @click="addToCart({{ p.id }})">
+                <i class="fa-solid fa-cart-shopping"></i>
+                &nbsp;
+                <span class="cart-btn-label">Купить</span>
+            </button>
         </div>
     {% endfor %}
 </div>

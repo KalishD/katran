@@ -122,7 +122,7 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return '/%s/%s' % (self.category.slug, self.slug)
+        return '/catalog/%s/%s/%s' % (self.category.main_category.slug, self.category.slug, self.slug)
 
     def make_thumbnail(self, image, size=(60, 60)):
         img = Image.open(image)
