@@ -127,6 +127,15 @@
               <p class="help is-danger" :class="{ 'hidden': !addressErrorClass }">Необходимо указать адрес доставки.</p>
             </div>
               
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" v-model="agreement" name="agreement">
+                  Я согласен с <a href="/policy/" target="_blank">политикой персональных данных</a>
+                </label>
+              </div>
+            </div>
+
             <div class="field mt-6">
               <div class="control">
                 <button class="button is-black is-medium">Сделать заказ</button>
@@ -160,6 +169,7 @@
             emailErrorClass: false,
             phoneErrorClass: false,
             addressErrorClass: false,
+            agreement: false,
             errors: [],
             name: '',
             email: '',
@@ -190,6 +200,7 @@
           this.emailErrorClass = false;
           this.phoneErrorClass = false;
           this.addressErrorClass = false;
+          this.agreementErrorClass = false;
           console.log('Data', data);
 
           
@@ -199,6 +210,9 @@
           } else if((!this.email) || (!this.email.match(this.emailRegex))){
             this.errors.push('Требуется указать email.');
             this.emailErrorClass = !this.emailErrorClass;
+          } else if(!this.agreement){
+            this.errors.push('Требуется согласие с политикой персональных данных.');
+            this.agreementErrorClass = !this.agreementErrorClass;
           // } else if((!this.phone) || (!this.phone.match(this.phoneRegex))){
           //   this.errors.push('Требуется указать телефон.');
           //   this.phoneErrorClass = !this.phoneErrorClass;
