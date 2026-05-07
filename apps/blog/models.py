@@ -2,7 +2,7 @@ from io import BytesIO
 from django.core.files import File
 from PIL import Image
 from django.db import models
-
+from apps.store.models import Product
 # Create your models here.
 
 class PostCategory(models.Model):
@@ -23,6 +23,8 @@ class Post(models.Model):
 
     image = models.ImageField(upload_to="uploads/posts/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
     thumbnail = models.ImageField(upload_to="uploads/posts/", blank=True, null=True)
+
+    linked_products = models.ManyToManyField('store.Product', symmetrical=False, blank=True, related_name='linked_products')
 
     class Meta:
         verbose_name = 'Статья'

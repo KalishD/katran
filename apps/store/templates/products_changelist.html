@@ -1,10 +1,11 @@
 {% extends 'admin/change_list.html' %}
 
 {% block object-tools %}
-    <a href="import-csv/">Import CSV</a>
-    <br />
-    <a href="import-csv-price/">Import Price</a>
-    <br />
-    <br />
+
+<div class="buttons are-medium">
+    <a class="button is-info is-inverted" href="import-csv-price/">Import Price</a>
+    <a class="button is-info is-inverted" href="export-csv-price/">Export Price</a>
+    <a class="button is-danger is-inverted" href="set-price-without-taxes/"><i class="fa-solid fa-coins"></i> Цены (с НДС%)</a>
+</div>
     {{ block.super }}
 {% endblock %}

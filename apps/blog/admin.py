@@ -11,20 +11,58 @@ import csv, codecs, os, re, operator, io, requests
 from io import BytesIO
 from PIL import Image
 from apps.blog.models import PostCategory, Post
+from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory
 from urllib.parse import parse_qsl, urljoin, urlparse
 from urllib.request import urlopen
 from apps.core.utils import *
 from import_export.admin import ExportActionMixin
 from django_summernote.admin import SummernoteModelAdmin
+from django.contrib.admin.widgets import FilteredSelectMultiple
 # Register your models here.
+
+
+class ProductAdminForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+    linked = forms.ModelMultipleChoiceField(
+        queryset=Product.objects.none(),  # заполняем в __init__
+        required=False,
+        widget=FilteredSelectMultiple('Связанные товары', False)
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # базовый queryset — все продукты
+        qs = Product.objects.filter(is_visible=True)
+        
+        # parts: только main_category_id в [3,4,5]
+        self.fields['linked'].queryset = qs.filter(category__main_category_id__in=[1,3,4,5])
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        # общий queryset только видимые продукты
+        qs = Product.objects.filter(is_visible=True)
+
+        if db_field.name == 'linked':
+            # запчасти: только main_category_id в [3,4,5]
+            kwargs['queryset'] = qs.filter(category__main_category_id__in=[1,3,4,5])
+
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+    def save_model(self, request, obj, form, change):
+        # сначала сохраняем сам объект
+        super().save_model(request, obj, form, change)
+       
 
 @admin.register(Post)
 class PostAdmin(ExportActionMixin, SummernoteModelAdmin, admin.ModelAdmin):
     list_display = ("title","postcategory","created_at")
     search_fields = ("title__contains",)
-    fields = ("postcategory","title","slug","body","image")
+    fields = ("postcategory","title","slug","body","image","linked_products")
     summernote_fields = ('body',)
     prepopulated_fields = {'slug': ('title',) }
+    filter_horizontal = ('linked_products',)
 
 @admin.register(PostCategory)
 class PostCategoryAdmin(ExportActionMixin, admin.ModelAdmin):

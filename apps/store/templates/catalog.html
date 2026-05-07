@@ -1,35 +1,28 @@
 {% extends 'base.html' %}
+{% load core_extras %}
 {% block title %}Каталог пневматического инструмента{% endblock %}
-{% block description %}{% endblock %}
-{% block keywords %}{% endblock %}
+{% block ogtitle %}Каталог пневматического инструмента{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
 {% block content %}
-  <div class="columns">
-    {% include "side-bar.html" %}
-    <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
-      {% for c in categories %}
-        <h3 class="subtitle is-4">{{ c.title }}</h3>
-        <div class="columns is-flex-wrap-wrap">
-            {% for product in c.get_products %}
-              <div class="column is-one-quarter is-align-content-center is-justify-content-center">
-                <a class="no-hl-link" href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">
-                  <img src="{{ product.image.url }}"
-                      alt="{{ product.title }}"
-                      title="{{ product.title }}">
-                  <h4 class="is-8">
-                    {{ product.title }}
-                  </h4>
-                  <p class="is-8 fc-red">
-                    {% if product.price != 0 %}
-                      {{ product.price|floatformat:2 }} с НДС
-                    {% else %}
-                      По запросу
-                    {% endif %}
-                  </p>
-                </a>
-              </div>
-            {% endfor %}
-        </div>
+
+<div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
+  <h1 class="title is-3">Каталог пневматического инструмента</h1>
+  {% for maincat in menu_main_categories %}
+  <h2 class="title is-4">{{ maincat.title }}</h2>
+  <div class="columns is-flex-wrap-wrap">
+    {% with categories_for_maincat=menu_categories_filter|filter_by_main_category_id:maincat.id %}
+    {% if categories_for_maincat %}
+      {% for cat in categories_for_maincat %}
+      <div class="column is-4">
+        <h3 class="subtitle is-5">{{ cat.title }}</h3>
+      </div>
       {% endfor %}
-    </div>
+    {% endif %}
+    {% endwith %}
   </div>
+  {% endfor %}
+</div>
+  
 {% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load core_extras %}
+{% load static %}
+{% block title %}Поставщик пневматического инструмента ООО "Катран-Пневмо"{% endblock %}
+{% block ogtitle %}Поставщик пневматического инструмента ООО "Катран-Пневмо"{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+{% block content %}
+
+  <div class="column has-text-centered-touch" id="productionsapp">
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+      <ul>
+        <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+        <li><a href="" class="no-hl-link">ООО "Катран-Пневмо"</a></li>
+      </ul>
+    </nav>
+    <div class="title-wrapper has-text-centered">
+      <p class="subtitle is-6"></p>
+      <h2 class="title is-3">Прайс-лист</h2>
+      <!-- <p class="subtitle is-6">Пневматические шлифовальные машины производства ООО «Катран-Пневмо» </p> -->
+      <a class="button is-primary" href="{% url 'export_pricelist' %}"><i class="fa-solid fa-download"></i><i class="shiny_btn"></i>&nbsp;Скачать</a>
+      
+    </div>
+  
+    <div class="columns mt-3">
+      <div class="column is-full content">
+        {% for category in categories %}
+          <div class="column is-full pl_category_title p-2">
+            <p class="title is-4 has-text-left pb-1">{{category}}</p>
+          </div>
+	          {% with products_for_category=products|filter_products_by_category_id:category.id %}
+	          {% if products_for_category %}
+              {% for product in products_for_category %}
+              <div class="columns m-0">
+                <div class="column is-2 has-text-centered p-0">
+                  <a href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">
+                  <figure class="image is-128x128 m-0 is-vcentered">
+                    
+                    <img class="" 
+                    src="{{product.image.url}}" 
+                    alt="{{ product.title }} | купить со склада в СПБ"
+                    title="{{ product.title }} | купить со склада в СПБ">
+                    
+                  </figure>
+                  </a>
+                </div>
+                <div class="column is-6">
+                  <div class="columns is-multiline">
+                    <div class="column is-full pl_product_title"><a href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}" class="no-hl-link"><p class="title is-5 has-text-left">{{product}}</p></a>
+                    <hr class="katran-line-sep"></div>
+                    
+                    <div class="column is-full pl_variables_block pt-0">
+                      <p class="subtitle has-text-left is-7 mb-1">
+                        {% for varitem in product.variable_set.all %}
+                        
+                          <span class="has-text-weight-bold">{{varitem}}: </span>
+                          <span>{{varitem.value}}</span>
+                          <span>{{varitem.varitem.dimention}}; </span>
+
+                        {% endfor %}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-3">
+                  <p class="title has-text-right is-5">
+                    <span class="has-text-weight-bold">Цена: </span>
+                    <span class="fc-red">{{product.price}}₽</span>
+                    <span class="has-text-weight-light"> с НДС</span>
+                  </p>
+                </div>
+                
+              </div>
+              <hr class="katran-line-sep">
+              {% endfor %}
+              
+            {% endif %}
+            {% endwith %}
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}

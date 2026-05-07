@@ -3,9 +3,14 @@
 {% block title %}Инструмент заказан{% endblock %}
 
 {% block content %}
-<div class="columns">
-  {% include "side-bar.html" %}
+
   <div class="column has-text-centered is-clipped">
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+      <ul>
+        <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+        <li><a href="" class="no-hl-link">Ваш заказ </a></li>
+      </ul>
+    </nav>
     <h1 class="title">Заказ отправлен</h1>
   	<p class="subtitle is-5 mb-6">Обработаем Ваш заказ и свяжемся с вами в ближайшее время</p>
 
@@ -41,7 +46,7 @@
 		</div>
 	</div>
   
-</div> 
+
 {% endblock %}
 
 {% block scripts %}

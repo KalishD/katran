@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Cart
 SESSION_COOKIE_AGE = 86400
 CART_SESSION_ID = 'cart'
-
+SITE_ID = 1
 # Application definition
 INSTALLED_APPS = [
 
@@ -54,6 +54,11 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'fontawesomefree',
     'django_summernote',
+    'django.contrib.sites',
+    'meta',
+    'html5lib',
+    
+    # 'django_json_ld',
 
 ]
 
@@ -65,6 +70,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "apps.core.middleware.WwwRedirectMiddleware",
+    'csp.middleware.CSPMiddleware',
+    # "django.middleware.csp.ContentSecurityPolicyMiddleware",
 ]
 
 ROOT_URLCONF = 'katran.urls'
@@ -80,19 +89,61 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                # store
                 'apps.store.context_processors.menu_category',
                 'apps.store.context_processors.featured_product',
                 'apps.store.context_processors.all_products',
                 'apps.store.context_processors.menu_brands',
+                'apps.store.context_processors.featured_categories',
+                'apps.store.context_processors.featured_product_success',
+                'apps.store.context_processors.bestsellers_product',
+                
+                # cart
                 'apps.cart.context_processors.cart',
+
+                # blog
+                'apps.blog.context_processors.all_posts',                
 
                 
             ],
         },
     },
 ]
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    # "jquery": "summernoteJQuery",
+
+    'summernote': {
+
+        'width': '1024px'
+    }
+}
+
+SUMMERNOTE_THEME = 'lite'
 
 WSGI_APPLICATION = 'katran.wsgi.application'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+        },
+        'core.views': {  # замените на имя вашего приложения
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+    },
+}
 
 
 # Database
@@ -150,6 +201,7 @@ STATICFILES_DIRS = [
     Path(__file__).parent.joinpath(BASE_DIR, 'static')
 ]
 
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path(__file__).parent.joinpath(BASE_DIR, 'media/')
 
@@ -164,5 +216,54 @@ MEDIA_ROOT = Path(__file__).parent.joinpath(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+handler404 = 'apps.core.views.error_404_view'
+handler500 = 'apps.core.views.error_500_view'
+
+APPEND_SLASH = True
+
+SECURE_SSL_REDIRECT = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Указывает Django использовать заголовок HTTP Strict Transport Security (HSTS)
+
+SECURE_HSTS_SECONDS = 31536000  # Год
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_HSTS_PRELOAD = True
+
+# Указывает браузерам отправлять куки только через защищенное HTTPS-соединение
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
+
+# Отправляет полный URL для запросов в пределах одного происхождения, только происхождение — для кросс-доменных запросов. Баланс между безопасностью и аналитикой. 
+
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
+# Указывает Django использовать безопасные куки
+
+SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.spaceweb.ru' # или ваш SMTP-сервер
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = 'office@katran-pnevmo.ru' # Ваш email
+EMAIL_HOST_PASSWORD = 'x3n@War10R' # Пароль от вашего email
+DEFAULT_FROM_EMAIL = 'office@katran-pnevmo.ru' # Email, от которого будут отправляться письма
+
+# WWW Redirect
+PREPEND_WWW = False
+
+JSON_LD_DEFAULT_TYPE = 'Product'
+
+META_SITE_PROTOCOL = 'https'
+META_SITE_DOMAIN = '127.0.0.1:8000'
+META_USE_SCHEMAORG_PROPERTIES = True

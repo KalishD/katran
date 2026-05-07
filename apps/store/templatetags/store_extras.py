@@ -25,3 +25,20 @@ def variable_by_var(variables, var):
 def category_sort(categories, order):
     filtered_cat = categories.order_by(order)
     return filtered_cat
+
+
+@register.filter
+def dict_get(d, key):
+    return d.get(key, [])
+
+
+@register.filter
+def is_visible(products):
+	is_visible__products = products.filter(is_visible = True)
+	return is_visible__products
+
+@register.inclusion_tag('product_card.html')
+def product_card(product):
+    return {
+        'p': product,
+    }
