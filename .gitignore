@@ -56,3 +56,7 @@ env/
 settings.py
 
 katran/
+
+.claude/
+.git/
+.vscode/
