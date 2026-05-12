@@ -10,14 +10,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # migrations.AddField(
-        #     model_name='brand',
-        #     name='country',
-        #     field=models.CharField(blank=True, max_length=255, null=True),
-        # ),
-        # migrations.AddField(
-        #     model_name='brand',
-        #     name='ordering',
-        #     field=models.PositiveSmallIntegerField(default=0),
-        # ),
+        migrations.AddField(
+            model_name='brand',
+            name='country',
+            field=models.CharField(blank=True, max_length=255, null=True),
+        ),
+        migrations.AddField(
+            model_name='brand',
+            name='ordering',
+            field=models.PositiveSmallIntegerField(default=0),
+        ),
     ]
