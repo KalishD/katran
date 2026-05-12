@@ -8,6 +8,6 @@ class WwwRedirectMiddleware:
     def __call__(self, request):
         host = request.get_host().partition(":")[0]
         if host == "www.katran-pnevmo.ru":
-            return HttpResponsePermanentRedirect("https://katran-pnevmo.ru" + request.path)
+            return HttpResponsePermanentRedirect("http://katran-pnevmo.ru" + request.path)
         else:
             return self.get_response(request)

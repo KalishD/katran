@@ -12,4 +12,23 @@ class Migration(migrations.Migration):
     # operations = [
     # ]
 
-    operations = []
+    operations = [
+        migrations.RunSQL(
+            sql="CREATE EXTENSION IF NOT EXISTS pg_trgm;",
+            reverse_sql="DROP EXTENSION IF EXISTS pg_trgm;"
+        ),
+        migrations.RunSQL(
+            sql="""
+                CREATE INDEX product_title_trgm_idx
+                  ON product
+                  USING gin (title gin_trgm_ops);
+                CREATE INDEX product_description_trgm_idx
+                  ON product
+                  USING gin (description gin_trgm_ops);
+            """,
+            reverse_sql="""
+                DROP INDEX IF EXISTS product_title_trgm_idx;
+                DROP INDEX IF EXISTS product_description_trgm_idx;
+            """
+        ),
+    ]

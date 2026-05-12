@@ -17,7 +17,7 @@ def product_category_sort(products, order):
 # Breadcrumb
 @register.simple_tag
 def breadcrumb_schema():
-    return "https://schema.org/BreadcrumbList"
+    return "http://schema.org/BreadcrumbList"
 
 
 @register.inclusion_tag('breadcrumbs/breadcrumb_home.html')
