@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load core_extras %}
+{% block title %}Каталог {{ main_category.title }}{% endblock %}
+{% block ogtitle %}Каталог {{ main_category.title }}{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+
+{% block content %}
+
+<div class="column has-text-centered-touch">
+  <div id="productapp">
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+      <ul class="" itemscope itemtype="{% breadcrumb_schema %}">
+        {% breadcrumb_home '/' 'Катран-Пневмо' %}
+        {% breadcrumb_active main_category.get_absolute_url main_category.title 2 %}
+      </ul>
+    </nav>
+  
+    <nav class="level">
+      <!-- Left side -->
+      <div class="level-left">
+        <div class="level-item">
+          <p class="title is-3">{{ main_category.title }}</strong></p>
+        </div>
+      </div>
+    </nav>
+    <hr class="katran-line-sep">
+    <div class="columns is-multiline is-6">
+    {% for c in categories %}
+      
+        <div class="column is-4 p-3 mb-3">
+          
+          <div class="columns is-vcentered box has-border-fancy">
+            <div class="column is-4">
+              <a href="{% url 'category_detail' c.main_category.slug c.slug %}">
+                <figure class="image is-128x128">
+                  <img src="{{c.image.url}}" 
+                      alt="{{ c }} | купить со склада в СПБ"
+                      title="{{ c }} | купить со склада в СПБ">
+                </figure>
+              </a>
+            </div>
+            <div class="column is-7">
+              <p class="title is-4"><a class="no-hl-link" href="{% url 'category_detail' c.main_category.slug c.slug %}">{{ c }}</a></p>
+            </div>
+          </div>
+        </div>
+      
+    {% endfor %}
+    </div>
+  </div>  
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

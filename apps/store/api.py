@@ -53,7 +53,8 @@ def api_checkout(request):
   if paid == True:
     order = Order.objects.get(pk=orderid)
     order.save()
-
+    order.send_order_confirmation_email()
+    order.send_user_confirmation_email()
     cart.clear()
 
   return JsonResponse(jsonresponse)

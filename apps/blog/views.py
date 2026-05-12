@@ -11,12 +11,25 @@ from django.db.models import Avg, Max, Min, Sum
 
 def blog(request):
     posts = Post.objects.all().order_by("-created_at")
-    context = {'posts': posts}
+    keywords = 'Стаьи о пневматическом инструменте'
+    description = ''
+    context = {
+            'posts': posts,
+            'keywords': keywords,
+            'description': description,
+            }
 
     return render(request, 'blog.html', context)
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    context = {'post': post}
+    keywords = {post.title}
+    description = {post.title}
+    context = {
+        'post': post,
+        'keywords': keywords,
+        'description': description,
+
+    }
 
     return render(request, 'post_detail.html', context)

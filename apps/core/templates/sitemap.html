@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Карта сайта ООО "Катран-Пневмо"{% endblock %}
+{% block ogtitle %}Карта сайта ООО "Катран-Пневмо"{% endblock %}
+{% block description %}{% endblock %}
+{% block keywords %}
+    {{ keywords }}
+{% endblock %}
+{% block content %}
+
+  <div class="column has-text-centered-touch" id="productionsapp">
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+      <ul>
+        <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+        <li><a href="" class="no-hl-link">Карта сайта ООО "Катран-Пневмо"</a></li>
+      </ul>
+    </nav>
+    <div class="title-wrapper has-text-centered">
+      <p class="subtitle is-6">Эта страница предоставляет полный список всех общедоступных страниц нашего веб-сайта, сгруппированных по разделам.</p>
+      <h2 class="title is-3">КАРТА САЙТА</h2>
+      <!-- <p class="subtitle is-6">Пневматические шлифовальные машины производства ООО «Катран-Пневмо» </p> -->
+    </div>
+  
+    <div class="columns mt-3">
+      <div class="column is-full content">
+        {% if page_obj %}
+            {% for url_entry in page_obj %}
+                <ul>
+                    <li>
+                        <a href="{{ url_entry.location }}">{{ url_entry.location }}</a>
+                        <span class="meta-info">
+                            {% if url_entry.lastmod %}Последнее изменение: {{ url_entry.lastmod|date:"Y-m-d H:i" }}{% endif %}
+                            {% if url_entry.changefreq %}, Частота изменения: {{ url_entry.changefreq|capfirst }}{% endif %}
+                            {% if url_entry.priority %}, Приоритет: {{ url_entry.priority }}{% endif %}
+                        </span>
+                    </li>
+                </ul>
+            {% endfor %}
+
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; Первая</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+                {% endif %}
+
+                <span class="current">
+                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>Записи карты сайта не найдены.</p>
+        {% endif %}
+
+        <h2>Разделы карты сайта</h2>
+        <ul>
+            {% for section_name, urls in sitemap_sections.items %}
+                <li>
+                    <strong>{{ section_name }}</strong> ({{ urls|length }} страниц)
+                </li>
+            {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+
+
+
+
+    
+
+
