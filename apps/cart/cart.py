@@ -57,7 +57,7 @@ class Cart(object):
       # return sum(float(item['total_price']) for item in self)
     # else:
       # return 0
-    return sum(float(item['total_price']) for item in self)
+    return sum(int(item['total_price']) for item in self)
 
   def remove(self, product_id):
     if str(product_id) in self.cart:

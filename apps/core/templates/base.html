@@ -1,25 +1,104 @@
 <!DOCTYPE html>
 {% load static %}
 {% load core_extras %}
+{% load store_extras %}
+{% load meta %}
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %} | Катран-Пневмо | Пневматический инструмент</title>
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+  <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %}</title>
+  <meta name="yandex-verification" content="cc46f3878c1e243d" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.1/dist/summernote.min.css" rel="stylesheet">
+
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  
   <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css" />
+  
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.1/dist/summernote.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script>
+
+  <meta name="description" content="{% block description %}Пневмоинструмент{% endblock %} широкий выбор: характеристики, фото, видео, отзывы, в интернет-магазине katran-pnevmo.ru | 🚛 Доставка в Санкт-Петербурге и по России" />
+  <link rel="canonical" href="{% block canonicalurl %}https://katran-pnevmo.ru{{ request.path  }}{% endblock %}" />
+  <meta property="og:site_name" content="Интернет-магазин пневматического инструмента katran-pnevmo.ru" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{% block ogurl %}https://katran-pnevmo.ru{{ request.path }}{% endblock %}" />
+  <meta property="og:title" content="{% block ogtitle %}Интернет-магазин пневматического инструмента{% endblock %}" />
+  <meta property="og:description" content="{% block ogdescription %}Пневмоинструмент{% endblock %} широкий выбор: характеристики, фото, видео, отзывы, в интернет-магазине katran-pnevmo.ru | 🚛 Доставка в Санкт-Петербурге и по России" />
+  <meta property="og:image" content="{% block ogimage %}{% endblock %}" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:country_name" content="Россия" />
+  <meta property="og:email" content="office@katran-pnevmo.ru" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta iterprop="keywords" name="keywords" content="{% block keywords %}{% endblock %}"/>
+
+	<script
+	  defer
+	  data-website-id="dfid_25tofOp82HFcjT9obKmjq"
+	  data-domain="katran-pnevmo.ru"
+	  src="https://datafa.st/js/script.js">
+	</script>
+  
+
+	<!-- Yandex.Metrika counter -->
+	<script type="text/javascript">
+	    (function(m,e,t,r,i,k,a){
+	        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+	        m[i].l=1*new Date();
+	        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+	        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+	    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+	    ym(103116150, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+	</script>
+	<noscript><div><img src="https://mc.yandex.ru/watch/103116150" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+	<!-- /Yandex.Metrika counter -->
+
+
+
+  
+  <!-- include meta/meta -->
+    {% comment %} 
+        Этот блок напрямую рендерит JSON-LD из объекта meta.
+    {% endcomment %}
+    {% if meta and meta.schema %}
+        <script type="application/ld+json">
+        {{ meta.as_json_ld|safe }}
+        </script>
+    {% endif %}
+  <!-- /include meta/meta -->
+  <meta name="google-site-verification" content="xcgfrJqhzHPLZwbfZ6OriI4D01n55jn9axQWNtarhls" />
+  <noscript><div><img src="https://mc.yandex.ru/watch/103116150" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
 </head>
 <body>
-  <div id="main_container" class="container is-widescreen">
+
+  <div id="main_container" >
     {% block messages %}{% endblock %}
-    <div class="header_wrapper" id="navbarapp">
-      <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="header_wrapper mt-5" id="navbarapp">
+      <nav class="navbar is-spaced has-shadow is-fixed-top pt-0 pb-0" role="navigation" aria-label="main navigation">
+
+
+
+
         <div class="navbar-brand">
+          <a class="navbar-item is-hidden-desktop no-hl-link is-hidden-fullhd is-hidden-widescreen" href="{% url 'frontpage' %}">
+            <img class="katran-logo-img"
+            		 fetchpriority="high" 
+                 src="{% static 'images/kp-logo-text.png' %}" 
+                 alt="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ" 
+                 title="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ">
+          </a>
           <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -37,34 +116,77 @@
               Продукция
             </a>
       
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link" href="{% url 'catalog' %}">
-                Каталог
-              </a>
-      
-              <div class="navbar-dropdown">
-                {% for c in menu_categories %}
-                    <a class="navbar-item" href="{% url 'category_detail' c.slug %}">
-                        {{ c.title }}
-                    </a>
-                {% endfor %}
-              </div>
+            {# Mega-Menu for Каталог #}
+            <div class="navbar-item has-mega-dropdown is-hidden-desktop is-hidden-fullhd is-hidden-widescreen" :class="{ 'is-active': dropdowns.catalog }"> {# Add mouseleave for desktop #}
+                <a class="navbar-link"
+                	@click.prevent="toggleDropdown('catalog')">
+                    Каталог
+                </a>
+                <div class="navbar-dropdown" @mouseleave="closeDropdown('catalog')">
+                    {% with total_items=menu_categories_filter|length %}
+                    {% if items_per_column %}
+                        {% with current_column_item_count=0 %}
+                        <div class="mega-menu-column">
+                            {% for c in menu_categories_filter|dictsort:"id" %}
+                                <a class="navbar-item" href="{% url 'category_detail' c.main_category.slug c.slug %}">
+                                    {{ c.title }}
+                                </a>
+                                {% if forloop.counter|divisibleby:items_per_column and not forloop.last %}
+                                    </div>{# Close current column #}
+                                    <div class="mega-menu-column"> {# Open new column #}
+                                {% endif %}
+                            {% endfor %}
+                        </div> {# Close the last column #}
+                        {% endwith %}
+                    {% else %}
+                        <div class="mega-menu-column">
+                            {% for c in menu_categories_filter|dictsort:"id" %}
+                                <a class="navbar-item" href="{% url 'category_detail' c.main_category.slug c.slug %}">
+                                    {{ c.title }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% endwith %}
+                </div>
             </div>
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link" href="{% url 'catalog' %}">
+
+            <div class="navbar-item has-dropdown"
+                  :class="{ 'is-active': dropdowns.brands }">
+                  
+              <a class="navbar-link"
+                  @click.prevent="toggleDropdown('brands')">
+                  
                 Производители
               </a>
       
-              <div class="navbar-dropdown">
+              <div class="navbar-dropdown" @mouseleave.prevent="closeDropdown('brands')">
                 {% for b in menu_brands %}
                     <a class="navbar-item" href="{% url 'brand_detail' b.slug %}">
-                        {{ b.title }}
+                      <article class="media has-text-left">
+                        <figure class="media-left">
+                          <p class="image is-24x24">
+                            <!-- <a class="no-hl-link" href="{% url 'brand_detail' b.slug %}"> -->
+                                <img src="{{ b.thumbnail.url }}"
+                                    alt="Пневмоинструмент фирмы {{ b }}"
+                                    title="Пневмоинструмент фирмы {{ b }}">
+                            <!-- </a> -->
+                          </p>
+                        </figure>
+                        <div class="media-content">
+                          <div class="content">
+                            <p>
+                              {{ b }}
+                              <!-- <a class="no-hl-link" href="{% url 'brand_detail' b.slug %}">{{ b }}</a> -->
+                            </p>
+                          </div>
+                      </article>
                     </a>
                 {% endfor %}
               </div>
             </div>
 
-            <a class="navbar-item">
+            <a href="{% url 'blog' %}" class="navbar-item">
               Статьи
             </a>
 
@@ -72,29 +194,47 @@
               О Нас
             </a>
 
-            <a class="navbar-item">
+            <a href="{% url 'contacts' %}" class="navbar-item">
               Контакты
             </a>
           </div>
       
           <div class="navbar-end">
             <div class="navbar-item">
-              <form  method="get" action="{% url 'search' %}">
-                <div class="search" :class="{ 'is-active': searchClass }">
-                  <div class="icon" @click="toggleSearch()"></div>
-                  <div class="search-input">
-                    <input id="katran-search" type="text" class="input" placeholder="Поиск..." name="query">
-                  </div>
-                </div>
-                <!-- <div class="field has-addons">
-                  <div class="control">
-                    <input type="text" class="input" placeholder="Поиск...">
-                  </div>
-                </div> -->
-              </form>
+              <p class="subtitle has-text-weight-bold is-6"><i class="fa fa-clock" style="margin-right: .5rem"></i>ПН-ПТ 9:30 - 17:30</p>
             </div>
             <div class="navbar-item">
-              <div class="buttons">
+              <p class="subtitle is-6"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
+            </div>
+            <div class="navbar-item">
+              <a class="no-hl-link" href="mailto:OFFICE@KATRAN-PNEVMO.RU"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</a>
+            </div>
+            <div class="navbar-item">
+              <p class="subtitle is-6 is-hidden-mobile"><i class="fa fa-map-marker" style="margin-right: 1rem"></i>г. Санкт-Петербург, Английский пр., д. 33&nbsp;&nbsp;</p>
+            </div>
+            <div class="navbar-item is-hidden-desktop is-hidden-fullhd is-hidden-widescreen">
+              <div class="search-btn">
+                <form  method="get" action="{% url 'search' %}">
+                  <div class="level-item">
+                    <div class="field has-addons">
+                      <p class="control">
+                        <input id="katran-search" type="text"
+                               class="input is-active"
+                               placeholder="Поиск в каталоге" 
+                               name="query"
+                               value="{{query}}"
+                               />
+                      </p>
+                      <button class="button is-info is-light is-active">
+                          <i class="fa-solid fa-magnifying-glass"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="navbar-item is-hidden-desktop is-hidden-fullhd is-hidden-widescreen">
+              <div class="buttons mr-6">
                 <a class="button is-primary" href="{% url 'cart' %}">
                   <strong><i class="fa-solid fa-cart-shopping"></i>([[ numItems ]])</strong>
                 </a>
@@ -103,39 +243,100 @@
           </div>
         </div>
       </nav>
-      <hr>
-      <div class="columns">
-        <div class="column is-one-third has-text-centered">
-            <div>
-                <a href="{% url 'frontpage' %}" class="no-hl-link"><img src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент"></a>
-            </div>
+      
+      <div class="columns is-vcentered">
+        <div class="column is-4 is-centered pr-6 pl-6 pt-0 pb-0 has-text-right has-text-centered-mobile is-hidden-mobile is-hidden-tablet-only">
+          <a href="{% url 'frontpage' %}" class="no-hl-link">
+            <img class="katran-logo-img" 
+                 src="{% static 'images/kp-logo-text.png' %}" 
+                 alt="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ" 
+                 title="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ">
+          </a>
         </div>
-        <div class="column has-text-centered">
-            <div>
-                <p class="heading">ЗВОНИТЕ НАМ ПН-ПТ 9:30 - 17:30</p>
-                <p class="title is-5"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
+        <div class="column is-8 
+                    is-vcentered is-right
+                    is-hidden-mobile is-hidden-tablet-only">
+          <div class="search-btn">
+            <form  method="get" action="{% url 'search' %}">
+              <div class="level-item">
+                <div class="field has-addons">
+                  <p class="control">
+                    <input id="katran-search" type="text"
+                           class="input is-active"
+                           placeholder="Поиск в каталоге" 
+                           name="query"
+                           value="{{query}}"
+                           />
+                  </p>
+                  <button class="button is-info is-light is-active">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div class="buttons">
+              <a class="button is-primary" href="{% url 'cart' %}">
+                <strong><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;[[ numItems ]]</strong>&nbsp;товаров
+              </a>
             </div>
+          </div>
+          
         </div>
-        <div class="column has-text-centered">
-            <div>
-                <p class="heading">г. Санкт-Петербург, Английский пр., д. 33</p>
-                <p class="title is-5"><a class="no-hl-link" href="mailto:OFFICE@KATRAN-PNEVMO.RU"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</a></p>
+
+      </div>
+    </div>
+    <div class="section is-relative pt-0" id="block-content">
+      <!-- Go To Top -->
+      <a href="#" id="goToTop" class="button go_top"><i class="fa-solid fa-angles-up"></i></i></a>
+
+    <!-- популярные категории -->
+      <div class="columns mb-0" id="">
+        <div class="column has-text-centered is-full pb-0 pt-0 mb-0">
+          <div class="content pt-3">
+            <div id="categorySpoilerWrapper">
+              <div class="category-top mb-1 columns is-multiline">
+                {% for fc in featured_categories %}
+                  <a href="{% url 'category_detail' fc.main_category.slug fc.slug %}">
+                    <div class="category-block is-flex pr-3 pl-1 m-6-tablet m-1-desktop mb-0
+                    is-vcentered">
+                      <figure class="image is-24x24 m-0 mr-1 ml-1">
+                        <img class="is-rounded" 
+                        src="{{fc.image.url}}" 
+                        alt="{{ fc.title }} | купить со склада в СПБ"
+                        title="{{ fc.title }} | купить со склада в СПБ">
+                      </figure>
+                      <p class="pt-1 title is-6 fc-black has-text-left pb-1 pl-1 pt-0 pr-2">{{ fc.title }}</p>
+                    </div>
+                  </a>
+                {% endfor %}
+              </div>
             </div>
+
+            <div class="has-text-left mt-0 mb-0 box pt-2 pl-3 has-text-centered-mobile">
+              <a href="javascript:void(0);" onclick="toggleCategories()" class="more-categories-toggle menu-label is-6 fc-red has-text-weight-bold">
+                <span id="toggleText">Популярные категории</span>
+                <span class="icon is-small"><i class="fas fa-chevron-down"></i></span>
+              </a>
+            </div>
+          </div>
+          <!-- carousel end -->
         </div>
       </div>
-      <hr>
-    </div>
-    {% block content %}
+    <!--  -->
 
-    {% endblock %}
-
+  <div class="columns is-fullhd mt-3">
+    {% include "side-bar.html" %}
+    {% block content %}{% endblock %}
   </div>
-  <footer class="footer mt-6">
-    <div class="container">
+
+</div>
+</div>
+  <footer class="footer mt-6 ml-6-desktop mr-6-desktop ml-0-mobile mr-0-mobile mb-0 pb-4 is-vcentered">
+
       <div class="columns">
         <div class="column">
           <div class="mb-5">
-            <img src="{% static 'images/katran-logo.jpg' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент">
+            <img class="katran-logo-img" src="{% static 'images/kp-logo-text.png' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент">
           </div>
           <div class="content">
             <p>ООО "Катран-Пневмо"</p>
@@ -143,7 +344,7 @@
             <p>Информация на сайте не является публичной офертой</p>
           </div>
         </div>
-        <div class="column">
+        <div class="column mt-4">
           <div>
             <h3 class="title is-3">Контакты</h3>
             <p class="heading">ЗВОНИТЕ НАМ ПН-ПТ 9:30 - 17:30</p>
@@ -152,88 +353,341 @@
             <p class="title is-6"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</p>
           </div>
         </div>
-        <div class="column">
+        <div class="column mt-4">
           <div>
             <h3 class="title is-3">Наш адрес</h3>
             <p><i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, лит. А, пом. 5Н, оф. 101</p>
+            <p><i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;Вход с Английский пр., д. 33</p>
             <p><i class="fa-solid fa-clock"></i>&nbsp;&nbsp;График работы: ПН-ПТ 9:30 - 17:30</p>
           </div>
         </div>
-        <div class="column">
+        <div class="column is-multiline mt-4">
           <div>
             <h3 class="title is-3">Информация</h3>
             <aside class="menu">
               <ul class="menu-list">
                   <li>
-                    <a href="#">Реквизиты</a>
+                    <a href="{% url 'contacts' %}">Реквизиты</a>
                   </li>
                   <li>
-                    <a href="#">О Нас</a>
+                    <a href="{% url 'about' %}">О Нас</a>
                   </li>
                   <li>
-                    <a href="#">Контакты</a>
+                    <a href="{% url 'contacts' %}">Контакты</a>
                   </li>
                   <li>
-                    <a href="#">Статьи</a>
+                    <a href="{% url 'blog' %}">Статьи</a>
                   </li>
               </ul>
             </aside>       
           </div>
         </div>
       </div>
-    </div>
-  </footer>
-  <footer class="footer katran-footer">
     
   </footer>
+  <footer class="footer katran-footer mb-0 pb-4">
+    <p class="subtitle is-7">Данный веб-сайт использует cookie-файлы Интернет-сервисов «Яндекс.Метрика», в целях предоставления вам лучшего пользовательского опыта на нашем сайте. Продолжая использовать данный сайт, вы соглашаетесь с политикой конфиденциальности <a href="{% url 'politics' %}">Политика использования cookies</a></p>
+    <p class="subtitle is-7">ООО "Катран-Пневмо"&nbsp;{% now "Y" %}</p>
+  </footer>
+
   <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  
+  <script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js'></script>  
   <script src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
-  <script>
-    var store = new Vuex.Store({
-      state: {
-        numItems:{{ cart.get_total_length }},
-        totalCost:{{ cart.get_total_cost }}
-      },
-      mutations: {
-        increment(state, quantity){
-          state.numItems += quantity;
-        },
-        changeTotalCost(state, newCost) {
-						state.totalCost += newCost;
-					}
-				}
-      
-    });
-    var navbarapp = new Vue({
-        el: '#navbarapp',
-        delimiters: ['[[',']]'],
-        store: store,
-        data () {
-					return {
-						menuClass: false,
-            searchClass: false,
-					}
-				},
-        computed:{
-          numItems: function(){
-            return parseInt(store.state.numItems)
-          },
-          totalCost: function(){
-            return parseFloat(store.state.totalCost)
-          }
-        },
-        methods: {
-					toggleMenu() {
-						this.menuClass = !this.menuClass;
-					},
-          toggleSearch() {
-            this.searchClass = !this.searchClass;
-          }
-				}
-      });
-  </script>
+
+<script>
+  let isOpen = false;
+
+  function toggleCategories() {
+    const wrapper = document.getElementById('categorySpoilerWrapper');
+    const text = document.getElementById('toggleText');
+    const icon = document.querySelector('#toggleText + .icon i');
+
+    isOpen = !isOpen;
+    wrapper.classList.toggle('is-open', isOpen);
+    text.textContent = isOpen ? 'Популярные категории' : 'Популярные категории';
+    icon.className = isOpen ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+  }
+</script>
+
+    <script>
+        // Go To Top button logic
+        window.onscroll = function() {scrollFunction()};    
+        function scrollFunction() {    
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {    
+                document.getElementById("goToTop").style.display = "block";    
+            } else {    
+                document.getElementById("goToTop").style.display = "none";    
+            }    
+        }    
+        // Smooth scroll on button click    
+        document.getElementById('goToTop').addEventListener('click', function(event) {    
+            event.preventDefault();    
+            window.scrollTo({ top: 0, behavior: 'smooth' });    
+        });    
+
+        // Vuex Store
+        var store = new Vuex.Store({
+            state: {
+                numItems:{{ cart.get_total_length }},
+                totalCost:{{ cart.get_total_cost }}
+            },
+            mutations: {
+                increment(state, quantity){
+                    state.numItems += quantity;
+                },
+                changeTotalCost(state, newCost) {
+                    state.totalCost += newCost;
+                }
+            }
+        });
+
+        // Navbar Vue App
+        var navbarapp = new Vue({
+            el: '#navbarapp',
+            delimiters: ['[[',']]'],
+            store: store,
+            data () {
+                return {
+                    menuClass: false, // Controls the main navbar burger menu
+                    searchClass: false, // Controls the search input visibility
+                    dropdowns: {
+                        catalog: false, // Controls the 'Каталог' mega-menu visibility
+                        brands: false,  // Controls the 'Производители' mega-menu visibility
+                    },
+                }
+            },
+            computed:{
+                numItems: function(){
+                    return parseInt(store.state.numItems)
+                },
+                totalCost: function(){
+                    return parseFloat(store.state.totalCost)
+                }
+            },
+            methods: {
+                toggleMenu() {
+                    this.menuClass = !this.menuClass;
+                    // Close any open dropdowns when the main menu is toggled
+                    if (this.menuClass) { // If opening main menu, close dropdowns
+                        for (let key in this.dropdowns) {
+                            this.dropdowns[key] = false;
+                        }
+                    }
+                },
+                toggleSearch() {
+                    this.searchClass = !this.searchClass;
+                },
+                toggleDropdown(name) {
+                    // Close other dropdowns if opening a new one on mobile
+                    if (window.innerWidth <= 1023) {
+                        for (let key in this.dropdowns) {
+                            if (key !== name) {
+                                this.dropdowns[key] = false;
+                            }
+                        }
+                    }
+                    this.dropdowns[name] = !this.dropdowns[name];
+                },
+                closeDropdown(name) {
+                    // Only close on mouseleave for desktop
+                    if (window.innerWidth > 1023) {
+                        this.dropdowns[name] = false;
+                    }
+                },
+                // Global click handler to close dropdowns when clicking outside
+                handleClickOutside(event) {
+                    if (window.innerWidth <= 1023) { // Only on mobile/tablet
+                        const navbarMenu = this.$el.querySelector('#navbarBasicExample');
+                        const navbarBurger = this.$el.querySelector('.navbar-burger');
+                        const target = event.target;
+
+                        // Check if the click is outside the navbar menu and not on the burger itself
+                        if (navbarMenu && !navbarMenu.contains(target) && navbarBurger && !navbarBurger.contains(target)) {
+                            // Close all dropdowns
+                            for (let key in this.dropdowns) {
+                                this.dropdowns[key] = false;
+                            }
+                            // Close the main navbar menu if it's open
+                            if (this.menuClass) {
+                                this.menuClass = false;
+                            }
+                        }
+                    }
+                }
+            },
+            mounted() {
+                // Add global click listener when the component is mounted
+                document.addEventListener('click', this.handleClickOutside);
+            },
+            beforeDestroy() {
+                // Remove global click listener when the component is destroyed
+                document.removeEventListener('click', this.handleClickOutside);
+            }
+        });
+
+       // Sidebar Vue App (Modified for Side Mega-Menu)
+        var sidebarapp = new Vue({
+            el: '#sidebarapp',
+            delimiters: ['[[', ']]'],
+            store: store,
+            data() {
+                return {
+                    accClass: {}, // Now controls 'is-active' for side mega-menus
+                };
+            },
+            mounted() {
+                console.log('SidebarApp base.html mount');
+                // Initialize all as false (closed)
+                {% for maincat in menu_main_categories %}
+                    this.$set(this.accClass, {{ maincat.id }}, false);
+                {% endfor %}
+
+                // Add global click listener for side mega-menu (mobile only)
+                document.addEventListener('click', this.handleSideMenuClickOutside);
+            },
+            beforeDestroy() {
+                document.removeEventListener('click', this.handleSideMenuClickOutside);
+            },
+            methods: {
+                toggleSideMegaMenu(id) {
+                    // This method will be called on click (mobile) or potentially hover (desktop, if desired via JS)
+                    // On desktop, CSS :hover handles opening, but click can still open/close.
+                    // On mobile, this will open/close.
+                    
+                    // Close all other side mega-menus first (similar to main nav logic)
+                    if (window.innerWidth <= 1023) { // Only on mobile/tablet
+                        const wasOpen = this.accClass[id]; // Check if current was open
+                        for (let key in this.accClass) {
+                            this.accClass[key] = false; // Close all
+                        }
+                        if (!wasOpen) { // If it was not open, open it
+                            this.accClass[id] = true;
+                        }
+                    } else { // On desktop, click still toggles, but hover is primary
+                        // If it's desktop, and click was on a link, let it go to the link.
+                        // If it's desktop, and click was on the parent, it will toggle the visibility
+                        // but the primary way to close will be mouseleave, or clicking another item.
+                        this.accClass[id] = !this.accClass[id];
+                    }
+                },
+                closeSideMegaMenu(id) {
+                    // This method is primarily for desktop mouseleave
+                    if (window.innerWidth > 1023) {
+                        this.accClass[id] = false;
+                    }
+                },
+                handleSideMenuClickOutside(event) {
+                    if (window.innerWidth <= 1023) { // Only on mobile/tablet
+                        const sidebarMenu = this.$el; // The #sidebarapp element
+                        const target = event.target;
+
+                        // Check if the click is outside the sidebar menu
+                        if (sidebarMenu && !sidebarMenu.contains(target)) {
+                            // Close all side mega-menus
+                            for (let key in this.accClass) {
+                                this.accClass[key] = false;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>    
     {% block scripts %}{% endblock %}
+
+	<div id="cookie-banner" style="display: none;">
+    <div class="cookie-content columns pb-2">
+
+        <div class="column is-offset-0">
+
+        <p class="buttons">
+          <button class="button is-primary" id="accept-cookies">
+            <span class="icon is-small">
+              <i class="fas fa-check"></i>
+            </span>
+            <span>Принять</span>
+          </button>
+          <button class="button is-danger is-outlined is-square" id="decline-cookies">
+            <span class="icon is-small">
+              <i class="fas fa-times"></i>
+            </span>
+          </button>
+        </p>
+      </div>
+      <div class="column is-9">
+
+          <p>Мы используем файлы <span class="cookie-highlight">cookie</span> и сторонние сервисы (Яндекс.Метрика) для анализа посещаемости и улучшения работы сайта. Нажимая «Согласен», вы даете согласие на обработку этих данных, как описано в нашей <a href="{% url 'politics' %}" target="_blank">Политике обработки ПДн</a>.</p>
+      </div>
+
+    </div>
+	</div>
+
+
+<script>
+    const COOKIE_NAME = 'user_consent_given';
+    const banner = document.getElementById('cookie-banner');
+    const acceptButton = document.getElementById('accept-cookies');
+    const declineButton = document.getElementById('decline-cookies');
+
+    /**
+     * Проверяет, давал ли пользователь согласие ранее.
+     * @returns {string|null} 'accepted', 'declined' или null.
+     */
+    function getConsentStatus() {
+        return localStorage.getItem(COOKIE_NAME);
+    }
+
+    /**
+     * Устанавливает статус согласия в localStorage.
+     * @param {string} status 'accepted' или 'declined'
+     */
+    function setConsentStatus(status) {
+        localStorage.setItem(COOKIE_NAME, status);
+        banner.style.display = 'none';
+    }
+
+    /**
+     * Запускает скрипты аналитики только при согласии.
+     */
+    function loadAnalyticsScripts() {
+        console.log('Загрузка аналитических скриптов...');
+
+
+    }
+
+    // ----------------------------------------------------------------
+    // Основная логика при загрузке страницы
+    // ----------------------------------------------------------------
+
+    const status = getConsentStatus();
+
+    if (status === 'accepted') {
+        // Если согласие уже дано, просто загружаем аналитику
+        loadAnalyticsScripts();
+    } else if (status === 'declined') {
+        // Если пользователь ранее отказался, ничего не делаем и баннер не показываем
+        console.log('Пользователь ранее отказался от cookies. Аналитика не загружена.');
+        banner.style.display = 'none';
+    } else {
+        // Если выбор еще не сделан, показываем баннер
+        banner.style.display = 'block';
+
+        // Обработчик кнопки "Согласен"
+        acceptButton.addEventListener('click', () => {
+            setConsentStatus('accepted');
+            loadAnalyticsScripts();
+        });
+
+        // Обработчик кнопки "Отклонить"
+        declineButton.addEventListener('click', () => {
+            setConsentStatus('declined');
+            console.log('Cookies отклонены. Аналитика не загружена.');
+        });
+    }
+</script>
+
+
 </body>
 </html>

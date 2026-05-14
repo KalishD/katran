@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Продукция ООО "Катран-Пневмо" {% endblock %}
+{% block ogtitle %}Продукция ООО "Катран-Пневмо" {% endblock %}
+{% block description %}{% endblock %}
+{% block keywords %}
+    {{ keywords }}
+{% endblock %}
+{% block content %}
+
+  <div class="column has-text-centered-touch" id="productionsapp">
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+      <ul>
+        <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+        <li><a href="" class="no-hl-link">ООО "Катран-Пневмо"</a></li>
+      </ul>
+    </nav>
+    <div id="productapp">
+      <div itemscope itemtype="http://schema.org/Product" class="columns  is-multiline">
+        <div class="column is-half-desktop is-full-mobile box carousel-item--img-wrapper">
+          <div class="image is-256x256">
+            <button class="partlist-icon_image rounded pulse-animation">
+              <figure class="image">
+                <img src="{% static 'images/icons/partlist_gear.png' %}" alt="">
+              </figure>
+              <i class="shiny_btn"></i>
+              <!-- <p>PARTLIST</p> -->
+            </button>
+
+            <p class="hidden" itemprop="name">{{ mp011.title }}</p>
+            <p class="hidden" itemprop="description">{{ mp011.description }}</p>
+              <img itemprop="image" src="{{ mp011.image.url }}" alt="{{ mp011.title }}" title="{{ mp011.title }}">
+              {% if mp011.brand %}
+                  <figure class="image mp011-card_brand-image is-64x64">
+                      <img src="{{mp011.brand.image.url}}" 
+                          alt="{{ mp011.brand }} | купить со склада в СПБ"
+                          title="{{ mp011.brand }} | купить со склада в СПБ">
+                  </figure>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

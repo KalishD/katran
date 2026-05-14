@@ -1,0 +1,60 @@
+
+<div class="item-{{ forloop.counter }} m-2 carousel-item has-border-fancy product_grid_card">
+    <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}">
+    <div class="carousel-item--img-wrapper">
+        <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить с доставкой по всей России">
+        <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+        {% if p.brand %}
+        <figure class="image product-card_brand-image is-32x32">
+        <img src="{{p.brand.image.url}}" 
+        alt="{{ p.brand }} | купить с доставкой по всей России"
+        title="{{ p.brand }} | купить с доставкой по всей России">
+        </figure>
+        {% endif %}
+    </div>
+    </a>
+    <div class="product_grid_card_body has-text-centered">
+        <p class="subtitle is-7 mb-1 mt-1"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+        <p class="subtitle is-7"><a href="{% url 'main_category_detail' p.category.main_category.slug %}" class="no-hl-link">{{ p.category.main_category }}</a></p>
+        <h3 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h3>
+        {% if p.brand %}
+        <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+        {% endif %}
+    </div>
+    <hr class="katran-line-sep">
+    <div class="column is-full is-relative">
+        
+        <div class="columns is-vcentered is-multiline is-flex">
+
+        <div class="column is-full-widescreen is-full-mobile is-full-tablet is-full-desktop">
+            <p class="title has-text-left is-5">
+            {% if p.price != 0 %}
+                <span class="has-text-weight-bold mb-0 mt-0">Цена: </span>
+                <span class="fc-red mb-0 mt-0">
+                {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                </span>
+                <br>
+                <span class="subtitle has-text-right is-7 m-0">с НДС 22%</span>
+            {% else %}
+                <span class="fc-red">
+                По запросу
+                </span>
+            {% endif %}
+            </p>
+            {% if p.in_stock == 1 %}
+                <p class="subtitle has-text-left is-7 mb-0">Наличие: на складе <i class="fa-solid fa-boxes-stacked"></i></p>
+            {% elif p.in_stock == 0 %}
+                <p class="subtitle has-text-left is-7 mb-0">Наличие: ожидается поставка <i class="fa-solid fa-boxes-stacked"></i></p>
+            {% endif %}
+            <p class="subtitle has-text-left is-7">Доставка по РФ и СНГ <i class="fa-solid fa-truck"></i></p>
+        </div>
+        <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
+            <button class="button is-primary is-small" @click="addToCart({{ p.id }})">
+            <i class="fa-solid fa-cart-shopping"></i><i class="shiny_btn"></i>&nbsp;
+            <span class="">Купить</span>
+            </button>
+        </div>
+        
+        </div>
+    </div>
+</div>

@@ -1,126 +1,149 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Продукция ООО "Катран-Пневмо" {% endblock %}
+{% block ogtitle %}Продукция ООО "Катран-Пневмо" {% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
 {% block content %}
-    <div class="columns" id="productionsapp">
-      {% include "side-bar.html" %}
-      <div class="column has-text-centered-touch">
+
+      <div class="column has-text-centered-touch" id="productionsapp" itemscope itemtype="https://schema.org/OfferCatalog">
+        <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+          <ul>
+            <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+            <li ><a href="" class="no-hl-link"><span itemprop="name">Пневматический инструмент Катран-Пневмо</span></a></li>
+          </ul>
+        </nav>
         <div class="title-wrapper has-text-centered">
           <p class="subtitle is-6">Пневматический инструмент</p>
           <h2 class="title is-3">Шлифовальные машины</h2>
           <p class="subtitle is-6">Пневматические шлифовальные машины производства ООО «Катран-Пневмо» </p>
         </div>
-        <div class="columns mt-6">
-          <div class="column is-half content">
-            <h3 class="title is-4">Цанговая шлифмашина МП-006</h3>
-            <p class="content katran-content">
-              Компактная и мощная цанговая  шлифмашина (бормашинка) производства Катран-Пневмо. Пнедназначена для обработки штампов и пресс-форм, шлифования и зачистки поверхностей и других аналогичных работ.
-              <br><br>
-              Патент на полезную модель шлифовальной машины МП-006 №1987
-            </p>
-          </div>
-          <div class="column is-half has-text-centered">
-            <img src="{% static 'images/production/mp-006.jpg' %}" alt="">
-            <button class="button is-black is-normal" @click="addToCart({{ mp006.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
-            <a href="{% url 'product_detail' mp006.category.slug mp006.slug %}" class="button is-black is-normal">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+        <div class="columns mt-6" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+          <div class="column is-half">
+            <h3 class="title is-4" itemprop="name">Цанговая шлифмашина МП-006</h3>
+            <p class="content katran-content" itemprop="description">Пневмошлифмашина МП-006 от "Катран-Пневмо" – это высокоточный цанговый инструмент, разработанный для деликатной обработки штампов, пресс-форм, а также шлифования и зачистки поверхностей.  Обладая частотой вращения шпинделя до 30000 об/мин при весе всего 0.6 кг и длине 160 мм, инструмент обеспечивает исключительную маневренность и снижает утомляемость оператора.</p>
+            <p class="content katran-content" itemprop="description">Преимущества пневматической конструкции включают повышенную безопасность в условиях влажности или взрывоопасных сред, долговечность и низкие эксплуатационные расходы.  Изделие защищено патентом №19875, что подтверждает уникальность.  Производитель гарантирует сервисное обслуживание и наличие запчастей.  МП-006 – оптимальный выбор для задач, требующих точной обработки и надежности.</p>
+
+          <div class="column is-half has-text-centered is-relative is-spaced">
+            <a href="{% url 'product_detail' mp006.category.main_category.slug mp006.category.slug mp006.slug %}">
+              <div class="carousel-item--img-wrapper">
+                <img itemprop="image" src="{{mp006.image.url}}" alt="{{ mp006.title }} | {{ mp006.category }} | купить со склада в СПБ">
+                <a itemprop="url" href="{% url 'product_detail' mp006.category.main_category.slug mp006.category.slug mp006.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                {% if mp006.brand %}
+                <figure class="image product-card_brand-image is-32x32">
+                  <img src="{{mp006.brand.image.url}}" 
+                  alt="{{ mp006.brand }} | купить со склада в СПБ"
+                  title="{{ mp006.brand }} | купить со склада в СПБ">
+                </figure>
+                {% endif %}
+              </div>
+            </a>
+            <div class="product_grid_card_body">
+              <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' mp006.category.main_category.slug mp006.category.slug %}" class="no-hl-link">{{ mp006.category }}</a></p>
+              <p class="subtitle is-7"><a href="{% url 'main_category_detail' mp006.category.main_category.slug  %}" class="no-hl-link">{{ mp006.category.main_category }}</a></p>
+              <h2 class="title is-6"><a href="{% url 'product_detail' mp006.category.main_category.slug mp006.category.slug mp006.slug %}" class="no-hl-link">{{mp006}}</a></h2>
+              {% if mp006.brand %}
+                <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' mp006.brand.slug %}">{{ mp006.brand }}</a></p>
+              {% endif %}
+            </div>
+            <hr class="katran-line-sep">
+            <div class="column is-full is-relative">
+              <div class="columns is-vcentered is-multiline is-flex">
+                <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
+                  <button class="button is-primary is-small" @click="addToCart({{ mp006.id }})">
+                    <i class="fa-solid fa-cart-shopping"></i>&nbsp;
+                    <span class="">Купить</span>
+                  </button>
+                </div>
+                <div class="column is-9-widescreen is-9-mobile is-full-tablet is-full-desktop">
+                  <p class="title has-text-right is-5 ">
+                    {% if mp006.price != 0 %}
+                      <span class="fc-red">
+                        {{ mp006.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                      </span>
+                      <meta itemprop="price" content="{{ mp006.price|floatformat:2 }}">
+                      <meta itemprop="priceCurrency" content="RUB">
+                    {% else %}
+                      <span class="fc-red">
+                        По запросу
+                      </span>
+                    {% endif %}
+                  </p>
+                  <link itemprop="availability" href="http://schema.org/InStock">
+                  <p class="subtitle has-text-right is-7">Доставка по РФ и СНГ <i class="fa-solid fa-truck"></i></p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="columns mt-6">
+        <div class="column is-half has-text-centered">
+          <img src="{% static 'images/production/mp-006.jpg' %}" alt="">
+            <!-- <button class="button is-black is-normal" @click="addToCart({{ mp006.id }})">В корзину &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i></button>
+            <a href="{% url 'product_detail' mp006.category.main_category.slug mp006.category.slug mp006.slug %}" class="button is-black is-normal">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a> -->
+          </div>
+        </div>
+        <div class="columns mt-6" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
           <div class="column is-half content">
-            <h3 class="title is-4">Цанговая шлифмашина МП-011</h3>
-            <p class="katran-content">
-              Машина МП-011 предназначена для обработки штампов и пресс-форм, шлифования и зачистки поверхностей и других аналогичных работ.
-              <br><br>
-              Патент на полезную модель шлифовальной машины МП-011 №19874
-              <br><br>
-              <blockquote>Модификация МП-011С предназначена для шлифования и зачистки поверхностей кругами ПП 63 х 20 х20 мм с допустимой окружной скоростью не менее 40 м/с</blockquote>
-            </p>
+            <h3 class="title is-4" itemprop="name">Цанговая шлифмашина МП-011</h3>
+            <p class="katran-content" itemprop="description">Пневмошлифмашина МП-011 от ООО "Катран-Пневмо" представляет собой высокоэффективный и надежный инструмент, предназначенный для профессионального и промышленного использования, особенно в задачах, требующих точности, таких как обработка штампов и пресс-форм. Сочетание компактных размеров, относительно легкого веса (1.1 кг) и высокой мощности (0.5 кВт, 22000 об/мин) обеспечивает высокую производительность и снижает утомляемость оператора, что критически важно для продолжительных работ.</p>
+            <p class="katran-content" itemprop="description">Выбор пневматической шлифмашины, такой как МП-011, обусловлен её фундаментальными преимуществами перед электрическими аналогами, включая повышенную безопасность при работе во влажных или взрывоопасных средах, более низкую совокупную стоимость владения за счет простоты конструкции и сниженных затрат на обслуживание. Для полноценного функционирования инструмента необходимо обеспечить соответствующую пневматическую систему с адекватным компрессором и подготовкой воздуха (смазка, осушение).</p>
+          <!-- product card -->
+          <div class="column is-half has-text-centered is-relative is-spaced">
+            <a href="{% url 'product_detail' mp01122.category.main_category.slug mp01122.category.slug mp01122.slug %}">
+              <div class="carousel-item--img-wrapper">
+                <img src="{{mp01122.image.url}}" alt="{{ mp01122.title }} | {{ mp01122.category }} | купить со склада в СПБ" itemprop="image">
+                <a itemprop="url" href="{% url 'product_detail' mp01122.category.main_category.slug mp01122.category.slug mp01122.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                {% if mp01122.brand %}
+                <figure class="image product-card_brand-image is-32x32">
+                  <img src="{{mp01122.brand.image.url}}" 
+                  alt="{{ mp01122.brand }} | купить со склада в СПБ"
+                  title="{{ mp01122.brand }} | купить со склада в СПБ">
+                </figure>
+                {% endif %}
+              </div>
+            </a>
+            <div class="product_grid_card_body">
+              <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' mp01122.category.main_category.slug mp01122.category.slug %}" class="no-hl-link">{{ mp01122.category }}</a></p>
+              <p class="subtitle is-7"><a href="{% url 'main_category_detail' mp01122.category.main_category.slug  %}" class="no-hl-link">{{ mp01122.category.main_category }}</a></p>
+              <h2 class="title is-6 mt-0"><a href="{% url 'product_detail' mp01122.category.main_category.slug mp01122.category.slug mp01122.slug %}" class="no-hl-link">{{mp01122}}</a></h2>
+              {% if mp01122.brand %}
+                <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' mp01122.brand.slug %}">{{ mp01122.brand }}</a></p>
+              {% endif %}
+            </div>
+            <hr class="katran-line-sep">
+            <div class="column is-full is-relative">
+              <div class="columns is-vcentered is-multiline is-flex">
+                <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
+                  <button class="button is-primary is-small" @click="addToCart({{ mp01122.id }})">
+                    <i class="fa-solid fa-cart-shopping"></i>&nbsp;
+                    <span class="">Купить</span>
+                  </button>
+                </div>
+                <div class="column is-9-widescreen is-9-mobile is-full-tablet is-full-desktop">
+                  <p class="title has-text-right is-5 ">
+                    {% if mp01122.price != 0 %}
+                      <span class="fc-red">
+                        {{ mp01122.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                      </span>
+                      <meta itemprop="price" content="{{ mp01122.price|floatformat:2 }}">
+                      <meta itemprop="priceCurrency" content="RUB">
+                    {% else %}
+                      <span class="fc-red">
+                        По запросу
+                      </span>
+                    {% endif %}
+                  </p>
+                  <link itemprop="availability" href="http://schema.org/InStock">
+                  <p class="subtitle has-text-right is-7">Доставка по РФ и СНГ <i class="fa-solid fa-truck"></i></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- product card -->
           </div>
           <div class="column is-half has-text-centered">
             <img src="{% static 'images/production/mp-011.jpg' %}" alt="">
-          </div>
-        </div>
-        <div class="carousel-wrapper has-text-centered">
-          <div class="columns">
-            {% for p in mp011_list %}
-              <div class="item-{{ forloop.counter }} m-2 carousel-item column">
-                <div class="carousel-item--img-wrapper">
-                  <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                  <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
-                </div>
-                <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-                <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
-                <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-                <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-                <p class="subtitle is-6">с НДС</p>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="columns mt-6">
-          <div class="column is-half content">
-            <h3 class="title is-4">Торцевая шлифовальная машина МПС-2215</h3>
-            <p class="katran-content">
-                Торцевая профессиональная пневматическая шлифмашина МПС-2215М. Выпускается в вариантах исполнения для работы армированными шлифовальными и отрезными дисками диаметром 230 х 180 мм, а также чашечными щетками диаметром до 125 мм.
-                <br><br>
-                Машина применяется в металлургии, машиностроении, производстве мостовых и железобетонных конструкций, при производстве труб и прокладке трубопроводов, в энергетике и на транспорте.
-                <br><br>
-                Патент на полезную модель шлифовальной машины МПС-2215М №19874
-            </p>
-          </div>
-          <div class="column is-half has-text-centered">
-            <img src="{% static 'images/production/mps-2215m.jpg' %}" alt="">
-          </div>
-        </div>
-        <div class="carousel-wrapper has-text-centered">
-          <div class="columns">
-            {% for p in mp011_list %}
-              <div class="item-{{ forloop.counter }} m-2 carousel-item column">
-                <div class="carousel-item--img-wrapper">
-                  <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                  <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
-                </div>
-                <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-                <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
-                <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-                <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-                <p class="subtitle is-6">с НДС</p>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="title-wrapper has-text-centered mt-6">
-          <p class="subtitle is-6">Пневматический инструмент</p>
-          <h2 class="title is-3">Пневматическая машина ПВМ-12</h2>
-          <p class="subtitle is-6">Сверлильная машина, пневмоприводы</p>
-        </div>
-        <div class="columns mt-6">
-          <div class="column is-half content">
-            <p class="katran-content">
-              Пневматическая реверсивная машина применяется в качестве пневматического привода маханизмов и вальцевания труб. В комплекте с домкратом — для сверления отверстий.
-              <br><br>
-              Отличается высокой надежностью и повышенным ресурсом.
-            </p>
-          </div>
-          <div class="column is-half has-text-centered">
-            <img src="{% static 'images/production/pvm-12.jpg' %}" alt="">
-          </div>
-        </div>
-        <div class="carousel-wrapper has-text-centered">
-          <div class="columns">
-            {% for p in mp011_list %}
-              <div class="item-{{ forloop.counter }} m-2 carousel-item column">
-                <div class="carousel-item--img-wrapper">
-                  <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                  <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
-                </div>
-                <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-                <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
-                <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-                <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-                <p class="subtitle is-6">с НДС</p>
-              </div>
-            {% endfor %}
           </div>
         </div>
         <div class="title-wrapper has-text-centered mt-6">
@@ -132,8 +155,8 @@
           <div class="column is-full content">
             <h3 class="title is-4 has-text-centered">Пневматическая виброзащищенная трамбовка ТП-28А</h3>
             <img src="{% static 'images/production/tp-28a.jpg' %}" alt="">
-            <p>Пневмотрамбовка ТП-28А предназначена для уплотнения формовочных смесей в литейном производстве и других аналогичных работ. Снабжена повышенной виброзащитой.
-              <br><br>
+            <p>Пневмотрамбовка ТП-28А предназначена для уплотнения формовочных смесей в литейном производстве и других аналогичных работ. Снабжена виброзащитой.
+              <br>
               Патент на полезную модель пневматической трамбовки ТП-28А № 123354
               </p>
           </div>
@@ -141,33 +164,213 @@
         <div class="columns mt-6">
           <div class="column is-half content">
             <h3 class="title is-4">Пневматическая виброзащищенная трамбовка ТПВ-3А</h3>
-            <p class="katran-content">
-              Пневмотрамбовка виброзащищенная ТПВ-3А предназначена для работ по послойному уплотнению формовочной смеси в литейном производстве.
-              <br><br>
-              Верстачная пневмотрамбовка ТПВ-3А имеет компактные размеры и небольшой вес для удобства работы в ограниченных пространствах. Прочная конструкция корпуса и металлический башмак значительно продлевает срок эксплуатации. Инструмент не нагревается при работе. Оснащена повышенной виброзащитой.
-            </p>
+            <p class="katran-content">Пневматическая виброзащищенная трамбовка ТПВ-3А от «Катран-Пневмо»  представляет собой компактный и легкий инструмент, идеально подходящий для послойного уплотнения формовочной смеси в литейном производстве. Обладая энергией удара 3 Дж и частотой 22 Гц при расходе воздуха 400 л/мин, она обеспечивает высокую эффективность при выполнении поставленных задач. Вес всего 3 кг и длина 360 мм делают ее исключительно удобной для работы в ограниченных пространствах.</p>
+            <p class="katran-content">Прочная конструкция корпуса и металлический башмак диаметром 40 мм  гарантируют продолжительный срок службы инструмента. Трамбовка не нагревается в процессе эксплуатации и оснащена повышенной виброзащитой, что значительно повышает комфорт и безопасность оператора. «Катран-Пневмо» предоставляет гарантийный и текущий ремонт, а также обеспечивает поставку необходимых запчастей и бесплатную доставку сертифицированной продукции по всей территории РФ и СНГ.</p>
+
+            <div class="columns" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+              {% for p in tramb_list %}
+              <!-- product card -->
+              <div class="column is-half has-text-centered is-relative is-spaced">
+                <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}">
+                  <div class="carousel-item--img-wrapper">
+                    <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+                    <a itemprop="url" href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                    {% if p.brand %}
+                    <figure class="image product-card_brand-image is-32x32">
+                      <img src="{{p.brand.image.url}}" 
+                      alt="{{ p.brand }} | купить со склада в СПБ"
+                      title="{{ p.brand }} | купить со склада в СПБ">
+                    </figure>
+                    {% endif %}
+                  </div>
+                </a>
+                <div class="product_grid_card_body">
+                  <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+                  <p class="subtitle is-7"><a href="{% url 'main_category_detail' p.category.main_category.slug  %}" class="no-hl-link">{{ p.category.main_category }}</a></p>
+                  <h2 itemprop="name" class="title is-6 mt-0"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+                  {% if p.brand %}
+                    <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+                  {% endif %}
+                </div>
+                <hr class="katran-line-sep">
+                <div class="column is-full is-relative">
+                  <div class="columns is-vcentered is-multiline is-flex">
+                    <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
+                      <button class="button is-primary is-small" @click="addToCart({{ p.id }})">
+                        <i class="fa-solid fa-cart-shopping"></i>&nbsp;
+                        <span class="">Купить</span>
+                      </button>
+                    </div>
+                    <div class="column is-9-widescreen is-9-mobile is-full-tablet is-full-desktop">
+                      <p class="title has-text-right is-5 ">
+                        {% if p.price != 0 %}
+                          <span class="fc-red">
+                            {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                          </span>
+                        <meta itemprop="price" content="{{ p.price|floatformat:2 }}">
+                      	<meta itemprop="priceCurrency" content="RUB">
+                        {% else %}
+                          <span class="fc-red">
+                            По запросу
+                          </span>
+                        {% endif %}
+                      </p>
+                      <link itemprop="availability" href="http://schema.org/InStock">
+                      <p class="subtitle has-text-right is-7">Доставка по РФ и СНГ <i class="fa-solid fa-truck"></i></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- product card -->
+
+              {% endfor %}
+              
+            </div>
+
           </div>
           <div class="column is-half has-text-centered">
             <img src="{% static 'images/production/tpv-3a.jpg' %}" alt="">
           </div>
         </div>
-        <div class="carousel-wrapper has-text-centered">
-          <div class="columns">
-            {% for p in tramb_list %}
-              <div class="item-{{ forloop.counter }} m-2 carousel-item column">
+        
+        <div class="columns mt-6" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+          <div class="column is-half content">
+            <h3 class="title is-4" itemprop="name">Торцевая шлифовальная машина МПС-2215</h3>
+            <p class="katran-content" itemprop="description">Пневмошлифмашина МПС-2215М от «Катран-Пневмо»  — это мощный вертикальный шлифовальный инструмент, разработанный для максимально быстрого выполнения различных металлообрабатывающих работ. С номинальной мощностью 2.0 кВт и частотой вращения шпинделя 6500 об/мин, она эффективно справляется с задачами, требующими значительной производительности. Расход воздуха составляет 2800 л/мин, а диаметр абразивного инструмента достигает 230 мм. При весе 4.8 кг и длине 430 мм, МПС-2215М обеспечивает баланс между мощностью и управляемостью. Продукт сертифицирован, имеет Патент № 19873 , и «Катран-Пневмо» предлагает бесплатную доставку по РФ и СНГ, а также гарантийное обслуживание.</p>
+            <!-- product card -->
+            <div class="column is-half has-text-centered is-relative is-spaced">
+              <a itemprop="url" href="{% url 'product_detail' mps.category.main_category.slug mps.category.slug mps.slug %}">
                 <div class="carousel-item--img-wrapper">
-                  <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                  <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                  <img itemprop="image" src="{{mps.image.url}}" alt="{{ mps.title }} | {{ mps.category }} | купить со склада в СПБ">
+                  <a href="{% url 'product_detail' mps.category.main_category.slug mps.category.slug mps.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                  {% if mps.brand %}
+                  <figure class="image product-card_brand-image is-32x32">
+                    <img src="{{mps.brand.image.url}}" 
+                    alt="{{ mps.brand }} | купить со склада в СПБ"
+                    title="{{ mps.brand }} | купить со склада в СПБ">
+                  </figure>
+                  {% endif %}
                 </div>
-                <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-                <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
-                <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-                <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-                <p class="subtitle is-6">с НДС</p>
+              </a>
+              <div class="product_grid_card_body">
+                <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' mps.category.main_category.slug mps.category.slug %}" class="no-hl-link">{{ mps.category }}</a></p>
+                <p class="subtitle is-7"><a href="{% url 'main_category_detail' mps.category.main_category.slug  %}" class="no-hl-link">{{ mps.category.main_category }}</a></p>
+                <h2 class="title is-6 mt-0"><a href="{% url 'product_detail' mps.category.main_category.slug mps.category.slug mps.slug %}" class="no-hl-link">{{mps}}</a></h2>
+                {% if mps.brand %}
+                  <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' mps.brand.slug %}">{{ mps.brand }}</a></p>
+                {% endif %}
               </div>
-            {% endfor %}
+              <hr class="katran-line-sep">
+              <div class="column is-full is-relative">
+                <div class="columns is-vcentered is-multiline is-flex">
+                  <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
+                    <button class="button is-primary is-small" @click="addToCart({{ mps.id }})">
+                      <i class="fa-solid fa-cart-shopping"></i>&nbsp;
+                      <span class="">Купить</span>
+                    </button>
+                  </div>
+                  <div class="column is-9-widescreen is-9-mobile is-full-tablet is-full-desktop">
+                    <p class="title has-text-right is-5 ">
+                      {% if mps.price != 0 %}
+                        <span class="fc-red">
+                          {{ mps.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                        </span>
+                        <meta itemprop="price" content="{{ mps.price|floatformat:2 }}">
+                      	<meta itemprop="priceCurrency" content="RUB">
+                      {% else %}
+                        <span class="fc-red">
+                          По запросу
+                        </span>
+                      {% endif %}
+                    </p>
+                    <link itemprop="availability" href="http://schema.org/InStock">
+                    <p class="subtitle has-text-right is-7">Доставка по РФ и СНГ <i class="fa-solid fa-truck"></i></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- product card -->
+           
           </div>
-        </div>      
+          <div class="column is-half has-text-centered">
+            <img src="{% static 'images/production/mps-2215m.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="title-wrapper has-text-centered mt-6">
+          <p class="subtitle is-6">Пневматический инструмент</p>
+          <h2 class="title is-3">Пневматическая машина ПВМ-12</h2>
+          <p class="subtitle is-6">Сверлильная машина, пневмоприводы</p>
+        </div>
+        <div class="columns mt-6" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+          <div class="column is-full content">
+            <p class="katran-content">
+              Пневматическая реверсивная машина применяется в качестве пневматического привода маханизмов и вальцевания труб. В комплекте с домкратом — для сверления отверстий.
+              <br>
+              Отличается высокой надежностью и повышенным ресурсом.
+            </p>
+            <div class="columns">
+              {% for p in pvm_list %}
+              <!-- product card -->
+              <div class="column is-one-quarter has-text-centered is-relative is-spaced">
+                <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}">
+                  <div class="carousel-item--img-wrapper">
+                    <img itemprop="image" src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+                    <a itemprop="url" href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                    {% if p.brand %}
+                    <figure class="image product-card_brand-image is-32x32">
+                      <img src="{{p.brand.image.url}}" 
+                      alt="{{ p.brand }} | купить со склада в СПБ"
+                      title="{{ p.brand }} | купить со склада в СПБ">
+                    </figure>
+                    {% endif %}
+                  </div>
+                </a>
+                <div class="product_grid_card_body">
+                  <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+                  <p class="subtitle is-7"><a href="{% url 'main_category_detail' p.category.main_category.slug  %}" class="no-hl-link">{{ p.category.main_category }}</a></p>
+                  <h2 itemprop="name" class="title is-6 mt-0"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+                  {% if p.brand %}
+                    <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+                  {% endif %}
+                </div>
+                <hr class="katran-line-sep">
+                <div class="column is-full is-relative">
+                  <div class="columns is-vcentered is-multiline is-flex">
+                    <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
+                      <button class="button is-primary is-small" @click="addToCart({{ p.id }})">
+                        <i class="fa-solid fa-cart-shopping"></i>&nbsp;
+                        <span class="">Купить</span>
+                      </button>
+                    </div>
+                    <div class="column is-9-widescreen is-9-mobile is-full-tablet is-full-desktop">
+                      <p class="title has-text-right is-5 ">
+                        {% if p.price != 0 %}
+                          <span class="fc-red">
+                            {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                          </span>
+                        <meta itemprop="price" content="{{ p.price|floatformat:2 }}">
+                      	<meta itemprop="priceCurrency" content="RUB">
+                        {% else %}
+                          <span class="fc-red">
+                            По запросу
+                          </span>
+                        {% endif %}
+                      </p>
+                      <link itemprop="availability" href="http://schema.org/InStock">
+                      <p class="subtitle has-text-right is-7">Доставка по РФ и СНГ <i class="fa-solid fa-truck"></i></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- product card -->
+
+              {% endfor %}
+
+            </div>
+          </div>
+        </div>
+
+
         <div class="title-wrapper has-text-centered mt-6">
           <p class="subtitle is-6">Пневматический инструмент</p>
           <h2 class="title is-3">Пневматические рубильные молотки</h2>
@@ -177,59 +380,84 @@
           <div class="column is-half content">
             <p class="katran-content">
               Молотки серии РМ предназначены для обрубки на отливках остатков прибылей и заливов, удаления пригара и стержней, вырубки дефектов, подготовки отливок под заварку и других аналогичных работ.
-              <br><br>
+              <br>
               Выпускаются в варианте исполнения с концевой пружиной и без неё.
-              <br><br>
+              <br>
               Модели РМ-8А, РМ-12А, РМ-16А (по энергии удара, Дж)
-              <br><br>
+              <br>
               Патент на полезную модель рубильных молотков серии РМ №122602
             </p>
+            <div class="columns" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+              {% for p in rm_list %}
+              <!-- product card -->
+              <div class="column is-one-third has-text-centered is-relative is-spaced">
+                <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}">
+                  <div class="carousel-item--img-wrapper">
+                    <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+                    <a itemprop="url" href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                    {% if p.brand %}
+                    <figure class="image product-card_brand-image is-32x32">
+                      <img src="{{p.brand.image.url}}" 
+                      alt="{{ p.brand }} | купить со склада в СПБ"
+                      title="{{ p.brand }} | купить со склада в СПБ">
+                    </figure>
+                    {% endif %}
+                  </div>
+                </a>
+                <div class="product_grid_card_body">
+                  <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+                  <p class="subtitle is-7"><a href="{% url 'main_category_detail' p.category.main_category.slug  %}" class="no-hl-link">{{ p.category.main_category }}</a></p>
+                  <h2 itemprop="name" class="title is-6 mt-0"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+                  {% if p.brand %}
+                    <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+                  {% endif %}
+                </div>
+                <hr class="katran-line-sep">
+                <div class="column is-full is-relative">
+                  <div class="columns is-vcentered is-multiline is-flex">
+                    <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
+                      <button class="button is-primary is-small" @click="addToCart({{ p.id }})">
+                        <i class="fa-solid fa-cart-shopping"></i>&nbsp;
+                        <span class="">Купить</span>
+                      </button>
+                    </div>
+                    <div class="column is-9-widescreen is-9-mobile is-full-tablet is-full-desktop">
+                      <p class="title has-text-right is-5 ">
+                        {% if p.price != 0 %}
+                          <span class="fc-red">
+                            {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                          </span>
+                        <meta itemprop="price" content="{{ p.price|floatformat:2 }}">
+                      	<meta itemprop="priceCurrency" content="RUB">
+                        {% else %}
+                          <span class="fc-red">
+                            По запросу
+                          </span>
+                        {% endif %}
+                      </p>
+                      <link itemprop="availability" href="http://schema.org/InStock">
+                      <!-- <p class="subtitle has-text-right is-7">Доставка по РФ и СНГ <i class="fa-solid fa-truck"></i></p> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- product card -->
+
+              {% endfor %}
+              
+            </div>
           </div>
           <div class="column is-half has-text-centered">
             <img src="{% static 'images/production/rm.jpg' %}" alt="">
           </div>
         </div>
-        <div class="carousel-wrapper has-text-centered">
-          <div class="columns">
-            {% for p in rm_list %}
-              <div class="item-{{ forloop.counter }} m-2 carousel-item column">
-                <div class="carousel-item--img-wrapper">
-                  <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                  <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
-                </div>
-                <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-                <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
-                <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-                <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-                <p class="subtitle is-6">с НДС</p>
-              </div>
-            {% endfor %}
-          </div>
-        </div>        
       </div>
-    </div>
+
 
 {% endblock %}
 
 {% block scripts %}
-<script>
-// Initialize all div with carousel class
-var options = {
-  slidesToScroll: 1,
-	slidesToShow: 3,
-  loop: true
-}
-var carousels = bulmaCarousel.attach('.carousel', options);
-
-// Loop on each carousel initialized
-for(var i = 0; i < carousels.length; i++) {
-	// Add listener to  event
-	carousels[i].on('before:show', state => {
-		console.log(state);
-	});
-}
-</script>
-<script>
+<script type="text/javascript">
   var productionsapp = new Vue({
     el: '#productionsapp',
     delimiters: ['[[',']]'],
@@ -273,5 +501,6 @@ for(var i = 0; i < carousels.length; i++) {
         }
     }
   });
+
 </script>
 {% endblock %}

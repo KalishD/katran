@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Статьи о пневмоинструменте. Обзоры, характеристики, отзывы{% endblock %}
+{% block ogtitle %}{{ post.title }}{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+{% block content %}
+
+    <div class="column has-text-centered-touch">
+        <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+          <ul>
+            <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+            <li><a href="" class="no-hl-link">Статьи о пневмоинструменте</a></li>
+          </ul>
+        </nav>
+        <div class="title-wrapper has-text-centered">
+          <p class="subtitle is-6">ООО "Катран-Пневмо"</p>
+          <h2 class="title is-3">ЗАМЕТКИ НА ТЕМУ</h2>
+        </div>
+        <div class="columns is-multiline mt-3-mobile mt-1-desktop mt-1">
+        {% for p in posts %}
+            <div class="column is-one-third">
+                <a class="no-hl-link" href="{% url 'post_detail' p.slug %}">
+                <div class="card">
+                    <header class="card-header">
+                        <h3 class="card-header-title">
+                            {{ p.title }}
+                        </h3>
+                    </header>
+
+                    <div class="card-image carousel-item--img-wrapper">
+                        <img src="{{p.image.url}}" alt="{{ p.title }}" title="{{ p.title }}">
+                        <a href="{% url 'post_detail' p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">{{p.postcategory.name}}</p>    
+                    </footer>
+
+                </div>
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
