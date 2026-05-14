@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+
+from django.utils.encoding import smart_str
 import os
 # from django.utils.encoding import force_str
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -59,7 +61,6 @@ INSTALLED_APPS = [
     'meta',
     'html5lib',
     
-    # 'django_json_ld',
 
 ]
 
@@ -70,12 +71,20 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+<<<<<<< HEAD
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # "django.middleware.security.SecurityMiddleware",
     # "apps.core.middleware.WwwRedirectMiddleware",
     # 'csp.middleware.CSPMiddleware',
     # "django.middleware.csp.ContentSecurityPolicyMiddleware",
+=======
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "apps.core.middleware.WwwRedirectMiddleware",
+    'csp.middleware.CSPMiddleware',
+>>>>>>> ca643173a347ed9cb0576309097f85ee85318c90
 ]
+
 
 ROOT_URLCONF = 'katran.urls'
 
@@ -111,20 +120,10 @@ TEMPLATES = [
         },
     },
 ]
-SUMMERNOTE_CONFIG = {
-    'iframe': True,
-    # "jquery": "summernoteJQuery",
-
-    'summernote': {
-
-        'width': '1024px'
-    }
-}
-
-SUMMERNOTE_THEME = 'lite'
 
 WSGI_APPLICATION = 'katran.wsgi.application'
 
+<<<<<<< HEAD
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
@@ -146,6 +145,8 @@ WSGI_APPLICATION = 'katran.wsgi.application'
 #     },
 # }
 
+=======
+>>>>>>> ca643173a347ed9cb0576309097f85ee85318c90
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -202,7 +203,6 @@ STATICFILES_DIRS = [
     Path(__file__).parent.joinpath(BASE_DIR, 'static')
 ]
 
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path(__file__).parent.joinpath(BASE_DIR, 'media/')
 
@@ -217,9 +217,8 @@ MEDIA_ROOT = Path(__file__).parent.joinpath(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-handler404 = 'apps.core.views.error_404_view'
-handler500 = 'apps.core.views.error_500_view'
 
+<<<<<<< HEAD
 # APPEND_SLASH = True
 
 # SECURE_SSL_REDIRECT = True
@@ -227,6 +226,16 @@ handler500 = 'apps.core.views.error_500_view'
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 
 # # Указывает Django использовать заголовок HTTP Strict Transport Security (HSTS)
+=======
+# handler404 = 'apps.core.views.error_404_view'
+# handler500 = 'apps.core.views.error_500_view'
+
+# SECURE_SSL_REDIRECT = False
+
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
+
+# # # Указывает Django использовать заголовок HTTP Strict Transport Security (HSTS)
+>>>>>>> ca643173a347ed9cb0576309097f85ee85318c90
 
 # SECURE_HSTS_SECONDS = 31536000  # Год
 
@@ -234,11 +243,16 @@ handler500 = 'apps.core.views.error_500_view'
 
 # SECURE_HSTS_PRELOAD = True
 
+<<<<<<< HEAD
 # # Указывает браузерам отправлять куки только через защищенное HTTPS-соединение
+=======
+# # # Указывает браузерам отправлять куки только через защищенное HTTPS-соединение
+>>>>>>> ca643173a347ed9cb0576309097f85ee85318c90
 
 # SESSION_COOKIE_SECURE = True
 
 # CSRF_COOKIE_SECURE = True
+<<<<<<< HEAD
 
 # # Отправляет полный URL для запросов в пределах одного происхождения, только происхождение — для кросс-доменных запросов. Баланс между безопасностью и аналитикой. 
 
@@ -268,3 +282,29 @@ handler500 = 'apps.core.views.error_500_view'
 # META_SITE_PROTOCOL = 'http'
 # META_SITE_DOMAIN = '127.0.0.1:8000'
 # META_USE_SCHEMAORG_PROPERTIES = True
+=======
+
+
+
+# # # Указывает Django использовать безопасные куки
+
+# SECURE_BROWSER_XSS_FILTER = True
+
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+
+
+# # Email settings
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.spaceweb.ru' # или ваш SMTP-сервер
+# EMAIL_PORT = 25
+# EMAIL_USE_TLS = False
+# EMAIL_HOST_USER = 'out_mail@katran-pnevmo.ru' # Ваш email
+# EMAIL_HOST_PASSWORD = 'IdQdPHpBc0#HqhAG' # Пароль от вашего email
+# DEFAULT_FROM_EMAIL = 'out_mail@katran-pnevmo.ru' # Email, от которого будут отправляться письма
+
+# # WWW Redirect
+# PREPEND_WWW = False
+META_SITE_PROTOCOL = 'https'
+META_SITE_DOMAIN = '127.0.0.1:8000'
+META_USE_SCHEMAORG_PROPERTIES = True
+>>>>>>> ca643173a347ed9cb0576309097f85ee85318c90

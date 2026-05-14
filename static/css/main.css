@@ -328,8 +328,7 @@ footer.footer.katran-footer{
 .fa-map-marker,
 .fa-rectangle-list,
 .fa-truck,
-.fa-passport,
-.fa-boxes-stacked
+.fa-passport
 {
     color: var(--katran-blue-2);
 }
@@ -664,7 +663,7 @@ a.no-hl-link:hover{color: var(--katran-dark);}
   transform: translateX(-50%) translateY(1rem);
 }
 .product_grid_card_body{
-    /*min-height: 130px;*/
+    min-height: 130px;
 }
 .product_card{
     position: relative;
@@ -1283,8 +1282,3 @@ i.shiny_btn {
 }
 
 
-.level-left, .level-right {
-    flex-basis: content !important;
-    flex-grow: revert-layer !important;
-    flex-shrink: revert-layer !important;
-}

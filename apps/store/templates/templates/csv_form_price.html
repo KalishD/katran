@@ -1,0 +1,15 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+    <div class="is-one-third"></div>
+    <h3>Import pricelist</h3>  
+    <div class="column is-one-third has-text-centered">
+        <form action="." method="POST" enctype="multipart/form-data">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button type="submit">Upload CSV</button>
+        </form>
+    </div>
+    <br />
+    
+{% endblock %}

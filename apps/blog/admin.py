@@ -26,29 +26,6 @@ class ProductAdminForm(forms.ModelForm):
         model = Product
         fields = '__all__'
 
-    linked = forms.ModelMultipleChoiceField(
-        queryset=Product.objects.none(),  # заполняем в __init__
-        required=False,
-        widget=FilteredSelectMultiple('Связанные товары', False)
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # базовый queryset — все продукты
-        qs = Product.objects.filter(is_visible=True)
-        
-        # parts: только main_category_id в [3,4,5]
-        self.fields['linked'].queryset = qs.filter(category__main_category_id__in=[1,3,4,5])
-
-    def formfield_for_manytomany(self, db_field, request, **kwargs):
-        # общий queryset только видимые продукты
-        qs = Product.objects.filter(is_visible=True)
-
-        if db_field.name == 'linked':
-            # запчасти: только main_category_id в [3,4,5]
-            kwargs['queryset'] = qs.filter(category__main_category_id__in=[1,3,4,5])
-
-        return super().formfield_for_manytomany(db_field, request, **kwargs)
 
     def save_model(self, request, obj, form, change):
         # сначала сохраняем сам объект
