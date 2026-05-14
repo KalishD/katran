@@ -18,16 +18,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=30)),
                 ('slug', models.SlugField(max_length=255)),
             ],
-            options={'verbose_name_plural': 'categories'},
-        ),
-        migrations.CreateModel(
-            name='PostCategory',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=30)),
-                ('slug', models.SlugField(max_length=255)),
-            ],
-            options={'verbose_name_plural': 'postcategories'},
         ),
         migrations.CreateModel(
             name='Post',

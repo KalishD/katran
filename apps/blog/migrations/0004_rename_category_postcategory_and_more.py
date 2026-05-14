@@ -10,10 +10,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # migrations.RenameModel(
-        #     old_name='Category',
-        #     new_name='PostCategory',
-        # ),
+        migrations.RenameModel(
+            old_name='Category',
+            new_name='PostCategory',
+        ),
         migrations.AlterModelOptions(
             name='postcategory',
             options={'verbose_name_plural': 'postcategories'},
