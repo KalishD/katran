@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 SESSION_COOKIE_AGE = 86400
 CART_SESSION_ID = 'cart'
 SITE_ID = 1
+
 # Application definition
 INSTALLED_APPS = [
 
@@ -69,10 +70,10 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django.middleware.security.SecurityMiddleware",
-    "apps.core.middleware.WwwRedirectMiddleware",
-    'csp.middleware.CSPMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # "django.middleware.security.SecurityMiddleware",
+    # "apps.core.middleware.WwwRedirectMiddleware",
+    # 'csp.middleware.CSPMiddleware',
     # "django.middleware.csp.ContentSecurityPolicyMiddleware",
 ]
 
@@ -124,26 +125,26 @@ SUMMERNOTE_THEME = 'lite'
 
 WSGI_APPLICATION = 'katran.wsgi.application'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'WARNING',
-        },
-        'core.views': {  # замените на имя вашего приложения
-            'handlers': ['console'],
-            'level': 'WARNING',
-            'propagate': False,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'WARNING',
+#         },
+#         'core.views': {  # замените на имя вашего приложения
+#             'handlers': ['console'],
+#             'level': 'WARNING',
+#             'propagate': False,
+#         },
+#     },
+# }
 
 
 # Database
@@ -219,51 +220,51 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 handler404 = 'apps.core.views.error_404_view'
 handler500 = 'apps.core.views.error_500_view'
 
-APPEND_SLASH = True
+# APPEND_SLASH = True
 
-SECURE_SSL_REDIRECT = True
+# SECURE_SSL_REDIRECT = True
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 
-# Указывает Django использовать заголовок HTTP Strict Transport Security (HSTS)
+# # Указывает Django использовать заголовок HTTP Strict Transport Security (HSTS)
 
-SECURE_HSTS_SECONDS = 31536000  # Год
+# SECURE_HSTS_SECONDS = 31536000  # Год
 
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_PRELOAD = True
 
-# Указывает браузерам отправлять куки только через защищенное HTTPS-соединение
+# # Указывает браузерам отправлять куки только через защищенное HTTPS-соединение
 
-SESSION_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
-CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 
-# Отправляет полный URL для запросов в пределах одного происхождения, только происхождение — для кросс-доменных запросов. Баланс между безопасностью и аналитикой. 
+# # Отправляет полный URL для запросов в пределах одного происхождения, только происхождение — для кросс-доменных запросов. Баланс между безопасностью и аналитикой. 
 
-SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+# SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
-# Указывает Django использовать безопасные куки
+# # Указывает Django использовать безопасные куки
 
-SECURE_BROWSER_XSS_FILTER = True
+# SECURE_BROWSER_XSS_FILTER = True
 
-SECURE_CONTENT_TYPE_NOSNIFF = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
 
 
 # Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.spaceweb.ru' # или ваш SMTP-сервер
-EMAIL_PORT = 25
-EMAIL_USE_TLS = False
-EMAIL_HOST_USER = 'office@katran-pnevmo.ru' # Ваш email
-EMAIL_HOST_PASSWORD = 'x3n@War10R' # Пароль от вашего email
-DEFAULT_FROM_EMAIL = 'office@katran-pnevmo.ru' # Email, от которого будут отправляться письма
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.spaceweb.ru' # или ваш SMTP-сервер
+# EMAIL_PORT = 25
+# EMAIL_USE_TLS = False
+# EMAIL_HOST_USER = 'office@katran-pnevmo.ru' # Ваш email
+# EMAIL_HOST_PASSWORD = 'x3n@War10R' # Пароль от вашего email
+# DEFAULT_FROM_EMAIL = 'office@katran-pnevmo.ru' # Email, от которого будут отправляться письма
 
 # WWW Redirect
-PREPEND_WWW = False
+# PREPEND_WWW = True
 
-JSON_LD_DEFAULT_TYPE = 'Product'
+# JSON_LD_DEFAULT_TYPE = 'Product'
 
-META_SITE_PROTOCOL = 'https'
-META_SITE_DOMAIN = '127.0.0.1:8000'
-META_USE_SCHEMAORG_PROPERTIES = True
+# META_SITE_PROTOCOL = 'http'
+# META_SITE_DOMAIN = '127.0.0.1:8000'
+# META_USE_SCHEMAORG_PROPERTIES = True
