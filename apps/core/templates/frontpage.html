@@ -7,9 +7,6 @@
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
-{% block canonicalurl %}{% endblock %}
-{% block ogurl %}{% endblock %}
-{% block ogimage %}{% endblock %}
 {% block content %}
 
     <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters" id="">
@@ -403,8 +400,7 @@
         console.log('Mounted Frontpage');
     },
     methods: {
-        addToCart(product_id){
-            console.log('Adding Product_id', product_id);
+        addToCart(product_id, product_name){
             var data = {
                 'product_id': product_id,
                 'update': false,
@@ -420,12 +416,8 @@
                 body: JSON.stringify(data)
             })
             .then((response) => {
-                console.log('Hello');
-                this.showAddToCartMessage = true;
                 store.commit('increment', 1);
-                setTimeout(()=>{
-                    this.showAddToCartMessage = false;
-                }, 2000)
+                showCartNotification(product_name);
             })
             .catch(function(error){
                 console.log(error);

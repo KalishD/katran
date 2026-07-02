@@ -1,10 +1,9 @@
-from itertools import product
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, F, Value
 from django.db.models.functions import Coalesce
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import random
 from django.contrib.postgres.aggregates import StringAgg
 from django.contrib.postgres.search import TrigramSimilarity
@@ -20,7 +19,6 @@ def normalize_query(q):
     return q
 
 def search(request):
-    print('\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= def search -=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-=-=\n')
     raw_query = request.GET.get('query')
 
     if not raw_query:
@@ -37,8 +35,6 @@ def search(request):
     ).distinct().order_by('price')
 
     products_count = len(products_list)
-    print('\n-=-=-=-=-=-=-=-=-=   products_count not Api\n')
-    print(products_list.count())
     context = {
         'query': query,
         'raw_query': raw_query,
@@ -51,7 +47,6 @@ def search(request):
 
 @require_GET
 def search_api(request):
-    print('\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= def API search -=-=-=-=-=--=-=-=-=-=--=-=-=-=-=-=-=\n')
     raw_query = request.GET.get('query')
     if not raw_query:
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -71,7 +66,7 @@ def search_api(request):
             Q(article__icontains=term)
             )
 
-    products_list = qs_products.filter(q_objects).distinct()
+    products_list = qs_products.filter(q_objects).distinct().select_related('brand', 'category__main_category')
     products = []
     for p in products_list:
         
@@ -90,8 +85,6 @@ def search_api(request):
             'url': p.get_absolute_url(),
             })
     products_count = len(products)
-    print('\n-=-=-=-=-=-=-=-=-=   products_count\n')
-    print(products_count)
 
     return JsonResponse({'products': products, 'count': products_count})
 
@@ -158,29 +151,26 @@ def category_detail(request, maincategory_slug, slug):
     return render(request, 'category_detail.html', context)
 
 
+ALLOWED_SORT_FIELDS_CATEGORY = {'is_features', 'title', 'price', 'price_wo_tax', 'sku', 'ordering', 'created_at'}
+
 @require_GET
 def category_products_api(request, main_category_slug, category_slug):
     """
     API endpoint to fetch products for a category with pagination and sorting.
     """
     category = get_object_or_404(Category, slug=category_slug, main_category__slug=main_category_slug)
-    products_qs = Product.objects.filter(category=category, is_visible=True)
+    products_qs = Product.objects.filter(category=category, is_visible=True).select_related('brand', 'category__main_category').prefetch_related('variable_set__varitem')
 
-    # Get sorting parameters from request.GET
-    sort_field = request.GET.get('sortField', 'is_features') # Default sort field
-    sort_order = request.GET.get('sortOrder', 'asc') # Default sort order ('asc' or 'desc')
+    sort_field = request.GET.get('sortField', 'is_features')
+    sort_order = request.GET.get('sortOrder', 'asc')
 
-    # Apply sorting to the queryset
-    if sort_field == 'is_features':
-        if sort_order == 'desc':
-            products_qs = products_qs.order_by(f'-{sort_field}', 'category')
-        else:
-            products_qs = products_qs.order_by(sort_field, 'category')
+    if sort_field not in ALLOWED_SORT_FIELDS_CATEGORY:
+        sort_field = 'is_features'
+
+    if sort_order == 'desc':
+        products_qs = products_qs.order_by(f'-{sort_field}', 'category')
     else:
-        if sort_order == 'desc':
-            products_qs = products_qs.order_by(f'-{sort_field}')
-        else:
-            products_qs = products_qs.order_by(sort_field)
+        products_qs = products_qs.order_by(sort_field, 'category')
     # Get pagination parameters from request.GET
     page = request.GET.get('page', 1)
     per_page = request.GET.get('perPage', 15) # Default items per page
@@ -293,24 +283,34 @@ def product_detail(request, maincategory_slug, category_slug, slug):
 
 
 def brands(request):
-    brand_items = []
     keywords = 'Каталог производителей пневмоинструмент'
     description = 'Каталог производителей пневмоинструмент'
-    for brand in Brand.objects.all().order_by('ordering'):
-        # берем только видимые товары
-        prods = list(brand.products.filter(is_visible=True, category__main_category__in = range(1,2)))
-        random.shuffle(prods)
-        # первые 5 «рандомных»
-        random_five = prods[:5]
+
+    brands_qs = Brand.objects.all().order_by('ordering')
+    all_products = Product.objects.filter(
+        is_visible=True,
+        category__main_category__in=range(1, 2)
+    ).select_related('category__main_category').order_by('?')
+
+    brand_product_map = {}
+    for p in all_products:
+        if p.brand_id not in brand_product_map:
+            brand_product_map[p.brand_id] = []
+        if len(brand_product_map[p.brand_id]) < 5:
+            brand_product_map[p.brand_id].append(p)
+
+    brand_items = []
+    for brand in brands_qs:
         brand_items.append({
             'brand': brand,
-            'products': random_five
+            'products': brand_product_map.get(brand.id, [])
         })
-        context = {
-            'brand_items': brand_items,
-            'keywords': keywords,
-            'description': description,
-        }
+
+    context = {
+        'brand_items': brand_items,
+        'keywords': keywords,
+        'description': description,
+    }
     return render(request, 'brands.html', context)
 
 def brand_detail(request, slug):
@@ -330,19 +330,22 @@ def brand_detail(request, slug):
     return render(request, 'brand_detail.html', context)
 
 
+ALLOWED_SORT_FIELDS_BRAND = {'category__ordering', 'title', 'price', 'price_wo_tax', 'sku', 'ordering', 'created_at'}
+
 @require_GET
 def brand_products_api(request, slug):
     brand = get_object_or_404(Brand, slug=slug)
     """
     API endpoint to fetch products for a category with pagination and sorting.
     """
-    products_qs = Product.objects.filter(brand=brand, is_visible=True)
+    products_qs = Product.objects.filter(brand=brand, is_visible=True).select_related('brand', 'category__main_category').prefetch_related('variable_set__varitem')
 
-    # Get sorting parameters from request.GET
-    sort_field = request.GET.get('sortField', 'category__ordering') # Default sort field
-    sort_order = request.GET.get('sortOrder', 'asc') # Default sort order ('asc' or 'desc')
+    sort_field = request.GET.get('sortField', 'category__ordering')
+    sort_order = request.GET.get('sortOrder', 'asc')
 
-    # Apply sorting to the queryset
+    if sort_field not in ALLOWED_SORT_FIELDS_BRAND:
+        sort_field = 'category__ordering'
+
     if sort_order == 'desc':
         products_qs = products_qs.order_by(f'-{sort_field}')
     else:

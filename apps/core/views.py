@@ -1,5 +1,5 @@
-from multiprocessing import context
 from django.shortcuts import render
+from django.conf import settings
 from django.views.decorators.http import require_GET
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -51,6 +51,14 @@ def csp_report(request):
 class RobotsTxtView(TemplateView):
     template_name = "robots.txt"
 
+# llms.txt
+class LLMSTxtView(TemplateView):
+    template_name = "llms.txt"
+
+# YML.yml
+class YMLView(TemplateView):
+    template_name = "YML.yml"
+
 def html_sitemap(request):
     # Словарь классов Sitemap
     sitemap_classes = {
@@ -97,6 +105,9 @@ def html_sitemap(request):
     return render(request, 'sitemap.html', context)
 
 
+from django.contrib.admin.views.decorators import staff_member_required
+
+@staff_member_required
 def temp(request):
     mp011 = Product.objects.filter(sku = 5882).first()
     context = {'mp011': mp011}
@@ -104,7 +115,8 @@ def temp(request):
 
 
 def error_404_view(request):
-    katran_products = Product.objects.filter(brand = 1, category__main_category__in = range(1,2), is_visible=True).order_by('sku')
+    main_brand_id = getattr(settings, 'MAIN_BRAND_ID', 1)
+    katran_products = Product.objects.filter(brand=main_brand_id, category__main_category__in=range(1, 2), is_visible=True).order_by('sku')
     description = 'Эта страница не найдена, но у нас много другого иструмента в каталоге.'
     context = {
         'katran_products': katran_products,
@@ -113,7 +125,8 @@ def error_404_view(request):
     return render(request, '404.html', context)
 
 def error_500_view(request):
-    katran_products = Product.objects.filter(brand = 1, category__main_category__in = range(1,2), is_visible=True).order_by('sku')
+    main_brand_id = getattr(settings, 'MAIN_BRAND_ID', 1)
+    katran_products = Product.objects.filter(brand=main_brand_id, category__main_category__in=range(1, 2), is_visible=True).order_by('sku')
     description = 'Ой, что-то с нашим сервером. Но мы скоро всё починим.'
 
     context = {
@@ -125,10 +138,11 @@ def error_500_view(request):
 
 
 def frontpage(request):
-    katran_products = Product.objects.filter(brand = 1, category__main_category__in = range(1,2), is_visible=True).order_by('category')
-    cangairgrinders = Product.objects.filter(category = 16, is_visible=True).order_by('sku')
-    anglegrinders = Product.objects.filter(category = 15, is_visible=True).order_by('-price')
-    airhammers = Product.objects.filter(category__in = range(5,7), is_visible=True).order_by('-price')
+    main_brand_id = getattr(settings, 'MAIN_BRAND_ID', 1)
+    katran_products = Product.objects.filter(brand=main_brand_id, category__main_category__in=range(1, 2), is_visible=True).order_by('category')
+    cangairgrinders = Product.objects.filter(category__in=getattr(settings, 'AIR_GRINDER_CATEGORIES', [16]), is_visible=True).order_by('sku')
+    anglegrinders = Product.objects.filter(category__in=getattr(settings, 'ANGLE_GRINDER_CATEGORIES', [15]), is_visible=True).order_by('-price')
+    airhammers = Product.objects.filter(category__in=range(5, 7), is_visible=True).order_by('-price')
     posts = Post.objects.all()
     keywords = 'Купить пневмоинструмент, пневматические молотки отбойные, пневматические молотки рубильные, российский пневмоинструмент'
     description = 'Магазин пневматического иструмента, ООО "Катран-Пневмо" более 30 лет на рынке. Купить пневмоинструмент в СПб.'

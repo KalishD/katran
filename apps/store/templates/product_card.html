@@ -7,10 +7,13 @@
         {% if p.brand %}
         <figure class="image product-card_brand-image is-32x32">
         <img src="{{p.brand.image.url}}" 
-        alt="{{ p.brand }} | купить с доставкой по всей России"
-        title="{{ p.brand }} | купить с доставкой по всей России">
+            alt="{{ p.brand }} | купить с доставкой по всей России"
+            title="{{ p.brand }} | купить с доставкой по всей России">
         </figure>
         {% endif %}
+        <button class="product-card__compare" onclick="event.preventDefault(); event.stopPropagation(); toggleCompare({{ p.id }}, this)" title="Сравнить">
+            <i class="fa-solid fa-scale-balanced"></i>
+        </button>
     </div>
     </a>
     <div class="product_grid_card_body has-text-centered">
@@ -49,7 +52,7 @@
             <p class="subtitle has-text-left is-7">Доставка по РФ и СНГ <i class="fa-solid fa-truck"></i></p>
         </div>
         <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
-            <button class="button is-primary is-small" @click="addToCart({{ p.id }})">
+            <button class="button is-primary is-small" @click="addToCart({{ p.id }}, '{{ p.title|escapejs }}')">
             <i class="fa-solid fa-cart-shopping"></i><i class="shiny_btn"></i>&nbsp;
             <span class="">Купить</span>
             </button>

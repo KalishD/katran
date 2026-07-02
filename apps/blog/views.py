@@ -1,11 +1,6 @@
-from itertools import product
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Q  
 
 from .models import Post, PostCategory
-
-from django.db.models import Count
-from django.db.models import Avg, Max, Min, Sum
 
 # Create your views here.
 

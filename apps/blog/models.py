@@ -1,9 +1,5 @@
-from io import BytesIO
-from django.core.files import File
-from PIL import Image
 from django.db import models
-from apps.store.models import Product
-# Create your models here.
+from apps.store.models import Product, ImageProcessingMixin
 
 class PostCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -13,7 +9,7 @@ class PostCategory(models.Model):
     def __str__(self):
         return self.name
 
-class Post(models.Model):
+class Post(ImageProcessingMixin, models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     body = models.TextField(blank=True, null=True)
@@ -30,26 +26,13 @@ class Post(models.Model):
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
         ordering = ('-created_at','title')
-        
+
     def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
         self.thumbnail = self.make_thumbnail(self.image)
-
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return '/blog/%s' % (self.slug)
-
-    def make_thumbnail(self, image, size=(60, 60)):
-        img = Image.open(image)
-        img.convert('RGB')
-        img.thumbnail(size)
-
-        thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=80)
-
-        thumbnail = File(thumb_io, name=image.name)
-
-        return thumbnail

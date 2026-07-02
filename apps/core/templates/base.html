@@ -33,13 +33,13 @@
   <meta property="og:url" content="{% block ogurl %}https://katran-pnevmo.ru{{ request.path }}{% endblock %}" />
   <meta property="og:title" content="{% block ogtitle %}Интернет-магазин пневматического инструмента{% endblock %}" />
   <meta property="og:description" content="{% block ogdescription %}Пневмоинструмент{% endblock %} широкий выбор: характеристики, фото, видео, отзывы, в интернет-магазине katran-pnevmo.ru | 🚛 Доставка в Санкт-Петербурге и по России" />
-  <meta property="og:image" content="{% block ogimage %}{% endblock %}" />
+  <meta property="og:image" content="{% block ogimage %}https://katran-pnevmo.ru/static/images/kp-logo-text.png{% endblock %}" />
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
   <meta property="og:country_name" content="Россия" />
   <meta property="og:email" content="office@katran-pnevmo.ru" />
   <meta property="og:locale" content="ru_RU" />
-  <meta iterprop="keywords" name="keywords" content="{% block keywords %}{% endblock %}"/>
+  <meta itemprop="keywords" name="keywords" content="{% block keywords %}{% endblock %}"/>
 
 	<script
 	  defer
@@ -47,8 +47,135 @@
 	  data-domain="katran-pnevmo.ru"
 	  src="https://datafa.st/js/script.js">
 	</script>
-  
+  <!-- 1. LOCALBUSINESS + ORGANIZATION — карточка компании в поиске -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["Organization", "LocalBusiness"],
+      "name": "Катран-Пневмо",
+      "alternateName": "Katran-Pnevmo",
+      "url": "https://katran-pnevmo.ru",
+      "logo": "https://katran-pnevmo.ru/static/images/kp-logo-text.png",
+      "image": "https://katran-pnevmo.ru/static/images/katran-pnevmo-production.jpg",
+      "description": "Российский поставщик промышленного пневматического инструмента с 1990 года. Собственное производство, стендовые испытания, авторизованный дистрибьютор U-Tools (Япония) и Daewoo Air Tools (Корея). Поставки для судостроения, машиностроения, нефтегаза. Гарантия 12 месяцев.",
+      "foundingDate": "1990",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "190121, г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, стр. 2, пом. 5-Н, оф. 101",
+        "addressLocality": "Санкт-Петербург",
+        "addressRegion": "Ленинградская область",
+        "postalCode": "190121",
+        "addressCountry": "RU"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "59.920948029",
+        "longitude": "20.28626442"
+      },
+      "telephone": "+7 (812) 331 79 09",
+      "email": "office@katran-pnevmo.ru",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:30",
+          "closes": "17:30"
+        }
+      ],
+      "priceRange": "$$",
+      "currenciesAccepted": "RUB",
+      "paymentAccepted": "Cash, Credit Card, Bank Transfer",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Russia"
+      },
+      "knowsAbout": [
+        "Пневматический инструмент",
+        "Шлифмашины пневматические",
+        "Гайковерты пневматические",
+        "Молотки пневматические",
+        "ИП-2014",
+        "ПШМ-150",
+        "U-Tools",
+        "Daewoo Air Tools",
+        "JSD Tools"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Каталог пневматического инструмента",
+        "url": "https://katran-pnevmo.ru/catalog/"
+      },
+      "brand": [
+        { "@type": "Brand", "name": "U-Tools" },
+        { "@type": "Brand", "name": "Daewoo Air Tools" },
+        { "@type": "Brand", "name": "Катран-Пневмо" },
+        { "@type": "Brand", "name": "Hymair" },
+        { "@type": "Brand", "name": "JSD Tools" }
+      ],
+      "sameAs": [
+        "https://yandex.ru/maps/org/katran_pnevmo/1042901617",
+        "https://2gis.ru/spb/firm/5348552838546107"
+      ]
+    }
+    </script>
 
+    <!-- 2. BREADCRUMBLIST — хлебные крошки -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Главная",
+            "item": "https://katran-pnevmo.ru/"
+          }
+          {% block breadcrumbs_extra %}{% endblock %}
+        ]
+      }
+    </script>
+    <!-- 3. FAQPAGE — частые вопросы (попадают в расширенные ответы Яндекса) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Катран-Пневмо — производитель или дистрибьютор?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Мы совмещаем оба направления. Ряд моделей пневматического инструмента производится под нашей маркой по собственным техническим условиям (ТУ) с патентами. Одновременно мы являемся дистрибьютором U-Tools (Япония), Daewoo Air Tools (Корея) и JSD Tools (Китай)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Вы работаете с физическими лицами или только с предприятиями?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Основное направление — поставки для юридических лиц: производственных предприятий, судостроительных и нефтегазовых компаний. Договоры с НДС, закрывающие документы. Покупка физическими лицами также возможна — уточняйте у менеджера."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Есть ли у вас сервисный центр и гарантийное обслуживание?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да. Гарантийный срок на весь инструмент — 12 месяцев. После окончания гарантии выполняем постгарантийное обслуживание: ремонт, замена лопаток ротора, расходных частей. Все работы выполняются собственными специалистами."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Можно ли найти у вас аналог снятого с производства пневмоинструмента?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да, это одна из наших специализаций. Помогаем подобрать современный аналог инструмента КЗМИ, ПЗПИ и других отечественных производителей — в частности, замены для ИП-2014, ИП-2106, ИП-4126 и других популярных моделей без изменения технологического процесса."
+            }
+          }
+        ]
+      }
+      </script>
 	<!-- Yandex.Metrika counter -->
 	<script type="text/javascript">
 	    (function(m,e,t,r,i,k,a){
@@ -82,6 +209,12 @@
 
 </head>
 <body>
+
+  <div id="cart-notification" class="cart-notification hidden">
+    <span class="cart-notification__icon"><i class="fa-solid fa-check-circle"></i></span>
+    <span id="cart-notification-text" class="cart-notification__text"></span>
+    <button class="cart-notification__close" onclick="hideCartNotification()">&times;</button>
+  </div>
 
   <div id="main_container" >
     {% block messages %}{% endblock %}
@@ -238,6 +371,9 @@
                 <a class="button is-primary" href="{% url 'cart' %}">
                   <strong><i class="fa-solid fa-cart-shopping"></i>([[ numItems ]])</strong>
                 </a>
+                <a class="button is-link is-light" href="{% url 'comparison' %}">
+                  <i class="fa-solid fa-scale-balanced"></i>([[ compCount ]])
+                </a>
               </div>
             </div>
           </div>
@@ -277,6 +413,9 @@
             <div class="buttons">
               <a class="button is-primary" href="{% url 'cart' %}">
                 <strong><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;[[ numItems ]]</strong>&nbsp;товаров
+              </a>
+              <a class="button is-link is-light" href="{% url 'comparison' %}">
+                <i class="fa-solid fa-scale-balanced"></i>&nbsp;&nbsp;[[ compCount ]]
               </a>
             </div>
           </div>
@@ -431,7 +570,8 @@
         var store = new Vuex.Store({
             state: {
                 numItems:{{ cart.get_total_length }},
-                totalCost:{{ cart.get_total_cost }}
+                totalCost:{{ cart.get_total_cost }},
+                compCount:{{ comparison|length }}
             },
             mutations: {
                 increment(state, quantity){
@@ -439,6 +579,9 @@
                 },
                 changeTotalCost(state, newCost) {
                     state.totalCost += newCost;
+                },
+                setCompCount(state, count) {
+                    state.compCount = count;
                 }
             }
         });
@@ -464,6 +607,9 @@
                 },
                 totalCost: function(){
                     return parseFloat(store.state.totalCost)
+                },
+                compCount: function(){
+                    return parseInt(store.state.compCount)
                 }
             },
             methods: {
@@ -688,6 +834,20 @@
     }
 </script>
 
+<script>
+function showCartNotification(productName) {
+    var el = document.getElementById('cart-notification');
+    var text = document.getElementById('cart-notification-text');
+    text.innerHTML = '<strong>' + productName + '</strong> добавлен в корзину';
+    el.classList.remove('hidden');
+    clearTimeout(el._timer);
+    el._timer = setTimeout(function() { hideCartNotification(); }, 3000);
+}
+function hideCartNotification() {
+    var el = document.getElementById('cart-notification');
+    el.classList.add('hidden');
+}
+</script>
 
 </body>
 </html>

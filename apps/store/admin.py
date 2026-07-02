@@ -10,7 +10,7 @@ from slugify import slugify
 import csv, codecs, os, re, operator, io, requests
 from io import BytesIO
 from PIL import Image
-from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory
+from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory, Patent, ProductFAQ
 from urllib.parse import parse_qsl, urljoin, urlparse
 from urllib.request import urlopen
 from apps.core.utils import *
@@ -38,6 +38,11 @@ class CustomSiteAdmin(admin.ModelAdmin):
 class VariableInline(admin.TabularInline):
   model = Variable
   raw_id_fields = ['product']
+
+class ProductFAQInline(admin.TabularInline):
+  model = ProductFAQ
+  extra = 1
+  fields = ('question', 'answer', 'ordering')
 
 # CSV Import Products
 class CsvImportForm(forms.Form):
@@ -411,7 +416,7 @@ class ProductAdmin(ExportActionMixin, SummernoteModelAdmin, admin.ModelAdmin):
                   prev.save()
 
 
-  inlines = [VariableInline]
+  inlines = [VariableInline, ProductFAQInline]
   save_as = True
   # summernote_fields = ('description',)
   def product_category(self,obj):
@@ -540,16 +545,29 @@ class CategoryAdmin(admin.ModelAdmin):
       
   list_display = ("title", "id", "main_category", "is_features", "description", "ordering","product_count")
   product_count.short_description = "Products"
-  fields = ("title", "main_category", "is_features", "description", "summer_description", "ordering", "slug", "image")
+  fields = ("title", "main_category", "is_features", "description", "ordering", "slug", "image")
   prepopulated_fields = {'slug': ('title',)
   # summernote_fields = ('summer_description',)
   }
-  
-
-
 
 # admin.site.register(Variable)
 @admin.register(Variable)
 class VariableAdmin(admin.ModelAdmin):
   # filter_horizontal = ('product',)
   pass
+
+
+
+@admin.register(Patent)
+class PatentAdmin(admin.ModelAdmin):
+    model = Patent
+    save_as = True
+    raw_id_fields = ['product']
+    list_display = ('document_number', "product", "publication_date", "title", "has_image")
+    fields = ("product", 'document_number', "publication_date", "image", "document_image","title", "library")
+    # readonly_fields = ('product',)
+
+    def has_image(self, obj):
+        return bool(obj.image)
+    has_image.boolean = True
+    has_image.short_description = 'Изображение'

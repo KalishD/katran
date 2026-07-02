@@ -1,13 +1,28 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load core_extras %}
+{% load store_extras %}
 {% block title %}Каталог {{ category.title }}{% endblock %}
 {% block ogtitle %}Каталог {{ category.title }}{% endblock %}
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
 {% block ogimage %}https://katran-pnevmo.ru{{ category.image.url }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
-{% block canonicalurl %}{% url 'category_detail' category.main_category.slug category.slug %}{% endblock %}
+{% block canonicalurl %}https://katran-pnevmo.ru{% url 'category_detail' category.main_category.slug category.slug %}{% endblock %}
+{% block breadcrumbs_extra %}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{{ category.main_category.title }}",
+            "item": "https://katran-pnevmo.ru/catalog/{{ category.main_category.slug }}/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{{ category.title }}",
+            "item": "https://katran-pnevmo.ru{% url 'category_detail' category.main_category.slug category.slug %}"
+          }
+{% endblock %}
 {% block content %}
 
   <div class="column" id="app">
@@ -18,9 +33,6 @@
         {% breadcrumb_active category.get_absolute_url category.title 3 %}
       </ul>
     </nav>
-    <div v-if="showAddToCartMessage" class="notification is-success is-light is-fixed-bottom">
-      Товар добавлен в корзину!
-    </div>
         <!-- Level Main container -->
         <nav class="level">
           <!-- Left side -->
@@ -82,7 +94,7 @@
 
         </nav>
         <!-- Level Main container -->
-        <p class="subtitle is-6">{{ category.description | safe }}</p>
+        <p class="subtitle is-6">{{ category.description|sanitize_html|safe }}</p>
         <!-- <p class="subtitle-is-5">{{ category.summer_description|safe }}</p> -->
         <div v-if="loading" class="has-text-centered py-6">
           <i class="fas fa-spinner fa-spin fa-3x"></i>
@@ -103,10 +115,9 @@
               <figure v-if="product.brand_image" class="image product-card_brand-image is-32x32">
                 <img :src="product.brand_image" :alt="product.brand">
               </figure>
-<!--               <button class="button is-black is-small cart-btn" @click="addToCart(product.id)">
-                <i class="fa-solid fa-cart-shopping"></i>&nbsp;
-                <span class="cart-btn-label">Купить</span>
-              </button> -->
+              <button class="product-card__compare" @click.stop.prevent="toggleComparison(product.id)" :class="{'is-active': isCompared(product.id)}" title="Сравнить">
+                <i class="fa-solid fa-scale-balanced"></i>
+              </button>
             </div>
             </div>
             <div class="column is-two-thirds-widescreen is-full-mobile is-full-tablet">
@@ -158,7 +169,7 @@
 			<!-- Table View -->
       <!-- Grid View -->
       <div v-if="currentView === 'grid'" class="columns is-multiline">
-        <div class="column is-one-fifth has-text-centered" v-for="product in sortedProducts" :key="product.id">
+        <div class="column is-one-fifth is-half-mobile is-half-tablet has-text-centered" v-for="product in sortedProducts" :key="product.id">
           <div class="has-border-fancy product_grid_card">
             <a :href="product.url">
               <div class="carousel-item--img-wrapper">
@@ -167,6 +178,9 @@
                 <figure v-if="product.brand_image" class="image product-card_brand-image is-32x32">
                   <img :src="product.brand_image" :alt="product.brand">
                 </figure>
+                <button class="product-card__compare" @click.stop.prevent="toggleComparison(product.id)" :class="{'is-active': isCompared(product.id)}" title="Сравнить">
+                  <i class="fa-solid fa-scale-balanced"></i>
+                </button>
               </div>
             </a>
             <div class="product_grid_card_body">
@@ -216,6 +230,7 @@
                 <th>Наименование</th>
                 <th>Производитель</th>
                 <th>Цена</th>
+                <th></th>
                 {% for var in all_cat_vars %}
                   <th>
                     {{ var }}<br>
@@ -247,6 +262,11 @@
                     <span v-if="product.price">[[ product.price ]] ₽</span>
                     <span v-else>По запросу</span>
                   </span>
+                </td>
+                <td>
+                  <button class="button is-link is-light is-small" @click="toggleComparison(product.id)" :class="{'is-link': isCompared(product.id), 'is-light': !isCompared(product.id)}">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                  </button>
                 </td>
                 {% for var in all_cat_vars %}
                   <td>[[ product.characteristics["{{ forloop.counter0 }}"] ]]</td>
@@ -294,6 +314,7 @@
         totalProducts: 0,
         loading: true, // New loading state
         show_products: true,
+        comparisonIds: {{ comparison.get_product_ids|safe }},
       };
     },
     computed: {
@@ -387,7 +408,8 @@
           this.fetchProducts();
         }
       },
-      addToCart(product_id) {
+      addToCart(product_id, product_name) {
+        var name = product_name || (this.products.find(p => p.id === product_id) || {}).title || 'Товар';
         fetch('/api/api_add_to_cart/', {
           method: 'POST',
           headers: {
@@ -398,9 +420,34 @@
           body: JSON.stringify({ product_id, update: false, quantity: 1 })
         })
         .then(() => {
-          this.showAddToCartMessage = true;
-          this.$store.commit('increment', 1); // Assuming $store and 'increment' mutation exist
-          setTimeout(() => { this.showAddToCartMessage = false; }, 2000);
+          this.$store.commit('increment', 1);
+          showCartNotification(name);
+        })
+        .catch(console.error);
+      },
+      isCompared(product_id) {
+        return this.comparisonIds.indexOf(product_id) !== -1;
+      },
+      toggleComparison(product_id) {
+        fetch('/api/api_toggle_comparison/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify({ product_id: product_id })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            if (data.added) {
+              this.comparisonIds.push(product_id);
+            } else {
+              this.comparisonIds = this.comparisonIds.filter(id => id !== product_id);
+            }
+            store.commit('setCompCount', data.count);
+          }
         })
         .catch(console.error);
       }

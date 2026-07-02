@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'apps.cart',
+    'apps.comparison',
     'apps.core',
     'apps.store',
     'apps.order',
@@ -103,6 +104,9 @@ TEMPLATES = [
                 
                 # cart
                 'apps.cart.context_processors.cart',
+
+                # comparison
+                'apps.comparison.context_processors.comparison',
 
                 # blog
                 'apps.blog.context_processors.all_posts',                

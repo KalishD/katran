@@ -7,6 +7,20 @@
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
+{% block breadcrumbs_extra %}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Производители",
+            "item": "https://katran-pnevmo.ru/brands/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{{ brand.title }}",
+            "item": "https://katran-pnevmo.ru{% url 'brand_detail' brand.slug %}"
+          }
+{% endblock %}
 {% block content %}
   <div class="column" id="app">
     <nav class="breadcrumb is-small" aria-label="breadcrumbs">
@@ -17,9 +31,6 @@
         {% breadcrumb_active brand.get_absolute_url brand.title 3 %}
       </ul>
     </nav>
-    <div v-if="showAddToCartMessage" class="notification is-success is-light is-fixed-bottom">
-      Товар добавлен в корзину!
-    </div>
 
 
         <!-- Level Main container -->
@@ -406,7 +417,8 @@
           this.fetchProducts();
         }
       },
-      addToCart(product_id) {
+      addToCart(product_id, product_name) {
+        var name = product_name || (this.products.find(p => p.id === product_id) || {}).title || 'Товар';
         fetch('/api/api_add_to_cart/', {
           method: 'POST',
           headers: {
@@ -417,9 +429,8 @@
           body: JSON.stringify({ product_id, update: false, quantity: 1 })
         })
         .then(() => {
-          this.showAddToCartMessage = true;
-          this.$store.commit('increment', 1); // Assuming $store and 'increment' mutation exist
-          setTimeout(() => { this.showAddToCartMessage = false; }, 2000);
+          this.$store.commit('increment', 1);
+          showCartNotification(name);
         })
         .catch(console.error);
       }

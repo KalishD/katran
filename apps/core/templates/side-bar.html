@@ -109,7 +109,14 @@
                 </div>
               </div>
               <hr class="katran-line-sep">
-              <div class="column is-full">
+              <div class="column is-half">
+                {% if product.get_patent.first %}
+                <p class="title has-text-left is-6 is-spaced mt-1 pt-0">
+                   <span class="has-text-weight-bold">Патент: </span><span class="no-hl-link" data-target="patent_modal_desktop">{{ product.get_patent.first.document_number }} <i class="fa-solid fa-award fc-red" ></i></span>
+                </p>
+                {% endif %}
+              </div>
+              <div class="column is-half">
                 <p class="title has-text-right is-5 is-spaced mt-0 pt-0">
                   <span class="has-text-weight-bold">Цена: </span>
                   <span class="fc-red">

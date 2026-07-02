@@ -1,0 +1,11 @@
+{
+  "framework": "django",
+  "files": ["apps/*/templates/**/*.html", "apps/core/templates/*.html"],
+  "insertBefore": "</body>",
+  "commentSyntax": "<!-- impeccable -->",
+  "cspChecked": false,
+  "devServer": {
+    "url": "http://127.0.0.1:8000",
+    "running": false
+  }
+}
