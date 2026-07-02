@@ -308,3 +308,35 @@ class Variable(models.Model):
 
     def __str__(self):
         return self.varitem.title
+
+
+class Patent(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='patent', blank=True, null=True, verbose_name='Товар')
+    document_number = models.CharField(max_length=255, verbose_name='Номер документа')
+    publication_date = models.DateField(verbose_name='Дата публикации')
+    image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Схема')
+    document_image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Бланк патента')
+    title = models.CharField(max_length=255, verbose_name='Название')
+    library = models.CharField(max_length=255, blank=True, null=True, verbose_name='Библиотека')
+    link = models.URLField(blank=True, null=True, verbose_name='Ссылка')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создано')
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            self.image = self.convert_rgb(self.image)
+        super().save(*args, **kwargs)
+
+    def convert_rgb(self, image):
+        img = Image.open(image)
+        img.convert('RGB')
+        thumb_io = BytesIO()
+        img.save(thumb_io, 'JPEG', quality=80)
+        image = File(thumb_io, name=image.name)
+        return image
+
+    class Meta:
+        verbose_name = 'Патент'
+        verbose_name_plural = 'Патенты'
+
+    def __str__(self):
+        return f'Патент {self.document_number} - {self.title}'

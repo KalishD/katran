@@ -10,7 +10,7 @@ from slugify import slugify
 import csv, codecs, os, re, operator, io, requests
 from io import BytesIO
 from PIL import Image
-from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory
+from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory, Patent
 from urllib.parse import parse_qsl, urljoin, urlparse
 from urllib.request import urlopen
 from apps.core.utils import *
@@ -20,7 +20,7 @@ import openpyxl
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill
 from openpyxl.styles import Font
-from openpyxl.drawing.image import Image
+from openpyxl.drawing.image import Image as ExcelImage
 from openpyxl.utils.units import pixels_to_EMU, cm_to_EMU # Optional, for precise sizing
 from openpyxl.drawing.spreadsheet_drawing import TwoCellAnchor, AnchorMarker
 from openpyxl.styles import Alignment # For cell content alignment, if needed
@@ -37,6 +37,14 @@ class CustomSiteAdmin(admin.ModelAdmin):
 
 class VariableInline(admin.TabularInline):
   model = Variable
+  raw_id_fields = ['product']
+
+class PatentInline(admin.StackedInline):
+  model = Patent
+  can_delete = False
+  show_change_link = True
+  extra = 0
+  fields = ('document_number', 'publication_date', 'image', 'title', 'library', 'link')
   raw_id_fields = ['product']
 
 # CSV Import Products
@@ -411,7 +419,7 @@ class ProductAdmin(ExportActionMixin, SummernoteModelAdmin, admin.ModelAdmin):
                   prev.save()
 
 
-  inlines = [VariableInline]
+  inlines = [VariableInline, PatentInline]
   save_as = True
   # summernote_fields = ('description',)
   def product_category(self,obj):
@@ -551,5 +559,23 @@ class CategoryAdmin(admin.ModelAdmin):
 # admin.site.register(Variable)
 @admin.register(Variable)
 class VariableAdmin(admin.ModelAdmin):
-  # filter_horizontal = ('product',)
-  pass
+  list_display = ('varitem', 'product', 'value')
+  raw_id_fields = ['product', 'varitem']
+
+
+  # list_display = ("product",'document_number',"publication_date","title","library")
+  # fields = ("product",'document_number',"publication_date","title","library")
+  
+
+@admin.register(Patent)
+class PatentAdmin(admin.ModelAdmin):
+    model = Patent
+    raw_id_fields = ['product']
+    list_display = ("product", 'document_number', "publication_date", "title", "has_image")
+    fields = ("product", 'document_number', "publication_date", "image", "title", "library", "link")
+    readonly_fields = ('product',)
+
+    def has_image(self, obj):
+        return bool(obj.image)
+    has_image.boolean = True
+    has_image.short_description = 'Изображение'

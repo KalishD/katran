@@ -269,6 +269,59 @@
             </div>
           </div>
           {% endif %}
+
+          {% if product.patent %}
+          <div class="column is-full box">
+            <div class="has-text-justified">
+              <p class="menu-label has-text-centered-touch has-text-left-desktop">Патент:</p>
+            </div>
+            <div class="columns is-multiline">
+              <div class="column is-12">
+                <div class="content">
+                  {% if product.patent.image %}
+                  <p class="image is-4by3 mb-4">
+                    <button class="button is-small is-black js-modal-trigger" data-target="patent_modal">
+                      <i class="fa-solid fa-search"></i> Посмотреть бланк патента
+                    </button>
+                  </p>
+                  {% endif %}
+                  <p class="has-text-left is-6">
+                    <span class="has-text-weight-bold">Номер документа:</span> {{ product.patent.document_number }}
+                  </p>
+                  <p class="has-text-left is-6">
+                    <span class="has-text-weight-bold">Дата публикации:</span> {{ product.patent.publication_date|date:"d.m.Y" }}
+                  </p>
+                  <p class="has-text-left is-6">
+                    <span class="has-text-weight-bold">Название:</span> {{ product.patent.title }}
+                  </p>
+                  {% if product.patent.link %}
+                  <p class="has-text-left is-6">
+                    <span class="has-text-weight-bold">Ссылка:</span>
+                    <a href="{{ product.patent.link }}" target="_blank" rel="noopener noreferrer">
+                      {{ product.patent.link }}
+                    </a>
+                  </p>
+                  {% endif %}
+                  {% if product.patent.library %}
+                  <p class="has-text-left is-6">
+                    <span class="has-text-weight-bold">Библиотека:</span> {{ product.patent.library }}
+                  </p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal" id="patent_modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+              <p class="image">
+                <img src="{{product.patent.image.url}}" alt="Бланк патента">
+              </p>
+            </div>
+            <button class="modal-close is-large" aria-label="close"></button>
+          </div>
+          {% endif %}
           
         </div>
           
