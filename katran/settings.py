@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 SESSION_COOKIE_AGE = 86400
 CART_SESSION_ID = 'cart'
 SITE_ID = 1
+
 # Application definition
 INSTALLED_APPS = [
 
@@ -48,10 +49,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'apps.cart',
+    'apps.comparison',
     'apps.core',
     'apps.store',
     'apps.order',
     'apps.blog',
+    'apps.solutions',
 
     'phonenumber_field',
     'fontawesomefree',
@@ -103,6 +106,9 @@ TEMPLATES = [
                 # cart
                 'apps.cart.context_processors.cart',
 
+                # comparison
+                'apps.comparison.context_processors.comparison',
+
                 # blog
                 'apps.blog.context_processors.all_posts',                
 
@@ -113,10 +119,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'katran.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -185,47 +187,6 @@ MEDIA_ROOT = Path(__file__).parent.joinpath(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# handler404 = 'apps.core.views.error_404_view'
-# handler500 = 'apps.core.views.error_500_view'
-
-# SECURE_SSL_REDIRECT = False
-
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
-
-# # # Указывает Django использовать заголовок HTTP Strict Transport Security (HSTS)
-
-# SECURE_HSTS_SECONDS = 31536000  # Год
-
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-
-# SECURE_HSTS_PRELOAD = True
-
-# # # Указывает браузерам отправлять куки только через защищенное HTTPS-соединение
-
-# SESSION_COOKIE_SECURE = True
-
-# CSRF_COOKIE_SECURE = True
-
-
-
-# # # Указывает Django использовать безопасные куки
-
-# SECURE_BROWSER_XSS_FILTER = True
-
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-
-
-# # Email settings
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.spaceweb.ru' # или ваш SMTP-сервер
-# EMAIL_PORT = 25
-# EMAIL_USE_TLS = False
-# EMAIL_HOST_USER = 'out_mail@katran-pnevmo.ru' # Ваш email
-# EMAIL_HOST_PASSWORD = 'IdQdPHpBc0#HqhAG' # Пароль от вашего email
-# DEFAULT_FROM_EMAIL = 'out_mail@katran-pnevmo.ru' # Email, от которого будут отправляться письма
-
-# # WWW Redirect
-# PREPEND_WWW = False
 META_SITE_PROTOCOL = 'https'
 META_SITE_DOMAIN = '127.0.0.1:8000'
 META_USE_SCHEMAORG_PROPERTIES = True

@@ -23,7 +23,7 @@ odfpy==1.4.1
 openpyxl==3.1.2
 packaging==25.0
 phonenumberslite==8.12.51
-Pillow==9.2.0
+Pillow==10.4.0
 psycopg2==2.9.10
 pymorphy2-dicts-ru==2.4.417127.4579844
 python-slugify==8.0.4

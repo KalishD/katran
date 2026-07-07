@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Статьи о пневмоинструменте. Обзоры, характеристики, отзывы{% endblock %}
-{% block ogtitle %}{{ post.title }}{% endblock %}
+{% block title %}Статьи о пневмоинструменте — обзоры, характеристики | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Статьи о пневмоинструменте — обзоры, характеристики | Катран-Пневмо{% endblock %}
 {% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
 {% block content %}
 
@@ -15,7 +16,7 @@
         </nav>
         <div class="title-wrapper has-text-centered">
           <p class="subtitle is-6">ООО "Катран-Пневмо"</p>
-          <h2 class="title is-3">ЗАМЕТКИ НА ТЕМУ</h2>
+          <h1 class="kp-hero-title">ЗАМЕТКИ НА ТЕМУ</h1>
         </div>
         <div class="columns is-multiline mt-3-mobile mt-1-desktop mt-1">
         {% for p in posts %}

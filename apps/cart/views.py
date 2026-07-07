@@ -1,30 +1,35 @@
-from itertools import product
+import json
 from django.shortcuts import render
 from .cart import Cart
 
 def cart_detail(request):
 
     cart = Cart(request)
-    productsstring = ''
+    products_data = []
     product_parts = []
     for item in cart:
         product = item['product']
         url = '/catalog/%s/%s/%s/' % (product.category.main_category.slug, product.category.slug, product.slug)
-        
+
         if product.parts.exists:
             for pr in product.parts.all():
                 product_parts.append(pr)
-        # b = "{'id': '%s','title': '%s','price': '%s','quantity': '%s','total_price': '%s', 'url':'%s', 'image':'%s', 'product_parts':'%s'}," % (product.id, product.title, product.price, item['quantity'], item['total_price'],url, product.image.url, product_parts)
-        b = "{'id': '%s','title': '%s','price': '%s','quantity': '%s','total_price': '%s', 'url':'%s', 'image':'%s'}," % (product.id, product.title, product.price, item['quantity'], item['total_price'],url, product.image.url)
-
-        productsstring = productsstring + b
+        products_data.append({
+            'id': product.id,
+            'title': product.title,
+            'price': float(product.price),
+            'quantity': item['quantity'],
+            'total_price': float(item['total_price']),
+            'url': url,
+            'image': product.image.url if product.image else '',
+        })
 
     context = {
         'cart': cart,
-        'productsstring': productsstring,
+        'productsstring': json.dumps(products_data),
         'product_parts': product_parts,
     }
-    
+
     return render(request, 'cart.html', context)
 
 def success(request):

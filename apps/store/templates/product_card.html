@@ -7,16 +7,19 @@
         {% if p.brand %}
         <figure class="image product-card_brand-image is-32x32">
         <img src="{{p.brand.image.url}}" 
-        alt="{{ p.brand }} | купить с доставкой по всей России"
-        title="{{ p.brand }} | купить с доставкой по всей России">
+            alt="{{ p.brand }} | купить с доставкой по всей России"
+            title="{{ p.brand }} | купить с доставкой по всей России">
         </figure>
         {% endif %}
+        <button class="product-card__compare" onclick="event.preventDefault(); event.stopPropagation(); toggleCompare({{ p.id }}, this)" title="Сравнить">
+            <i class="fa-solid fa-scale-balanced"></i>
+        </button>
     </div>
     </a>
     <div class="product_grid_card_body has-text-centered">
         <p class="subtitle is-7 mb-1 mt-1"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
         <p class="subtitle is-7"><a href="{% url 'main_category_detail' p.category.main_category.slug %}" class="no-hl-link">{{ p.category.main_category }}</a></p>
-        <h3 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h3>
+        <h3 class="kp-subsection-heading"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h3>
         {% if p.brand %}
         <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
         {% endif %}
@@ -49,7 +52,7 @@
             <p class="subtitle has-text-left is-7">Доставка по РФ и СНГ <i class="fa-solid fa-truck"></i></p>
         </div>
         <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
-            <button class="button is-primary is-small" @click="addToCart({{ p.id }})">
+            <button class="button is-primary is-small" @click="addToCart({{ p.id }}, '{{ p.title|escapejs }}')">
             <i class="fa-solid fa-cart-shopping"></i><i class="shiny_btn"></i>&nbsp;
             <span class="">Купить</span>
             </button>

@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.1/dist/summernote.min.css" rel="stylesheet">
+  {% block summernote_css %}{% endblock %}
 
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
   
@@ -22,24 +22,24 @@
   
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css" />
   
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.1/dist/summernote.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+  {% block summernote_js %}{% endblock %}
   <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script>
 
-  <meta name="description" content="{% block description %}Пневмоинструмент{% endblock %} широкий выбор: характеристики, фото, видео, отзывы, в интернет-магазине katran-pnevmo.ru | 🚛 Доставка в Санкт-Петербурге и по России" />
+  <meta name="description" content="{% block description %}Пневматический инструмент для промышленности. ООО «Катран-Пневмо» — поставщик пневмоинструмента в СПб и по России с 1990 года.{% endblock %}" />
   <link rel="canonical" href="{% block canonicalurl %}https://katran-pnevmo.ru{{ request.path  }}{% endblock %}" />
   <meta property="og:site_name" content="Интернет-магазин пневматического инструмента katran-pnevmo.ru" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="{% block ogurl %}https://katran-pnevmo.ru{{ request.path }}{% endblock %}" />
   <meta property="og:title" content="{% block ogtitle %}Интернет-магазин пневматического инструмента{% endblock %}" />
-  <meta property="og:description" content="{% block ogdescription %}Пневмоинструмент{% endblock %} широкий выбор: характеристики, фото, видео, отзывы, в интернет-магазине katran-pnevmo.ru | 🚛 Доставка в Санкт-Петербурге и по России" />
-  <meta property="og:image" content="{% block ogimage %}{% endblock %}" />
+  <meta property="og:description" content="{% block ogdescription %}Пневматический инструмент для промышленности. ООО «Катран-Пневмо» — поставщик пневмоинструмента в СПб и по России с 1990 года.{% endblock %}" />
+  <meta property="og:image" content="{% block ogimage %}https://katran-pnevmo.ru/static/images/kp-logo-text.png{% endblock %}" />
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
   <meta property="og:country_name" content="Россия" />
   <meta property="og:email" content="office@katran-pnevmo.ru" />
   <meta property="og:locale" content="ru_RU" />
-  <meta iterprop="keywords" name="keywords" content="{% block keywords %}{% endblock %}"/>
+  <meta itemprop="keywords" name="keywords" content="{% block keywords %}{% endblock %}"/>
 
 	<script
 	  defer
@@ -47,8 +47,95 @@
 	  data-domain="katran-pnevmo.ru"
 	  src="https://datafa.st/js/script.js">
 	</script>
-  
+  <!-- 1. LOCALBUSINESS + ORGANIZATION — карточка компании в поиске -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["Organization", "LocalBusiness"],
+      "name": "Катран-Пневмо",
+      "alternateName": "Katran-Pnevmo",
+      "url": "https://katran-pnevmo.ru",
+      "logo": "https://katran-pnevmo.ru/static/images/kp-logo-text.png",
+      "image": "https://katran-pnevmo.ru/static/images/katran-pnevmo-production.jpg",
+      "description": "Российский поставщик промышленного пневматического инструмента с 1990 года. Собственное производство, стендовые испытания, авторизованный дистрибьютор U-Tools (Япония) и Daewoo Air Tools (Корея). Поставки для судостроения, машиностроения, нефтегаза. Гарантия 12 месяцев.",
+      "foundingDate": "1990",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "190121, г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, стр. 2, пом. 5-Н, оф. 101",
+        "addressLocality": "Санкт-Петербург",
+        "addressRegion": "Ленинградская область",
+        "postalCode": "190121",
+        "addressCountry": "RU"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "59.920948029",
+        "longitude": "20.28626442"
+      },
+      "telephone": "+7 (812) 331 79 09",
+      "email": "office@katran-pnevmo.ru",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:30",
+          "closes": "17:30"
+        }
+      ],
+      "priceRange": "$$",
+      "currenciesAccepted": "RUB",
+      "paymentAccepted": "Cash, Credit Card, Bank Transfer",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Russia"
+      },
+      "knowsAbout": [
+        "Пневматический инструмент",
+        "Шлифмашины пневматические",
+        "Гайковерты пневматические",
+        "Молотки пневматические",
+        "ИП-2014",
+        "ПШМ-150",
+        "U-Tools",
+        "Daewoo Air Tools",
+        "JSD Tools"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Каталог пневматического инструмента",
+        "url": "https://katran-pnevmo.ru/catalog/"
+      },
+      "brand": [
+        { "@type": "Brand", "name": "U-Tools" },
+        { "@type": "Brand", "name": "Daewoo Air Tools" },
+        { "@type": "Brand", "name": "Катран-Пневмо" },
+        { "@type": "Brand", "name": "Hymair" },
+        { "@type": "Brand", "name": "JSD Tools" }
+      ],
+      "sameAs": [
+        "https://yandex.ru/maps/org/katran_pnevmo/1042901617",
+        "https://2gis.ru/spb/firm/5348552838546107"
+      ]
+    }
+    </script>
 
+    <!-- 2. BREADCRUMBLIST — хлебные крошки -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Главная",
+            "item": "https://katran-pnevmo.ru/"
+          }
+          {% block breadcrumbs_extra %}{% endblock %}
+        ]
+      }
+    </script>
+    
 	<!-- Yandex.Metrika counter -->
 	<script type="text/javascript">
 	    (function(m,e,t,r,i,k,a){
@@ -77,11 +164,15 @@
     {% endif %}
   <!-- /include meta/meta -->
   <meta name="google-site-verification" content="xcgfrJqhzHPLZwbfZ6OriI4D01n55jn9axQWNtarhls" />
-  <noscript><div><img src="https://mc.yandex.ru/watch/103116150" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-  <!-- /Yandex.Metrika counter -->
 
 </head>
 <body>
+
+  <div id="cart-notification" class="cart-notification hidden" role="status" aria-live="polite">
+    <span class="cart-notification__icon"><i class="fa-solid fa-check-circle" aria-hidden="true"></i></span>
+    <span id="cart-notification-text" class="cart-notification__text"></span>
+    <button class="cart-notification__close" onclick="hideCartNotification()" aria-label="Закрыть уведомление">&times;</button>
+  </div>
 
   <div id="main_container" >
     {% block messages %}{% endblock %}
@@ -99,7 +190,7 @@
                  alt="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ" 
                  title="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ">
           </a>
-          <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="Меню навигации" :aria-expanded="menuClass.toString()" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -115,7 +206,29 @@
             <a class="navbar-item" href="{% url 'production' %}">
               Продукция
             </a>
-      
+
+            <div class="navbar-item has-dropdown"
+                  :class="{ 'is-active': dropdowns.solutions }">
+              <a class="navbar-link"
+                  @click.prevent="toggleDropdown('solutions')">
+                Решения
+              </a>
+              <div class="navbar-dropdown" @mouseleave.prevent="closeDropdown('solutions')">
+                <a class="navbar-item" href="{% url 'solutions_index' %}">
+                  Все отрасли
+                </a>
+                <a class="navbar-item" href="{% url 'import_substitution' %}">
+                  Импортозамещение
+                </a>
+                <a class="navbar-item" href="{% url 'custom_development' %}">
+                  Разработка под заказ
+                </a>
+                <a class="navbar-item" href="{% url 'cases_index' %}">
+                  Проекты и кейсы
+                </a>
+              </div>
+            </div>
+
             {# Mega-Menu for Каталог #}
             <div class="navbar-item has-mega-dropdown is-hidden-desktop is-hidden-fullhd is-hidden-widescreen" :class="{ 'is-active': dropdowns.catalog }"> {# Add mouseleave for desktop #}
                 <a class="navbar-link"
@@ -201,32 +314,34 @@
       
           <div class="navbar-end">
             <div class="navbar-item">
-              <p class="subtitle has-text-weight-bold is-6"><i class="fa fa-clock" style="margin-right: .5rem"></i>ПН-ПТ 9:30 - 17:30</p>
+              <p class="subtitle has-text-weight-bold is-6"><i class="fa fa-clock" style="margin-right: .5rem" aria-hidden="true"></i>ПН-ПТ 9:30 - 17:30</p>
             </div>
             <div class="navbar-item">
-              <p class="subtitle is-6"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
+              <p class="subtitle is-6"><a class="no-hl-link" href="tel:+78123317907"><i class="fa-solid fa-phone-flip" aria-hidden="true"></i>&nbsp;&nbsp;+7 (812) 331 79 09</a></p>
             </div>
             <div class="navbar-item">
-              <a class="no-hl-link" href="mailto:OFFICE@KATRAN-PNEVMO.RU"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</a>
+              <a class="no-hl-link" href="mailto:OFFICE@KATRAN-PNEVMO.RU"><i class="fa-solid fa-at" aria-hidden="true"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</a>
             </div>
             <div class="navbar-item">
-              <p class="subtitle is-6 is-hidden-mobile"><i class="fa fa-map-marker" style="margin-right: 1rem"></i>г. Санкт-Петербург, Английский пр., д. 33&nbsp;&nbsp;</p>
+              <p class="subtitle is-6 is-hidden-mobile"><i class="fa fa-map-marker" style="margin-right: 1rem" aria-hidden="true"></i>г. Санкт-Петербург, Английский пр., д. 33&nbsp;&nbsp;</p>
             </div>
             <div class="navbar-item is-hidden-desktop is-hidden-fullhd is-hidden-widescreen">
               <div class="search-btn">
-                <form  method="get" action="{% url 'search' %}">
+                <form  method="get" action="{% url 'search' %}" role="search">
                   <div class="level-item">
                     <div class="field has-addons">
                       <p class="control">
-                        <input id="katran-search" type="text"
+                        <label for="katran-search-mobile" class="sr-only">Поиск в каталоге</label>
+                        <input id="katran-search-mobile" type="text"
                                class="input is-active"
-                               placeholder="Поиск в каталоге" 
+                               placeholder="Поиск в каталоге"
                                name="query"
                                value="{{query}}"
+                               aria-label="Поиск товаров в каталоге"
                                />
                       </p>
-                      <button class="button is-info is-light is-active">
-                          <i class="fa-solid fa-magnifying-glass"></i>
+                      <button class="button is-info is-light is-active" aria-label="Найти">
+                          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                       </button>
                     </div>
                   </div>
@@ -236,7 +351,10 @@
             <div class="navbar-item is-hidden-desktop is-hidden-fullhd is-hidden-widescreen">
               <div class="buttons mr-6">
                 <a class="button is-primary" href="{% url 'cart' %}">
-                  <strong><i class="fa-solid fa-cart-shopping"></i>([[ numItems ]])</strong>
+                  <strong><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>([[ numItems ]])</strong>
+                </a>
+                <a class="button is-link is-light" href="{% url 'comparison' %}">
+                  <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>([[ compCount ]])
                 </a>
               </div>
             </div>
@@ -257,26 +375,31 @@
                     is-vcentered is-right
                     is-hidden-mobile is-hidden-tablet-only">
           <div class="search-btn">
-            <form  method="get" action="{% url 'search' %}">
+            <form  method="get" action="{% url 'search' %}" role="search">
               <div class="level-item">
                 <div class="field has-addons">
                   <p class="control">
-                    <input id="katran-search" type="text"
+                    <label for="katran-search-desktop" class="sr-only">Поиск в каталоге</label>
+                    <input id="katran-search-desktop" type="text"
                            class="input is-active"
-                           placeholder="Поиск в каталоге" 
+                           placeholder="Поиск в каталоге"
                            name="query"
                            value="{{query}}"
+                           aria-label="Поиск товаров в каталоге"
                            />
                   </p>
-                  <button class="button is-info is-light is-active">
-                      <i class="fa-solid fa-magnifying-glass"></i>
+                  <button class="button is-info is-light is-active" aria-label="Найти">
+                      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                   </button>
                 </div>
               </div>
             </form>
             <div class="buttons">
               <a class="button is-primary" href="{% url 'cart' %}">
-                <strong><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;[[ numItems ]]</strong>&nbsp;товаров
+                <strong><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>&nbsp;&nbsp;[[ numItems ]]</strong>&nbsp;товаров
+              </a>
+              <a class="button is-link is-light" href="{% url 'comparison' %}">
+                <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>&nbsp;&nbsp;[[ compCount ]]
               </a>
             </div>
           </div>
@@ -287,7 +410,7 @@
     </div>
     <div class="section is-relative pt-0" id="block-content">
       <!-- Go To Top -->
-      <a href="#" id="goToTop" class="button go_top"><i class="fa-solid fa-angles-up"></i></i></a>
+      <a href="#" id="goToTop" class="button go_top" aria-label="Наверх"><i class="fa-solid fa-angles-up" aria-hidden="true"></i></a>
 
     <!-- популярные категории -->
       <div class="columns mb-0" id="">
@@ -315,7 +438,7 @@
             <div class="has-text-left mt-0 mb-0 box pt-2 pl-3 has-text-centered-mobile">
               <a href="javascript:void(0);" onclick="toggleCategories()" class="more-categories-toggle menu-label is-6 fc-red has-text-weight-bold">
                 <span id="toggleText">Популярные категории</span>
-                <span class="icon is-small"><i class="fas fa-chevron-down"></i></span>
+                <span class="icon is-small"><i class="fas fa-chevron-down" aria-hidden="true"></i></span>
               </a>
             </div>
           </div>
@@ -346,24 +469,24 @@
         </div>
         <div class="column mt-4">
           <div>
-            <h3 class="title is-3">Контакты</h3>
+            <h3 class="kp-subsection-heading">Контакты</h3>
             <p class="heading">ЗВОНИТЕ НАМ ПН-ПТ 9:30 - 17:30</p>
-            <p class="title is-5"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 331 79 09</p>
-            <p class="title is-5"><i class="fa-solid fa-phone-flip"></i>&nbsp;&nbsp;+7 (812) 714 20 30</p>
-            <p class="title is-6"><i class="fa-solid fa-at"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</p>
+            <p class="title is-5"><i class="fa-solid fa-phone-flip" aria-hidden="true"></i>&nbsp;&nbsp;+7 (812) 331 79 09</p>
+            <p class="title is-5"><i class="fa-solid fa-phone-flip" aria-hidden="true"></i>&nbsp;&nbsp;+7 (812) 714 20 30</p>
+            <p class="title is-6"><i class="fa-solid fa-at" aria-hidden="true"></i>&nbsp;&nbsp;OFFICE@KATRAN-PNEVMO.RU</p>
           </div>
         </div>
         <div class="column mt-4">
           <div>
-            <h3 class="title is-3">Наш адрес</h3>
-            <p><i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, лит. А, пом. 5Н, оф. 101</p>
-            <p><i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;Вход с Английский пр., д. 33</p>
-            <p><i class="fa-solid fa-clock"></i>&nbsp;&nbsp;График работы: ПН-ПТ 9:30 - 17:30</p>
+            <h3 class="kp-subsection-heading">Наш адрес</h3>
+            <p><i class="fa-solid fa-location-dot" aria-hidden="true"></i>&nbsp;&nbsp;г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, лит. А, пом. 5Н, оф. 101</p>
+            <p><i class="fa-solid fa-location-dot" aria-hidden="true"></i>&nbsp;&nbsp;Вход с Английский пр., д. 33</p>
+            <p><i class="fa-solid fa-clock" aria-hidden="true"></i>&nbsp;&nbsp;График работы: ПН-ПТ 9:30 - 17:30</p>
           </div>
         </div>
         <div class="column is-multiline mt-4">
           <div>
-            <h3 class="title is-3">Информация</h3>
+            <h3 class="kp-subsection-heading">Информация</h3>
             <aside class="menu">
               <ul class="menu-list">
                   <li>
@@ -390,11 +513,11 @@
     <p class="subtitle is-7">ООО "Катран-Пневмо"&nbsp;{% now "Y" %}</p>
   </footer>
 
-  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  
-  <script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js'></script>  
-  <script src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js'></script>
+  <script type="text/javascript" src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
 
 <script>
   let isOpen = false;
@@ -431,7 +554,8 @@
         var store = new Vuex.Store({
             state: {
                 numItems:{{ cart.get_total_length }},
-                totalCost:{{ cart.get_total_cost }}
+                totalCost:{{ cart.get_total_cost }},
+                compCount:{{ comparison|length }}
             },
             mutations: {
                 increment(state, quantity){
@@ -439,6 +563,9 @@
                 },
                 changeTotalCost(state, newCost) {
                     state.totalCost += newCost;
+                },
+                setCompCount(state, count) {
+                    state.compCount = count;
                 }
             }
         });
@@ -455,6 +582,7 @@
                     dropdowns: {
                         catalog: false, // Controls the 'Каталог' mega-menu visibility
                         brands: false,  // Controls the 'Производители' mega-menu visibility
+                        solutions: false, // Controls the 'Решения' mega-menu visibility
                     },
                 }
             },
@@ -464,6 +592,9 @@
                 },
                 totalCost: function(){
                     return parseFloat(store.state.totalCost)
+                },
+                compCount: function(){
+                    return parseInt(store.state.compCount)
                 }
             },
             methods: {
@@ -603,15 +734,15 @@
         <div class="column is-offset-0">
 
         <p class="buttons">
-          <button class="button is-primary" id="accept-cookies">
+          <button class="button is-primary" id="accept-cookies" aria-label="Принять cookie-файлы">
             <span class="icon is-small">
-              <i class="fas fa-check"></i>
+              <i class="fas fa-check" aria-hidden="true"></i>
             </span>
             <span>Принять</span>
           </button>
-          <button class="button is-danger is-outlined is-square" id="decline-cookies">
+          <button class="button is-danger is-outlined is-square" id="decline-cookies" aria-label="Отклонить cookie-файлы">
             <span class="icon is-small">
-              <i class="fas fa-times"></i>
+              <i class="fas fa-times" aria-hidden="true"></i>
             </span>
           </button>
         </p>
@@ -688,6 +819,20 @@
     }
 </script>
 
+<script>
+function showCartNotification(productName) {
+    var el = document.getElementById('cart-notification');
+    var text = document.getElementById('cart-notification-text');
+    text.innerHTML = '<strong>' + productName + '</strong> добавлен в корзину';
+    el.classList.remove('hidden');
+    clearTimeout(el._timer);
+    el._timer = setTimeout(function() { hideCartNotification(); }, 3000);
+}
+function hideCartNotification() {
+    var el = document.getElementById('cart-notification');
+    el.classList.add('hidden');
+}
+</script>
 
 </body>
 </html>

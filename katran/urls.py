@@ -22,7 +22,9 @@ from django.contrib.sitemaps.views import sitemap
 from django.conf import settings
 from django.conf.urls import include
 from apps.cart.views import cart_detail, success
-from apps.core.views import frontpage, production, about, politics, contacts, RobotsTxtView, temp, html_sitemap, politics_agree, sale_price, export_pricelist, csp_report
+from apps.comparison.views import comparison_detail
+from apps.comparison.api import api_add_to_comparison, api_remove_from_comparison, api_toggle_comparison
+from apps.core.views import frontpage, production, about, politics, contacts, RobotsTxtView, temp, html_sitemap, politics_agree, sale_price, export_pricelist, csp_report, import_substitution, custom_development
 from apps.store.views import category_detail, product_detail, catalog, brand_detail, search, main_category_detail, category_products_api, brands, brand_products_api, search_api
 from apps.blog.views import blog, post_detail
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
@@ -31,13 +33,19 @@ from .sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap, BrandS
 
 sitemaps = {'static': StaticViewSitemap, 'product': ProductSitemap, 'category': CategorySitemap, 'brand': BrandSitemap, 'post': PostsSitemap}
 
+# Solutions app
+from apps.solutions.views import solutions_index, industry_detail, cases_index, case_detail
+
 urlpatterns = [
     
     path('admin/', admin.site.urls),
     path("robots.txt", RobotsTxtView.as_view(content_type="text/plain"), name="robots"),
+    # path("llms.txt", LLMSTxtView.as_view(content_type="text/plain"), name="llms"),
+    # path("YML.yml", YMLView.as_view(content_type="text/plain"), name="YML"),
     path('', frontpage, name='frontpage'),
     path('cart/', cart_detail, name='cart'),
     path('cart/success/', success, name='success'),
+    path('comparison/', comparison_detail, name='comparison'),
 
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('sitemap/', html_sitemap, name='html_sitemap'),
@@ -45,6 +53,8 @@ urlpatterns = [
     path('api/api_add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
     path('api/api_remove_from_cart/', api_remove_from_cart, name='api_remove_from_cart'),
     path('api/api_checkout/', api_checkout, name='api_checkout'),
+    path('api/api_toggle_comparison/', api_toggle_comparison, name='api_toggle_comparison'),
+    path('api/api_remove_from_comparison/', api_remove_from_comparison, name='api_remove_from_comparison'),
 
     # STORE
     path('brands/', brands, name='brands'),
@@ -60,6 +70,8 @@ urlpatterns = [
     
     path('production/', production, name='production'),
     path('about/', about, name='about'),
+    path('import-substitution/', import_substitution, name='import_substitution'),
+    path('custom-development/', custom_development, name='custom_development'),
     path('privacy-policy/', politics, name='politics'),
     path('privacy-policy_agree/', politics_agree, name='politics_agree'),
     path('contacts/', contacts, name='contacts'),
@@ -68,11 +80,21 @@ urlpatterns = [
     path('search/', search, name="search"),
     path('api/search/', search_api, name='search_api'),
     path('csp-report/', csp_report, name='csp_report'),
+    # SOLUTIONS
+    path('solutions/', solutions_index, name='solutions_index'),
+    path('solutions/cases/', cases_index, name='cases_index'),
+    path('solutions/cases/<slug:slug>/', case_detail, name='case_detail'),
+    path('solutions/<slug:slug>/', industry_detail, name='industry_detail'),
     #BLOG
     path('temp/', temp, name="temp"),
     path('blog/', blog, name="blog"),
     path('blog/<slug:slug>/', post_detail, name='post_detail'),
-    path('static/summernote/', include('django_summernote.urls')),
+]
+
+# Summernote URLs
+from django.urls import re_path
+urlpatterns += [
+    path('summernote/', include('django_summernote.urls')),
 ]
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

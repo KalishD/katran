@@ -1,12 +1,70 @@
 from io import BytesIO
+from decimal import Decimal
 from django.core.files import File
+from django.core.files.uploadedfile import UploadedFile
 from PIL import Image
 from django.db import models
 from django_summernote.fields import SummernoteTextField
 from meta.models import ModelMeta
 from django.utils.html import strip_tags
 from slugify import slugify
+import os
 import re
+
+
+class ImageProcessingMixin:
+    """Mixin providing image processing methods for models with image fields."""
+
+    def _is_new_upload(self, field_name):
+        field = getattr(self, field_name)
+        if not field:
+            return False
+        return not field._committed
+
+    def _delete_existing(self, field_name, target_name=None):
+        field = getattr(self, field_name)
+        if not field:
+            return
+        upload_to = field.field.upload_to
+        # Delete the original uploaded file
+        if field.name:
+            orig_path = os.path.join(upload_to, os.path.basename(field.name))
+            if field.storage.exists(orig_path):
+                field.storage.delete(orig_path)
+        # Delete any file at the target path
+        if target_name:
+            target_path = os.path.join(upload_to, target_name)
+            if field.storage.exists(target_path):
+                field.storage.delete(target_path)
+
+    def _delete_path(self, field_name, path):
+        field = getattr(self, field_name)
+        if field.storage.exists(path):
+            field.storage.delete(path)
+
+    def convert_rgb(self, image, target_name=None):
+        if not image:
+            return image
+        img = Image.open(image)
+        img = img.convert('RGB')
+        thumb_io = BytesIO()
+        img.save(thumb_io, 'JPEG', quality=80)
+        thumb_io.seek(0)
+        name = target_name if target_name else os.path.basename(image.name)
+        return File(thumb_io, name=name)
+
+    def make_thumbnail(self, image, target_name=None, size=(60, 60)):
+        if not image:
+            return image
+        img = Image.open(image)
+        img = img.convert('RGB')
+        img.thumbnail(size)
+        thumb_io = BytesIO()
+        img.save(thumb_io, 'JPEG', quality=80)
+        thumb_io.seek(0)
+        name = target_name if target_name else os.path.basename(image.name)
+        return File(thumb_io, name=name)
+
 
 class MainCategory(models.Model):
     title = models.CharField(max_length=255)
@@ -26,48 +84,29 @@ class MainCategory(models.Model):
     def get_absolute_url(self):
         return '/catalog/%s/' % (self.slug)
 
-class Category(models.Model):
+class Category(ImageProcessingMixin, models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     ordering = models.PositiveSmallIntegerField(default=0)
-    main_category = models.ForeignKey(MainCategory, on_delete=models.DO_NOTHING, blank=True, null=True)
+    main_category = models.ForeignKey(MainCategory, on_delete=models.SET_NULL, blank=True, null=True)
     is_features = models.BooleanField(default=False)
     description = models.TextField(blank=True, null=True)
-    summer_description = SummernoteTextField(default='')
 
-    image = models.ImageField(upload_to="uploads/brands/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
+    image = models.ImageField(upload_to="uploads/categories/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
+
     def save(self, *args, **kwargs):
-        self.thumbnail = self.make_thumbnail(self.image)
-        print('-=-=-=Convert=-=-=-')
-        self.image = self.convert_rgb(self.image)
+        if self._is_new_upload('image'):
+            self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
         super().save(*args, **kwargs)
-
-    def convert_rgb(self, image):
-        img = Image.open(image)
-        print('-=-=-=Convert=-=-=-')
-        img.convert('RGB')
-        thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=80)
-        image = File(thumb_io, name=image.name)
-
-        return image
-        
-    def make_thumbnail(self, image, size=(60, 60)):
-        img = Image.open(image)
-        img.convert('RGB')
-        img.thumbnail(size)
-
-        thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=80)
-
-        thumbnail = File(thumb_io, name=image.name)
-
-        return thumbnail
         
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ('ordering',)
+        indexes = [
+            models.Index(fields=['main_category', 'slug']),
+        ]
         
     def __str__(self):
         return self.title
@@ -82,7 +121,7 @@ class Category(models.Model):
         return Product.objects.filter(category=self, is_visible=True).count()
 
 
-class Brand(models.Model):
+class Brand(ImageProcessingMixin, models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     description = models.TextField(blank=True, null=True)
@@ -98,64 +137,45 @@ class Brand(models.Model):
     class Meta:
         verbose_name = 'Производитель'
         verbose_name_plural = 'Производители'
-        
+
     def get_products(self):
-        return Product.objects.filter(brand=self)   
-    
+        return Product.objects.filter(brand=self)
+
     def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.thumbnail = self.make_thumbnail(self.image)
-        print('-=-=-=Convert=-=-=-')
-        self.image = self.convert_rgb(self.image)
+        if self._is_new_upload('image'):
+            self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
+            self._delete_existing('thumbnail', target_name=f'{self.slug}_thumb.jpg')
+            self.thumbnail = self.make_thumbnail(self.image, target_name=f'{self.slug}_thumb.jpg')
         super().save(*args, **kwargs)
+
 
     def get_absolute_url(self):
         return '/brands/%s/' % (self.slug)
-    
-    def convert_rgb(self, image):
-        img = Image.open(image)
-        print('-=-=-=Convert=-=-=-')
-        img.convert('RGB')
-        thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=80)
-        image = File(thumb_io, name=image.name)
-
-        return image
-        
-    def make_thumbnail(self, image, size=(60, 60)):
-        img = Image.open(image)
-        img.convert('RGB')
-        img.thumbnail(size)
-
-        thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=80)
-
-        thumbnail = File(thumb_io, name=image.name)
-
-        return thumbnail
 
 
-class Product(ModelMeta, models.Model):
+class Product(ImageProcessingMixin, ModelMeta, models.Model):
     tax = 22
 
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
-    brand = models.ForeignKey(Brand, related_name='products', on_delete=models.DO_NOTHING, blank=True, null=True)
+    brand = models.ForeignKey(Brand, related_name='products', on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     sku = models.PositiveSmallIntegerField(blank=False, null=False, unique=True)
     description = models.TextField(blank=True, null=True)
-        
-    price = models.FloatField(verbose_name='Цена с НДС')
-    price_wo_tax = models.FloatField(verbose_name='Цена без НДС')
+
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена с НДС')
+    price_wo_tax = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена без НДС')
 
     is_features = models.BooleanField(default=False)
     is_sale = models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
     is_visible = models.BooleanField(default=True)
     is_in_sales_price = models.BooleanField(default=False)
-    
+
     article = models.CharField(max_length=255,blank=True, null=True)
 
     image = models.ImageField(upload_to="uploads/products/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
@@ -174,40 +194,44 @@ class Product(ModelMeta, models.Model):
     ordering = models.PositiveSmallIntegerField(blank=True, null=True)
 
     in_stock = models.PositiveSmallIntegerField(blank=True, null=True, default=1)
+    has_patent = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
         ordering = ('-created_at','title')
-        
+        indexes = [
+            models.Index(fields=['category', 'is_visible']),
+            models.Index(fields=['brand', 'is_visible']),
+            models.Index(fields=['is_features', 'is_visible']),
+            models.Index(fields=['is_bestseller', 'is_visible']),
+            models.Index(fields=['sku']),
+        ]
+
     def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        if not self.pk:
+            self.slug = slugify(self.title)
         self.set_price_w_tax()
-        self.thumbnail = self.make_thumbnail(self.image)
-
+        if self._is_new_upload('image'):
+            self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
+            self._delete_existing('thumbnail', target_name=f'{self.slug}_thumb.jpg')
+            self.thumbnail = self.make_thumbnail(self.image, target_name=f'{self.slug}_thumb.jpg')
         super().save(*args, **kwargs)
 
     def set_price_w_tax(self):
-        self.price = self.price_wo_tax * (1 + self.tax/100)
-        self.price = round(self.price, 2)
+        tax_multiplier = Decimal(1) + Decimal(self.tax) / Decimal(100)
+        self.price = self.price_wo_tax * tax_multiplier
+        self.price = self.price.quantize(Decimal('0.01'))
 
     def get_absolute_url(self):
         return '/catalog/%s/%s/%s/' % (self.category.main_category.slug, self.category.slug, self.slug)
 
-    def make_thumbnail(self, image, size=(60, 60)):
-        img = Image.open(image)
-        img.convert('RGB')
-        img.thumbnail(size)
-
-        thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=80)
-
-        thumbnail = File(thumb_io, name=image.name)
-
-        return thumbnail
+    def get_patent(self):
+        return Patent.objects.filter(product=self)
     _metadata = {
         'name': 'title',
         'description': 'get_schema_description',
@@ -271,7 +295,7 @@ class Product(ModelMeta, models.Model):
             'url': self.build_absolute_uri(self.get_absolute_url()),
             'name': self.title,
             'priceCurrency': 'RUB', # Установите валюту, например, 'RUB' или 'USD'
-            'price': self.price,
+            'price': str(self.price),
             'itemCondition': 'https://schema.org/NewCondition',
             'availability': 'https://schema.org/InStock', # Укажите актуальный статус наличия
         }        
@@ -303,14 +327,14 @@ class VariableItem(models.Model):
 
 class Variable(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    varitem = models.ForeignKey(VariableItem, on_delete=models.DO_NOTHING)
+    varitem = models.ForeignKey(VariableItem, on_delete=models.CASCADE)
     value = models.CharField(max_length=255)
 
     def __str__(self):
         return self.varitem.title
 
 
-class Patent(models.Model):
+class Patent(ImageProcessingMixin, models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='patent', blank=True, null=True, verbose_name='Товар')
     document_number = models.CharField(max_length=255, verbose_name='Номер документа')
     publication_date = models.DateField(verbose_name='Дата публикации')
@@ -322,17 +346,13 @@ class Patent(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создано')
 
     def save(self, *args, **kwargs):
-        if self.image:
-            self.image = self.convert_rgb(self.image)
+        if self._is_new_upload('image'):
+            name = slugify(self.title) if self.title else str(self.pk)
+            self._delete_existing('image', target_name=f'{name}.jpg')
+            self.image = self.convert_rgb(self.image, target_name=f'{name}.jpg')
         super().save(*args, **kwargs)
 
-    def convert_rgb(self, image):
-        img = Image.open(image)
-        img.convert('RGB')
-        thumb_io = BytesIO()
-        img.save(thumb_io, 'JPEG', quality=80)
-        image = File(thumb_io, name=image.name)
-        return image
+
 
     class Meta:
         verbose_name = 'Патент'
@@ -340,3 +360,18 @@ class Patent(models.Model):
 
     def __str__(self):
         return f'Патент {self.document_number} - {self.title}'
+
+
+class ProductFAQ(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='faqs', verbose_name='Товар')
+    question = models.CharField(max_length=500, verbose_name='Вопрос')
+    answer = models.TextField(verbose_name='Ответ')
+    ordering = models.PositiveSmallIntegerField(default=0, verbose_name='Порядок')
+
+    class Meta:
+        verbose_name = 'FAQ'
+        verbose_name_plural = 'FAQ'
+        ordering = ('ordering',)
+
+    def __str__(self):
+        return self.question

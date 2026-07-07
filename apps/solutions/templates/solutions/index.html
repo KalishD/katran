@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ meta_title }}{% endblock %}
+{% block ogtitle %}{{ meta_title }}{% endblock %}
+{% block description %}{{ meta_description }}{% endblock %}
+{% block ogdescription %}{{ meta_description }}{% endblock %}
+{% block keywords %}Пневматические решения, отраслевые решения, пневмоинструмент для промышленности{% endblock %}
+
+{% block content %}
+<div class="column has-text-centered-touch">
+
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li class="is-active"><a href="{% url 'solutions_index' %}">Решения</a></li>
+    </ul>
+  </nav>
+
+  <div class="title-wrapper has-text-centered">
+    <p class="subtitle is-6" style="color: var(--katran-blue-2); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.8rem;">Катран-Пневмо</p>
+    <h1 class="kp-hero-title">Решения для промышленности</h1>
+    <div class="kp-solutions-divider"></div>
+    <p class="subtitle is-5 mt-2" style="max-width: 600px; margin: 0 auto;">Пневматический инструмент под задачи вашей отрасли</p>
+  </div>
+
+  <div class="columns is-multiline mt-5">
+    {% for ind in industries %}
+      <div class="column is-4 is-full-mobile" style="animation: fadeInUp 0.4s ease-out {{ forloop.counter0 }}00ms both;">
+        <a href="{{ ind.get_absolute_url }}" class="no-hl-link" aria-label="Подробнее: {{ ind.title }}">
+          <div class="box kp-solution-card">
+            <div class="kp-solution-card__icon">
+              <i class="{{ ind.icon_class }}" aria-hidden="true"></i>
+            </div>
+            <p class="kp-solution-card__title">{{ ind.title }}</p>
+            <p class="kp-solution-card__desc">{{ ind.short_description }}</p>
+            <div class="kp-solution-card__arrow" aria-hidden="true">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% empty %}
+      <div class="column is-full">
+        <div class="box has-text-centered" style="padding: 3rem;">
+          <p class="title is-4" style="color: var(--katran-blue-2);">
+            <i class="fa-solid fa-tools" aria-hidden="true"></i>
+          </p>
+          <p class="subtitle is-5 mt-2">Раздел находится в разработке</p>
+          <p class="subtitle is-6">Скоро здесь появятся отраслевые решения.</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="columns mt-6 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box kp-cta-box--solutions">
+        <p class="kp-cta-box__title">Не нашли свою отрасль?</p>
+        <p class="kp-cta-box__text">Мы разрабатываем пневматические решения для любых промышленных задач. Свяжитесь с нами — подберём инструмент под вашу технологию.</p>
+        <a href="{% url 'contacts' %}" class="button is-info is-outlined mt-3">
+          <strong>Получить консультацию</strong>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+{% endblock %}

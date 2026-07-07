@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Сравнение товаров | Катран-Пневмо{% endblock %}
+{% block description %}Сравнение товаров в интернет-магазине katran-pnevmo.ru{% endblock %}
+{% block canonicalurl %}https://katran-pnevmo.ru{% url 'comparison' %}{% endblock %}
+{% block content %}
+
+<div class="column" id="comparisonapp">
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li><a class="no-hl-link">Сравнение товаров</a></li>
+    </ul>
+  </nav>
+
+  <div v-if="products.length > 0">
+    <h1 class="kp-hero-title">Сравнение товаров</h1>
+    <hr>
+
+    <div class="table-container">
+      <table class="table is-striped is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="has-text-centered" v-for="p in products" :key="p.id" style="min-width: 220px;">
+              <div class="mb-2">
+                <a :href="p.url">
+                  <figure class="image is-128x128 is-inline-block">
+                    <img :src="p.image" :alt="p.title">
+                  </figure>
+                </a>
+              </div>
+              <p class="title is-6">
+                <a class="no-hl-link" :href="p.url">[[ p.title ]]</a>
+              </p>
+              <p class="subtitle is-7" v-if="p.brand">
+                <a class="no-hl-link" :href="p.brand_url">[[ p.brand ]]</a>
+              </p>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Цена с НДС</strong></td>
+            <td class="has-text-centered" v-for="p in products" :key="'price-'+p.id">
+              <span class="fc-red has-text-weight-bold">
+                <template v-if="p.price">[[ p.price ]] <i class="fa-solid fa-ruble-sign"></i></template>
+                <template v-else>По запросу</template>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Группа</strong></td>
+            <td class="has-text-centered" v-for="p in products" :key="'mc-'+p.id">
+              <a class="no-hl-link" :href="p.main_category_url">[[ p.main_category ]]</a>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Категория</strong></td>
+            <td class="has-text-centered" v-for="p in products" :key="'cat-'+p.id">
+              <a class="no-hl-link" :href="p.category_url">[[ p.category ]]</a>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Производитель</strong></td>
+            <td class="has-text-centered" v-for="p in products" :key="'brand-'+p.id">
+              <template v-if="p.brand"><a class="no-hl-link" :href="p.brand_url">[[ p.brand ]]</a></template>
+              <template v-else>—</template>
+            </td>
+          </tr>
+
+          <tr v-for="(row, idx) in specRows" :key="'spec-'+idx">
+            <td><strong>[[ row.title ]]</strong><template v-if="row.dimention"> <span class="has-text-weight-light is-7">([[ row.dimention ]])</span></template></td>
+            <td class="has-text-centered" v-for="p in products" :key="'sv-'+p.id+'-'+idx">
+              [[ row.values[p.id] || '—' ]]
+            </td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td class="has-text-centered" v-for="p in products" :key="'act-'+p.id">
+              <div class="buttons is-centered">
+                <button class="button is-primary is-small" @click="addToCart(p.id)">
+                  <i class="fa-solid fa-cart-shopping"></i>&nbsp;Купить
+                </button>
+                <button class="button is-danger is-small is-light" @click="removeFromComparison(p.id)">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div v-else class="has-text-centered py-6">
+    <h1 class="kp-hero-title">Сравнение товаров</h1>
+    <p class="subtitle is-5 mt-4">Список сравнения пуст</p>
+    <p class="subtitle is-6">Добавьте товары для сравнения из <a href="{% url 'catalog' %}">каталога</a></p>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+var productsData = {{ products_json|safe }};
+var specRowsData = {{ spec_rows_json|safe }};
+
+var comparisonapp = new Vue({
+  el: '#comparisonapp',
+  delimiters: ['[[', ']]'],
+  store: store,
+  data: {
+    products: productsData,
+    specRows: specRowsData
+  },
+  methods: {
+    addToCart(product_id) {
+      fetch('/api/api_add_to_cart/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({ product_id: product_id, update: false, quantity: 1 })
+      })
+      .then(() => {
+        store.commit('increment', 1);
+      })
+      .catch(console.error);
+    },
+    removeFromComparison(product_id) {
+      fetch('/api/api_remove_from_comparison/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({ product_id: product_id })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          this.products = this.products.filter(p => p.id !== product_id);
+          this.specRows.forEach(row => { delete row.values[product_id]; });
+          store.commit('setCompCount', data.count);
+        }
+      })
+      .catch(console.error);
+    }
+  }
+});
+</script>
+{% endblock %}

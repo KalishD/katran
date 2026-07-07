@@ -1,6 +1,22 @@
 from django import template
 from collections import OrderedDict as SortedDict
+import bleach
+
 register = template.Library()
+
+ALLOWED_TAGS = list(bleach.ALLOWED_TAGS) + ['p', 'br', 'h1', 'h2', 'h3', 'h4', 'ul', 'ol', 'li', 'span', 'div', 'table', 'thead', 'tbody', 'tr', 'th', 'td']
+ALLOWED_ATTRIBUTES = dict(bleach.ALLOWED_ATTRIBUTES)
+ALLOWED_ATTRIBUTES['a'] = ['href', 'title', 'target']
+ALLOWED_ATTRIBUTES['img'] = ['src', 'alt', 'width', 'height']
+ALLOWED_ATTRIBUTES['td'] = ['colspan', 'rowspan']
+ALLOWED_ATTRIBUTES['th'] = ['colspan', 'rowspan']
+
+@register.filter
+def sanitize_html(value):
+    """Sanitize HTML to prevent XSS while keeping safe formatting tags."""
+    if not value:
+        return value
+    return bleach.clean(value, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES, strip=True)
 
 @register.filter
 def variable_by_var(variables, var):

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from phonenumber_field.modelfields import PhoneNumberField
 from apps.store.models import Product
 from django.core.mail import send_mail
@@ -18,8 +19,7 @@ class Order(models.Model):
 
   def send_order_confirmation_email(self):
     subject = f'Новый заказ #{self.id} на сайте'
-    recipient_list = ['office@katran-pnevmo.ru'] # Адрес, на который отправляем письмо
-    # recipient_list = ['katran-pnevmo@yandex.ru'] # Адрес, на который отправляем письмо
+    recipient_list = [getattr(settings, 'ORDER_EMAIL_RECIPIENT', 'office@katran-pnevmo.ru')]
     
     # Получаем все OrderItem'ы, связанные с этим заказом
     # order_items = self.orderitem_set.all()
@@ -105,9 +105,9 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
   order = models.ForeignKey(Order, on_delete=models.CASCADE)
-  product = models.ForeignKey(Product, related_name="products", on_delete=models.DO_NOTHING)
+  product = models.ForeignKey(Product, related_name="order_items", on_delete=models.CASCADE)
 
-  price = models.FloatField()
+  price = models.DecimalField(max_digits=10, decimal_places=2)
   quantity = models.PositiveSmallIntegerField(default=1)
   
   def __str__(self):

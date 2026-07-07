@@ -7,6 +7,20 @@
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
+{% block breadcrumbs_extra %}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Производители",
+            "item": "https://katran-pnevmo.ru/brands/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{{ brand.title }}",
+            "item": "https://katran-pnevmo.ru{% url 'brand_detail' brand.slug %}"
+          }
+{% endblock %}
 {% block content %}
   <div class="column" id="app">
     <nav class="breadcrumb is-small" aria-label="breadcrumbs">
@@ -17,9 +31,6 @@
         {% breadcrumb_active brand.get_absolute_url brand.title 3 %}
       </ul>
     </nav>
-    <div v-if="showAddToCartMessage" class="notification is-success is-light is-fixed-bottom">
-      Товар добавлен в корзину!
-    </div>
 
 
         <!-- Level Main container -->
@@ -33,7 +44,7 @@
                       alt="{{ brand }} | купить со склада в СПБ"
                       title="{{ brand }} | купить со склада в СПБ">
               </figure>
-              <h1 class="title is-3">{{ brand.title }}</strong></h1>
+              <h1 class="kp-hero-title">{{ brand.title }}</strong></h1>
             </div>
             <div class="level-item"></div>
           </div>
@@ -182,7 +193,7 @@
             <div class="product_grid_card_body">
               <p class="subtitle is-7 mb-1"><a class="no-hl-link" :href="product.category_url":title="product.category">[[ product.category ]]</a></p>
               <p class="subtitle is-7"><a class="no-hl-link" :href="product.main_category_url" :title="product.main_category">[[ product.main_category ]]</a></p>
-              <h2 class="title is-6"><a class="no-hl-link" :href="product.url" :title="product.title">[[ product.title ]]</a></h2>
+              <h2 class="kp-subsection-heading"><a class="no-hl-link" :href="product.url" :title="product.title">[[ product.title ]]</a></h2>
               <p class="subtitle is-7" v-if="product.brand"><a class="no-hl-link" :href="product.brand_url" :title="product.brand">[[ product.brand ]]</a></p>
             </div>
             <hr class="katran-line-sep">
@@ -406,7 +417,8 @@
           this.fetchProducts();
         }
       },
-      addToCart(product_id) {
+      addToCart(product_id, product_name) {
+        var name = product_name || (this.products.find(p => p.id === product_id) || {}).title || 'Товар';
         fetch('/api/api_add_to_cart/', {
           method: 'POST',
           headers: {
@@ -417,9 +429,8 @@
           body: JSON.stringify({ product_id, update: false, quantity: 1 })
         })
         .then(() => {
-          this.showAddToCartMessage = true;
-          this.$store.commit('increment', 1); // Assuming $store and 'increment' mutation exist
-          setTimeout(() => { this.showAddToCartMessage = false; }, 2000);
+          this.$store.commit('increment', 1);
+          showCartNotification(name);
         })
         .catch(console.error);
       }

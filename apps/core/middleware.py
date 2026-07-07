@@ -2,12 +2,10 @@ from django.http import HttpResponsePermanentRedirect
 
 
 class WwwRedirectMiddleware:
-    def __init__(self, get_response):
+    def __init__(self, get_response):  # ← это обязательно!
         self.get_response = get_response
 
     def __call__(self, request):
-        host = request.get_host().partition(":")[0]
-        if host == "www.katran-pnevmo.ru":
-            return HttpResponsePermanentRedirect("http://katran-pnevmo.ru" + request.path)
-        else:
-            return self.get_response(request)
+        # твоя логика здесь
+        response = self.get_response(request)
+        return response

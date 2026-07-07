@@ -54,16 +54,16 @@
               <div class="column is-half-desktop is-full-tablet is-vcentered is-relative has-text-left">
               <a href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">  
                 <figure class="image is-1by1 is-full">
-                  <img src="{{ product.image.url }}" alt="Image" />
+                  <img loading="lazy" src="{{ product.image.url }}" alt="Image" />
                   {% if product.brand %}
                   <figure class="image product-card_brand-image is-32x32">
-                    <img src="{{product.brand.image.url}}" 
+                    <img loading="lazy" src="{{product.brand.image.url}}" 
                         alt="{{ product.brand }} | купить со склада в СПБ"
                         title="{{ product.brand }} | купить со склада в СПБ">
                   </figure>
                   {% endif %}
                   <a href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}"
-                    class="button is-black is-small carousel-item--more-btn"><i class="shiny_btn"></i>Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                    class="button is-black is-small carousel-item--more-btn"><i class="shiny_btn" aria-hidden="true"></i>Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info" aria-hidden="true"></i></a>
                 </figure>
                 </a>
               </div>
@@ -109,12 +109,19 @@
                 </div>
               </div>
               <hr class="katran-line-sep">
-              <div class="column is-full">
+              <div class="column is-half">
+                {% if product.get_patent.first %}
+                <p class="title has-text-left is-6 is-spaced mt-1 pt-0">
+                   <span class="has-text-weight-bold">Патент: </span><span class="no-hl-link" data-target="patent_modal_desktop">{{ product.get_patent.first.document_number }} <i class="fa-solid fa-award fc-red" aria-hidden="true"></i></span>
+                </p>
+                {% endif %}
+              </div>
+              <div class="column is-half">
                 <p class="title has-text-right is-5 is-spaced mt-0 pt-0">
                   <span class="has-text-weight-bold">Цена: </span>
                   <span class="fc-red">
                   {% if product.price != 0 %}
-                    {{ product.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                    {{ product.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign" aria-hidden="true"></i>
                   {% else %}
                       По запросу
                   {% endif %}
@@ -135,11 +142,11 @@
     <p class="menu-label has-text-centered-touch has-text-left-desktop fc-red">Популярные товары</p>
     {% for p in featured_product %}
       <div class="box product_card carousel-item--img-wrapper">
-        <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+        <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info" aria-hidden="true"></i></a>
         <div class="columns is-multiline">
           <div class="column is-one-third is-full-mobile is-vcentered">
             <figure class="image">
-              <img src="{{ p.image.url }}" alt="Image" />
+              <img loading="lazy" src="{{ p.image.url }}" alt="Image" />
             </figure> 
           </div>
           <div class="column is-two-thirds is-full-mobile">
@@ -158,7 +165,7 @@
               <span class="has-text-weight-bold">Цена: </span>
               <span class="fc-red">
               {% if p.price != 0 %}
-                {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign" aria-hidden="true"></i>
               {% else %}
                   По запросу
               {% endif %}

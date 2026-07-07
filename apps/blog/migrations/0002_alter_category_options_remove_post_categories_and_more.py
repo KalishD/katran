@@ -15,10 +15,6 @@ class Migration(migrations.Migration):
             name='category',
             options={'verbose_name_plural': 'categories'},
         ),
-        migrations.RemoveField(
-            model_name='post',
-            name='categories',
-        ),
         migrations.AddField(
             model_name='post',
             name='category',

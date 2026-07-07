@@ -9,7 +9,7 @@
       </ul>
     </nav>
     <div v-if="products.length > 0">
-	    <h1 class="title is-3">Ваш заказ</h1>
+	    <h1 class="kp-hero-title">Ваш заказ</h1>
     	<hr>
     <div class="table-container">
       <table class="table is-striped is-hoverable is-fullwidth is-desktop">
@@ -172,7 +172,7 @@
     </div>
     </div>
     <div v-else>
-      <h3 class="title is-3">Ваша корзина пуста</h3>
+      <h3 class="kp-section-heading">Ваша корзина пуста</h3>
       <p class="subtitle is-5">Чтобы начать покупки перейдите в <a href="/catalog/pnevmaticheskij-instrument/">Каталог</a></p>
     </div>
   </div>
@@ -201,7 +201,7 @@
             email: '',
             phone: '',
             address: '',
-            products: [{{ productsstring|safe }}]
+            products: {{ productsstring|safe }}
           }
       },
       computed:{

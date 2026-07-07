@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.core.files import File
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.html import format_html
@@ -10,7 +12,7 @@ from slugify import slugify
 import csv, codecs, os, re, operator, io, requests
 from io import BytesIO
 from PIL import Image
-from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory, Patent
+from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory, Patent, ProductFAQ
 from urllib.parse import parse_qsl, urljoin, urlparse
 from urllib.request import urlopen
 from apps.core.utils import *
@@ -24,13 +26,26 @@ from openpyxl.drawing.image import Image as ExcelImage
 from openpyxl.utils.units import pixels_to_EMU, cm_to_EMU # Optional, for precise sizing
 from openpyxl.drawing.spreadsheet_drawing import TwoCellAnchor, AnchorMarker
 from openpyxl.styles import Alignment # For cell content alignment, if needed
-from openpyxl.styles import Alignment  
+from openpyxl.styles import Alignment
 
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
 from django_summernote.admin import SummernoteModelAdmin
 from django.contrib.sites.models import Site
+
+
+def rename_image_file(old_path, new_path):
+    """Rename file on disk. If old doesn't exist, just return new_path."""
+    if old_path and default_storage.exists(old_path) and old_path != new_path:
+        if default_storage.exists(new_path):
+            default_storage.delete(new_path)
+        # Read then save to rename
+        with default_storage.open(old_path, 'rb') as f:
+            content = f.read()
+        default_storage.save(new_path, ContentFile(content))
+        default_storage.delete(old_path)
+    return new_path
 
 class CustomSiteAdmin(admin.ModelAdmin):
     list_display = ('domain', 'name')
@@ -46,6 +61,11 @@ class PatentInline(admin.StackedInline):
   extra = 0
   fields = ('document_number', 'publication_date', 'image', 'title', 'library', 'link')
   raw_id_fields = ['product']
+
+class ProductFAQInline(admin.TabularInline):
+  model = ProductFAQ
+  extra = 1
+  fields = ('question', 'answer', 'ordering')
 
 # CSV Import Products
 class CsvImportForm(forms.Form):
@@ -419,9 +439,31 @@ class ProductAdmin(ExportActionMixin, SummernoteModelAdmin, admin.ModelAdmin):
                   prev.save()
 
 
-  inlines = [VariableInline, PatentInline]
+  inlines = [VariableInline, PatentInline, ProductFAQInline]
   save_as = True
+  actions = ['rename_images']
   # summernote_fields = ('description',)
+
+  @admin.action(description='Переименовать изображения по slug')
+  def rename_images(self, request, queryset):
+    count = 0
+    for obj in queryset:
+      if not obj.image or obj.image.name == 'static/images/blank_prodimg.jpg':
+        continue
+      old_path = obj.image.name
+      new_path = f'uploads/products/{obj.slug}.jpg'
+      if old_path != new_path:
+        obj.image.name = rename_image_file(old_path, new_path)
+        count += 1
+      if obj.thumbnail:
+        old_thumb = obj.thumbnail.name
+        new_thumb = f'uploads/products/thumb/{obj.slug}_thumb.jpg'
+        if old_thumb != new_thumb:
+          obj.thumbnail.name = rename_image_file(old_thumb, new_thumb)
+          count += 1
+      obj.save(update_fields=['image', 'thumbnail'])
+    self.message_user(request, f'Переименовано: {count} файлов')
+
   def product_category(self,obj):
     url = (
       reverse("admin:store_product_changelist")
@@ -437,6 +479,29 @@ class BrandAdmin(admin.ModelAdmin):
   list_display = ("title",'is_on',"product_count","ordering","country")
   fields = ("title","slug","description",'is_on',"ordering","country", "image")
   prepopulated_fields = {'slug': ('title',) }
+  actions = ['rename_images']
+
+  @admin.action(description='Переименовать изображения по slug')
+  def rename_images(self, request, queryset):
+    count = 0
+    for obj in queryset:
+      if not obj.image or obj.image.name == 'static/images/blank_prodimg.jpg':
+        continue
+      # Rename image
+      old_path = obj.image.name
+      new_path = f'uploads/brands/{obj.slug}.jpg'
+      if old_path != new_path:
+        obj.image.name = rename_image_file(old_path, new_path)
+        count += 1
+      # Rename thumbnail
+      if obj.thumbnail:
+        old_thumb = obj.thumbnail.name
+        new_thumb = f'uploads/brands/{obj.slug}_thumb.jpg'
+        if old_thumb != new_thumb:
+          obj.thumbnail.name = rename_image_file(old_thumb, new_thumb)
+          count += 1
+      obj.save(update_fields=['image', 'thumbnail'])
+    self.message_user(request, f'Переименовано: {count} файлов')
 
   def product_count(self, obj):
     count = Product.objects.filter(brand=obj).count()
@@ -548,13 +613,25 @@ class CategoryAdmin(admin.ModelAdmin):
       
   list_display = ("title", "id", "main_category", "is_features", "description", "ordering","product_count")
   product_count.short_description = "Products"
-  fields = ("title", "main_category", "is_features", "description", "summer_description", "ordering", "slug", "image")
+  fields = ("title", "main_category", "is_features", "description", "ordering", "slug", "image")
   prepopulated_fields = {'slug': ('title',)
   # summernote_fields = ('summer_description',)
   }
-  
+  actions = ['rename_images']
 
-
+  @admin.action(description='Переименовать изображения по slug')
+  def rename_images(self, request, queryset):
+    count = 0
+    for obj in queryset:
+      if not obj.image or obj.image.name == 'static/images/blank_prodimg.jpg':
+        continue
+      old_path = obj.image.name
+      new_path = f'uploads/categories/{obj.slug}.jpg'
+      if old_path != new_path:
+        obj.image.name = rename_image_file(old_path, new_path)
+        obj.save(update_fields=['image'])
+        count += 1
+    self.message_user(request, f'Переименовано: {count} изображений')
 
 # admin.site.register(Variable)
 @admin.register(Variable)
@@ -562,18 +639,36 @@ class VariableAdmin(admin.ModelAdmin):
   list_display = ('varitem', 'product', 'value')
   raw_id_fields = ['product', 'varitem']
 
-
-  # list_display = ("product",'document_number',"publication_date","title","library")
-  # fields = ("product",'document_number',"publication_date","title","library")
-  
-
 @admin.register(Patent)
 class PatentAdmin(admin.ModelAdmin):
     model = Patent
+    save_as = True
     raw_id_fields = ['product']
-    list_display = ("product", 'document_number', "publication_date", "title", "has_image")
-    fields = ("product", 'document_number', "publication_date", "image", "title", "library", "link")
+    list_display = ('document_number', "product", "publication_date", "title", "has_image")
+    fields = ("product", 'document_number', "publication_date", "image", "document_image", "title", "library", "link")
     readonly_fields = ('product',)
+    actions = ['rename_images']
+
+    @admin.action(description='Переименовать изображения по title')
+    def rename_images(self, request, queryset):
+        count = 0
+        for obj in queryset:
+            if not obj.image:
+                continue
+            name = slugify(obj.title) if obj.title else str(obj.pk)
+            old_path = obj.image.name
+            new_path = f'uploads/patents/{name}.jpg'
+            if old_path != new_path:
+                obj.image.name = rename_image_file(old_path, new_path)
+                count += 1
+            if obj.document_image:
+                old_doc = obj.document_image.name
+                new_doc = f'uploads/patents/{name}_doc.jpg'
+                if old_doc != new_doc:
+                    obj.document_image.name = rename_image_file(old_doc, new_doc)
+                    count += 1
+            obj.save(update_fields=['image', 'document_image'])
+        self.message_user(request, f'Переименовано: {count} файлов')
 
     def has_image(self, obj):
         return bool(obj.image)
