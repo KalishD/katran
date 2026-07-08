@@ -5,6 +5,7 @@
 {% block title %}{{ post.title }}{% endblock %}
 {% block ogtitle %}{{ post.title }}{% endblock %}
 {% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
 {% block content %}
 
@@ -18,7 +19,7 @@
         </nav>
         <div class="title-wrapper has-text-centered">
           <p class="subtitle is-6">{{ post.postcategory }}</p>
-          <h2 class="title is-3">{{ post.title }}</h2>
+          <h1 class="kp-hero-title">{{ post.title }}</h1>
         </div>
         <div class="columns mt-6">
             <div class="column is-full content">

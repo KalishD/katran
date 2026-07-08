@@ -50,31 +50,31 @@
       <div class="image is-256x256">
         <div class="features-icons_prod-image_wrap">
           {% if product.partlist %}
-          <button class="icon_prod-image partlist-icon_image js-modal-trigger" data-target="partlist_modal_desktop">
+          <button class="icon_prod-image partlist-icon_image js-modal-trigger" data-target="partlist_modal_desktop" aria-label="Взрыв-схема">
             <figure class="image is-16x16 m-0 mr-1">
-              <img src="{% static 'images/icons/partlist_gear_only.png' %}" alt="Partlist">
+              <img src="{% static 'images/icons/partlist_gear_only.png' %}" alt="Взрыв-схема">
             </figure>
-            <i class="shiny_btn"></i>
+            <i class="shiny_btn" aria-hidden="true"></i>
             <span>Partlist</span>
           </button>
           <div class="modal" id="partlist_modal_desktop">
             <div class="modal-background"></div>
-            <div class="modal-content"><p class="image"><img src="{{product.partlist.url}}" alt=""></p></div>
-            <button class="modal-close is-large" aria-label="close"></button>
+            <div class="modal-content"><p class="image"><img src="{{product.partlist.url}}" alt="Взрыв-схема {{ product.title }}"></p></div>
+            <button class="modal-close is-large" aria-label="Закрыть"></button>
           </div>
           {% endif %}
           {% if product.get_patent.first %}
-          <button class="icon_prod-image patent-icon_image js-modal-trigger mt-1" data-target="patent_modal_desktop">
+          <button class="icon_prod-image patent-icon_image js-modal-trigger mt-1" data-target="patent_modal_desktop" aria-label="Патент">
             <figure class="image is-16x16 m-0 mr-1">
               <img src="{% static 'images/icons/patent.png' %}" alt="Патент">
             </figure>
-            <i class="shiny_btn"></i>
+            <i class="shiny_btn" aria-hidden="true"></i>
             <span>Патент</span>
           </button>
           <div class="modal" id="patent_modal_desktop">
             <div class="modal-background"></div>
-            <div class="modal-content"><p class="image"><img src="{{product.get_patent.first.document_image.url}}" alt=""></p></div>
-            <button class="modal-close is-large" aria-label="close"></button>
+            <div class="modal-content"><p class="image"><img src="{{product.get_patent.first.document_image.url}}" alt="Патент {{ product.get_patent.first.document_number }}"></p></div>
+            <button class="modal-close is-large" aria-label="Закрыть"></button>
           </div>
           {% endif %}
         </div>
@@ -90,40 +90,40 @@
     {# ── Info panel ── #}
     <div class="column is-7-fullhd is-8-desktop is-full-tablet">
       <div class="has-text-left">
-        <h1 class="title is-3 product-hero__title" id="product_name">{{ product.title }}</h1>
+        <h1 class="kp-hero-title product-hero__title" id="product_name">{{ product.title }}</h1>
 
         <div class="columns is-multiline">
           {# Price + CTA column #}
           <div class="column is-5-fullhd is-5-desktop is-5-tablet is-full-mobile">
-            <p class="title is-4">
-              <span class="fc-red">
+            <div class="product-hero__price-row">
+              <span class="kp-hero-title fc-red">
                 {% if product.price != 0 %}
-                  {{ product.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                  {{ product.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign" aria-hidden="true"></i>
                 {% else %}По запросу{% endif %}
               </span>
-            </p>
+            </div>
             {% if product.price != 0 %}
-              <p class="subtitle is-7 mb-1">с НДС 22%</p>
+              <p class="product-hero__price-sub">с НДС 22%</p>
             {% endif %}
 
             <p class="subtitle has-text-left is-6">
               <span class="has-text-weight-bold is-6">Наличие: </span>
-              {% if product.in_stock == 1 %}много на складе
-              {% elif product.in_stock == 0 %}ожидается поставка{% endif %}
+              {% if product.in_stock == 1 %}<span class="fc-success">на складе</span>
+              {% elif product.in_stock == 0 %}<span class="fc-warning">ожидается поставка</span>{% endif %}
             </p>
 
-            <button class="button is-primary is-normal mb-3" @click="addToCart({{ product.id }})">
-              Купить <i class="fa-solid fa-cart-shopping"></i> <i class="shiny_btn"></i>
+            <button class="button is-primary is-normal mb-3" @click="addToCart({{ product.id }})" aria-label="Добавить в корзину">
+              Купить <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> <i class="shiny_btn" aria-hidden="true"></i>
             </button>
-            <button class="button is-success is-light is-normal mb-3" @click="toggleComparison({{ product.id }})">
-              <i class="fa-solid fa-scale-balanced"></i>&nbsp;&nbsp;[[ inComparison ? 'Убрать' : 'Сравнить' ]]
+            <button class="button is-success is-light is-normal mb-3" @click="toggleComparison({{ product.id }})" :aria-label="inComparison ? 'Убрать из сравнения' : 'Добавить к сравнению'">
+              <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>&nbsp;&nbsp;[[ inComparison ? 'Убрать' : 'Сравнить' ]]
             </button>
-            <article class="message is-danger is-light mt-2" v-if="cartError" style="animation: none;">
-              <div class="message-body py-2 px-3"><i class="fa-solid fa-triangle-exclamation"></i> [[ cartError ]]</div>
+            <article class="message is-danger is-light mt-2" v-if="cartError" style="animation: none;" role="alert">
+              <div class="message-body py-2 px-3"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> [[ cartError ]]</div>
             </article>
 
             {% if product.brand %}
-            <hr class="katran-line-sep">
+            <hr>
             <div class="columns is-vcentered">
               <div class="column is-3">
                 <figure class="image is-64x64">
@@ -160,20 +160,21 @@
             <p class="has-text-left is-6">
               <span class="has-text-weight-bold is-6">Патент: </span>
               <span class="copy_info-btn js-modal-trigger no-hl-link" data-target="patent_modal_desktop">
-                {{ product.get_patent.first }} <i class="fa-solid fa-award fc-red"></i>
+                {{ product.get_patent.first }} <i class="fa-solid fa-award fc-red" aria-hidden="true"></i>
               </span>
             </p>
             {% endif %}
 
-            <hr class="katran-line-sep">
-            <p class="has-text-left"><i class="fa-solid fa-box-open fc-blue"></i> Бесплатная доставка до терминала ТК</p>
-            <p class="has-text-left"><i class="fas fa-truck fc-blue"></i> Доставка по РФ и СНГ</p>
-            <p class="has-text-left"><i class="fas fa-shield-halved fc-blue"></i> Гарантия 12 месяцев</p>
+            <hr>
+            <p class="has-text-left"><i class="fa-solid fa-box-open fc-blue" aria-hidden="true"></i> Бесплатная доставка до терминала ТК</p>
+            <p class="has-text-left"><i class="fas fa-truck fc-blue" aria-hidden="true"></i> Доставка по РФ и СНГ</p>
+            <p class="has-text-left"><i class="fas fa-shield-halved fc-blue" aria-hidden="true"></i> Гарантия 12 месяцев</p>
 
-            <p id="copyToClipboard_btn" class="title is-6 copy_info-btn mt-3 has-text-left" @click="copyToClipboard()">
-              <i class="fa fa-clipboard"></i>&nbsp;&nbsp;Скопировать информацию
+            <p id="copyToClipboard_btn" class="title is-6 copy_info-btn mt-3 has-text-left" @click="copyToClipboard()" role="button" tabindex="0" aria-label="Скопировать информацию о товаре">
+              <i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;&nbsp;Скопировать информацию
             </p>
           </div>
+
         </div>
       </div>
     </div>
@@ -186,7 +187,7 @@
         <div class="columns is-multiline">
           <div class="column is-2 is-2-fullhd is-2-desktop is-full-mobile is-vcentered is-relative">
             <a href="{% url 'product_detail' product.analog.category.main_category.slug product.analog.category.slug product.analog.slug %}"
-              class="button is-black is-small carousel-item--more-btn">Подробнее <i class="fa-solid fa-info"></i></a>
+              class="button is-black is-small carousel-item--more-btn">Подробнее <i class="fa-solid fa-info" aria-hidden="true"></i></a>
             <a href="{% url 'product_detail' product.analog.category.main_category.slug product.analog.category.slug product.analog.slug %}">
               <figure class="image"><img src="{{ product.analog.image.url }}" alt="{{ product.analog.title }}"></figure>
             </a>
@@ -223,20 +224,20 @@
                 </div>
               </div>
               <div class="column is-one-third">
-                <hr class="katran-line-sep">
+                <hr>
                 <p class="title has-text-left is-5">
                   <span class="has-text-weight-bold">Цена: </span>
                   <span class="fc-red">
                     {% if product.analog.price != 0 %}
-                      {{ product.analog.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i> <span class="subtitle is-7 fc-black">с НДС 22%</span>
+                      {{ product.analog.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign" aria-hidden="true"></i> <span class="subtitle is-7 fc-black">с НДС 22%</span>
                     {% else %}По запросу{% endif %}
                   </span>
                 </p>
                 <p class="title has-text-left is-6">
                   <span class="has-text-weight-bold">Наличие: </span>
                   <span class="fc-red">
-                    {% if product.analog.in_stock != 0 %}на складе <i class="fa-solid fa-boxes-stacked"></i>
-                    {% else %}ожидается поставка <i class="fa-solid fa-boxes-stacked"></i>{% endif %}
+                    {% if product.analog.in_stock != 0 %}на складе <i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i>
+                    {% else %}ожидается поставка <i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i>{% endif %}
                   </span>
                 </p>
               </div>
@@ -263,14 +264,14 @@
       </table>
       {% if product.partlist %}
       <div class="is-hidden-desktop mt-3 has-text-centered">
-        <button class="button is-normal is-black js-modal-trigger" data-target="partlist_modal">
-          Взрыв-схема <i class="fa-solid fa-cog"></i>
+        <button class="button is-normal is-black js-modal-trigger" data-target="partlist_modal" aria-label="Взрыв-схема">
+          Взрыв-схема <i class="fa-solid fa-cog" aria-hidden="true"></i>
         </button>
       </div>
       <div class="modal" id="partlist_modal">
         <div class="modal-background"></div>
-        <div class="modal-content"><p class="image"><img src="{{product.partlist.url}}" alt=""></p></div>
-        <button class="modal-close is-large" aria-label="close"></button>
+        <div class="modal-content"><p class="image"><img src="{{product.partlist.url}}" alt="Взрыв-схема {{ product.title }}"></p></div>
+        <button class="modal-close is-large" aria-label="Закрыть"></button>
       </div>
       {% endif %}
     </div>
@@ -292,7 +293,7 @@
         {% for faq in product.faqs.all %}
         <div class="product-faq-item">
           <div class="product-faq-question">
-            <span class="product-faq-icon"><i class="fa-solid fa-circle-question"></i></span>
+            <span class="product-faq-icon"><i class="fa-solid fa-circle-question" aria-hidden="true"></i></span>
             <span>{{ faq.question }}</span>
           </div>
           <div class="product-faq-answer">{{ faq.answer|sanitize_html|safe }}</div>
@@ -326,46 +327,46 @@
   {% if product.parts.exists or product.similar_products.exists %}
   <div class="columns">
     <div class="column is-full">
-      <div class="tabs is-fullwidth block" id="navigation-tabs">
+      <div class="tabs is-fullwidth block" id="navigation-tabs" role="tablist">
         <ul>
           {% if product.parts.exists %}
-          <li data-target="spareparts-block"><a><span>Запчасти</span></a></li>
+          <li data-target="spareparts-block" role="tab" aria-selected="false" tabindex="0"><a><span>Запчасти</span></a></li>
           {% endif %}
           {% if product.similar_products.exists %}
-          <li data-target="relaited-block"><a><span>Похожие товары</span></a></li>
+          <li data-target="relaited-block" role="tab" aria-selected="false" tabindex="0"><a><span>Похожие товары</span></a></li>
           {% endif %}
         </ul>
       </div>
 
       {% if product.similar_products.exists %}
-      <div class="tab-block is-hidden" id="relaited-block">
+      <div class="tab-block is-hidden" id="relaited-block" role="tabpanel" aria-labelledby="relaited-block">
         <p class="menu-label has-text-left">Похожие товары</p>
         <div class="scroll-carousel-wrap">
-          <button class="scroll-carousel__arrow scroll-carousel__arrow--prev" onclick="scrollCarousel(this, -1)">
-            <i class="fa-solid fa-chevron-left"></i>
+          <button class="scroll-carousel__arrow scroll-carousel__arrow--prev" onclick="scrollCarousel(this, -1)" aria-label="Прокрутить влево">
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
           </button>
           <div class="scroll-carousel">
             {% for p in product.similar_products.all %}{% product_card p %}{% endfor %}
           </div>
-          <button class="scroll-carousel__arrow scroll-carousel__arrow--next" onclick="scrollCarousel(this, 1)">
-            <i class="fa-solid fa-chevron-right"></i>
+          <button class="scroll-carousel__arrow scroll-carousel__arrow--next" onclick="scrollCarousel(this, 1)" aria-label="Прокрутить вправо">
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
           </button>
         </div>
       </div>
       {% endif %}
 
       {% if product.parts.exists %}
-      <div class="tab-block is-hidden" id="spareparts-block">
+      <div class="tab-block is-hidden" id="spareparts-block" role="tabpanel" aria-labelledby="spareparts-block">
         <p class="menu-label has-text-left">Запчасти и аксессуары</p>
         <div class="scroll-carousel-wrap">
-          <button class="scroll-carousel__arrow scroll-carousel__arrow--prev" onclick="scrollCarousel(this, -1)">
-            <i class="fa-solid fa-chevron-left"></i>
+          <button class="scroll-carousel__arrow scroll-carousel__arrow--prev" onclick="scrollCarousel(this, -1)" aria-label="Прокрутить влево">
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
           </button>
           <div class="scroll-carousel">
             {% for p in product.parts.all %}{% product_card p %}{% endfor %}
           </div>
-          <button class="scroll-carousel__arrow scroll-carousel__arrow--next" onclick="scrollCarousel(this, 1)">
-            <i class="fa-solid fa-chevron-right"></i>
+          <button class="scroll-carousel__arrow scroll-carousel__arrow--next" onclick="scrollCarousel(this, 1)" aria-label="Прокрутить вправо">
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
           </button>
         </div>
       </div>
@@ -459,13 +460,15 @@
     var blocks = document.querySelectorAll('.tab-block');
     if (tabs.length) {
       tabs[0].classList.add('is-active');
+      tabs[0].setAttribute('aria-selected', 'true');
       var first = document.getElementById(tabs[0].getAttribute('data-target'));
       if (first) first.classList.remove('is-hidden');
     }
     tabs.forEach(function(tab) {
       tab.addEventListener('click', function() {
-        tabs.forEach(function(t) { t.classList.remove('is-active'); });
+        tabs.forEach(function(t) { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
         tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
         blocks.forEach(function(b) { b.classList.add('is-hidden'); });
         var target = document.getElementById(tab.getAttribute('data-target'));
         if (target) target.classList.remove('is-hidden');

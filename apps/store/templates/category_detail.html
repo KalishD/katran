@@ -2,8 +2,8 @@
 {% load static %}
 {% load core_extras %}
 {% load store_extras %}
-{% block title %}Каталог {{ category.title }}{% endblock %}
-{% block ogtitle %}Каталог {{ category.title }}{% endblock %}
+{% block title %}{{ category.title }} — купить в СПб | Катран-Пневмо{% endblock %}
+{% block ogtitle %}{{ category.title }} — купить в СПб | Катран-Пневмо{% endblock %}
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
 {% block ogimage %}https://katran-pnevmo.ru{{ category.image.url }}{% endblock %}
@@ -45,8 +45,8 @@
                       title="{{ category }} | купить со склада в СПБ">
               </figure>
               <div>
-              <h1 class="title is-3">{{ category.title }}</strong></h1>
-              <h2 class="subtitle is-5 mt-2">{{ category.main_category.title }}</strong></h2>
+              <h1 class="kp-hero-title">{{ category.title }}</h1>
+              <h2 class="kp-subsection-heading mt-2">{{ category.main_category.title }}</h2>
               </div>
             </div>
           </div>

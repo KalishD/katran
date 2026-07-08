@@ -41,7 +41,7 @@
             </div>
             <div class="columns is-desktop has-text-centered-touch has-text-left-desktop">
                 <div class="column">
-                    <h1 class="title is-3">{{ brand.title }}</h1>
+                    <h1 class="kp-hero-title">{{ brand.title }}</h1>
                     <p class="subtitle is-5">{{ brand.description }}</p>
                 </div>
                 <div class="column">
@@ -70,7 +70,7 @@
             </button>
           </div>
           <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-          <h2 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+          <h2 class="kp-subsection-heading"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
           {% if p.brand %}
             <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
           {% endif %}

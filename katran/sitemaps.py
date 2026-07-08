@@ -5,7 +5,11 @@ from apps.store.models import Category, Product, Brand
 
 class StaticViewSitemap(Sitemap):
     def items(self):
-        return ['frontpage', 'about', 'production', 'contacts', 'politics']
+        return [
+            'frontpage', 'about', 'production', 'contacts', 'politics',
+            'import_substitution', 'custom_development',
+            'solutions_index', 'cases_index',
+        ]
 
     def location(self, item):
         return reverse(item)
@@ -26,5 +30,5 @@ class BrandSitemap(Sitemap):
         return Brand.objects.all()
 
 class PostsSitemap(Sitemap):
-    def item(self):
+    def items(self):
         return Post.objects.all()

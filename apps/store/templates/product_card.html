@@ -19,7 +19,7 @@
     <div class="product_grid_card_body has-text-centered">
         <p class="subtitle is-7 mb-1 mt-1"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
         <p class="subtitle is-7"><a href="{% url 'main_category_detail' p.category.main_category.slug %}" class="no-hl-link">{{ p.category.main_category }}</a></p>
-        <h3 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h3>
+        <h3 class="kp-subsection-heading"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h3>
         {% if p.brand %}
         <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
         {% endif %}

@@ -31,7 +31,11 @@ class Post(ImageProcessingMixin, models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.thumbnail = self.make_thumbnail(self.image)
+        if self._is_new_upload('image'):
+            self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
+            self._delete_existing('thumbnail', target_name=f'{self.slug}_thumb.jpg')
+            self.thumbnail = self.make_thumbnail(self.image, target_name=f'{self.slug}_thumb.jpg')
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):

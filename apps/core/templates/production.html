@@ -16,12 +16,12 @@
         </nav>
         <div class="title-wrapper has-text-centered">
           <p class="subtitle is-6">Пневматический инструмент</p>
-          <h2 class="title is-3">Шлифовальные машины</h2>
+          <h2 class="kp-section-heading">Шлифовальные машины</h2>
           <p class="subtitle is-6">Пневматические шлифовальные машины производства ООО «Катран-Пневмо» </p>
         </div>
         <div class="columns mt-6" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
           <div class="column is-half">
-            <h3 class="title is-4" itemprop="name">Цанговая шлифмашина МП-006</h3>
+            <h3 class="kp-subsection-heading" itemprop="name">Цанговая шлифмашина МП-006</h3>
             <p class="content katran-content" itemprop="description">Пневмошлифмашина МП-006 от "Катран-Пневмо" – это высокоточный цанговый инструмент, разработанный для деликатной обработки штампов, пресс-форм, а также шлифования и зачистки поверхностей.  Обладая частотой вращения шпинделя до 30000 об/мин при весе всего 0.6 кг и длине 160 мм, инструмент обеспечивает исключительную маневренность и снижает утомляемость оператора.</p>
             <p class="content katran-content" itemprop="description">Преимущества пневматической конструкции включают повышенную безопасность в условиях влажности или взрывоопасных сред, долговечность и низкие эксплуатационные расходы.  Изделие защищено патентом №19875, что подтверждает уникальность.  Производитель гарантирует сервисное обслуживание и наличие запчастей.  МП-006 – оптимальный выбор для задач, требующих точной обработки и надежности.</p>
 
@@ -42,7 +42,7 @@
             <div class="product_grid_card_body">
               <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' mp006.category.main_category.slug mp006.category.slug %}" class="no-hl-link">{{ mp006.category }}</a></p>
               <p class="subtitle is-7"><a href="{% url 'main_category_detail' mp006.category.main_category.slug  %}" class="no-hl-link">{{ mp006.category.main_category }}</a></p>
-              <h2 class="title is-6"><a href="{% url 'product_detail' mp006.category.main_category.slug mp006.category.slug mp006.slug %}" class="no-hl-link">{{mp006}}</a></h2>
+              <h2 class="kp-subsection-heading"><a href="{% url 'product_detail' mp006.category.main_category.slug mp006.category.slug mp006.slug %}" class="no-hl-link">{{mp006}}</a></h2>
               {% if mp006.brand %}
                 <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' mp006.brand.slug %}">{{ mp006.brand }}</a></p>
               {% endif %}
@@ -84,8 +84,8 @@
           </div>
         </div>
         <div class="columns mt-6" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-          <div class="column is-half content">
-            <h3 class="title is-4" itemprop="name">Цанговая шлифмашина МП-011</h3>
+          <div class="column is-half">
+            <h3 class="kp-subsection-heading" itemprop="name">Цанговая шлифмашина МП-011</h3>
             <p class="katran-content" itemprop="description">Пневмошлифмашина МП-011 от ООО "Катран-Пневмо" представляет собой высокоэффективный и надежный инструмент, предназначенный для профессионального и промышленного использования, особенно в задачах, требующих точности, таких как обработка штампов и пресс-форм. Сочетание компактных размеров, относительно легкого веса (1.1 кг) и высокой мощности (0.5 кВт, 22000 об/мин) обеспечивает высокую производительность и снижает утомляемость оператора, что критически важно для продолжительных работ.</p>
             <p class="katran-content" itemprop="description">Выбор пневматической шлифмашины, такой как МП-011, обусловлен её фундаментальными преимуществами перед электрическими аналогами, включая повышенную безопасность при работе во влажных или взрывоопасных средах, более низкую совокупную стоимость владения за счет простоты конструкции и сниженных затрат на обслуживание. Для полноценного функционирования инструмента необходимо обеспечить соответствующую пневматическую систему с адекватным компрессором и подготовкой воздуха (смазка, осушение).</p>
           <!-- product card -->
@@ -106,7 +106,7 @@
             <div class="product_grid_card_body">
               <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' mp01122.category.main_category.slug mp01122.category.slug %}" class="no-hl-link">{{ mp01122.category }}</a></p>
               <p class="subtitle is-7"><a href="{% url 'main_category_detail' mp01122.category.main_category.slug  %}" class="no-hl-link">{{ mp01122.category.main_category }}</a></p>
-              <h2 class="title is-6 mt-0"><a href="{% url 'product_detail' mp01122.category.main_category.slug mp01122.category.slug mp01122.slug %}" class="no-hl-link">{{mp01122}}</a></h2>
+              <h2 class="kp-subsection-heading"><a href="{% url 'product_detail' mp01122.category.main_category.slug mp01122.category.slug mp01122.slug %}" class="no-hl-link">{{mp01122}}</a></h2>
               {% if mp01122.brand %}
                 <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' mp01122.brand.slug %}">{{ mp01122.brand }}</a></p>
               {% endif %}
@@ -148,12 +148,12 @@
         </div>
         <div class="title-wrapper has-text-centered mt-6">
           <p class="subtitle is-6">Пневматический инструмент</p>
-          <h2 class="title is-3">Пневматические виброзащищенные трамбовки</h2>
+          <h2 class="kp-section-heading">Пневматические виброзащищенные трамбовки</h2>
           <p class="subtitle is-6">Пневмотрамбовки ТП-28А и ТПВ-3А производства ООО «Катран-Пневмо»</p>
         </div>
         <div class="columns mt-6">
-          <div class="column is-full content">
-            <h3 class="title is-4 has-text-centered">Пневматическая виброзащищенная трамбовка ТП-28А</h3>
+          <div class="column is-full">
+            <h3 class="kp-subsection-heading has-text-centered">Пневматическая виброзащищенная трамбовка ТП-28А</h3>
             <img src="{% static 'images/production/tp-28a.jpg' %}" alt="">
             <p>Пневмотрамбовка ТП-28А предназначена для уплотнения формовочных смесей в литейном производстве и других аналогичных работ. Снабжена виброзащитой.
               <br>
@@ -162,8 +162,8 @@
           </div>
         </div>
         <div class="columns mt-6">
-          <div class="column is-half content">
-            <h3 class="title is-4">Пневматическая виброзащищенная трамбовка ТПВ-3А</h3>
+          <div class="column is-half">
+            <h3 class="kp-subsection-heading">Пневматическая виброзащищенная трамбовка ТПВ-3А</h3>
             <p class="katran-content">Пневматическая виброзащищенная трамбовка ТПВ-3А от «Катран-Пневмо»  представляет собой компактный и легкий инструмент, идеально подходящий для послойного уплотнения формовочной смеси в литейном производстве. Обладая энергией удара 3 Дж и частотой 22 Гц при расходе воздуха 400 л/мин, она обеспечивает высокую эффективность при выполнении поставленных задач. Вес всего 3 кг и длина 360 мм делают ее исключительно удобной для работы в ограниченных пространствах.</p>
             <p class="katran-content">Прочная конструкция корпуса и металлический башмак диаметром 40 мм  гарантируют продолжительный срок службы инструмента. Трамбовка не нагревается в процессе эксплуатации и оснащена повышенной виброзащитой, что значительно повышает комфорт и безопасность оператора. «Катран-Пневмо» предоставляет гарантийный и текущий ремонт, а также обеспечивает поставку необходимых запчастей и бесплатную доставку сертифицированной продукции по всей территории РФ и СНГ.</p>
 
@@ -187,7 +187,7 @@
                 <div class="product_grid_card_body">
                   <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
                   <p class="subtitle is-7"><a href="{% url 'main_category_detail' p.category.main_category.slug  %}" class="no-hl-link">{{ p.category.main_category }}</a></p>
-                  <h2 itemprop="name" class="title is-6 mt-0"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+                  <h2 itemprop="name" class="kp-subsection-heading"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
                   {% if p.brand %}
                     <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
                   {% endif %}
@@ -234,8 +234,8 @@
         </div>
         
         <div class="columns mt-6" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-          <div class="column is-half content">
-            <h3 class="title is-4" itemprop="name">Торцевая шлифовальная машина МПС-2215</h3>
+          <div class="column is-half">
+            <h3 class="kp-subsection-heading" itemprop="name">Торцевая шлифовальная машина МПС-2215</h3>
             <p class="katran-content" itemprop="description">Пневмошлифмашина МПС-2215М от «Катран-Пневмо»  — это мощный вертикальный шлифовальный инструмент, разработанный для максимально быстрого выполнения различных металлообрабатывающих работ. С номинальной мощностью 2.0 кВт и частотой вращения шпинделя 6500 об/мин, она эффективно справляется с задачами, требующими значительной производительности. Расход воздуха составляет 2800 л/мин, а диаметр абразивного инструмента достигает 230 мм. При весе 4.8 кг и длине 430 мм, МПС-2215М обеспечивает баланс между мощностью и управляемостью. Продукт сертифицирован, имеет Патент № 19873 , и «Катран-Пневмо» предлагает бесплатную доставку по РФ и СНГ, а также гарантийное обслуживание.</p>
             <!-- product card -->
             <div class="column is-half has-text-centered is-relative is-spaced">
@@ -255,7 +255,7 @@
               <div class="product_grid_card_body">
                 <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' mps.category.main_category.slug mps.category.slug %}" class="no-hl-link">{{ mps.category }}</a></p>
                 <p class="subtitle is-7"><a href="{% url 'main_category_detail' mps.category.main_category.slug  %}" class="no-hl-link">{{ mps.category.main_category }}</a></p>
-                <h2 class="title is-6 mt-0"><a href="{% url 'product_detail' mps.category.main_category.slug mps.category.slug mps.slug %}" class="no-hl-link">{{mps}}</a></h2>
+                <h2 class="kp-subsection-heading"><a href="{% url 'product_detail' mps.category.main_category.slug mps.category.slug mps.slug %}" class="no-hl-link">{{mps}}</a></h2>
                 {% if mps.brand %}
                   <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' mps.brand.slug %}">{{ mps.brand }}</a></p>
                 {% endif %}
@@ -298,11 +298,11 @@
         </div>
         <div class="title-wrapper has-text-centered mt-6">
           <p class="subtitle is-6">Пневматический инструмент</p>
-          <h2 class="title is-3">Пневматическая машина ПВМ-12</h2>
+          <h2 class="kp-section-heading">Пневматическая машина ПВМ-12</h2>
           <p class="subtitle is-6">Сверлильная машина, пневмоприводы</p>
         </div>
         <div class="columns mt-6" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
-          <div class="column is-full content">
+          <div class="column is-full">
             <p class="katran-content">
               Пневматическая реверсивная машина применяется в качестве пневматического привода маханизмов и вальцевания труб. В комплекте с домкратом — для сверления отверстий.
               <br>
@@ -328,7 +328,7 @@
                 <div class="product_grid_card_body">
                   <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
                   <p class="subtitle is-7"><a href="{% url 'main_category_detail' p.category.main_category.slug  %}" class="no-hl-link">{{ p.category.main_category }}</a></p>
-                  <h2 itemprop="name" class="title is-6 mt-0"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+                  <h2 itemprop="name" class="kp-subsection-heading"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
                   {% if p.brand %}
                     <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
                   {% endif %}
@@ -373,11 +373,11 @@
 
         <div class="title-wrapper has-text-centered mt-6">
           <p class="subtitle is-6">Пневматический инструмент</p>
-          <h2 class="title is-3">Пневматические рубильные молотки</h2>
+          <h2 class="kp-section-heading">Пневматические рубильные молотки</h2>
           <p class="subtitle is-6">Пневмомолотки серии РМ: РМ-8А, РМ-12А, РМ-16А</p>
         </div>
         <div class="columns mt-6">
-          <div class="column is-half content">
+          <div class="column is-half">
             <p class="katran-content">
               Молотки серии РМ предназначены для обрубки на отливках остатков прибылей и заливов, удаления пригара и стержней, вырубки дефектов, подготовки отливок под заварку и других аналогичных работ.
               <br>
@@ -407,7 +407,7 @@
                 <div class="product_grid_card_body">
                   <p class="subtitle is-7 mb-1"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
                   <p class="subtitle is-7"><a href="{% url 'main_category_detail' p.category.main_category.slug  %}" class="no-hl-link">{{ p.category.main_category }}</a></p>
-                  <h2 itemprop="name" class="title is-6 mt-0"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+                  <h2 itemprop="name" class="kp-subsection-heading"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
                   {% if p.brand %}
                     <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
                   {% endif %}
