@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load core_extras %}
-{% block title %}Каталог пневматического инструмента{% endblock %}
-{% block ogtitle %}Каталог пневматического инструмента{% endblock %}
+{% block title %}Каталог пневматического инструмента — купить в СПб | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Каталог пневматического инструмента — купить в СПб | Катран-Пневмо{% endblock %}
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
@@ -16,14 +16,42 @@
         {% with categories_for_maincat=menu_categories_filter|filter_by_main_category_id:maincat.id %}
         {% if categories_for_maincat %}
           {% for cat in categories_for_maincat %}
-          <div class="column is-4">
-            <h3 class="subtitle is-5">{{ cat.title }}</h3>
-          </div>
+            <div class="column is-4 is-6-tablet is-full-mobile">
+              <a href="{% url 'category_detail' cat.main_category.slug cat.slug %}" class="no-hl-link">
+                <div class="kp-cat-card">
+                  <div class="kp-cat-card__img">
+                    {% if cat.image %}
+                      <img src="{{ cat.image.url }}" alt="{{ cat.title }} — купить в СПб" title="{{ cat.title }}">
+                    {% else %}
+                      <i class="fa-solid fa-box-open" style="font-size: 2.5rem; color: var(--katran-icon-color);"></i>
+                    {% endif %}
+                  </div>
+                  <div class="kp-cat-card__body">
+                    <h3 class="kp-cat-card__title">{{ cat.title }}</h3>
+                    <span class="kp-cat-card__link">Перейти в каталог <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+                  </div>
+                </div>
+              </a>
+            </div>
           {% endfor %}
         {% endif %}
-        {% endwith %}
-      </div>
-      {% endfor %}
+      {% endwith %}
     </div>
-  
+  {% endfor %}
+
+  {# ── CTA ── #}
+  <div class="columns mt-5 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box">
+        <p class="kp-cta-box__title">Нужна помощь с выбором?</p>
+        <p class="kp-cta-box__text">Позвоните нам — подберём пневмоинструмент под вашу задачу</p>
+        <a href="tel:+78123317907" class="button is-info is-outlined mt-2">
+          <i class="fa-solid fa-phone-flip" aria-hidden="true"></i>&nbsp;&nbsp;+7 (812) 331 79 09
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 {% endblock %}

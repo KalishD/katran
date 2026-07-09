@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ meta_title }}{% endblock %}
+{% block ogtitle %}{{ meta_title }}{% endblock %}
+{% block description %}{{ meta_description }}{% endblock %}
+{% block ogdescription %}{{ meta_description }}{% endblock %}
+
+{% block breadcrumbs_extra %}
+{ "position": 2, "name": "Проекты", "item": "https://katran-pnevmo.ru/solutions/cases/" },
+{ "position": 3, "name": "{{ case.title }}", "item": "https://katran-pnevmo.ru{{ case.get_absolute_url }}" }
+{% endblock %}
+
+{% block content %}
+<div class="column has-text-centered-touch">
+
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li><a href="{% url 'cases_index' %}">Проекты</a></li>
+      {% if case.industry %}
+        <li><a href="{{ case.industry.get_absolute_url }}">{{ case.industry.title }}</a></li>
+      {% endif %}
+      <li class="is-active"><a href="{{ case.get_absolute_url }}">{{ case.title }}</a></li>
+    </ul>
+  </nav>
+
+  <div class="title-wrapper has-text-centered">
+    {% if case.industry %}
+      <p class="subtitle is-6" style="color: var(--katran-blue-2);">{{ case.industry.title }}</p>
+    {% endif %}
+    <h1 class="kp-hero-title">{{ case.title }}</h1>
+    {% if case.client_name %}
+      <p class="subtitle is-5 mt-2">Клиент: {{ case.client_name }}</p>
+    {% endif %}
+  </div>
+
+  {# ── Метрика ── #}
+  {% if case.metric_label and case.metric_value %}
+    <div class="columns mt-4">
+      <div class="column is-4-desktop is-offset-4-desktop is-full">
+        <div class="box has-text-centered">
+          <p class="title is-2 has-text-weight-bold" style="color: var(--katran-blue-2);">{{ case.metric_value }}</p>
+          <p class="subtitle is-6">{{ case.metric_label }}</p>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {# ── Задача ── #}
+  <div class="columns mt-4 is-multiline">
+    <div class="column is-8-desktop is-offset-2-desktop is-full">
+      <div class="box">
+        <p class="title is-5"><i class="fa-solid fa-bullseye" style="color: var(--katran-red); margin-right: 0.5rem;"></i>Задача</p>
+        <div class="content has-text-left">
+          <p>{{ case.problem }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ── Решение ── #}
+  <div class="columns mt-3 is-multiline">
+    <div class="column is-8-desktop is-offset-2-desktop is-full">
+      <div class="box">
+        <p class="title is-5"><i class="fa-solid fa-lightbulb" style="color: var(--katran-yelow); margin-right: 0.5rem;"></i>Наше решение</p>
+        <div class="content has-text-left">
+          <p>{{ case.solution }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ── Результат ── #}
+  {% if case.result %}
+    <div class="columns mt-3 is-multiline">
+      <div class="column is-8-desktop is-offset-2-desktop is-full">
+        <div class="box">
+          <p class="title is-5"><i class="fa-solid fa-chart-line" style="color: #48c78e; margin-right: 0.5rem;"></i>Результат</p>
+          <div class="content has-text-left">
+            <p>{{ case.result }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {# ── Подробное описание ── #}
+  {% if case.body %}
+    <div class="columns mt-4 is-multiline">
+      <div class="column is-8-desktop is-offset-2-desktop is-full content has-text-left">
+        {{ case.body|safe }}
+      </div>
+    </div>
+  {% endif %}
+
+  {# ── Задействованные продукты ── #}
+  {% if case.related_products.all %}
+    <div class="columns mt-4 is-multiline">
+      <div class="column is-full">
+        <p class="kp-section-label kp-section-label--center">Продукция</p>
+        <h2 class="kp-section-heading">Задействованный инструмент</h2>
+      </div>
+    </div>
+    <div class="columns is-multiline mt-3">
+      {% for product in case.related_products.all %}
+        <div class="column is-3 is-6-mobile">
+          <a href="{{ product.get_absolute_url }}" class="no-hl-link">
+            <div class="box has-text-centered">
+              <figure class="image is-128x128" style="margin: 0 auto;">
+                <img src="{{ product.image.url }}" alt="{{ product.title }}">
+              </figure>
+              <p class="title is-6 mt-2">{{ product.title }}</p>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {# ── Похожие кейсы ── #}
+  {% if related_cases %}
+    <div class="columns mt-5 is-multiline">
+      <div class="column is-full">
+        <p class="kp-section-label kp-section-label--center">Другие проекты</p>
+        <h2 class="kp-section-heading">Похожие кейсы</h2>
+      </div>
+    </div>
+    <div class="columns is-multiline mt-3">
+      {% for rc in related_cases %}
+        <div class="column is-4 is-full-mobile">
+          <a href="{{ rc.get_absolute_url }}" class="no-hl-link">
+            <div class="box">
+              <p class="title is-6">{{ rc.title }}</p>
+              <p class="subtitle is-7">{{ rc.problem|truncatewords:12 }}</p>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {# ── CTA ── #}
+  <div class="columns mt-5 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box">
+        <p class="kp-cta-box__title">Есть похожая задача?</p>
+        <p class="kp-cta-box__text">Расскажите о вашей проблеме — мы предложим решение на основе нашего опыта.</p>
+        <div class="buttons mt-2">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Обсудить проект</strong>
+          </a>
+          <a href="{% url 'cases_index' %}" class="button is-light">
+            <strong>Все проекты</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

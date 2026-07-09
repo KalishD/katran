@@ -8,7 +8,7 @@ import random
 from django.contrib.postgres.aggregates import StringAgg
 from django.contrib.postgres.search import TrigramSimilarity
 
-from .models import Product, Category, Brand, Variable, VariableItem, MainCategory
+from .models import Product, Category, Brand, Variable, VariableItem, MainCategory, Patent
 
 from django.db.models import Count
 from django.db.models import Avg, Max, Min, Sum

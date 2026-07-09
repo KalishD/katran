@@ -1,28 +1,59 @@
 from io import BytesIO
 from decimal import Decimal
 from django.core.files import File
+from django.core.files.uploadedfile import UploadedFile
 from PIL import Image
 from django.db import models
 from django_summernote.fields import SummernoteTextField
 from meta.models import ModelMeta
 from django.utils.html import strip_tags
 from slugify import slugify
+import os
 import re
 
 
 class ImageProcessingMixin:
     """Mixin providing image processing methods for models with image fields."""
 
-    def convert_rgb(self, image):
+    def _is_new_upload(self, field_name):
+        field = getattr(self, field_name)
+        if not field:
+            return False
+        return not field._committed
+
+    def _delete_existing(self, field_name, target_name=None):
+        field = getattr(self, field_name)
+        if not field:
+            return
+        upload_to = field.field.upload_to
+        # Delete the original uploaded file
+        if field.name:
+            orig_path = os.path.join(upload_to, os.path.basename(field.name))
+            if field.storage.exists(orig_path):
+                field.storage.delete(orig_path)
+        # Delete any file at the target path
+        if target_name:
+            target_path = os.path.join(upload_to, target_name)
+            if field.storage.exists(target_path):
+                field.storage.delete(target_path)
+
+    def _delete_path(self, field_name, path):
+        field = getattr(self, field_name)
+        if field.storage.exists(path):
+            field.storage.delete(path)
+
+    def convert_rgb(self, image, target_name=None):
         if not image:
             return image
         img = Image.open(image)
         img = img.convert('RGB')
         thumb_io = BytesIO()
         img.save(thumb_io, 'JPEG', quality=80)
-        return File(thumb_io, name=image.name)
+        thumb_io.seek(0)
+        name = target_name if target_name else os.path.basename(image.name)
+        return File(thumb_io, name=name)
 
-    def make_thumbnail(self, image, size=(60, 60)):
+    def make_thumbnail(self, image, target_name=None, size=(60, 60)):
         if not image:
             return image
         img = Image.open(image)
@@ -30,7 +61,9 @@ class ImageProcessingMixin:
         img.thumbnail(size)
         thumb_io = BytesIO()
         img.save(thumb_io, 'JPEG', quality=80)
-        return File(thumb_io, name=image.name)
+        thumb_io.seek(0)
+        name = target_name if target_name else os.path.basename(image.name)
+        return File(thumb_io, name=name)
 
 
 class MainCategory(models.Model):
@@ -62,8 +95,9 @@ class Category(ImageProcessingMixin, models.Model):
     image = models.ImageField(upload_to="uploads/categories/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
 
     def save(self, *args, **kwargs):
-        self.thumbnail = self.make_thumbnail(self.image)
-        self.image = self.convert_rgb(self.image)
+        if self._is_new_upload('image'):
+            self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
         super().save(*args, **kwargs)
         
     class Meta:
@@ -111,9 +145,13 @@ class Brand(ImageProcessingMixin, models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.thumbnail = self.make_thumbnail(self.image)
-        self.image = self.convert_rgb(self.image)
+        if self._is_new_upload('image'):
+            self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
+            self._delete_existing('thumbnail', target_name=f'{self.slug}_thumb.jpg')
+            self.thumbnail = self.make_thumbnail(self.image, target_name=f'{self.slug}_thumb.jpg')
         super().save(*args, **kwargs)
+
 
     def get_absolute_url(self):
         return '/brands/%s/' % (self.slug)
@@ -174,9 +212,14 @@ class Product(ImageProcessingMixin, ModelMeta, models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        if not self.pk:
+            self.slug = slugify(self.title)
         self.set_price_w_tax()
-        self.thumbnail = self.make_thumbnail(self.image)
+        if self._is_new_upload('image'):
+            self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
+            self._delete_existing('thumbnail', target_name=f'{self.slug}_thumb.jpg')
+            self.thumbnail = self.make_thumbnail(self.image, target_name=f'{self.slug}_thumb.jpg')
         super().save(*args, **kwargs)
 
     def set_price_w_tax(self):
@@ -292,7 +335,7 @@ class Variable(models.Model):
 
 
 class Patent(ImageProcessingMixin, models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product', blank=True, null=True, verbose_name='Товар')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='patent', blank=True, null=True, verbose_name='Товар')
     document_number = models.CharField(max_length=255, verbose_name='Номер документа')
     publication_date = models.DateField(verbose_name='Дата публикации')
     image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Схема')
@@ -303,16 +346,20 @@ class Patent(ImageProcessingMixin, models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создано')
 
     def save(self, *args, **kwargs):
-        if self.image:
-            self.image = self.convert_rgb(self.image)
+        if self._is_new_upload('image'):
+            name = slugify(self.title) if self.title else str(self.pk)
+            self._delete_existing('image', target_name=f'{name}.jpg')
+            self.image = self.convert_rgb(self.image, target_name=f'{name}.jpg')
         super().save(*args, **kwargs)
+
+
 
     class Meta:
         verbose_name = 'Патент'
         verbose_name_plural = 'Патенты'
 
     def __str__(self):
-        return f'№{self.document_number} - {self.publication_date}'
+        return f'Патент {self.document_number} - {self.title}'
 
 
 class ProductFAQ(models.Model):

@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Разработка пневмоинструмента под заказ | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Разработка пневмоинструмента под заказ | Катран-Пневмо{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+
+{% block breadcrumbs_extra %}
+{ "position": 2, "name": "Разработка под заказ", "item": "https://katran-pnevmo.ru/custom-development/" }
+{% endblock %}
+
+{% block content %}
+<div class="column has-text-centered-touch">
+
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li class="is-active"><a href="{% url 'custom_development' %}">Разработка под заказ</a></li>
+    </ul>
+  </nav>
+
+  {# ── Hero ── #}
+  <div class="title-wrapper has-text-centered">
+    <p class="subtitle is-6" style="color: var(--katran-blue-2); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.8rem;">Инженерное бюро</p>
+    <h1 class="kp-hero-title">Разработаем пневматический инструмент<br>под вашу технологию</h1>
+    <div class="kp-solutions-divider"></div>
+    <p class="subtitle is-5 mt-2" style="max-width: 650px; margin: 0 auto;">От ТЗ до серийного производства — собственная конструкторская база и испытательный стенд</p>
+    <a href="{% url 'contacts' %}" class="button is-primary mt-4">
+      <strong>Обсудить проект</strong>
+    </a>
+  </div>
+
+  {# ── Что мы делаем ── #}
+  <div class="columns mt-6 is-multiline">
+    <div class="column is-8-desktop is-offset-2-desktop is-full content has-text-left">
+      <h2 class="kp-section-heading" style="text-align: center;">Когда стандартный инструмент не подходит</h2>
+      <div class="kp-solutions-divider" style="margin-bottom: 1.5rem;"></div>
+      <p>Многие промышленные задачи требуют не серийный инструмент, а специальное решение — с изменённой геометрией, особыми характеристиками или под конкретное технологическое оборудование.</p>
+      <p>«Катран-Пневмо» — не просто дистрибьютор. Мы инженерно-конструкторская компания с собственным производством, способная разработать и изготовить пневматический инструмент по вашему техническому заданию.</p>
+    </div>
+  </div>
+
+  {# ── Этапы работы ── #}
+  <div class="columns mt-6 is-multiline">
+    <div class="column is-full has-text-centered">
+      <p class="kp-section-label kp-section-label--center">Процесс</p>
+      <h2 class="kp-section-heading" style="text-align: center;">Как проходит работа</h2>
+      <div class="kp-solutions-divider"></div>
+    </div>
+  </div>
+
+  <div class="columns is-multiline mt-3">
+    <div class="column is-2">
+      <div class="kp-dev-step">
+        <div class="kp-dev-step__icon">
+          <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+        </div>
+        <p class="kp-dev-step__title">ТЗ</p>
+        <p class="kp-dev-step__desc">Анализируем задачу, собираем требования</p>
+      </div>
+    </div>
+    <div class="column is-2">
+      <div class="kp-dev-step">
+        <div class="kp-dev-step__icon">
+          <i class="fa-solid fa-drafting-compass" aria-hidden="true"></i>
+        </div>
+        <p class="kp-dev-step__title">Проектирование</p>
+        <p class="kp-dev-step__desc">3D-моделирование, расчёт характеристик</p>
+      </div>
+    </div>
+    <div class="column is-2">
+      <div class="kp-dev-step">
+        <div class="kp-dev-step__icon">
+          <i class="fa-solid fa-cubes" aria-hidden="true"></i>
+        </div>
+        <p class="kp-dev-step__title">Прототип</p>
+        <p class="kp-dev-step__desc">Изготовление опытного образца</p>
+      </div>
+    </div>
+    <div class="column is-2">
+      <div class="kp-dev-step">
+        <div class="kp-dev-step__icon">
+          <i class="fa-solid fa-flask" aria-hidden="true"></i>
+        </div>
+        <p class="kp-dev-step__title">Испытания</p>
+        <p class="kp-dev-step__desc">Стендовые испытания, замер характеристик</p>
+      </div>
+    </div>
+    <div class="column is-2">
+      <div class="kp-dev-step">
+        <div class="kp-dev-step__icon">
+          <i class="fa-solid fa-cog" aria-hidden="true"></i>
+        </div>
+        <p class="kp-dev-step__title">Серия</p>
+        <p class="kp-dev-step__desc">Запуск серийного производства</p>
+      </div>
+    </div>
+    <div class="column is-2">
+      <div class="kp-dev-step">
+        <div class="kp-dev-step__icon">
+          <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
+        </div>
+        <p class="kp-dev-step__title">Поставка</p>
+        <p class="kp-dev-step__desc">Регулярные поставки на предприятие</p>
+      </div>
+    </div>
+  </div>
+
+  {# ── Что мы можем ── #}
+  <div class="columns mt-6 is-multiline">
+    <div class="column is-full has-text-centered">
+      <p class="kp-section-label kp-section-label--center">Возможности</p>
+      <h2 class="kp-section-heading" style="text-align: center;">Что мы разрабатываем</h2>
+      <div class="kp-solutions-divider"></div>
+    </div>
+  </div>
+
+  <div class="columns is-multiline mt-3">
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-dev-capability">
+        <div class="kp-dev-capability__header">
+          <div class="kp-dev-capability__icon">
+            <i class="fa-solid fa-gears" aria-hidden="true"></i>
+          </div>
+          <p class="kp-dev-capability__title">Специальные шлифмашины</p>
+        </div>
+        <p class="kp-dev-capability__desc">Модификации по частоте вращения, размеру круга, длине шпинделя, типу подачи. Для судостроения, энергетики, авиации.</p>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-dev-capability">
+        <div class="kp-dev-capability__header">
+          <div class="kp-dev-capability__icon">
+            <i class="fa-solid fa-hammer" aria-hidden="true"></i>
+          </div>
+          <p class="kp-dev-capability__title">Специальные молотки</p>
+        </div>
+        <p class="kp-dev-capability__desc">Отбойные, рубильные, клепальные — с изменённой энергией удара, длиной корпуса, типом бойка.</p>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-dev-capability">
+        <div class="kp-dev-capability__header">
+          <div class="kp-dev-capability__icon">
+            <i class="fa-solid fa-industry" aria-hidden="true"></i>
+          </div>
+          <p class="kp-dev-capability__title">Специальные машины</p>
+        </div>
+        <p class="kp-dev-capability__desc">Комплексные решения: привод + инструмент + система управления. Для автоматизированных линий.</p>
+      </div>
+    </div>
+  </div>
+
+  {# ── Наши кейсы ── #}
+  <div class="columns mt-6 is-multiline">
+    <div class="column is-full has-text-centered">
+      <p class="kp-section-label kp-section-label--center">Примеры</p>
+      <h2 class="kp-section-heading" style="text-align: center;">Реализованные проекты</h2>
+      <div class="kp-solutions-divider"></div>
+    </div>
+  </div>
+
+  <div class="columns is-multiline mt-3">
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-dev-case">
+        <p class="kp-dev-case__title">Пневмошлифмашина для судостроения</p>
+        <div class="kp-dev-case__row">
+          <p class="kp-dev-case__label">Задача</p>
+          <p class="kp-dev-case__text">Зачистка внутренних сварных швов корпуса судна. Импортная машина не помещалась в технологический проём.</p>
+        </div>
+        <div class="kp-dev-case__row">
+          <p class="kp-dev-case__label">Решение</p>
+          <p class="kp-dev-case__text">Сконструировали компактную шлифмашину с укороченным шпинделем.</p>
+        </div>
+        <span class="tag is-info kp-dev-case__metric">+27% производительности</span>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-dev-case">
+        <p class="kp-dev-case__title">Специальная трамбовка для АЭС</p>
+        <div class="kp-dev-case__row">
+          <p class="kp-dev-case__label">Задача</p>
+          <p class="kp-dev-case__text">Уплотнение грунта в ограниченном пространстве реакторного отделения.</p>
+        </div>
+        <div class="kp-dev-case__row">
+          <p class="kp-dev-case__label">Решение</p>
+          <p class="kp-dev-case__text">Разработали трамбовку с изменённой геометрией и пониженным уровнем вибрации.</p>
+        </div>
+        <span class="tag is-info kp-dev-case__metric">Допуск на АЭС</span>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-dev-case">
+        <p class="kp-dev-case__title">Пневмодрель для нефтегаза</p>
+        <div class="kp-dev-case__row">
+          <p class="kp-dev-case__label">Задача</p>
+          <p class="kp-dev-case__text">Сверление в условиях взрывоопасной зоны с повышенными требованиями к искробезопасности.</p>
+        </div>
+        <div class="kp-dev-case__row">
+          <p class="kp-dev-case__label">Решение</p>
+          <p class="kp-dev-case__text">Модифицировали конструкцию для соответствия требованиям ГОСТ.</p>
+        </div>
+        <span class="tag is-info kp-dev-case__metric">Сертификация</span>
+      </div>
+    </div>
+  </div>
+
+  {# ── CTA ── #}
+  <div class="columns mt-6 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box kp-cta-box--solutions">
+        <p class="kp-cta-box__title">Готовы обсудить ваш проект?</p>
+        <p class="kp-cta-box__text">Расскажите о задаче — наш конструктор предложит решение. Первичная консультация бесплатна.</p>
+        <div class="buttons mt-3 is-justify-content-center">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Отправить ТЗ</strong>
+          </a>
+          <a href="tel:+78123317909" class="button is-light">
+            <strong>+7 (812) 331 79 09</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

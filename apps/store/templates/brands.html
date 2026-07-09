@@ -2,8 +2,8 @@
 {% load static %}
 {% load core_extras %}
 {% load store_extras %}
-{% block title %}Каталог пневматического инструмента{% endblock %}
-{% block ogtitle %}Каталог пневматического инструмента{% endblock %}
+{% block title %}Производители пневматического инструмента | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Производители пневматического инструмента | Катран-Пневмо{% endblock %}
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
@@ -77,7 +77,7 @@
 					                </button> -->
 					              </div>
 					              <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.main_category.slug  p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-					              <h2 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+					              <h2 class="kp-subsection-heading"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
 					              <!-- <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p> -->
 					              <p class="title is-5">
 					                {% if p.price != 0 %}

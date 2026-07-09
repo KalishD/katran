@@ -1,58 +1,78 @@
 {% extends 'base.html' %}
 {% load core_extras %}
-{% block title %}Каталог {{ main_category.title }}{% endblock %}
-{% block ogtitle %}Каталог {{ main_category.title }}{% endblock %}
+{% block title %}{{ main_category.title }} — купить в СПб | Катран-Пневмо{% endblock %}
+{% block ogtitle %}{{ main_category.title }} — купить в СПб | Катран-Пневмо{% endblock %}
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
 
 {% block content %}
 
-<div class="column has-text-centered-touch">
-  <div id="productapp">
-    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
-      <ul class="" itemscope itemtype="{% breadcrumb_schema %}">
-        {% breadcrumb_home '/' 'Катран-Пневмо' %}
-        {% breadcrumb_active main_category.get_absolute_url main_category.title 2 %}
-      </ul>
-    </nav>
-  
-    <nav class="level">
-      <!-- Left side -->
-      <div class="level-left">
-        <div class="level-item">
-          <h1 class="title is-3">{{ main_category.title }}</strong></h1>
-        </div>
-      </div>
-    </nav>
-    <hr class="katran-line-sep">
-    <div class="columns is-multiline is-6">
+<div class="column has-text-centered-touch" id="productapp">
+
+  {# ── Хлебные крошки ── #}
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul itemscope itemtype="{% breadcrumb_schema %}">
+      {% breadcrumb_home '/' 'Катран-Пневмо' %}
+      {% breadcrumb_active main_category.get_absolute_url main_category.title 2 %}
+    </ul>
+  </nav>
+
+  {# ── Hero ── #}
+  <div class="title-wrapper has-text-centered">
+    <p class="subtitle is-6">ООО «Катран-Пневмо»</p>
+    <h1 class="kp-hero-title">{{ main_category.title }}</h1>
+    <p class="kp-hero-subtitle">Пневматический инструмент категории «{{ main_category.title }}» — выберите тип оборудования</p>
+  </div>
+
+  {# ── Сетка подкатегорий ── #}
+  <div class="columns is-multiline mt-4">
     {% for c in categories %}
-      
-        <div class="column is-4 p-3 mb-3">
-          
-          <div class="columns is-vcentered box has-border-fancy">
-            <div class="column is-4">
-              <a href="{% url 'category_detail' c.main_category.slug c.slug %}">
-                <figure class="image is-128x128">
-                  <img src="{{c.image.url}}" 
-                      alt="{{ c }} | купить со склада в СПБ"
-                      title="{{ c }} | купить со склада в СПБ">
-                </figure>
-              </a>
+      <div class="column is-4 is-6-tablet is-full-mobile">
+        <a href="{% url 'category_detail' c.main_category.slug c.slug %}" class="no-hl-link">
+          <div class="kp-cat-card">
+            <div class="kp-cat-card__img">
+              {% if c.image %}
+                <img src="{{ c.image.url }}" alt="{{ c.title }} — купить в СПб" title="{{ c.title }}">
+              {% else %}
+                <i class="fa-solid fa-box-open" style="font-size: 2.5rem; color: var(--katran-icon-color);"></i>
+              {% endif %}
             </div>
-            <div class="column is-7">
-              <p class="title is-4"><a class="no-hl-link" href="{% url 'category_detail' c.main_category.slug c.slug %}">{{ c }}</a></p>
+            <div class="kp-cat-card__body">
+              <h2 class="kp-cat-card__title">{{ c.title }}</h2>
+              <span class="kp-cat-card__link">Перейти в каталог <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
             </div>
           </div>
-        </div>
-      
+        </a>
+      </div>
     {% endfor %}
+  </div>
+
+  {# ── SEO-текст ── #}
+  {% if main_category.description %}
+    <div class="columns mt-5 is-multiline">
+      <div class="column is-8-desktop is-offset-2-desktop is-full content has-text-left">
+        <h2 class="kp-section-heading" style="text-align: left;">{{ main_category.title }}</h2>
+        <div class="kp-seo-text">{{ main_category.description|safe }}</div>
+      </div>
     </div>
-  </div>  
+  {% endif %}
+
+  {# ── CTA ── #}
+  <div class="columns mt-5 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box">
+        <p class="kp-cta-box__title">Не нашли нужную модель?</p>
+        <p class="kp-cta-box__text">Позвоните нам — поможем подобрать пневмоинструмент под вашу задачу</p>
+        <a href="tel:+78123317907" class="button is-info is-outlined mt-2">
+          <i class="fa-solid fa-phone-flip" aria-hidden="true"></i>&nbsp;&nbsp;+7 (812) 331 79 09
+        </a>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 {% endblock %}
 
-{% block scripts %}
-{% endblock %}
+{% block scripts %}{% endblock %}

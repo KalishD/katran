@@ -11,7 +11,7 @@
         <li><a href="" class="no-hl-link">Ваш заказ </a></li>
       </ul>
     </nav>
-    <h1 class="title">Заказ отправлен</h1>
+    <h1 class="kp-hero-title">Заказ отправлен</h1>
   	<p class="subtitle is-5 mb-6">Обработаем Ваш заказ и свяжемся с вами в ближайшее время</p>
 
 		<div class="carousel-wrapper mt-3">
@@ -23,7 +23,7 @@
 			        <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
 			      </div>
 			      <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.main_category.slug  p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-			      <h2 class="title is-6"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+			      <h2 class="kp-subsection-heading"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
 			      {% if p.brand %}
 			      	<p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
 			      {% endif %}

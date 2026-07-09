@@ -24,7 +24,7 @@ from django.conf.urls import include
 from apps.cart.views import cart_detail, success
 from apps.comparison.views import comparison_detail
 from apps.comparison.api import api_add_to_comparison, api_remove_from_comparison, api_toggle_comparison
-from apps.core.views import frontpage, production, about, politics, contacts, RobotsTxtView, temp, html_sitemap, politics_agree, sale_price, export_pricelist, csp_report
+from apps.core.views import frontpage, production, about, politics, contacts, RobotsTxtView, temp, html_sitemap, politics_agree, sale_price, export_pricelist, csp_report, import_substitution, custom_development
 from apps.store.views import category_detail, product_detail, catalog, brand_detail, search, main_category_detail, category_products_api, brands, brand_products_api, search_api
 from apps.blog.views import blog, post_detail
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
@@ -32,6 +32,9 @@ from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
 from .sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap, BrandSitemap, PostsSitemap
 
 sitemaps = {'static': StaticViewSitemap, 'product': ProductSitemap, 'category': CategorySitemap, 'brand': BrandSitemap, 'post': PostsSitemap}
+
+# Solutions app
+from apps.solutions.views import solutions_index, industry_detail, cases_index, case_detail
 
 urlpatterns = [
     
@@ -67,6 +70,8 @@ urlpatterns = [
     
     path('production/', production, name='production'),
     path('about/', about, name='about'),
+    path('import-substitution/', import_substitution, name='import_substitution'),
+    path('custom-development/', custom_development, name='custom_development'),
     path('privacy-policy/', politics, name='politics'),
     path('privacy-policy_agree/', politics_agree, name='politics_agree'),
     path('contacts/', contacts, name='contacts'),
@@ -75,17 +80,21 @@ urlpatterns = [
     path('search/', search, name="search"),
     path('api/search/', search_api, name='search_api'),
     path('csp-report/', csp_report, name='csp_report'),
+    # SOLUTIONS
+    path('solutions/', solutions_index, name='solutions_index'),
+    path('solutions/cases/', cases_index, name='cases_index'),
+    path('solutions/cases/<slug:slug>/', case_detail, name='case_detail'),
+    path('solutions/<slug:slug>/', industry_detail, name='industry_detail'),
     #BLOG
     path('temp/', temp, name="temp"),
     path('blog/', blog, name="blog"),
     path('blog/<slug:slug>/', post_detail, name='post_detail'),
 ]
 
-# Summernote URLs (staff only)
-from django.contrib.admin.views.decorators import staff_member_required
+# Summernote URLs
 from django.urls import re_path
 urlpatterns += [
-    re_path(r'^static/summernote/', staff_member_required(include('django_summernote.urls'))),
+    path('summernote/', include('django_summernote.urls')),
 ]
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

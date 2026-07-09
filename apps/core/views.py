@@ -30,6 +30,31 @@ import json
 import logging
 from django.views.decorators.csrf import csrf_exempt
 
+
+# ── Лендинги: Импортозамещение, Разработка под заказ ──
+
+def import_substitution(request):
+    """Страница «Подберём аналог» — импортозамещение."""
+    description = 'Подберём аналог пневматического инструмента Atlas Copco, Chicago Pneumatic, Desoutter, Ingersoll Rand, Fuji, Sumake. Российские замены для импортного пневмоинструмента.'
+    keywords = 'импортозамещение пневмоинструмент, аналог Atlas Copco, замена Chicago Pneumatic, российский пневмоинструмент'
+    context = {
+        'description': description,
+        'keywords': keywords,
+    }
+    return render(request, 'import_substitution.html', context)
+
+
+def custom_development(request):
+    """Страница «Разработка под заказ»."""
+    description = 'Разработаем и произведём промышленный пневматический инструмент под вашу технологию. Собственная конструкторская база, КБ, испытания, серийное производство.'
+    keywords = 'разработка пневмоинструмента под заказ, производство пневматического оборудования, OEM пневмоинструмент, специальный пневмоинструмент'
+    context = {
+        'description': description,
+        'keywords': keywords,
+    }
+    return render(request, 'custom_development.html', context)
+
+
 logger = logging.getLogger(__name__)
 
 @csrf_exempt  # CSP-отчёты не содержат CSRF-токен
@@ -117,7 +142,7 @@ def temp(request):
 def error_404_view(request):
     main_brand_id = getattr(settings, 'MAIN_BRAND_ID', 1)
     katran_products = Product.objects.filter(brand=main_brand_id, category__main_category__in=range(1, 2), is_visible=True).order_by('sku')
-    description = 'Эта страница не найдена, но у нас много другого иструмента в каталоге.'
+    description = 'Эта страница не найдена, но у нас много другого инструмента в каталоге.'
     context = {
         'katran_products': katran_products,
         'description': description,
@@ -145,7 +170,7 @@ def frontpage(request):
     airhammers = Product.objects.filter(category__in=range(5, 7), is_visible=True).order_by('-price')
     posts = Post.objects.all()
     keywords = 'Купить пневмоинструмент, пневматические молотки отбойные, пневматические молотки рубильные, российский пневмоинструмент'
-    description = 'Магазин пневматического иструмента, ООО "Катран-Пневмо" более 30 лет на рынке. Купить пневмоинструмент в СПб.'
+    description = 'Магазин пневматического инструмента, ООО "Катран-Пневмо" более 30 лет на рынке. Купить пневмоинструмент в СПб.'
     context = {
         'katran_products': katran_products,
         'cangairgrinders': cangairgrinders,
@@ -213,8 +238,8 @@ def production(request):
 
 
 def about(request):
-    keywords = ''
-    description = 'ООО "Катран-Пневмо" производство и продажа пневматического иструмента. О компании, история, патенты. '
+    keywords = 'О компании Катран-Пневмо, производитель пневматического инструмента, патенты, история компании, пневмоинструмент Санкт-Петербург, пневматические шлифмашин гайковерты молотки'
+    description = 'ООО «Катран-Пневмо» — производитель и поставщик промышленного пневматического инструмента с 1990 года. Собственное производство в СПб, стендовые испытания, авторизованный дистрибьютор U-Tools и Daewoo. Гарантия 12 месяцев.'
     context = {
         'keywords': keywords,
         'description': description,
@@ -222,8 +247,8 @@ def about(request):
     return render(request, 'about.html', context)
 
 def contacts(request):
-    keywords = ''
-    description = 'Контакты и реквизиты ООО "Катран-Пневмо"'
+    keywords = 'Контакты Катран-Пневмо, телефон, адрес, реквизиты, Санкт-Петербург'
+    description = 'Контакты ООО "Катран-Пневмо": телефон +7 (812) 331 79 09, адрес в Санкт-Петербурге, банковские реквизиты, график работы.'
     context = {
         'keywords': keywords,
         'description': description,
@@ -235,7 +260,7 @@ def sale_price(request):
     products = Product.objects.filter(is_in_sales_price = True).order_by('title')
     categories = Category.objects.filter(products__is_in_sales_price=True).distinct().order_by('ordering', '-id')
     keywords = ''
-    description = 'Прайс-лист пневматического иструмента фирмы Jesda'
+    description = 'Прайс-лист пневматического инструмента фирмы Jesda'
     context = {
         'categories': categories,
         'products': products,
