@@ -1736,6 +1736,7 @@ i.shiny_btn {
     .fa-spin {
         animation: none !important;
     }
+<<<<<<< HEAD
     .kp-faq-answer {
         max-height: 600px !important;
         opacity: 1 !important;
@@ -2445,6 +2446,8 @@ i.shiny_btn {
     .kp-cat-card__img img {
         max-height: 80px;
     }
+=======
+>>>>>>> b147bffadc00125028c41c4c244d7c6b3f22a684
 }
 
 /* Desktop: 3 cards per row */
