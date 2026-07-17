@@ -129,7 +129,7 @@ class Category(ImageProcessingMixin, models.Model):
     is_features = models.BooleanField(default=False)
     description = models.TextField(blank=True, null=True)
 
-    image = models.ImageField(upload_to="uploads/categories/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
+    image = models.ImageField(upload_to="uploads/categories/", blank=True, null=True, default='static/images/blank_prodimg.jpg', max_length=255)
 
     def save(self, *args, **kwargs):
         is_new = self._is_new_upload('image')
@@ -168,8 +168,8 @@ class Brand(ImageProcessingMixin, models.Model):
     slug = models.SlugField(max_length=255)
     description = models.TextField(blank=True, null=True)
 
-    image = models.ImageField(upload_to="uploads/brands/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
-    thumbnail = models.ImageField(upload_to="uploads/brands/", blank=True, null=True)
+    image = models.ImageField(upload_to="uploads/brands/", blank=True, null=True, default='static/images/blank_prodimg.jpg', max_length=255)
+    thumbnail = models.ImageField(upload_to="uploads/brands/", blank=True, null=True, max_length=255)
 
     ordering = models.PositiveSmallIntegerField(default=0)
     country = models.CharField(max_length=255, null=True, blank=True)
@@ -228,9 +228,9 @@ class Product(ImageProcessingMixin, ModelMeta, models.Model):
 
     article = models.CharField(max_length=255,blank=True, null=True)
 
-    image = models.ImageField(upload_to="uploads/products/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
-    partlist = models.ImageField(upload_to="uploads/products/partlists/", blank=True, null=True)
-    thumbnail = models.ImageField(upload_to="uploads/products/thumb/", blank=True, null=True)
+    image = models.ImageField(upload_to="uploads/products/", blank=True, null=True, default='static/images/blank_prodimg.jpg', max_length=255)
+    partlist = models.ImageField(upload_to="uploads/products/partlists/", blank=True, null=True, max_length=255)
+    thumbnail = models.ImageField(upload_to="uploads/products/thumb/", blank=True, null=True, max_length=255)
 
     created_at = models.DateTimeField(auto_now_add= True)
     variables = models.ManyToManyField('VariableItem', through='Variable', related_name='variables')
@@ -399,8 +399,8 @@ class Patent(ImageProcessingMixin, models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='patent', blank=True, null=True, verbose_name='Товар')
     document_number = models.CharField(max_length=255, verbose_name='Номер документа')
     publication_date = models.DateField(verbose_name='Дата публикации')
-    image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Схема')
-    document_image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Бланк патента')
+    image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Схема', max_length=255)
+    document_image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Бланк патента', max_length=255)
     title = models.CharField(max_length=255, verbose_name='Название')
     library = models.CharField(max_length=255, blank=True, null=True, verbose_name='Библиотека')
     link = models.URLField(blank=True, null=True, verbose_name='Ссылка')

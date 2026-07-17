@@ -17,8 +17,8 @@ class Post(ImageProcessingMixin, models.Model):
     last_modified = models.DateTimeField(auto_now=True)
     postcategory = models.ForeignKey(PostCategory, on_delete=models.CASCADE)
 
-    image = models.ImageField(upload_to="uploads/posts/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
-    thumbnail = models.ImageField(upload_to="uploads/posts/", blank=True, null=True)
+    image = models.ImageField(upload_to="uploads/posts/", blank=True, null=True, default='static/images/blank_prodimg.jpg', max_length=255)
+    thumbnail = models.ImageField(upload_to="uploads/posts/", blank=True, null=True, max_length=255)
 
     linked_products = models.ManyToManyField('store.Product', symmetrical=False, blank=True, related_name='linked_products')
 

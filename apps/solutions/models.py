@@ -81,7 +81,7 @@ class CaseStudy(models.Model):
     # Фотографии проекта
     image = models.ImageField(
         upload_to='uploads/case_studies/', blank=True, null=True,
-        verbose_name='Главное фото'
+        verbose_name='Главное фото', max_length=255
     )
     # Связь с продуктами
     related_products = models.ManyToManyField(
