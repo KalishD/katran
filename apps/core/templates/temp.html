@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load store_extras %}
 {% block title %}Продукция ООО "Катран-Пневмо" {% endblock %}
 {% block ogtitle %}Продукция ООО "Катран-Пневмо" {% endblock %}
 {% block description %}{% endblock %}
@@ -29,12 +30,10 @@
 
             <p class="hidden" itemprop="name">{{ mp011.title }}</p>
             <p class="hidden" itemprop="description">{{ mp011.description }}</p>
-              <img itemprop="image" src="{{ mp011.image.url }}" alt="{{ mp011.title }}" title="{{ mp011.title }}">
+              {% responsive_img mp011.image mp011.title %}
               {% if mp011.brand %}
                   <figure class="image mp011-card_brand-image is-64x64">
-                      <img src="{{mp011.brand.image.url}}" 
-                          alt="{{ mp011.brand }} | купить со склада в СПБ"
-                          title="{{ mp011.brand }} | купить со склада в СПБ">
+                      {% responsive_img mp011.brand.image mp011.brand|add:" | купить со склада в СПБ" %}
                   </figure>
               {% endif %}
           </div>

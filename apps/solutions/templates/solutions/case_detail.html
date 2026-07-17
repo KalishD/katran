@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load store_extras %}
 {% block title %}{{ meta_title }}{% endblock %}
 {% block ogtitle %}{{ meta_title }}{% endblock %}
 {% block description %}{{ meta_description }}{% endblock %}
@@ -108,7 +109,7 @@
           <a href="{{ product.get_absolute_url }}" class="no-hl-link">
             <div class="box has-text-centered">
               <figure class="image is-128x128" style="margin: 0 auto;">
-                <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                {% responsive_img product.image product.title %}
               </figure>
               <p class="title is-6 mt-2">{{ product.title }}</p>
             </div>

@@ -46,6 +46,9 @@ coverage.xml
 *.log
 *.pot
 
+# Django cache
+cache/
+
 # Sphinx documentation
 docs/_build/
 

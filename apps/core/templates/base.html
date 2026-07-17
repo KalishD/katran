@@ -423,10 +423,7 @@
                     <div class="category-block is-flex pr-3 pl-1 m-6-tablet m-1-desktop mb-0
                     is-vcentered">
                       <figure class="image is-24x24 m-0 mr-1 ml-1">
-                        <img class="is-rounded" 
-                        src="{{fc.image.url}}" 
-                        alt="{{ fc.title }} | купить со склада в СПБ"
-                        title="{{ fc.title }} | купить со склада в СПБ">
+                        {% responsive_img fc.image fc.title|add:" | купить со склада в СПБ" css_class="is-rounded" %}
                       </figure>
                       <p class="pt-1 title is-6 fc-black has-text-left pb-1 pl-1 pt-0 pr-2">{{ fc.title }}</p>
                     </div>

@@ -77,6 +77,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "apps.core.middleware.WwwRedirectMiddleware",
     'csp.middleware.CSPMiddleware',
+    'apps.core.middleware.CacheControlMiddleware',
 ]
 
 
@@ -167,13 +168,30 @@ DATE_FORMAT = 'd E Y'
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [
-    Path(__file__).parent.joinpath(BASE_DIR, 'static')
+    BASE_DIR / 'static'
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = Path(__file__).parent.joinpath(BASE_DIR, 'media/')
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# ── Cache ──────────────────────────────────────────────────────
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR / 'cache',
+        'TIMEOUT': 300,
+        'OPTIONS': {
+            'MAX_ENTRIES': 2000,
+        },
+    }
+}
+
+# Cache key prefix to avoid collisions
+CACHE_MIDDLEWARE_KEY_PREFIX = 'katran'
+CACHE_MIDDLEWARE_SECONDS = 600
 
 # STATIC_URL = '/static/'
 # STATICFILES_DIRS = [

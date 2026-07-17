@@ -20,7 +20,7 @@
               <div class="mega-menu-column">
                 {% for cat in categories_for_maincat %}
                   <a href="{% url 'category_detail' cat.main_category.slug cat.slug %}" class="mega-menu-item">
-                      {{ cat.title }} <span class="smoo_after_title">({{ cat.count_visible_products }})</span>
+                      {{ cat.title }} <span class="smoo_after_title">({{ cat.visible_count }})</span>
                   </a>
                   {% if forloop.counter|divisibleby:side_items_per_column and not forloop.last %}
                     </div>{# Close current column #}

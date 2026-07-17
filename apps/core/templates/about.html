@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load store_extras %}
 {% block title %}О компании Катран-Пневмо — производитель пневматического инструмента с 1990 года{% endblock %}
 {% block ogtitle %}О компании Катран-Пневмо — производитель пневматического инструмента с 1990 года{% endblock %}
 {% block description %}{{ description }}{% endblock %}
@@ -238,7 +239,7 @@
       {% if b.get_products.count != 0 %}
         <div class="column is-2 is-4-mobile">
           <a href="{% url 'brand_detail' b.slug %}" class="kp-about-partner no-hl-link">
-            <img src="{{ b.image.url }}" alt="{{ b.title }} — пневматический инструмент" title="{{ b.title }}">
+            {% responsive_img b.image b.title|add:" — пневматический инструмент" %}
             <span class="kp-about-partner__name">{{ b.title }}</span>
           </a>
         </div>

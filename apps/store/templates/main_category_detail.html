@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load core_extras %}
+{% load store_extras %}
 {% block title %}{{ main_category.title }} — купить в СПб | Катран-Пневмо{% endblock %}
 {% block ogtitle %}{{ main_category.title }} — купить в СПб | Катран-Пневмо{% endblock %}
 {% block description %}{{ description }}{% endblock %}
@@ -34,7 +35,7 @@
           <div class="kp-cat-card">
             <div class="kp-cat-card__img">
               {% if c.image %}
-                <img src="{{ c.image.url }}" alt="{{ c.title }} — купить в СПб" title="{{ c.title }}">
+                {% responsive_img c.image c.title|add:" — купить в СПб" %}
               {% else %}
                 <i class="fa-solid fa-box-open" style="font-size: 2.5rem; color: var(--katran-icon-color);"></i>
               {% endif %}

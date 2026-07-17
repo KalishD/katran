@@ -65,6 +65,43 @@ class ImageProcessingMixin:
         name = target_name if target_name else os.path.basename(image.name)
         return File(thumb_io, name=name)
 
+    def make_resized(self, image, target_name=None, max_width=800):
+        """Resize image to max_width maintaining aspect ratio, save as JPEG."""
+        if not image:
+            return image
+        img = Image.open(image)
+        img = img.convert('RGB')
+        if img.width > max_width:
+            ratio = max_width / img.width
+            new_height = int(img.height * ratio)
+            img = img.resize((max_width, new_height), Image.LANCZOS)
+        thumb_io = BytesIO()
+        img.save(thumb_io, 'JPEG', quality=80)
+        thumb_io.seek(0)
+        name = target_name if target_name else os.path.basename(image.name)
+        return File(thumb_io, name=name)
+
+    def get_resized_url(self, field_name, suffix):
+        """Get URL for a resized variant (e.g. _sm, _md). Falls back to original."""
+        field = getattr(self, field_name)
+        if not field or not field.name:
+            return ''
+        url = field.url
+        base, ext = os.path.splitext(url)
+        return f'{base}_{suffix}{ext}'
+
+    def generate_variants(self, field_name='image', slug=None):
+        """Generate _sm and _md resized variants for an image field."""
+        field = getattr(self, field_name)
+        if not field or not field.name:
+            return
+        slug = slug or self.slug
+        upload_to = field.field.upload_to
+        for suffix, max_width in [('sm', 400), ('md', 800)]:
+            variant = self.make_resized(field, target_name=f'{slug}_{suffix}.jpg', max_width=max_width)
+            variant_path = os.path.join(upload_to, f'{slug}_{suffix}.jpg')
+            field.storage.save(variant_path, variant)
+
 
 class MainCategory(models.Model):
     title = models.CharField(max_length=255)
@@ -92,13 +129,18 @@ class Category(ImageProcessingMixin, models.Model):
     is_features = models.BooleanField(default=False)
     description = models.TextField(blank=True, null=True)
 
-    image = models.ImageField(upload_to="uploads/categories/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
+    image = models.ImageField(upload_to="uploads/categories/", blank=True, null=True, default='static/images/blank_prodimg.jpg', max_length=255)
 
     def save(self, *args, **kwargs):
-        if self._is_new_upload('image'):
+        is_new = self._is_new_upload('image')
+        if is_new:
             self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self._delete_existing('image', target_name=f'{self.slug}_sm.jpg')
+            self._delete_existing('image', target_name=f'{self.slug}_md.jpg')
             self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
         super().save(*args, **kwargs)
+        if is_new:
+            self.generate_variants('image', self.slug)
         
     class Meta:
         verbose_name = 'Категория'
@@ -126,17 +168,20 @@ class Brand(ImageProcessingMixin, models.Model):
     slug = models.SlugField(max_length=255)
     description = models.TextField(blank=True, null=True)
 
-    image = models.ImageField(upload_to="uploads/brands/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
-    thumbnail = models.ImageField(upload_to="uploads/brands/", blank=True, null=True)
+    image = models.ImageField(upload_to="uploads/brands/", blank=True, null=True, default='static/images/blank_prodimg.jpg', max_length=255)
+    thumbnail = models.ImageField(upload_to="uploads/brands/", blank=True, null=True, max_length=255)
 
     ordering = models.PositiveSmallIntegerField(default=0)
     country = models.CharField(max_length=255, null=True, blank=True)
 
-    is_on = models.BooleanField(default=True)
+    is_on = models.BooleanField(default=True, db_index=True)
 
     class Meta:
         verbose_name = 'Производитель'
         verbose_name_plural = 'Производители'
+        indexes = [
+            models.Index(fields=['is_on', 'ordering']),
+        ]
 
     def get_products(self):
         return Product.objects.filter(brand=self)
@@ -145,12 +190,17 @@ class Brand(ImageProcessingMixin, models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if self._is_new_upload('image'):
+        is_new = self._is_new_upload('image')
+        if is_new:
             self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self._delete_existing('image', target_name=f'{self.slug}_sm.jpg')
+            self._delete_existing('image', target_name=f'{self.slug}_md.jpg')
             self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
             self._delete_existing('thumbnail', target_name=f'{self.slug}_thumb.jpg')
             self.thumbnail = self.make_thumbnail(self.image, target_name=f'{self.slug}_thumb.jpg')
         super().save(*args, **kwargs)
+        if is_new:
+            self.generate_variants('image', self.slug)
 
 
     def get_absolute_url(self):
@@ -174,13 +224,13 @@ class Product(ImageProcessingMixin, ModelMeta, models.Model):
     is_sale = models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
     is_visible = models.BooleanField(default=True)
-    is_in_sales_price = models.BooleanField(default=False)
+    is_in_sales_price = models.BooleanField(default=False, db_index=True)
 
     article = models.CharField(max_length=255,blank=True, null=True)
 
-    image = models.ImageField(upload_to="uploads/products/", blank=True, null=True, default='static/images/blank_prodimg.jpg')
-    partlist = models.ImageField(upload_to="uploads/products/partlists/", blank=True, null=True)
-    thumbnail = models.ImageField(upload_to="uploads/products/thumb/", blank=True, null=True)
+    image = models.ImageField(upload_to="uploads/products/", blank=True, null=True, default='static/images/blank_prodimg.jpg', max_length=255)
+    partlist = models.ImageField(upload_to="uploads/products/partlists/", blank=True, null=True, max_length=255)
+    thumbnail = models.ImageField(upload_to="uploads/products/thumb/", blank=True, null=True, max_length=255)
 
     created_at = models.DateTimeField(auto_now_add= True)
     variables = models.ManyToManyField('VariableItem', through='Variable', related_name='variables')
@@ -195,7 +245,7 @@ class Product(ImageProcessingMixin, ModelMeta, models.Model):
 
     in_stock = models.PositiveSmallIntegerField(blank=True, null=True, default=1)
     has_patent = models.BooleanField(default=False)
-    is_import = models.BooleanField(default=False, verbose_name='Импортный товар')
+    is_import = models.BooleanField(default=False, verbose_name='Импортный товар', db_index=True)
 
     class Meta:
         verbose_name = 'Товар'
@@ -216,12 +266,17 @@ class Product(ImageProcessingMixin, ModelMeta, models.Model):
         if not self.pk:
             self.slug = slugify(self.title)
         self.set_price_w_tax()
-        if self._is_new_upload('image'):
+        is_new = self._is_new_upload('image')
+        if is_new:
             self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self._delete_existing('image', target_name=f'{self.slug}_sm.jpg')
+            self._delete_existing('image', target_name=f'{self.slug}_md.jpg')
             self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
             self._delete_existing('thumbnail', target_name=f'{self.slug}_thumb.jpg')
             self.thumbnail = self.make_thumbnail(self.image, target_name=f'{self.slug}_thumb.jpg')
         super().save(*args, **kwargs)
+        if is_new:
+            self.generate_variants('image', self.slug)
 
     def set_price_w_tax(self):
         tax_multiplier = Decimal(1) + Decimal(self.tax) / Decimal(100)
@@ -331,6 +386,11 @@ class Variable(models.Model):
     varitem = models.ForeignKey(VariableItem, on_delete=models.CASCADE)
     value = models.CharField(max_length=255)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['product', 'varitem']),
+        ]
+
     def __str__(self):
         return self.varitem.title
 
@@ -339,8 +399,8 @@ class Patent(ImageProcessingMixin, models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='patent', blank=True, null=True, verbose_name='Товар')
     document_number = models.CharField(max_length=255, verbose_name='Номер документа')
     publication_date = models.DateField(verbose_name='Дата публикации')
-    image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Схема')
-    document_image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Бланк патента')
+    image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Схема', max_length=255)
+    document_image = models.ImageField(upload_to='uploads/patents/', blank=True, null=True, verbose_name='Бланк патента', max_length=255)
     title = models.CharField(max_length=255, verbose_name='Название')
     library = models.CharField(max_length=255, blank=True, null=True, verbose_name='Библиотека')
     link = models.URLField(blank=True, null=True, verbose_name='Ссылка')

@@ -28,7 +28,7 @@
             <th class="th-w-img p-0">
               <a class="no-hl-link" :href="product.url">
                 <figure class="image is-64x64">
-                  <img :src="product.image" :alt="product.title" :title="product.title">
+                  <img :src="product.image" :srcset="`${product.image_sm} 400w, ${product.image_md} 800w, ${product.image} 1200w`" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" :alt="product.title" :title="product.title">
                 </figure>
               </a>
             </th>

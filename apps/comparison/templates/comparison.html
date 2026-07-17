@@ -26,7 +26,7 @@
               <div class="mb-2">
                 <a :href="p.url">
                   <figure class="image is-128x128 is-inline-block">
-                    <img :src="p.image" :alt="p.title">
+                    <img :src="p.image" :srcset="`${p.image_sm} 400w, ${p.image_md} 800w, ${p.image} 1200w`" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" :alt="p.title">
                   </figure>
                 </a>
               </div>

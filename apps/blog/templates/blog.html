@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load store_extras %}
 {% block title %}Статьи о пневмоинструменте — обзоры, характеристики | Катран-Пневмо{% endblock %}
 {% block ogtitle %}Статьи о пневмоинструменте — обзоры, характеристики | Катран-Пневмо{% endblock %}
 {% block description %}{{ description }}{% endblock %}
@@ -30,7 +31,7 @@
                     </header>
 
                     <div class="card-image carousel-item--img-wrapper">
-                        <img src="{{p.image.url}}" alt="{{ p.title }}" title="{{ p.title }}">
+                        {% responsive_img p.image p.title %}
                         <a href="{% url 'post_detail' p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
                     </div>
                     <footer class="card-footer">

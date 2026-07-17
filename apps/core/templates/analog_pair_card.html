@@ -1,3 +1,4 @@
+{% load store_extras %}
 {# p = Russian replacement (is_import=False), p.analog = import original #}
 <div class="analog-pair-card">
   {# — Оригинал (импорт) — #}
@@ -5,11 +6,11 @@
     <span class="analog-pair-card__badge analog-pair-card__badge--import">Оригинал</span>
     <div class="analog-pair-card__img-wrap">
       <a href="{% url 'product_detail' p.analog.category.main_category.slug p.analog.category.slug p.analog.slug %}">
-        <img src="{{ p.analog.image.url }}" alt="{{ p.analog.title }}">
+        {% responsive_img p.analog.image p.analog.title %}
       </a>
       {% if p.analog.brand %}
       <figure class="image product-card_brand-image is-24x24">
-        <img src="{{ p.analog.brand.image.url }}" alt="{{ p.analog.brand }}">
+        {% responsive_img p.analog.brand.image p.analog.brand %}
       </figure>
       {% endif %}
     </div>
@@ -34,11 +35,11 @@
     <span class="analog-pair-card__badge analog-pair-card__badge--russia">Замена</span>
     <div class="analog-pair-card__img-wrap">
       <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}">
-        <img src="{{ p.image.url }}" alt="{{ p.title }}">
+        {% responsive_img p.image p.title %}
       </a>
       {% if p.brand %}
       <figure class="image product-card_brand-image is-24x24">
-        <img src="{{ p.brand.image.url }}" alt="{{ p.brand }}">
+        {% responsive_img p.brand.image p.brand %}
       </figure>
       {% endif %}
     </div>

@@ -35,9 +35,8 @@
             <div class="column is-4">
               <a href="{% url 'category_detail' c.main_category.slug c.slug %}">
                 <figure class="image is-128x128">
-                  <img src="{{c.image.url}}" 
-                      alt="{{ c }} | купить со склада в СПБ"
-                      title="{{ c }} | купить со склада в СПБ">
+                  {% load store_extras %}
+                  {% responsive_img c.image c|add:" | купить со склада в СПБ" %}
                 </figure>
               </a>
             </div>

@@ -1,14 +1,14 @@
+{% load cache store_extras %}
 
+{% cache 600 product_card p.id %}
 <div class="item-{{ forloop.counter }} m-2 carousel-item has-border-fancy product_grid_card">
     <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}">
     <div class="carousel-item--img-wrapper">
-        <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить с доставкой по всей России">
+        {% responsive_img p.image p.title|add:" | "|add:p.category|add:" | купить с доставкой по всей России" %}
         <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
         {% if p.brand %}
         <figure class="image product-card_brand-image is-32x32">
-        <img src="{{p.brand.image.url}}" 
-            alt="{{ p.brand }} | купить с доставкой по всей России"
-            title="{{ p.brand }} | купить с доставкой по всей России">
+        {% responsive_img p.brand.image p.brand|add:" | купить с доставкой по всей России" %}
         </figure>
         {% endif %}
         <button class="product-card__compare" onclick="event.preventDefault(); event.stopPropagation(); toggleCompare({{ p.id }}, this)" title="Сравнить">
@@ -61,3 +61,4 @@
         </div>
     </div>
 </div>
+{% endcache %}

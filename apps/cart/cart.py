@@ -15,13 +15,15 @@ class Cart(object):
   def __iter__(self):
     product_ids = self.cart.keys()
 
-    product_clean_ids = []
+    # Batch-fetch all products in a single query instead of N individual queries
+    products = Product.objects.filter(pk__in=product_ids).select_related(
+        'category__main_category', 'brand'
+    )
+    products_map = {str(p.id): p for p in products}
 
     for p in product_ids:
-      product_clean_ids.append(p)
+      self.cart[str(p)]['product'] = products_map.get(str(p))
 
-      self.cart[str(p)]['product'] = Product.objects.get(pk=p)
-    
     for item in self.cart.values():
       item['total_price'] = float(float(item['price']) * int(item['quantity']))
 

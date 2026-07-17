@@ -3,6 +3,7 @@ from django.db.models import Q, F, Value
 from django.db.models.functions import Coalesce, Lower
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
+from django.views.decorators.cache import cache_page, never_cache
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import random
 from django.contrib.postgres.aggregates import StringAgg
@@ -18,6 +19,7 @@ def normalize_query(q):
     # return q.lower().replace('-', '').replace(' ', '')
     return q
 
+@never_cache
 def search(request):
     raw_query = request.GET.get('query')
 
@@ -32,7 +34,7 @@ def search(request):
     Q(title__icontains=query, is_visible=True) |
     Q(description__icontains=query, is_visible=True) |
     Q(article__icontains=query, is_visible=True)
-    ).distinct().order_by('price')
+    ).select_related('brand', 'category__main_category').distinct().order_by('price')
 
     products_count = len(products_list)
     context = {
@@ -45,6 +47,7 @@ def search(request):
     }
     return render(request, 'search.html', context)
 
+@never_cache
 @require_GET
 def search_api(request):
     raw_query = request.GET.get('query')
@@ -75,6 +78,10 @@ def search_api(request):
             'title': p.title,
             'price': float(p.price) if p.price else None,
             'image': p.image.url if p.image else '',
+            'image_sm': p.get_resized_url('image', 'sm') if p.image else '',
+            'image_md': p.get_resized_url('image', 'md') if p.image else '',
+            'image_sm': p.get_resized_url('image', 'sm') if p.image else '',
+            'image_md': p.get_resized_url('image', 'md') if p.image else '',
             'category': p.category.title,
             'main_category': p.category.main_category.title,
             'category_url': p.category.get_absolute_url(),
@@ -88,8 +95,9 @@ def search_api(request):
 
     return JsonResponse({'products': products, 'count': products_count})
 
+@cache_page(60 * 30)  # 30 minutes
 def catalog(request):
-    categories = Category.objects.all()
+    categories = Category.objects.select_related('main_category').all()
     keywords = 'Заказать пневматический инструмент, каталог пневмоинструмента'
     description = 'Каталог пневмоинструмента на сайте katran-pnevmo.ru'
     context = {
@@ -100,9 +108,10 @@ def catalog(request):
 
     return render(request, 'catalog.html', context)
 
+@cache_page(60 * 30)  # 30 minutes
 def main_category_detail(request, slug):
     main_category = get_object_or_404(MainCategory, slug=slug)
-    categories = main_category.get_categories()
+    categories = main_category.get_categories().select_related('main_category')
     keywords = f'Заказать {main_category.title}, купить {main_category.title}'
     description = f'Заказать {main_category.title} '
     context = {
@@ -118,6 +127,7 @@ def main_category_detail(request, slug):
 
 
 
+@cache_page(60 * 15)  # 15 minutes
 def category_detail(request, maincategory_slug, slug):
     """
     Renders the category detail page.
@@ -125,7 +135,12 @@ def category_detail(request, maincategory_slug, slug):
     Product data is now fetched dynamically via the category_products_api.
     """
     category = get_object_or_404(Category, slug=slug, main_category__slug=maincategory_slug)
-    all_cat_vars_ids = category.products.all().order_by('variables').values_list('variables', flat=True).distinct()
+
+    # Optimized: fetch variable IDs with a single query instead of loading all products
+    from django.db.models import Subquery, OuterRef
+    all_cat_vars_ids = Variable.objects.filter(
+        product__category=category
+    ).values('varitem_id').distinct().values_list('varitem_id', flat=True)
     all_cat_vars = VariableItem.objects.filter(id__in=list(all_cat_vars_ids))
     # These context variables might still be useful for initial rendering of category-specific headers
     # or static elements that don't change with pagination/sorting.
@@ -153,6 +168,7 @@ def category_detail(request, maincategory_slug, slug):
 
 ALLOWED_SORT_FIELDS_CATEGORY = {'is_features', 'title', 'price', 'price_wo_tax', 'sku', 'ordering', 'created_at'}
 
+@never_cache
 @require_GET
 def category_products_api(request, main_category_slug, category_slug):
     """
@@ -197,17 +213,22 @@ def category_products_api(request, main_category_slug, category_slug):
         products_page = paginator.page(paginator.num_pages)
 
     # Get all unique variable items for the category's products for consistent characteristics display.
-    # This ensures that all products in the category display the same set of characteristic columns,
-    # even if a specific product doesn't have a value for a particular variable.
-    all_cat_vars_ids = category.products.all().order_by('variables').values_list('variables', flat=True).distinct()
+    # Use the same optimized query as category_detail
+    all_cat_vars_ids = Variable.objects.filter(
+        product__category=category
+    ).values('varitem_id').distinct().values_list('varitem_id', flat=True)
     all_cat_vars = VariableItem.objects.filter(id__in=list(all_cat_vars_ids))
 
     products_data = []
     for p in products_page.object_list: # Iterate over products for the current page
-        # Collect variables for the current product
-        variables = {v.varitem: v.value for v in p.variable_set.all()}
-        variablesitems = {v.varitem: v.varitem.title for v in p.variable_set.all()}
-        variablesdimention = {v.varitem: v.varitem.dimention for v in p.variable_set.all()}
+        # Collect variables for the current product — single iteration, not triple
+        variables = {}
+        for v in p.variable_set.all():
+            variables[v.varitem] = {
+                'value': v.value,
+                'title': v.varitem.title,
+                'dimention': v.varitem.dimention,
+            }
 
         characteristics = []
         characteristicsitems = []
@@ -215,15 +236,18 @@ def category_products_api(request, main_category_slug, category_slug):
 
         # Populate characteristics based on all_cat_vars for consistent structure
         for var in all_cat_vars:
-            characteristics.append(variables.get(var)) # Get value, or None if not present
-            characteristicsitems.append(variablesitems.get(var))
-            characteristicsdimention.append(variablesdimention.get(var))
+            var_data = variables.get(var)
+            characteristics.append(var_data['value'] if var_data else None)
+            characteristicsitems.append(var_data['title'] if var_data else None)
+            characteristicsdimention.append(var_data['dimention'] if var_data else None)
 
         products_data.append({
             'id': p.id,
             'title': p.title,
             'price': float(p.price) if p.price else None,
             'image': p.image.url if p.image else '',
+            'image_sm': p.get_resized_url('image', 'sm') if p.image else '',
+            'image_md': p.get_resized_url('image', 'md') if p.image else '',
             'category': p.category.title,
             'main_category': p.category.main_category.title,
             'category_url': p.category.get_absolute_url(),
@@ -247,8 +271,16 @@ def category_products_api(request, main_category_slug, category_slug):
         'totalProducts': paginator.count,
     })
 
+@cache_page(60 * 30)  # 30 minutes
 def product_detail(request, maincategory_slug, category_slug, slug):
-    product = get_object_or_404(Product, slug=slug)
+    product = get_object_or_404(
+        Product.objects.select_related(
+            'category__main_category', 'brand', 'analog', 'analog__brand', 'analog__category__main_category'
+        ).prefetch_related(
+            'variable_set__varitem', 'faqs', 'parts', 'similar_products'
+        ),
+        slug=slug
+    )
     category = product.category
     variables = product.variable_set.all().order_by('-varitem__is_primary')
     variables_list = ''
@@ -282,6 +314,7 @@ def product_detail(request, maincategory_slug, category_slug, slug):
 
 
 
+@cache_page(60 * 30)  # 30 minutes
 def brands(request):
     keywords = 'Каталог производителей пневмоинструмент'
     description = 'Каталог производителей пневмоинструмент'
@@ -290,7 +323,7 @@ def brands(request):
     all_products = Product.objects.filter(
         is_visible=True,
         category__main_category__in=range(1, 2)
-    ).select_related('category__main_category').order_by('?')
+    ).select_related('brand', 'category__main_category').order_by('?')
 
     brand_product_map = {}
     for p in all_products:
@@ -313,9 +346,12 @@ def brands(request):
     }
     return render(request, 'brands.html', context)
 
+@cache_page(60 * 30)  # 30 minutes
 def brand_detail(request, slug):
     brand = get_object_or_404(Brand, slug=slug)
-    products = brand.products.filter(is_visible=True).order_by("is_features")
+    products = brand.products.filter(is_visible=True).select_related(
+        'category__main_category'
+    ).order_by("is_features")
     keywords = f'Заказать пневмоинструмент фирмы {brand.title}, купить {brand.title}, заказать {brand.title}, пневмоинструмент {brand.title}'
     description = f'Заказать пневмоинструмент фирмы {brand.title} с доставкой по всей России'
     all_brand_vars = VariableItem.objects.filter(id__in=list(brand.products.all().order_by('variables').values_list('variables', flat=True).distinct()))
@@ -332,6 +368,7 @@ def brand_detail(request, slug):
 
 ALLOWED_SORT_FIELDS_BRAND = {'category__ordering', 'title', 'price', 'price_wo_tax', 'sku', 'ordering', 'created_at'}
 
+@never_cache
 @require_GET
 def brand_products_api(request, slug):
     brand = get_object_or_404(Brand, slug=slug)
@@ -376,18 +413,22 @@ def brand_products_api(request, slug):
         # If page is out of range (e.g. 9999), deliver last page of results.
         products_page = paginator.page(paginator.num_pages)
 
-    # Get all unique variable items for the category's products for consistent characteristics display.
-    # This ensures that all products in the category display the same set of characteristic columns,
-    # even if a specific product doesn't have a value for a particular variable.
-    all_brand_vars_ids = brand.products.all().order_by('variables').values_list('variables', flat=True).distinct()
+    # Get all unique variable items for the brand's products for consistent characteristics display.
+    all_brand_vars_ids = Variable.objects.filter(
+        product__brand=brand
+    ).values('varitem_id').distinct().values_list('varitem_id', flat=True)
     all_brand_vars = VariableItem.objects.filter(id__in=list(all_brand_vars_ids))
 
     products_data = []
     for p in products_page.object_list: # Iterate over products for the current page
-        # Collect variables for the current product
-        variables = {v.varitem: v.value for v in p.variable_set.all()}
-        variablesitems = {v.varitem: v.varitem.title for v in p.variable_set.all()}
-        variablesdimention = {v.varitem: v.varitem.dimention for v in p.variable_set.all()}
+        # Collect variables for the current product — single iteration, not triple
+        variables = {}
+        for v in p.variable_set.all():
+            variables[v.varitem] = {
+                'value': v.value,
+                'title': v.varitem.title,
+                'dimention': v.varitem.dimention,
+            }
 
         characteristics = []
         characteristicsitems = []
@@ -395,15 +436,18 @@ def brand_products_api(request, slug):
 
         # Populate characteristics based on all_brand_vars for consistent structure
         for var in all_brand_vars:
-            characteristics.append(variables.get(var)) # Get value, or None if not present
-            characteristicsitems.append(variablesitems.get(var))
-            characteristicsdimention.append(variablesdimention.get(var))
+            var_data = variables.get(var)
+            characteristics.append(var_data['value'] if var_data else None)
+            characteristicsitems.append(var_data['title'] if var_data else None)
+            characteristicsdimention.append(var_data['dimention'] if var_data else None)
 
         products_data.append({
             'id': p.id,
             'title': p.title,
             'price': float(p.price) if p.price else None,
             'image': p.image.url if p.image else '',
+            'image_sm': p.get_resized_url('image', 'sm') if p.image else '',
+            'image_md': p.get_resized_url('image', 'md') if p.image else '',
             'category': p.category.title,
             'main_category': p.category.main_category.title,
             'category_url': p.category.get_absolute_url(),

@@ -29,9 +29,7 @@
 									<div class="column is-2">
 			              <a href="{% url 'brand_detail' brand.slug %}">
 			                <figure class="image is-64x64">
-			                  <img src="{{ brand.image.url }}"
-			                       alt="{{ brand.title }} | купить со склада в СПБ"
-			                       title="{{ brand.title }} | купить со склада в СПБ">
+			                  {% responsive_img brand.image brand.title|add:" | купить со склада в СПБ" %}
 			                </figure>
 			              </a>
 			            </div>
@@ -61,13 +59,11 @@
 		                {% for p in products %}
 											<div class="m-2">
 					              <div class="carousel-item--img-wrapper">
-					                <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+					                {% responsive_img p.image p.title|add:" | "|add:p.category|add:" | купить со склада в СПБ" %}
 					                <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
 					                {% if p.brand %}
 					                <figure class="image product-card_brand-image is-32x32">
-					                  <img src="{{p.brand.image.url}}" 
-					                  alt="{{ p.brand }} | купить со склада в СПБ"
-					                  title="{{ p.brand }} | купить со склада в СПБ">
+					                  {% responsive_img p.brand.image p.brand|add:" | купить со склада в СПБ" %}
 					                </figure>
 					                {% endif %}
 					<!--                 <button class="button is-black is-small cart-btn" @click="addToCart({{ p.id }})">

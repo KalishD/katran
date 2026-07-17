@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load core_extras %}
 {% load static %}
+{% load store_extras %}
 {% block title %}Поставщик пневматического инструмента ООО "Катран-Пневмо"{% endblock %}
 {% block ogtitle %}Поставщик пневматического инструмента ООО "Катран-Пневмо"{% endblock %}
 {% block description %}{{ description }}{% endblock %}
@@ -37,10 +38,7 @@
                   <a href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">
                   <figure class="image is-128x128 m-0 is-vcentered">
                     
-                    <img class="" 
-                    src="{{product.image.url}}" 
-                    alt="{{ product.title }} | купить со склада в СПБ"
-                    title="{{ product.title }} | купить со склада в СПБ">
+                    {% responsive_img product.image product.title|add:" | купить со склада в СПБ" %}
                     
                   </figure>
                   </a>

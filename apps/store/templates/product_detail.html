@@ -81,7 +81,7 @@
         <img src="{{ product.image.url }}" alt="{{ product.title }}" title="{{ product.title }}">
         {% if product.brand %}
         <figure class="image product-card_brand-image is-32x32">
-          <img src="{{product.brand.image.url}}" alt="{{ product.brand }}" title="{{ product.brand }}">
+          {% responsive_img product.brand.image product.brand %}
         </figure>
         {% endif %}
       </div>
@@ -128,7 +128,7 @@
               <div class="column is-3">
                 <figure class="image is-64x64">
                   <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">
-                    <img src="{{product.brand.image.url}}" alt="{{ product.brand }}" title="{{ product.brand }}">
+                    {% responsive_img product.brand.image product.brand %}
                   </a>
                 </figure>
               </div>
@@ -189,11 +189,11 @@
             <a href="{% url 'product_detail' product.analog.category.main_category.slug product.analog.category.slug product.analog.slug %}"
               class="button is-black is-small carousel-item--more-btn">Подробнее <i class="fa-solid fa-info" aria-hidden="true"></i></a>
             <a href="{% url 'product_detail' product.analog.category.main_category.slug product.analog.category.slug product.analog.slug %}">
-              <figure class="image"><img src="{{ product.analog.image.url }}" alt="{{ product.analog.title }}"></figure>
+              <figure class="image">{% responsive_img product.analog.image product.analog.title %}</figure>
             </a>
             {% if product.analog.brand %}
             <figure class="image product-card_brand-image is-32x32">
-              <img src="{{product.analog.brand.image.url}}" alt="{{ product.analog.brand }}" title="{{ product.analog.brand }}">
+              {% responsive_img product.analog.brand.image product.analog.brand %}
             </figure>
             {% endif %}
           </div>
