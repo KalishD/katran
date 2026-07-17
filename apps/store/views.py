@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, F, Value
-from django.db.models.functions import Coalesce
+from django.db.models.functions import Coalesce, Lower
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -29,9 +29,9 @@ def search(request):
     query = raw_query
 
     products_list = Product.objects.filter(is_visible=True).filter(
-        Q(title__icontains=query, is_visible=True) |
-        Q(description__icontains=query, is_visible=True) |
-        Q(article__icontains=query, is_visible=True)
+    Q(title__icontains=query, is_visible=True) |
+    Q(description__icontains=query, is_visible=True) |
+    Q(article__icontains=query, is_visible=True)
     ).distinct().order_by('price')
 
     products_count = len(products_list)

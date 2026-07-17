@@ -9,14 +9,25 @@
 {% block content %}
 
     <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
-      <h1 class="title is-3">Каталог пневматического инструмента</h1>
+      <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+        <ul>
+          <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+          <li class="is-active"><a href="{% url 'catalog' %}" aria-current="page">Каталог</a></li>
+        </ul>
+      </nav>
+      <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+        <p class="kp-about-hero__tag">Каталог</p>
+        <h1 class="kp-hero-title">Каталог пневматического инструмента</h1>
+        <div class="kp-solutions-divider"></div>
+      </div>
       {% for maincat in menu_main_categories %}
-      <h2 class="title is-4">{{ maincat.title }}</h2>
+      <h2 class="kp-section-heading" style="text-align: center; margin-top: 2rem;">{{ maincat.title }}</h2>
+      <div class="kp-solutions-divider" style="margin-bottom: 1.5rem;"></div>
       <div class="columns is-flex-wrap-wrap">
         {% with categories_for_maincat=menu_categories_filter|filter_by_main_category_id:maincat.id %}
         {% if categories_for_maincat %}
           {% for cat in categories_for_maincat %}
-            <div class="column is-4 is-6-tablet is-full-mobile">
+            <div class="column is-4 is-3-fullhd is-4-desktop is-6-tablet is-full-mobile">
               <a href="{% url 'category_detail' cat.main_category.slug cat.slug %}" class="no-hl-link">
                 <div class="kp-cat-card">
                   <div class="kp-cat-card__img">
@@ -28,7 +39,9 @@
                   </div>
                   <div class="kp-cat-card__body">
                     <h3 class="kp-cat-card__title">{{ cat.title }}</h3>
-                    <span class="kp-cat-card__link">Перейти в каталог <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+                  </div>
+                  <div class="kp-cat-card__arrow" aria-hidden="true">
+                    <i class="fa-solid fa-arrow-right"></i>
                   </div>
                 </div>
               </a>
@@ -42,12 +55,17 @@
   {# ── CTA ── #}
   <div class="columns mt-5 mb-4">
     <div class="column is-8-desktop is-offset-2-desktop">
-      <div class="kp-cta-box">
+      <div class="kp-cta-box kp-cta-box--solutions">
         <p class="kp-cta-box__title">Нужна помощь с выбором?</p>
         <p class="kp-cta-box__text">Позвоните нам — подберём пневмоинструмент под вашу задачу</p>
-        <a href="tel:+78123317907" class="button is-info is-outlined mt-2">
-          <i class="fa-solid fa-phone-flip" aria-hidden="true"></i>&nbsp;&nbsp;+7 (812) 331 79 09
-        </a>
+        <div class="buttons mt-3 is-justify-content-center">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Связаться с нами</strong>
+          </a>
+          <a href="tel:+78123317909" class="button is-light">
+            <strong>+7 (812) 331 79 09</strong>
+          </a>
+        </div>
       </div>
     </div>
   </div>

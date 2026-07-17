@@ -29,9 +29,20 @@ from apps.store.views import category_detail, product_detail, catalog, brand_det
 from apps.blog.views import blog, post_detail
 from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
 
-from .sitemaps import StaticViewSitemap, CategorySitemap, ProductSitemap, BrandSitemap, PostsSitemap
+from .sitemaps import (
+    StaticViewSitemap, CategorySitemap, ProductSitemap, BrandSitemap,
+    PostsSitemap, IndustrySitemap, CaseStudySitemap,
+)
 
-sitemaps = {'static': StaticViewSitemap, 'product': ProductSitemap, 'category': CategorySitemap, 'brand': BrandSitemap, 'post': PostsSitemap}
+sitemaps = {
+    'static': StaticViewSitemap,
+    'product': ProductSitemap,
+    'category': CategorySitemap,
+    'brand': BrandSitemap,
+    'post': PostsSitemap,
+    'industry': IndustrySitemap,
+    'case_study': CaseStudySitemap,
+}
 
 # Solutions app
 from apps.solutions.views import solutions_index, industry_detail, cases_index, case_detail

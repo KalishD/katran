@@ -19,16 +19,17 @@
   </nav>
 
   {# ── Hero ── #}
-  <div class="title-wrapper has-text-centered">
-    <p class="subtitle is-6">ООО «Катран-Пневмо»</p>
+  <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+    <p class="kp-about-hero__tag">Каталог</p>
     <h1 class="kp-hero-title">{{ main_category.title }}</h1>
-    <p class="kp-hero-subtitle">Пневматический инструмент категории «{{ main_category.title }}» — выберите тип оборудования</p>
+    <div class="kp-solutions-divider"></div>
+    <p class="subtitle is-6 mt-2" style="max-width: 600px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">Пневматический инструмент категории «{{ main_category.title }}» — выберите тип оборудования</p>
   </div>
 
   {# ── Сетка подкатегорий ── #}
   <div class="columns is-multiline mt-4">
     {% for c in categories %}
-      <div class="column is-4 is-6-tablet is-full-mobile">
+      <div class="column is-4 is-3-fullhd is-4-desktop is-6-tablet is-full-mobile">
         <a href="{% url 'category_detail' c.main_category.slug c.slug %}" class="no-hl-link">
           <div class="kp-cat-card">
             <div class="kp-cat-card__img">
@@ -40,7 +41,9 @@
             </div>
             <div class="kp-cat-card__body">
               <h2 class="kp-cat-card__title">{{ c.title }}</h2>
-              <span class="kp-cat-card__link">Перейти в каталог <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+            </div>
+            <div class="kp-cat-card__arrow" aria-hidden="true">
+              <i class="fa-solid fa-arrow-right"></i>
             </div>
           </div>
         </a>
@@ -61,12 +64,17 @@
   {# ── CTA ── #}
   <div class="columns mt-5 mb-4">
     <div class="column is-8-desktop is-offset-2-desktop">
-      <div class="kp-cta-box">
+      <div class="kp-cta-box kp-cta-box--solutions">
         <p class="kp-cta-box__title">Не нашли нужную модель?</p>
         <p class="kp-cta-box__text">Позвоните нам — поможем подобрать пневмоинструмент под вашу задачу</p>
-        <a href="tel:+78123317907" class="button is-info is-outlined mt-2">
-          <i class="fa-solid fa-phone-flip" aria-hidden="true"></i>&nbsp;&nbsp;+7 (812) 331 79 09
-        </a>
+        <div class="buttons mt-3 is-justify-content-center">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Связаться с нами</strong>
+          </a>
+          <a href="tel:+78123317909" class="button is-light">
+            <strong>+7 (812) 331 79 09</strong>
+          </a>
+        </div>
       </div>
     </div>
   </div>

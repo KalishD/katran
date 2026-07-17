@@ -9,12 +9,15 @@ class Migration(migrations.Migration):
         ('store', '0036_auto_20250526_1047'),
     ]
 
-    # operations = [
-    # ]
-
     operations = [
         migrations.RunSQL(
             sql="CREATE EXTENSION IF NOT EXISTS pg_trgm;",
-            reverse_sql="DROP EXTENSION IF EXISTS pg_trgm;"
+            reverse_sql="DROP EXTENSION IF EXISTS pg_trgm;",
+            state_operations=[],
         ),
     ]
+
+    def apply(self, project_state, schema_editor, collect_sql=False):
+        if schema_editor.connection.vendor != 'postgresql':
+            return project_state
+        return super().apply(project_state, schema_editor, collect_sql)

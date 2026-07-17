@@ -379,10 +379,10 @@ class ProductAdmin(ExportActionMixin, SummernoteModelAdmin, admin.ModelAdmin):
   
 
     # уже есть:
-  list_display = ("sku", "title", "product_category", "brand", "price_wo_tax", "price", "ordering", "is_in_sales_price", "is_features", "is_visible")
+  list_display = ("sku", "title", "product_category", "brand", "price_wo_tax", "price", "ordering", "is_in_sales_price", "is_features", "is_visible", "is_import")
   fields = (
-      "category", "brand", "sku", "title", "slug", "article", "price_wo_tax", "price", "ordering", 
-      "is_features", "is_sale", "is_bestseller", "is_visible", "is_in_sales_price", "keywords", "in_stock", "description", "image",
+      "category", "brand", "sku", "title", "slug", "article", "price_wo_tax", "price", "ordering",
+      "is_features", "is_sale", "is_bestseller", "is_visible", "is_in_sales_price", "is_import", "keywords", "in_stock", "description", "image",
       "analog", "parts", "similar_products", "partlist"
   )
   

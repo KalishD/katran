@@ -195,6 +195,7 @@ class Product(ImageProcessingMixin, ModelMeta, models.Model):
 
     in_stock = models.PositiveSmallIntegerField(blank=True, null=True, default=1)
     has_patent = models.BooleanField(default=False)
+    is_import = models.BooleanField(default=False, verbose_name='Импортный товар')
 
     class Meta:
         verbose_name = 'Товар'
