@@ -33,7 +33,7 @@ class Cart(object):
 
   def add(self, product, quantity=1, update_quantity=False):
     product_id = str(product.id)
-    price = product.price
+    price = float(product.price)
 
     if product_id not in self.cart:
       self.cart[product_id] = {'quantity': 0, 'price': price, 'id': product_id}
@@ -57,7 +57,7 @@ class Cart(object):
       # return sum(float(item['total_price']) for item in self)
     # else:
       # return 0
-    return sum(float(item['total_price']) for item in self)
+    return sum(int(item['total_price']) for item in self)
 
   def remove(self, product_id):
     if str(product_id) in self.cart:

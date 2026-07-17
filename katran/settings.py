@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+
+from django.utils.encoding import smart_str
 import os
 # from django.utils.encoding import force_str
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,6 +34,7 @@ ALLOWED_HOSTS = []
 # Cart
 SESSION_COOKIE_AGE = 86400
 CART_SESSION_ID = 'cart'
+SITE_ID = 1
 
 # Application definition
 INSTALLED_APPS = [
@@ -44,13 +47,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
-
+    
     'apps.cart',
+    'apps.comparison',
     'apps.core',
     'apps.store',
     'apps.order',
+    'apps.blog',
+    'apps.solutions',
+
     'phonenumber_field',
     'fontawesomefree',
+    'django_summernote',
+    'django.contrib.sites',
+    'meta',
+    'html5lib',
+    
 
 ]
 
@@ -62,7 +74,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "apps.core.middleware.WwwRedirectMiddleware",
+    'csp.middleware.CSPMiddleware',
 ]
+
 
 ROOT_URLCONF = 'katran.urls'
 
@@ -77,11 +93,24 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                # store
                 'apps.store.context_processors.menu_category',
                 'apps.store.context_processors.featured_product',
                 'apps.store.context_processors.all_products',
                 'apps.store.context_processors.menu_brands',
+                'apps.store.context_processors.featured_categories',
+                'apps.store.context_processors.featured_product_success',
+                'apps.store.context_processors.bestsellers_product',
+                
+                # cart
                 'apps.cart.context_processors.cart',
+
+                # comparison
+                'apps.comparison.context_processors.comparison',
+
+                # blog
+                'apps.blog.context_processors.all_posts',                
 
                 
             ],
@@ -90,10 +119,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'katran.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -125,13 +150,17 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+USE_L10N = False
 
-USE_TZ = True
+LANGUAGE_CODE = 'ru-RU'
+
+# Пример вывода: 16 сентября 2012 
+DATE_FORMAT = 'd E Y'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -158,4 +187,6 @@ MEDIA_ROOT = Path(__file__).parent.joinpath(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+META_SITE_PROTOCOL = 'https'
+META_SITE_DOMAIN = '127.0.0.1:8000'
+META_USE_SCHEMAORG_PROPERTIES = True

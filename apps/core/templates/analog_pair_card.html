@@ -1,0 +1,55 @@
+{# p = Russian replacement (is_import=False), p.analog = import original #}
+<div class="analog-pair-card">
+  {# — Оригинал (импорт) — #}
+  <div class="analog-pair-card__side analog-pair-card__side--import">
+    <span class="analog-pair-card__badge analog-pair-card__badge--import">Оригинал</span>
+    <div class="analog-pair-card__img-wrap">
+      <a href="{% url 'product_detail' p.analog.category.main_category.slug p.analog.category.slug p.analog.slug %}">
+        <img src="{{ p.analog.image.url }}" alt="{{ p.analog.title }}">
+      </a>
+      {% if p.analog.brand %}
+      <figure class="image product-card_brand-image is-24x24">
+        <img src="{{ p.analog.brand.image.url }}" alt="{{ p.analog.brand }}">
+      </figure>
+      {% endif %}
+    </div>
+    <div class="analog-pair-card__info">
+      <p class="subtitle is-7">{{ p.analog.category }}</p>
+      <h4 class="analog-pair-card__title">
+        <a href="{% url 'product_detail' p.analog.category.main_category.slug p.analog.category.slug p.analog.slug %}" class="no-hl-link">{{ p.analog.title }}</a>
+      </h4>
+      {% if p.analog.brand %}
+      <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.analog.brand.slug %}">{{ p.analog.brand }}</a></p>
+      {% endif %}
+    </div>
+  </div>
+
+  {# — Стрелка-разделитель — #}
+  <div class="analog-pair-card__arrow">
+    <i class="fa-solid fa-right-left"></i>
+  </div>
+
+  {# — Замена (Россия) — #}
+  <div class="analog-pair-card__side analog-pair-card__side--russia">
+    <span class="analog-pair-card__badge analog-pair-card__badge--russia">Замена</span>
+    <div class="analog-pair-card__img-wrap">
+      <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}">
+        <img src="{{ p.image.url }}" alt="{{ p.title }}">
+      </a>
+      {% if p.brand %}
+      <figure class="image product-card_brand-image is-24x24">
+        <img src="{{ p.brand.image.url }}" alt="{{ p.brand }}">
+      </figure>
+      {% endif %}
+    </div>
+    <div class="analog-pair-card__info">
+      <p class="subtitle is-7">{{ p.category }}</p>
+      <h4 class="analog-pair-card__title">
+        <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{ p.title }}</a>
+      </h4>
+      {% if p.brand %}
+      <p class="subtitle is-7"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+      {% endif %}
+    </div>
+  </div>
+</div>

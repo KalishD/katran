@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block title %}Каталог пневмоинструмента {{ brand.title }}{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+{% block content %}
+
+        <div class="column is-three-quarters" id="productapp">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+              <ul>
+                <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                <li><a href="{% url 'brands' %}" class="no-hl-link">Производители</a></li>
+                <li><a href="{% url 'brand_detail' brand.slug %}" class="no-hl-link">{{brand.title}}</a></li>
+              </ul>
+            </nav>
+            <div class="field is-grouped">
+              <div class="control">
+                <span class="tags has-addons">
+                  <span class="tag is-dark">Вид:</span>
+                  <span class="tag" @click="currentView = 'grid'" :class="{'is-active': currentView === 'grid'}">
+                    <span class="icon"><i class="fa-solid fa-th"></i></span>
+                  </span>
+                  <span class="tag" @click="currentView = 'table'" :class="{'is-active': currentView === 'table'}">
+                    <span class="icon"><i class="fa-solid fa-list"></i></span>
+                  </span>
+                  <span class="tag" @click="currentView = 'list'" :class="{'is-active': currentView === 'list'}">
+                    <span class="icon"><i class="fas fa-bars"></i></span>
+                  </span>
+                </span>
+              </div>
+              <div class="control">
+                <span class="tags has-addons">
+                  <span class="tag is-dark">Сортировать по:</span>
+                  <span class="tag sort-button" @click="changeSort('title')" :class="{'is-active': sortField === 'title'}">
+                    Название <span class="icon"><i :class="sortField === 'title' ? sortIcon : 'fas'"></i></span>
+                  </span>
+                  <span class="tag sort-button" @click="changeSort('price')" :class="{'is-active': sortField === 'price'}">
+                    Цена <span class="icon"><i :class="sortField === 'price' ? sortIcon : 'fas'"></i></span>
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div class="columns is-desktop has-text-centered-touch has-text-left-desktop">
+                <div class="column">
+                    <h1 class="kp-hero-title">{{ brand.title }}</h1>
+                    <p class="subtitle is-5">{{ brand.description }}</p>
+                </div>
+                <div class="column">
+                    <img src="{{ brand.thumbnail.url }}" alt="Пневмоинструмент фирмы {{ brand.title }}" title="Пневмоинструмент фирмы {{ brand.title }}">
+                </div>
+            </div>
+
+<div class="columns is-multiline">
+                
+    {% for p in products %}
+        <div class="column is-one-quarter has-text-centered is-relative">
+          <div class="carousel-item--img-wrapper">
+            <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+            <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+              {% if p.brand %}
+              <figure class="image product-card_brand-image is-32x32">
+                <img src="{{p.brand.image.url}}" 
+                alt="{{ p.brand }} | купить со склада в СПБ"
+                title="{{ p.brand }} | купить со склада в СПБ">
+              </figure>
+              {% endif %}
+            <button class="button is-black is-small cart-btn" @click="addToCart({{ p.id }})">
+                <i class="fa-solid fa-cart-shopping"></i>
+                &nbsp;
+                <span class="cart-btn-label">Купить</span>
+            </button>
+          </div>
+          <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+          <h2 class="kp-subsection-heading"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+          {% if p.brand %}
+            <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+          {% endif %}
+          <p class="title is-4">
+            {% if p.price != 0 %}
+              <span class="fc-red">
+                {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+              </span>
+          </p>
+          <p class="subtitle is-6">с НДС</p>
+            {% else %}
+              <span class="fc-red">
+                По запросу
+              </span>
+          </p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+        </div>
+    
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  var productapp = new Vue({
+    el: '#productapp',
+    delimiters: ['[[',']]'],
+    store: store,
+    data (){
+        return {
+            showAddToCartMessage: false
+        }
+    },
+    mounted(){
+        console.log('Mounted');
+    },
+    methods: {
+        addToCart(product_id){
+            console.log('Adding Product_id', product_id);
+            var data = {
+                'product_id': product_id,
+                'update': false,
+                'quantity': 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Hello');
+                this.showAddToCartMessage = true;
+                store.commit('increment', 1);
+                setTimeout(()=>{
+                    this.showAddToCartMessage = false;
+                }, 2000)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
+  });
+</script>
+{% endblock %}

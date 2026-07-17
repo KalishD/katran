@@ -1,0 +1,90 @@
+<div class="columns is-multiline" id="categoryapp">
+                
+    {% for p in products %}
+    <div class="column is-one-quarter has-text-centered is-relative">
+      <div class="carousel-item--img-wrapper">
+        <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
+        <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+        {% if p.brand %}
+          <figure class="image product-card_brand-image is-32x32">
+            <img src="{{p.brand.image.url}}" 
+            alt="{{ p.brand }} | купить со склада в СПБ"
+            title="{{ p.brand }} | купить со склада в СПБ">
+          </figure>
+        {% endif %}
+      </div>
+      <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.main_category.slug p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
+      <h2 class="kp-subsection-heading"><a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
+      {% if p.brand %}
+        <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
+      {% endif %}
+      <p class="title is-4">
+        {% if p.price != 0 %}
+          <span class="fc-red">
+            {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+          </span>
+      </p>
+      <p class="subtitle is-6">с НДС</p>
+        {% else %}
+          <span class="fc-red">
+            По запросу
+          </span>
+      </p>
+        {% endif %}
+        <button class="button is-black is-small cart-btn" @click="addToCart({{ p.id }})">
+            <i class="fa-solid fa-cart-shopping"></i>
+            &nbsp;
+            <span class="cart-btn-label">Купить</span>
+        </button>
+    </div>
+  {% endfor %}
+</div>
+
+{% block scripts %}
+<!-- 
+ <script>
+  var categoryapp = new Vue({
+    el: '#categoryapp',
+    delimiters: ['[[',']]'],
+    store: store,
+    data (){
+        return {
+            showAddToCartMessage: false
+        }
+    },
+    mounted(){
+        console.log('Mounted');
+    },
+    methods: {
+        addToCart(product_id){
+            console.log('Adding Product_id', product_id);
+            var data = {
+                'product_id': product_id,
+                'update': false,
+                'quantity': 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Hello');
+                this.showAddToCartMessage = true;
+                store.commit('increment', 1);
+                setTimeout(()=>{
+                    this.showAddToCartMessage = false;
+                }, 2000)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
+  });
+</script> -->
+{% endblock %}

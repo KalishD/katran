@@ -1,70 +1,75 @@
 {% extends 'base.html' %}
-{% block title %}Каталог пневматического инструмента{% endblock %}
+{% load static %}
+{% load core_extras %}
+{% block title %}Каталог пневматического инструмента — купить в СПб | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Каталог пневматического инструмента — купить в СПб | Катран-Пневмо{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
 {% block content %}
-  <div class="columns">
-    {% include "side-bar.html" %}
+
     <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
-      {% for c in categories %}
-        <h3 class="subtitle is-6">{{ c.title }}</h3>
-        <div class="table-container is-fullwidth product-table">
-          <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
-              <thead>
-                  <tr>
-                      <th></th>
-                      <th>Наименование</th>
-                      {% for var in c.get_products.first.variable_set.all %}
-                          <th>
-                              {{var}}
-                              <br>
-                              {% if var.varitem.dimention %}
-                                  {{ var.varitem.dimention}}
-                              {% endif %}
-                          </th>
-                      {% endfor %}
-                      <th>Производитель</th>
-                      <th>Цена</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {% for product in c.get_products  %}
-                      <tr>
-                          <td class="th-w-img p-0">
-                              <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
-                                  <img src="{{ product.thumbnail.url }}"
-                                  alt="{{ product.title }}"
-                                  title="{{ product.title }}">
-                              </a>
-                          </td>
-                          <td>
-                              <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
-                                  <p>{{product.title}}</p>
-                              </a>
-                          </td>
-                          {% if product.variable_set.all %}
-                              {% for var in product.variable_set.all %}
-                                  <td>{{var.value}}</td>
-                              {% endfor %}
-                          {% else %}
-                              {% for var in c.get_products.first.variable_set.all %}
-                                  <td></td>
-                              {% endfor%}
-                          {% endif %}
-                          <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
-                          <td>
-                            <span class="fc-red">
-                              {% if product.price != 0 %}
-                                  {{ product.price|floatformat:2 }}
-                              {% else %}
-                                  По запросу
-                              {% endif %}
-                            </span>
-                          </td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-            </table>
+      <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+        <ul>
+          <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+          <li class="is-active"><a href="{% url 'catalog' %}" aria-current="page">Каталог</a></li>
+        </ul>
+      </nav>
+      <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+        <p class="kp-about-hero__tag">Каталог</p>
+        <h1 class="kp-hero-title">Каталог пневматического инструмента</h1>
+        <div class="kp-solutions-divider"></div>
+      </div>
+      {% for maincat in menu_main_categories %}
+      <h2 class="kp-section-heading" style="text-align: center; margin-top: 2rem;">{{ maincat.title }}</h2>
+      <div class="kp-solutions-divider" style="margin-bottom: 1.5rem;"></div>
+      <div class="columns is-flex-wrap-wrap">
+        {% with categories_for_maincat=menu_categories_filter|filter_by_main_category_id:maincat.id %}
+        {% if categories_for_maincat %}
+          {% for cat in categories_for_maincat %}
+            <div class="column is-4 is-3-fullhd is-4-desktop is-6-tablet is-full-mobile">
+              <a href="{% url 'category_detail' cat.main_category.slug cat.slug %}" class="no-hl-link">
+                <div class="kp-cat-card">
+                  <div class="kp-cat-card__img">
+                    {% if cat.image %}
+                      <img src="{{ cat.image.url }}" alt="{{ cat.title }} — купить в СПб" title="{{ cat.title }}">
+                    {% else %}
+                      <i class="fa-solid fa-box-open" style="font-size: 2.5rem; color: var(--katran-icon-color);"></i>
+                    {% endif %}
+                  </div>
+                  <div class="kp-cat-card__body">
+                    <h3 class="kp-cat-card__title">{{ cat.title }}</h3>
+                  </div>
+                  <div class="kp-cat-card__arrow" aria-hidden="true">
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+  {% endfor %}
+
+  {# ── CTA ── #}
+  <div class="columns mt-5 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box kp-cta-box--solutions">
+        <p class="kp-cta-box__title">Нужна помощь с выбором?</p>
+        <p class="kp-cta-box__text">Позвоните нам — подберём пневмоинструмент под вашу задачу</p>
+        <div class="buttons mt-3 is-justify-content-center">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Связаться с нами</strong>
+          </a>
+          <a href="tel:+78123317909" class="button is-light">
+            <strong>+7 (812) 331 79 09</strong>
+          </a>
         </div>
-      {% endfor %}
+      </div>
     </div>
   </div>
+
+</div>
+
 {% endblock %}

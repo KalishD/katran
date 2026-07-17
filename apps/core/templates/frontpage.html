@@ -1,254 +1,662 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Оптовая продажа пневматического инструмента по всей России. Офис и склад в Санкт-Петербурге. Предлагаем купить инструменты юридическим лицам по самым доступным ценам в Санкт-Петербурге.{% endblock %}
+{% load core_extras %}
+{% load store_extras %}
+{% block title %}Пневматический инструмент — купить оптом в СПб | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Пневматический инструмент — купить оптом в СПб | Катран-Пневмо{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
 {% block content %}
+<!-- 3. FAQPAGE — частые вопросы (попадают в расширенные ответы Яндекса) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Катран-Пневмо — производитель или дистрибьютор?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Мы совмещаем оба направления. Ряд моделей пневматического инструмента производится под нашей маркой по собственным техническим условиям (ТУ) с патентами. Одновременно мы являемся дистрибьютором U-Tools (Япония), Daewoo Air Tools (Корея) и JSD Tools (Китай)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Вы работаете с физическими лицами или только с предприятиями?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Основное направление — поставки для юридических лиц: производственных предприятий, судостроительных и нефтегазовых компаний. Договоры с НДС, закрывающие документы. Покупка физическими лицами также возможна — уточняйте у менеджера."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Есть ли у вас сервисный центр и гарантийное обслуживание?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да. Гарантийный срок на весь инструмент — 12 месяцев. После окончания гарантии выполняем постгарантийное обслуживание: ремонт, замена лопаток ротора, расходных частей. Все работы выполняются собственными специалистами."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Можно ли найти у вас аналог снятого с производства пневмоинструмента?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да, это одна из наших специализаций. Помогаем подобрать современный аналог инструмента КЗМИ, ПЗПИ и других отечественных производителей — в частности, замены для ИП-2014, ИП-2106, ИП-4126 и других популярных моделей без изменения технологического процесса."
+            }
+          }
+        ]
+      }
+      </script>
+    <div class="column has-text-centered-touch has-text-left-desktop is-12-mobile is-three-quarters-desktop">
 
-<div class="columns" id="frontpageapp">
-    {% include "side-bar.html" %}
-    <div class="column has-text-centered is-three-quarters">
-      <h2 class="title is-3">Российский производитель пневмоинструмента</h2>
-      <p class="subtitle is-5">ООО "Катран-Пневмо"</p>
-      <div class="content pl-5 pr-5">
-        <p>
-          ООО «Катран-Пневмо» — компания, основанная в 1990 году для оснащения судостроительной 
-          промышленности качественным пневмоинструментом, специализируется на продажах инструментов 
-          и машиностроительного оборудования по системе В2В. Мы предлагаем купить оптом промышленный 
-          пневматический инструмент в Санкт-Петербурге и Ленинградской области.
-        </p>
-        <p>
-          Благодаря нашему интернет-магазину katran-pnevmo.ru, мы смогли предоставить покупателям 
-          по всей России самый большой ассортимент оригинального и высококачественного пневмоинструмента, 
-          который произведен нами и именитыми профильными предприятиями. 
-        </p>
+      {# ── Hero ── #}
+      <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+        <p class="kp-about-hero__tag">Катран-Пневмо</p>
+        <h1 class="kp-hero-title">Российский разработчик и производитель<br>промышленного пневмоинструмента</h1>
+        <div class="kp-solutions-divider"></div>
+        <p class="subtitle is-6 mt-2" style="margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">Проектируем, производим и&nbsp;поставляем с&nbsp;1990&nbsp;года. Собственное производство в&nbsp;Санкт-Петербурге.</p>
+        <form method="get" action="{% url 'search' %}" role="search" class="mt-3" style="margin-left: auto; margin-right: auto;">
+          <label for="katran-search-hero" class="sr-only">Поиск в каталоге</label>
+          <div class="search-input">
+            <input id="katran-search-hero" type="text"
+                class="input is-active"
+                placeholder="{% if query %}{{query}}{% else %}Поиск в каталоге..{% endif %}"
+                name="query"
+                value="{% if query %}{{query}}{% else %}{% endif %}"
+                aria-label="Поиск товаров в каталоге"
+                >
+          </div>
+        </form>
       </div>
-      <div class="content pl-5 pr-5 ">
-        <p class="title is-5 mt-6 mb-4">Подробнее о продукции выпускаемой ООО "Катран-Пневмо" Вы можете узнать по ссылке ниже.</p>  
-        <a href="{% url 'production' %}" class="button is-large is-black p-5"><i class="fa-solid fa-list"></i>&nbsp;&nbsp;УЗНАТЬ ПОДРОБНОСТИ</a>
-      </div>
-      <h3 class="title is-3 mt-6">Продукция ООО "Катран-Пневмо"</h3>
-      <p class="subtitle is-5">Пневматический инструмент российского производства</p>  
-      <div class="carousel-wrapper">
-        <div class="carousel" id="katran-carousel">
-          {% for p in katran_products %}
-            <div class="item-{{ forloop.counter }} m-2 carousel-item">
-              <div class="carousel-item--img-wrapper">
-                <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
-              </div>
-              <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-              <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
-              <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-              <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-              <p class="subtitle is-6">с НДС</p>
-            </div>
-          {% endfor %}
+
+      <!-- {# ── Статистика ── #}
+      <div class="columns is-multiline is-variable is-1 mt-3 mb-4">
+        <div class="column is-3 is-6-mobile">
+          <div class="kp-about-stat-card has-text-centered">
+            <div class="kp-about-stat-card__number">35+</div>
+            <div class="kp-about-stat-card__label">лет производства</div>
+          </div>
+        </div>
+        <div class="column is-3 is-6-mobile">
+          <div class="kp-about-stat-card has-text-centered">
+            <div class="kp-about-stat-card__number">500+</div>
+            <div class="kp-about-stat-card__label">моделей в каталоге</div>
+          </div>
+        </div>
+        <div class="column is-3 is-6-mobile">
+          <div class="kp-about-stat-card has-text-centered">
+            <div class="kp-about-stat-card__number">12 мес</div>
+            <div class="kp-about-stat-card__label">гарантии на инструмент</div>
+          </div>
+        </div>
+        <div class="column is-3 is-6-mobile">
+          <div class="kp-about-stat-card has-text-centered">
+            <div class="kp-about-stat-card__number">100%</div>
+            <div class="kp-about-stat-card__label">предпродажная проверка</div>
+          </div>
+        </div>
+      </div> -->
+
+      {# ── Отраслевые решения ── #}
+      <div class="columns is-multiline mt-4">
+        <div class="column is-full">
+          <p class="kp-section-label kp-section-label--center">Отрасли</p>
+          <h2 class="kp-section-heading" style="text-align: center;">Решения для вашей отрасли</h2>
+          <div class="kp-solutions-divider"></div>
         </div>
       </div>
-      <div class="columns mt-6 mb-6">
-        <div class="column is-one-third-desktop p-2">
-          <div class="home-page-banner-item">
-            <img src="{% static 'images/frontpage/home-page-banner-delivery.jpg' %}" alt="">
-            <div class="home-page-banner-wrapper">
+
+      <div class="columns is-multiline is-variable is-1 mt-3" style="display: flex;">
+        <div class="column is-3 is-6-mobile">
+          <a href="/solutions/sudostroenie/" class="no-hl-link" aria-label="Решения для судостроения">
+            <div class="kp-sol-card">
+              <div class="kp-sol-card__icon"><i class="fa-solid fa-ship" aria-hidden="true"></i></div>
+              <div class="kp-sol-card__title">Судостроение</div>
+              <div class="kp-sol-card__desc">Зачистка швов, обработка корпусов, клёпка</div>
+              <div class="kp-sol-card__arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+          </a>
+        </div>
+        <div class="column is-3 is-6-mobile">
+          <a href="/solutions/mashinostroenie/" class="no-hl-link" aria-label="Решения для машиностроения">
+            <div class="kp-sol-card">
+              <div class="kp-sol-card__icon"><i class="fa-solid fa-gear" aria-hidden="true"></i></div>
+              <div class="kp-sol-card__title">Машиностроение</div>
+              <div class="kp-sol-card__desc">Шлифовка, полировка, сборка узлов</div>
+              <div class="kp-sol-card__arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+          </a>
+        </div>
+        <div class="column is-3 is-6-mobile">
+          <a href="/solutions/neftegaz/" class="no-hl-link" aria-label="Решения для нефтегаза">
+            <div class="kp-sol-card">
+              <div class="kp-sol-card__icon"><i class="fa-solid fa-oil-well" aria-hidden="true"></i></div>
+              <div class="kp-sol-card__title">Нефтегаз</div>
+              <div class="kp-sol-card__desc">Взрывоопасные зоны, обслуживание трубопроводов</div>
+              <div class="kp-sol-card__arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+          </a>
+        </div>
+        <div class="column is-3 is-6-mobile">
+          <a href="/solutions/metallurgiya/" class="no-hl-link" aria-label="Решения для металлургии">
+            <div class="kp-sol-card">
+              <div class="kp-sol-card__icon"><i class="fa-solid fa-fire" aria-hidden="true"></i></div>
+              <div class="kp-sol-card__title">Металлургия</div>
+              <div class="kp-sol-card__desc">Зачистка, трамбовка, обслуживание печей</div>
+              <div class="kp-sol-card__arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      {# ── Ключевые возможности ── #}
+      <div class="columns is-multiline is-variable is-1 mt-5">
+        <div class="column is-6 is-full-mobile">
+          <a href="{% url 'import_substitution' %}" class="no-hl-link" aria-label="Импортозамещение пневмоинструмента">
+            <div class="kp-sol-cap">
+              <div class="kp-sol-cap__header">
+                <div class="kp-sol-cap__icon"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i></div>
+                <div class="kp-sol-cap__title">Импортозамещение</div>
+              </div>
+              <div class="kp-sol-cap__desc">Подберём аналог Atlas Copco, Chicago Pneumatic, Desoutter и&nbsp;других импортных брендов</div>
+            </div>
+          </a>
+        </div>
+        <div class="column is-6 is-full-mobile">
+          <a href="{% url 'custom_development' %}" class="no-hl-link" aria-label="Разработка пневмоинструмента под заказ">
+            <div class="kp-sol-cap">
+              <div class="kp-sol-cap__header">
+                <div class="kp-sol-cap__icon" style="background: linear-gradient(135deg, var(--katran-yelow), #d49520);"><i class="fa-solid fa-drafting-compass" aria-hidden="true"></i></div>
+                <div class="kp-sol-cap__title">Разработка под заказ</div>
+              </div>
+              <div class="kp-sol-cap__desc">Сконструируем и&nbsp;произведём инструмент под вашу технологию</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      {# ── Продукция (carousel) ── #}
+      <div class="columns is-multiline mt-5" id="frontpageapp">
+        <div class="column is-full">
+          <p class="kp-section-label kp-section-label--center">Каталог</p>
+          <h2 class="kp-section-heading" style="text-align: center;">Продукция Катран-Пневмо</h2>
+          <div class="kp-solutions-divider"></div>
+          <p class="subtitle is-6 mt-1" style="text-align: center; color: var(--katran-font-sm-color);">Пневматический инструмент российского производства</p>
+          <div class="carousel-wrapper mt-3">
+            <div class="owl-carousel owl-theme">
+              {% for p in katran_products %}
+                {% product_card p %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# ── Бренды (carousel) ── #}
+      <div class="columns is-multiline mt-5">
+        <div class="column is-full">
+          <p class="kp-section-label kp-section-label--center">Производители</p>
+          <h2 class="kp-section-heading" style="text-align: center;">Бренды</h2>
+          <div class="kp-solutions-divider"></div>
+          <p class="subtitle is-6 mt-1" style="text-align: center; color: var(--katran-font-sm-color);">Проверенные производители пневматического инструмента</p>
+          <div class="carousel-wrapper owl-carousel brands-carousel columns is-vcentered mt-3">
+            {% for p in menu_brands %}
+              {% if p.get_products.count != 0 %}
+                <div class="item-{{ forloop.counter }} column carousel-item katran-tooltip is-vcentered" data-tooltip="{{ p.title }}">
+                  <div class="carousel-item--img-wrapper">
+                    <a href="{% url 'brand_detail' p.slug %}">
+                      <img class="image" loading="lazy" src="{{p.image.url}}" alt="{{ p.title }} | купить со склада в СПБ">
+                    </a>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+      {# ── Инфо-блоки (carousel) ── #}
+      <div class="columns owl-carousel info-carousel mt-5">
+        <div class="column is-full is-full-mobile box item-1 carousel-item">
+          <div class="columns is-mobile">
+            <div class="column is-one-quarter is-one-third-mobile is-vcentered">
+              <figure class="image">
+                <img loading="lazy" src="{% static 'images/frontpage/home-page-banner-delivery.jpg' %}" alt="Доставка пневмоинструмента по России">
+              </figure>
+            </div>
+            <div class="column is-two-thirds-mobile">
               <p class="title is-6">БЫСТРАЯ ДОСТАВКА ДО ТК</p>
               <p class="subtitle is-6">Отправка по всей России и СНГ! Бесплатная доставка до терминала транспортной компании</p>
             </div>
           </div>
         </div>
-        <div class="column is-one-third-desktop p-2">
-          <div class="home-page-banner-item">
-            <img src="{% static 'images/frontpage/home-page-banner-cogwheel.jpg' %}" alt="">
-            <div class="home-page-banner-wrapper">
+        <div class="column is-full is-full-mobile box item-2 carousel-item">
+          <div class="columns is-mobile">
+            <div class="column is-one-quarter is-one-third-mobile is-vcentered">
+              <figure class="image">
+                <img loading="lazy" src="{% static 'images/frontpage/home-page-banner-cogwheel.jpg' %}" alt="Предпродажная подготовка инструмента">
+              </figure>
+            </div>
+            <div class="column is-two-thirds-mobile">
               <p class="title is-6">ПРЕДПРОДАЖНАЯ ПОДГОТОВКА</p>
               <p class="subtitle is-6">Весь инструмент проверен нашими специалистами и готов к работе "из коробки"</p>
             </div>
           </div>
         </div>
-        <div class="column is-one-third-desktop p-2">
-          <div class="home-page-banner-item">
-            <img src="{% static 'images/frontpage/home-page-banner-shield.jpg' %}" alt="">
-            <div class="home-page-banner-wrapper">
+        <div class="column is-full is-full-mobile box item-3 carousel-item">
+          <div class="columns is-mobile">
+            <div class="column is-one-quarter is-one-third-mobile is-vcentered">
+              <figure class="image">
+                <img loading="lazy" src="{% static 'images/frontpage/home-page-banner-shield.jpg' %}" alt="Гарантийное обслуживание">
+              </figure>
+            </div>
+            <div class="column is-two-thirds-mobile">
               <p class="title is-6">ГАРАНТИЙНОЕ ОБСЛУЖИВАНИЕ</p>
               <p class="subtitle is-6">Многолетний опыт наших специалистов, позволяет проводить ремонт любой сложности.</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="columns">
-    <div class="column is-full has-text-centered">
-      <h3 class="title is-3">Продукция ООО "Катран-Пневмо"</h3>
-      <p class="subtitle is-5">Пневматический инструмент российского производства</p>
-      <div class="carousel-wrapper">
-        <div class="carousel" id="cang-carousel">
-          {% for p in cangairgrinders %}
-            <div class="item-{{ forloop.counter }} m-2 carousel-item">
-              <div class="carousel-item--img-wrapper">
-                <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
-              </div>
-              <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-              <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
-              <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-              <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-              <p class="subtitle is-6">с НДС</p>
+
+      {# ── Акции (carousel) ── #}
+      <div class="columns is-multiline mt-5">
+        <div class="column is-full box has-text-centered">
+          <p class="kp-section-label kp-section-label--center">Цены</p>
+          <h2 class="kp-section-heading" style="text-align: center;">Акции и скидки на пневматический инструмент</h2>
+          <div class="kp-solutions-divider"></div>
+          <p class="subtitle is-6 mt-1" style="text-align: center; color: var(--katran-font-sm-color);">Пневмоинструмент по выгодным ценам</p>
+          <div class="carousel-wrapper mt-3">
+            <div class="carousel owl-carousel owl-theme cang-carousel" id="cang-carousel">
+              {% for p in bestsellers_product %}
+                {% product_card p %}
+              {% endfor %}
             </div>
-          {% endfor %}
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="columns">
-    <div class="column is-full has-text-centered">
-      <h3 class="title is-3 mt-6 mb-6">Продукция ООО "Катран-Пневмо"</h3>
-      <p class="subtitle is-5">Пневматический инструмент российского производства</p>
-      
-      <div class="carousel-wrapper">
-        <div class="carousel">
-          {% for p in katran_products %}
-            <div class="item-{{ forloop.counter }} m-2 carousel-item">
-              <div class="carousel-item--img-wrapper">
-                <img src="{{p.image.url}}" alt="{{ p.title }} | {{ p.category }} | купить со склада в СПБ">
-                <a href="{% url 'product_detail' p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
-              </div>
-              <p class="subtitle is-6"><a href="{% url 'category_detail' p.category.slug %}" class="no-hl-link">{{ p.category }}</a></p>
-              <h2 class="title is-6"><a href="{% url 'product_detail' p.category.slug p.slug %}" class="no-hl-link">{{p}}</a></h2>
-              <p class="subtitle is-6"><a class="no-hl-link" href="{% url 'brand_detail' p.brand.slug %}">{{ p.brand }}</a></p>
-              <p class="title is-4"> <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span></p>
-              <p class="subtitle is-6">с НДС</p>
+
+      {# ── Блог (carousel) ── #}
+      <div class="columns is-multiline mt-5">
+        <div class="column is-8-fullhd is-offset-2-fullhd is-10-desktop is-offset-1-desktop is-full box has-text-centered">
+          <p class="kp-section-label kp-section-label--center">Блог</p>
+          <h2 class="kp-section-heading" style="text-align: center;">Статьи о пневмоинструменте</h2>
+          <div class="kp-solutions-divider"></div>
+          <div class="carousel-wrapper mt-3">
+            <div class="carousel owl-carousel owl-theme post-carousel">
+              {% for p in all_posts %}
+                <div class="item-{{ forloop.counter }} m-2 carousel-item has-border-fancy p-3">
+                  <a class="no-hl-link" href="{% url 'post_detail' p.slug %}">
+                    <div class="card">
+                      <header class="card-header">
+                        <p class="card-header-title">{{ p.title }}</p>
+                      </header>
+                      <div class="card-image carousel-item--img-wrapper">
+                        <img loading="lazy" src="{{p.image.url}}" alt="{{ p.title }}" title="{{ p.title }}">
+                        <a href="{% url 'post_detail' p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее&nbsp;&nbsp;<i class="fa-solid fa-info" aria-hidden="true"></i></a>
+                      </div>
+                      <footer class="card-footer">
+                        <p class="card-footer-item">{{p.postcategory.name}}</p>
+                      </footer>
+                    </div>
+                  </a>
+                </div>
+              {% endfor %}
             </div>
-          {% endfor %}
+          </div>
         </div>
       </div>
+
+      {# ── FAQ + Оплата и доставка ── #}
+      <div class="kp-trust-band mt-5">
+        <div class="columns is-multiline is-desktop">
+          <div class="column is-6-fullhd is-6-widescreen is-full-desktop is-full-mobile">
+            <p class="kp-section-label">Ответы</p>
+            <h2 class="kp-section-heading">Частые вопросы</h2>
+
+            <div class="kp-faq-list">
+              <details class="kp-faq-item">
+                <summary class="kp-faq-question">
+                  <span>Катран-Пневмо — производитель или дистрибьютор?</span>
+                  <span class="kp-faq-toggle"></span>
+                </summary>
+                <div class="kp-faq-answer">
+                  <p>Мы совмещаем оба направления. Ряд моделей пневматического инструмента производится под нашей маркой по собственным техническим условиям (ТУ) с патентами. Одновременно мы являемся дистрибьютором U-Tools (Япония), Daewoo Air Tools (Корея) и JSD Tools (Китай).</p>
+                </div>
+              </details>
+
+              <details class="kp-faq-item">
+                <summary class="kp-faq-question">
+                  <span>Вы работаете с физическими лицами или только с предприятиями?</span>
+                  <span class="kp-faq-toggle"></span>
+                </summary>
+                <div class="kp-faq-answer">
+                  <p>Основное направление — поставки для юридических лиц: производственных предприятий, судостроительных и нефтегазовых компаний. Договоры с НДС, закрывающие документы. Покупка физическими лицами также возможна — уточняйте у менеджера.</p>
+                </div>
+              </details>
+
+              <details class="kp-faq-item">
+                <summary class="kp-faq-question">
+                  <span>Есть ли у вас сервисный центр и гарантийное обслуживание?</span>
+                  <span class="kp-faq-toggle"></span>
+                </summary>
+                <div class="kp-faq-answer">
+                  <p>Да. Гарантийный срок на весь инструмент — 12 месяцев. После окончания гарантии выполняем постгарантийное обслуживание: ремонт, замена лопаток ротора, расходных частей. Все работы выполняются собственными специалистами.</p>
+                </div>
+              </details>
+
+              <details class="kp-faq-item">
+                <summary class="kp-faq-question">
+                  <span>Можно ли найти у вас аналог снятого с производства пневмоинструмента?</span>
+                  <span class="kp-faq-toggle"></span>
+                </summary>
+                <div class="kp-faq-answer">
+                  <p>Да, это одна из наших специализаций. Помогаем подобрать современный аналог инструмента КЗМИ, ПЗПИ и других отечественных производителей — в частности, замены для ИП-2014, ИП-2106, ИП-4126 и других популярных моделей без изменения технологического процесса.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="column is-6-fullhd is-6-widescreen is-full-desktop is-full-mobile">
+            <p class="kp-section-label">Условия</p>
+            <h2 class="kp-section-heading">Оплата и доставка</h2>
+
+            <div class="kp-delivery-grid">
+              <div class="kp-delivery-cell">
+                <div class="kp-delivery-icon">
+                  <i class="fa-solid fa-file-invoice" aria-hidden="true"></i>
+                </div>
+                <h3 class="kp-delivery-title">Оплата</h3>
+                <ul class="kp-delivery-list">
+                  <li>По счету для юридических лиц (НДС, закрывающие документы)</li>
+                  <li>Наличными при самовывозе</li>
+                </ul>
+              </div>
+
+              <div class="kp-delivery-cell">
+                <div class="kp-delivery-icon">
+                  <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
+                </div>
+                <h3 class="kp-delivery-title">Доставка</h3>
+                <ul class="kp-delivery-list">
+                  <li>Самовывоз из Санкт-Петербурга</li>
+                  <li>Бесплатно до терминала ТК в СПб</li>
+                  <li>Отправка по всей России</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </div>
-  <div class="katran--free_space"></div>
-  <div class="katran--free_space"></div>
-  <div class="katran--free_space"></div>
-  <div class="frontpage--category_tiles">
-    <div class="tile is-ancestor">
-      <div class="tile is-5 is-parent">
-        <div class="tile is-child box grinder_tile">
-          <p class="title">Шлифовальные машины</p>
-        </div>
-      </div>
-      <div class="tile is-parent">
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box angle_tile">
-            <p class="title">угловые</p>
-          </div>
-          <div class="tile is-child box cang_tile">
-            <p class="title">цанговые</p>
-          </div>
-        </div>
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box strate_tile">
-            <p class="title">прямые</p>
-          </div>
-          <div class="tile is-child box trambov_tile">
-            <p class="title">Трамбовки</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="tile is-ancestor">
-      <div class="tile is-5 is-parent">
-        <div class="tile is-child box hammer_tile">
-          <p class="title">Молотки</p>
-        </div>
-      </div>
-      <div class="tile is-parent">
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box otboy_tile">
-            <p class="title">отбойные</p>
-          </div>
-          <div class="tile is-child box rubil_tile">
-            <p class="title">рубильные</p>
-          </div>
-        </div>
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box beton_tile">
-            <p class="title">Бетоноломы</p>
-          </div>
-          <div class="tile is-child box tools_tile">
-            <p class="title">Инструментальные принадлежности</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="tile is-ancestor">
-      <div class="tile is-5 is-parent">
-        <div class="tile is-child box wrench_tile">
-          <p class="title">Гайковерты</p>
-        </div>
-      </div>
-      <div class="tile is-parent">
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box vint_tile">
-            <p class="title">Винтоверты</p>
-          </div>
-          <div class="tile is-child box drill_tile">
-            <p class="title">Сверлильные машины</p>
-          </div>
-        </div>
-        <div class="tile is-6 is-vertical is-parent">
-          <div class="tile is-child box paint_tile">
-            <p class="title">Окрасочное оборудование</p>
-          </div>
-          <div class="tile is-child box zap_tile">
-            <p class="title">Запчасти</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
 {% endblock %}
 {% block scripts %}
+
 <script type="text/javascript">
-  $(window).resize(function () {
-        $('.carousel').not('.slick-initialized').slick('resize');
-    });
-
-  $(window).on('orientationchange', function () {
-      $('.carousel').not('.slick-initialized').slick('resize');
-  });
-
   $(document).ready(function(){
-    $('.carousel').slick({
-      autoplay: true,
-      adaptiveHeight: true,
-      arrows: true,
-      dots: false,
-      slidesToShow: 4,
-      // mobileFirst: true,
-      prevArrow: '<button type="button" class="slick-prev"><i class="fa-solid fa-angle-left"></i></button>',
-      nextArrow: '<button type="button" class="slick-next"><i class="fa-solid fa-angle-right"></i></button>',
-      responsive: [
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                infinite: true,
-                dots: true
-              }
+    $('.owl-carousel:not(".post-carousel"):not(".brands-carousel"):not(".half-carousel"):not(".info-carousel"):not(".cang-carousel")').owlCarousel(
+      {
+        items: 4,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        autoplay: true,
+        autoplayTimeout: 12000,
+        responsive:{
+            0:{
+                items:1,
+                nav:true
             },
-            {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2
-              }
+            480:{
+                items:1,
+                nav:false
             },
-            {
-              breakpoint: 480,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-              }
+            700:{
+                items:2,
+                nav:false
+            },
+            1000:{
+                items:3,
+                nav:false,
+                loop:false
+            },
+            1200:{
+                items:5,
+                nav:false,
+                loop:false
             }
-          ]
-    });
+        },
+      }
+    );
+    $('.cang-carousel').owlCarousel(
+      {
+        items: 6,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        autoplay:false,
+        autoplayTimeout: 10000,
+        responsive:{
+            0:{
+                items:1,
+                nav:true
+            },
+            480:{
+                items:1,
+                nav:false
+            },
+            700:{
+                items:4,
+                nav:false
+            },
+            1000:{
+                items:6,
+                nav:false,
+                loop:false
+            }
+        },
+      }
+    );
+    $('.post-carousel').owlCarousel(
+      {
+        items: 5,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        autoplay:false,
+        autoplayTimeout: 10000,
+        responsive:{
+            0:{
+                items:1,
+                nav:true
+            },
+            480:{
+                items:1,
+                nav:false
+            },
+            700:{
+                items:2,
+                nav:false
+            },
+            1000:{
+                items:4,
+                nav:false,
+                loop:false
+            }
+        },
+      }
+    );
+    $('.info-carousel').owlCarousel(
+      {
+        items: 3,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        autoplay:false,
+        autoplayTimeout: 8000,
+        responsive:{
+            0:{
+                items:1,
+                nav:true,
+                autoplay: true,
+            },
+            480:{
+                items:1,
+                nav:false,
+                autoplay: true,
+            },
+            700:{
+                items:1,
+                nav:false,
+                autoplay: true,
+            },
+            1000:{
+                items:3,
+                nav:false,
+                loop:false,
+                autoplay: false
+            }
+        },
+      }
+    );
+    $('.brands-carousel').owlCarousel(
+      {
+        items: 10,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        autoplay:true,
+        autoplayTimeout: 7000,
+        responsive:{
+            0:{
+                items:3,
+                nav:true
+            },
+            480:{
+                items:3,
+                nav:false
+            },
+            700:{
+                items:5,
+                nav:false
+            },
+            1000:{
+                items:10,
+                nav:false,
+                loop:true
+            }
+        }
+      }
+    );
+    $('.half-carousel').owlCarousel(
+      {
+        items: 3,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        autoplay:false,
+        responsive:{
+            0:{
+                items:1,
+                nav:true
+            },
+            480:{
+                items:1,
+                nav:false
+            },
+            700:{
+                items:2,
+                nav:false
+            },
+            1000:{
+                items:3,
+                nav:false,
+                loop:false
+            },
+            1200:{
+                items:3,
+                nav:false,
+                loop:false
+            }
+        }
+      }
+    );
   });
 </script>
+<script type="text/javascript">
+  var frontpageapp = new Vue({
+    el: '#frontpageapp',
+    delimiters: ['[[',']]'],
+    store: store,
+    data (){
+        return {
+            showAddToCartMessage: false
+        }
+    },
+    mounted(){
+        console.log('Mounted Frontpage');
+    },
+    methods: {
+        addToCart(product_id, product_name){
+            var data = {
+                'product_id': product_id,
+                'update': false,
+                'quantity': 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                store.commit('increment', 1);
+                showCartNotification(product_name);
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
+  });
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var band = document.querySelector('.kp-trust-band');
+  if (!band) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    band.classList.add('kp-visible');
+    return;
+  }
+  var observer = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      band.classList.add('kp-visible');
+      observer.disconnect();
+    }
+  }, { threshold: 0.15 });
+  observer.observe(band);
+});
+</script>
+
 {% endblock %}

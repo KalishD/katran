@@ -1,35 +1,179 @@
-<div class="column is-one-quarter p-4 pl-5 ">
-  <aside class="menu">
-      <p class="menu-label has-text-centered-touch has-text-left-desktop">
-          Категории товаров
-      </p>
-      <ul class="menu-list">
-          {% for category in menu_categories %}
-          <li>
-              <a href="{% url 'category_detail' category.slug %}" class="no-hl-link">{{category.title}}</a>
-          </li>
-          {% endfor %}
-      </ul>
+{% load core_extras %}
+<div class="column is-3 is-3-fullhd is-3-desktop p-4 pl-5 is-hidden-mobile">
+  <aside class="menu side-menu-container"> {# Added side-menu-container #}
+    <p class="menu-label has-text-centered-touch has-text-left-desktop fc-red has-text-weight-bold">
+        Каталог товаров
+    </p>
+    <ul class="menu-list is-relative" id="sidebarapp">
+      {% for maincat in menu_main_categories %}
+        {# Each main category becomes a hoverable item #}
+        <li class="side-menu-item" :class="{ 'is-active': accClass[{{ maincat.id }}] }"
+            
+          @mouseleave="closeSideMegaMenu({{ maincat.id }})"> {# Add mouseleave for desktop #}
+          <a class="menu-link">{{ maincat.title }}</a> {# Use menu-link for better styling within menu #}
+          
+          {# This is the mega-menu dropdown #}
+          <div class="side-mega-dropdown">
+            {% with categories_for_maincat=menu_categories_filter|filter_by_main_category_id:maincat.id %}
+            {% if categories_for_maincat %}
+              {# Start the first column #}
+              <div class="mega-menu-column">
+                {% for cat in categories_for_maincat %}
+                  <a href="{% url 'category_detail' cat.main_category.slug cat.slug %}" class="mega-menu-item">
+                      {{ cat.title }} <span class="smoo_after_title">({{ cat.count_visible_products }})</span>
+                  </a>
+                  {% if forloop.counter|divisibleby:side_items_per_column and not forloop.last %}
+                    </div>{# Close current column #}
+                    <div class="mega-menu-column"> {# Open new column #}
+                  {% endif %}
+                {% endfor %}
+              </div>{# Close the last column #}
+            {% else %}
+              <div class="mega-menu-column">
+                  <p class="column-title">Нет подкатегорий</p>
+              </div>
+            {% endif %}
+            {% endwith %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
   </aside>
   <div class="katran--free_space"></div>
-  <div class="is-hidden-touch">
-    <p class="menu-label has-text-centered-touch has-text-left-desktop">Популярные товары</p>
-    {% for p in featured_product %}
-    <a href="{% url 'product_detail' p.category.slug p.slug %}">
-      <div class="fav-prod-sidebar--item">
-        <div class="fav-prod-sidebar--item-img">
-          <img class="img-responsive" src="{{ p.image.url }}" style="max-width: 80% !important;"></img>
-        </div>
-        <div class="fav-prod-sidebar--item-title">{{ p.title }}</div>
-        <div class="fav-prod-sidebar--item-price">
-            {% if p.price != 0 %}
-              {{ p.price|floatformat:2 }}<span class="price"> руб.</span>
-            {% else %}
-                По запросу
-            {% endif %}
+
+  <div class="columns is-multiline is-hidden-mobile">
+    <p class="menu-label has-text-centered-touch has-text-left-desktop fc-red has-text-weight-bold">Популярные товары</p>
+      {% for product in featured_product %}
+      
+      <div class="column is-full">
+        
+          <div class="product_card carousel-item--img-wrapper">
+              
+            <div class="columns is-multiline box has-border-fancy p-0">
+              <!-- <div class="column is-one-third-fullhd is-full is-vcentered is-relative has-text-right-fullhd has-text-left"> -->
+              <div class="column is-half-desktop is-full-tablet is-vcentered is-relative has-text-left">
+              <a href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}">  
+                <figure class="image is-1by1 is-full">
+                  <img loading="lazy" src="{{ product.image.url }}" alt="Image" />
+                  {% if product.brand %}
+                  <figure class="image product-card_brand-image is-32x32">
+                    <img loading="lazy" src="{{product.brand.image.url}}" 
+                        alt="{{ product.brand }} | купить со склада в СПБ"
+                        title="{{ product.brand }} | купить со склада в СПБ">
+                  </figure>
+                  {% endif %}
+                  <a href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}"
+                    class="button is-black is-small carousel-item--more-btn"><i class="shiny_btn" aria-hidden="true"></i>Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info" aria-hidden="true"></i></a>
+                </figure>
+                </a>
+              </div>
+              <!-- <div class="column is-two-thirds-fullhd is-full has-text-right-fullhd has-text-left"> -->
+              <div class="column is-half-desktop is-full-tablet has-text-left">
+                <div class="content">
+                  <a href="{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}" class="no-hl-link">
+                    <p class="title has-text-left is-6 mb-6 is-spaced">
+                      <span class="is-6 has-text-weight-bold">
+                      {{ product.title }}
+                    </span>
+                    </p>
+                  </a>
+                  <p class="subtitle has-text-left is-7">
+                    <span class="has-text-weight-bold is-6">
+                      Группа: 
+                    </span>
+                    <a href="{% url 'main_category_detail' product.category.main_category.slug %}" class="no-hl-link"> 
+                      {{ product.category.main_category }}
+                    </a>
+                  </p>
+                  <p class="subtitle has-text-left is-7">
+                    <span class="has-text-weight-bold is-6">
+                      Категория:
+                    </span>
+                    <a href="{% url 'category_detail' product.category.main_category.slug product.category.slug %}" class="no-hl-link">
+                      {{ product.category }}
+                    </a>
+                  </p>
+                  {% if product.brand %}
+                    <p class="subtitle has-text-left is-7"><span class="has-text-weight-bold is-6">Производитель: </span>
+                    <a href="{% url 'brand_detail' product.brand.slug %}" class="no-hl-link">
+                      {{ product.brand }}
+                    </a>
+                    </p>
+                  {% endif %}
+                  <hr class="katran-line-sep">
+                  <!-- {% if product.variable_set.all %}
+                    {% for var in product.variable_set.all %}
+                        <p class="has-text-left is-7"><span class="has-text-weight-bold is-6">{{ var.varitem.title }}:</span> {{ var.value }}&nbsp;&nbsp;{% if var.varitem.dimention %}{{var.varitem.dimention}}{% endif %}</p>
+                    {% endfor %}
+                  {% endif %} -->
+                </div>
+              </div>
+              <hr class="katran-line-sep">
+              <div class="column is-half">
+                {% if product.get_patent.first %}
+                <p class="title has-text-left is-6 is-spaced mt-1 pt-0">
+                   <span class="has-text-weight-bold">Патент: </span><span class="no-hl-link" data-target="patent_modal_desktop">{{ product.get_patent.first.document_number }} <i class="fa-solid fa-award fc-red" aria-hidden="true"></i></span>
+                </p>
+                {% endif %}
+              </div>
+              <div class="column is-half">
+                <p class="title has-text-right is-5 is-spaced mt-0 pt-0">
+                  <span class="has-text-weight-bold">Цена: </span>
+                  <span class="fc-red">
+                  {% if product.price != 0 %}
+                    {{ product.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign" aria-hidden="true"></i>
+                  {% else %}
+                      По запросу
+                  {% endif %}
+                  </span>
+                </p>
+                <p class="subtitle has-text-right is-7">Доставка по РФ и СНГ <i class="fc-black fa-solid fa-truck"></i></p>
+              </div>
+            </div>
           </div>
+        
       </div>
-      </a>
+      
+      {% endfor %}
+  </div>
+  <!-- columns -->
+
+  <div class="is-hidden">
+    <p class="menu-label has-text-centered-touch has-text-left-desktop fc-red">Популярные товары</p>
+    {% for p in featured_product %}
+      <div class="box product_card carousel-item--img-wrapper">
+        <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info" aria-hidden="true"></i></a>
+        <div class="columns is-multiline">
+          <div class="column is-one-third is-full-mobile is-vcentered">
+            <figure class="image">
+              <img loading="lazy" src="{{ p.image.url }}" alt="Image" />
+            </figure> 
+          </div>
+          <div class="column is-two-thirds is-full-mobile">
+            <div class="content">
+              <p class="has-text-left is-6 mb-6"><span class="is-6 has-text-weight-bold">
+                {{ p.title }}</span>
+              </p>
+              <p class="subtitle has-text-left is-7"><span class="has-text-weight-bold is-6">Группа:</span> 
+                {{ p.category.main_category }}</p>
+              <p class="has-text-left is-7"><span class="has-text-weight-bold is-6">Категория:</span> {{ p.category }}</p>
+            </div>
+          </div>
+          <div class="column is-full">
+            <hr class="katran-line-sep">
+            <p class="title has-text-left is-5 ">
+              <span class="has-text-weight-bold">Цена: </span>
+              <span class="fc-red">
+              {% if p.price != 0 %}
+                {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign" aria-hidden="true"></i>
+              {% else %}
+                  По запросу
+              {% endif %}
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
     {% endfor %}
   </div>
 </div>

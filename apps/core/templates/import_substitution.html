@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load store_extras %}
+{% block title %}Импортозамещение — подберём аналог пневмоинструмента | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Импортозамещение — подберём аналог пневмоинструмента | Катран-Пневмо{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+
+{% block breadcrumbs_extra %}
+{ "position": 2, "name": "Импортозамещение", "item": "https://katran-pnevmo.ru/import-substitution/" }
+{% endblock %}
+
+{% block content %}
+<div class="column is-9 has-text-centered-touch">
+
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li class="is-active"><a href="{% url 'import_substitution' %}" aria-current="page">Импортозамещение</a></li>
+    </ul>
+  </nav>
+
+  {# ── Hero ── #}
+  <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+    <p class="kp-about-hero__tag">Катран-Пневмо</p>
+    <h1 class="kp-hero-title">Подберём аналог<br>вашего пневмоинструмента</h1>
+    <div class="kp-solutions-divider"></div>
+    <p class="subtitle is-6 mt-2" style="max-width: 600px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">Заменим Atlas Copco, Chicago Pneumatic, Desoutter и&nbsp;другие импортные бренды на&nbsp;российские решения без&nbsp;изменения технологического процесса</p>
+    <a href="{% url 'contacts' %}" class="button is-primary mt-4">
+      <strong>Получить подбор аналога</strong>
+    </a>
+  </div>
+
+  {# ── Проблема ── #}
+  <div class="columns mt-6 is-multiline">
+    <div class="column is-8-desktop is-offset-2-desktop is-full has-text-left kp-about-seo">
+      <h2 class="kp-section-heading" style="text-align: center;">Почему импортозамещение актуально</h2>
+      <div class="kp-solutions-divider" style="margin-bottom: 1.5rem;"></div>
+      <p>После 2022 года многие зарубежные производители пневматического инструмента сократили или прекратили поставки в&nbsp;Россию. Сроки доставки выросли, сервис стал недоступен, запчасти — дефицитны.</p>
+      <p>При этом российские аналоги часто не&nbsp;просто заменяют, но и&nbsp;превосходят импортные образцы по&nbsp;соотношению «цена — сроки поставки — сервис».</p>
+      <p>«Катран-Пневмо» помогает подобрать замену для инструмента Atlas Copco, Chicago Pneumatic, Desoutter, Ingersoll Rand, Fuji Tools, Sumake и&nbsp;других производителей — без&nbsp;изменения технологического процесса на&nbsp;вашем предприятии.</p>
+    </div>
+  </div>
+
+  {# ── Как мы работаем ── #}
+  <div class="columns mt-6 is-multiline">
+    <div class="column is-full">
+      <p class="kp-section-label kp-section-label--center">Процесс</p>
+      <h2 class="kp-section-heading" style="text-align: center;">Как мы подбираем аналог</h2>
+      <div class="kp-solutions-divider"></div>
+    </div>
+  </div>
+
+  <div class="columns mt-3">
+    <div class="column is-8-desktop is-offset-2-desktop is-full">
+      <div class="kp-sol-process">
+        <div class="kp-sol-process__num">1</div>
+        <div>
+          <div class="kp-sol-process__title">Заявка</div>
+          <div class="kp-sol-process__desc">Отправьте нам данные инструмента: модель, артикул, характеристики</div>
+        </div>
+      </div>
+      <div class="kp-sol-process">
+        <div class="kp-sol-process__num">2</div>
+        <div>
+          <div class="kp-sol-process__title">Анализ</div>
+          <div class="kp-sol-process__desc">Наш конструктор сопоставит характеристики и&nbsp;подберёт ближайший аналог</div>
+        </div>
+      </div>
+      <div class="kp-sol-process">
+        <div class="kp-sol-process__num">3</div>
+        <div>
+          <div class="kp-sol-process__title">Образец</div>
+          <div class="kp-sol-process__desc">Предоставим тестовый образец для испытания на&nbsp;вашем оборудовании</div>
+        </div>
+      </div>
+      <div class="kp-sol-process">
+        <div class="kp-sol-process__num">4</div>
+        <div>
+          <div class="kp-sol-process__title">Поставка</div>
+          <div class="kp-sol-process__desc">Серийные поставки напрямую с&nbsp;завода в&nbsp;Санкт-Петербурге</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ── Популярные аналоги ── #}
+  <div class="columns mt-6 is-multiline">
+    <div class="column is-full">
+      <p class="kp-section-label kp-section-label--center">Популярные замены</p>
+      <h2 class="kp-section-heading" style="text-align: center;">Что чаще всего запрашивают</h2>
+      <div class="kp-solutions-divider"></div>
+    </div>
+  </div>
+
+  <div class="columns is-multiline is-variable is-2 mt-3">
+    <div class="column is-6 is-full-mobile">
+      <div class="kp-sol-brand">
+        <div class="kp-sol-brand__header">
+          <div class="kp-sol-brand__icon"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i></div>
+          <div class="kp-sol-brand__title">Atlas Copco</div>
+        </div>
+        <div class="kp-sol-brand__desc">Шлифовальные машины, гайковерты, пневмодрели. Подбираем прямые аналоги по&nbsp;крутящему моменту и&nbsp;частоте вращения.</div>
+      </div>
+    </div>
+    <div class="column is-6 is-full-mobile">
+      <div class="kp-sol-brand">
+        <div class="kp-sol-brand__header">
+          <div class="kp-sol-brand__icon"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i></div>
+          <div class="kp-sol-brand__title">Chicago Pneumatic</div>
+        </div>
+        <div class="kp-sol-brand__desc">Угловые шлифмашины, отбойные молотки, гайковерты. Замена без&nbsp;изменения технологической операции.</div>
+      </div>
+    </div>
+    <div class="column is-6 is-full-mobile">
+      <div class="kp-sol-brand">
+        <div class="kp-sol-brand__header">
+          <div class="kp-sol-brand__icon"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i></div>
+          <div class="kp-sol-brand__title">Desoutter</div>
+        </div>
+        <div class="kp-sol-brand__desc">Точечные шлифмашины, гайковерты с&nbsp;контролем крутящего момента. Российские аналоги с&nbsp;сохранением точности.</div>
+      </div>
+    </div>
+    <div class="column is-6 is-full-mobile">
+      <div class="kp-sol-brand">
+        <div class="kp-sol-brand__header">
+          <div class="kp-sol-brand__icon"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i></div>
+          <div class="kp-sol-brand__title">Ingersoll Rand</div>
+        </div>
+        <div class="kp-sol-brand__desc">Промышленные гайковерты, шлифмашины, полировальные машины. Замена для&nbsp;тяжёлых условий эксплуатации.</div>
+      </div>
+    </div>
+  </div>
+
+  {# ── Преимущества ── #}
+  <div class="columns mt-6 is-multiline">
+    <div class="column is-full">
+      <p class="kp-section-label kp-section-label--center">Преимущества</p>
+      <h2 class="kp-section-heading" style="text-align: center;">Почему выбирают аналоги западных брендов</h2>
+      <div class="kp-solutions-divider"></div>
+    </div>
+  </div>
+
+  <div class="columns is-multiline is-variable is-2 mt-3">
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-sol-adv">
+        <div class="kp-sol-adv__icon"><i class="fa-solid fa-clock" aria-hidden="true"></i></div>
+        <div class="kp-sol-adv__title">Сроки поставки</div>
+        <div class="kp-sol-adv__desc">От 1 до 4 недель вместо 3–6&nbsp;месяцев импорта</div>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-sol-adv">
+        <div class="kp-sol-adv__icon"><i class="fa-solid fa-wrench" aria-hidden="true"></i></div>
+        <div class="kp-sol-adv__title">Сервис и запчасти</div>
+        <div class="kp-sol-adv__desc">Ремонт на&nbsp;нашем производстве в&nbsp;СПб, запчасти в&nbsp;наличии</div>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-sol-adv">
+        <div class="kp-sol-adv__icon"><i class="fa-solid fa-ruble-sign" aria-hidden="true"></i></div>
+        <div class="kp-sol-adv__title">Цена</div>
+        <div class="kp-sol-adv__desc">Аналоги дешевле импортных на&nbsp;30–50%</div>
+      </div>
+    </div>
+  </div>
+
+  {# ── Карусель аналогов ── #}
+  {% if analog_products %}
+  <div class="columns mt-6 is-multiline">
+    <div class="column is-full">
+      <p class="kp-section-label kp-section-label--center">Примеры замены</p>
+      <h2 class="kp-section-heading" style="text-align: center;">Товары с&nbsp;подобранными аналогами</h2>
+      <div class="kp-solutions-divider"></div>
+    </div>
+  </div>
+
+  <div class="scroll-carousel-wrap mt-3">
+    <button class="scroll-carousel__arrow scroll-carousel__arrow--prev" onclick="scrollCarousel(this, -1)" aria-label="Прокрутить влево">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <div class="scroll-carousel">
+      {% for p in analog_products %}{% include "analog_pair_card.html" %}{% endfor %}
+    </div>
+    <button class="scroll-carousel__arrow scroll-carousel__arrow--next" onclick="scrollCarousel(this, 1)" aria-label="Прокрутить вправо">
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </button>
+  </div>
+  {% endif %}
+
+  {# ── CTA ── #}
+  <div class="columns mt-6 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box kp-cta-box--solutions">
+        <p class="kp-cta-box__title">Нужен аналог вашего инструмента?</p>
+        <p class="kp-cta-box__text">Отправьте нам модель и&nbsp;артикул — подберём замену. Бесплатная консультация инженера.</p>
+        <div class="buttons mt-3 is-justify-content-center">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Отправить заявку</strong>
+          </a>
+          <a href="tel:+78123317909" class="button is-light">
+            <strong>+7 (812) 331 79 09</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function() {
+  window.scrollCarousel = function(btn, dir) {
+    var sc = btn.closest('.scroll-carousel-wrap').querySelector('.scroll-carousel');
+    sc.scrollBy({ left: dir * (sc.querySelector(':scope > *').offsetWidth + 16), behavior: 'smooth' });
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.scroll-carousel').forEach(function(el) {
+      var dragging = false, startX, startScroll, moved;
+      el.addEventListener('pointerdown', function(e) {
+        if (e.button !== 0) return;
+        dragging = true; moved = false;
+        startX = e.clientX; startScroll = el.scrollLeft;
+        el.style.cursor = 'grabbing';
+      });
+      el.addEventListener('pointerup', function() { dragging = false; el.style.cursor = 'grab'; });
+      el.addEventListener('pointerleave', function() { dragging = false; el.style.cursor = 'grab'; });
+      el.addEventListener('pointermove', function(e) {
+        if (!dragging) return;
+        var dx = e.clientX - startX;
+        if (Math.abs(dx) > 3) moved = true;
+        el.scrollLeft = startScroll - dx;
+      });
+      el.addEventListener('click', function(e) {
+        if (moved) { e.preventDefault(); e.stopPropagation(); }
+      }, true);
+    });
+  });
+})();
+</script>
+{% endblock %}

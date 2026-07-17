@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ meta_title }}{% endblock %}
+{% block ogtitle %}{{ meta_title }}{% endblock %}
+{% block description %}{{ meta_description }}{% endblock %}
+{% block ogdescription %}{{ meta_description }}{% endblock %}
+{% block keywords %}{{ meta_keywords }}{% endblock %}
+
+{% block breadcrumbs_extra %}
+{ "position": 2, "name": "Решения", "item": "https://katran-pnevmo.ru/solutions/" },
+{ "position": 3, "name": "{{ industry.title }}", "item": "https://katran-pnevmo.ru{{ industry.get_absolute_url }}" }
+{% endblock %}
+
+{% block content %}
+<div class="column has-text-centered-touch">
+
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li><a href="{% url 'solutions_index' %}">Решения</a></li>
+      <li class="is-active"><a href="{{ industry.get_absolute_url }}">{{ industry.title }}</a></li>
+    </ul>
+  </nav>
+
+  <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+    <p class="kp-about-hero__tag">Отраслевое решение</p>
+    <h1 class="kp-hero-title">
+      {% if industry.icon_class %}<i class="{{ industry.icon_class }}" style="color: var(--katran-blue-2);" aria-hidden="true"></i>{% endif %}
+      {{ industry.title }}
+    </h1>
+    <div class="kp-solutions-divider"></div>
+    {% if industry.short_description %}
+      <p class="subtitle is-6 mt-2" style="max-width: 600px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">{{ industry.short_description }}</p>
+    {% endif %}
+  </div>
+
+  {% if industry.description %}
+    <div class="columns mt-5 is-multiline">
+      <div class="column is-8-desktop is-offset-2-desktop is-full content has-text-left">
+        {{ industry.description|safe }}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if industry.related_categories.all %}
+    <div class="columns mt-6 is-multiline">
+      <div class="column is-full has-text-centered">
+        <p class="kp-section-label kp-section-label--center">Каталог</p>
+        <h2 class="kp-section-heading" style="text-align: center;">Категории для {{ industry.title|lower }}</h2>
+      </div>
+    </div>
+    <div class="columns is-multiline mt-3">
+      {% for cat in industry.related_categories.all %}
+        <div class="column is-3 is-6-mobile">
+          <a href="{{ cat.get_absolute_url }}" class="no-hl-link">
+            <div class="box has-text-centered" style="transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;">
+              <figure class="image is-64x64" style="margin: 0 auto;">
+                <img src="{{ cat.image.url }}" alt="{{ cat.title }}" loading="lazy">
+              </figure>
+              <p class="title is-6 mt-2">{{ cat.title }}</p>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if cases %}
+    <div class="columns mt-6 is-multiline">
+      <div class="column is-full">
+        <p class="kp-section-label kp-section-label--center">Кейсы</p>
+        <h2 class="kp-section-heading">Проекты в отрасли «{{ industry.title }}»</h2>
+      </div>
+    </div>
+    <div class="columns is-multiline is-variable is-2 mt-3">
+      {% for case in cases %}
+        <div class="column is-4 is-full-mobile">
+          <a href="{{ case.get_absolute_url }}" class="no-hl-link">
+            <div class="kp-sol-case">
+              <div class="kp-sol-case__title">{{ case.title }}</div>
+              {% if case.client_name %}
+                <div class="kp-sol-case__row">
+                  <div class="kp-sol-case__label">Клиент</div>
+                  <div class="kp-sol-case__text">{{ case.client_name }}</div>
+                </div>
+              {% endif %}
+              <div class="kp-sol-case__row">
+                <div class="kp-sol-case__label">Задача</div>
+                <div class="kp-sol-case__text">{{ case.problem }}</div>
+              </div>
+              {% if case.metric_label and case.metric_value %}
+                <div class="kp-sol-case__metric">{{ case.metric_value }} {{ case.metric_label }}</div>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="columns mt-6 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box kp-cta-box--solutions">
+        <p class="kp-cta-box__title">Нужен пневматический инструмент для {{ industry.title|lower }}?</p>
+        <p class="kp-cta-box__text">Подберём решение под вашу задачу. Звоните или отправьте заявку.</p>
+        <div class="buttons mt-3 is-justify-content-center">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Связаться с нами</strong>
+          </a>
+          <a href="{% url 'catalog' %}" class="button is-light">
+            <strong>Смотреть каталог</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
