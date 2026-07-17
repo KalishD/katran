@@ -15,39 +15,45 @@
     </ul>
   </nav>
 
-  <div class="title-wrapper has-text-centered">
-    <p class="subtitle is-6">Портфолио</p>
+  <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+    <p class="kp-about-hero__tag">Портфолио</p>
     <h1 class="kp-hero-title">Проекты и кейсы</h1>
-    <p class="subtitle is-5 mt-2">Реальные задачи, которые мы решили для наших клиентов</p>
+    <div class="kp-solutions-divider"></div>
+    <p class="subtitle is-6 mt-2" style="max-width: 560px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">Реальные задачи, которые мы решили для наших клиентов</p>
   </div>
 
-  <div class="columns is-multiline mt-5">
+  <div class="columns is-multiline is-variable is-2 mt-5">
     {% for case in cases %}
       <div class="column is-4 is-full-mobile">
         <a href="{{ case.get_absolute_url }}" class="no-hl-link">
-          <div class="box" style="min-height: 220px; transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;">
+          <div class="kp-sol-case">
             {% if case.industry %}
-              <p class="subtitle is-7 has-text-weight-bold" style="color: var(--katran-blue-2);">{{ case.industry.title }}</p>
+              <div class="kp-sol-case__label" style="margin-bottom: 0.5rem;">{{ case.industry.title }}</div>
             {% endif %}
-            <p class="title is-5">{{ case.title }}</p>
+            <div class="kp-sol-case__title">{{ case.title }}</div>
             {% if case.client_name %}
-              <p class="subtitle is-7"><strong>Клиент:</strong> {{ case.client_name }}</p>
+              <div class="kp-sol-case__row">
+                <div class="kp-sol-case__label">Клиент</div>
+                <div class="kp-sol-case__text">{{ case.client_name }}</div>
+              </div>
             {% endif %}
-            <p class="subtitle is-6 mt-2">{{ case.problem|truncatewords:20 }}</p>
+            <div class="kp-sol-case__row">
+              <div class="kp-sol-case__text">{{ case.problem|truncatewords:20 }}</div>
+            </div>
             {% if case.metric_label and case.metric_value %}
-              <p class="mt-3">
-                <span class="tag is-info is-medium">{{ case.metric_value }} {{ case.metric_label }}</span>
-              </p>
+              <div class="kp-sol-case__metric">{{ case.metric_value }} {{ case.metric_label }}</div>
             {% endif %}
           </div>
         </a>
       </div>
     {% empty %}
       <div class="column is-full">
-        <div class="box has-text-centered">
-          <p class="title is-4"><i class="fa-solid fa-folder-open" style="color: var(--katran-blue-2);"></i></p>
-          <p class="subtitle is-5">Кейсы скоро появятся</p>
-          <p class="subtitle is-6">Мы готовим описание наших лучших проектов для публикации.</p>
+        <div class="kp-sol-case has-text-centered" style="min-height: auto; padding: 3rem;">
+          <div class="kp-sol-cap__icon" style="margin: 0 auto 1rem;">
+            <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+          </div>
+          <div class="kp-sol-case__title">Кейсы скоро появятся</div>
+          <div class="kp-sol-case__text">Мы готовим описание наших лучших проектов для публикации.</div>
         </div>
       </div>
     {% endfor %}

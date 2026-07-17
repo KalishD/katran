@@ -22,15 +22,15 @@
     </ul>
   </nav>
 
-  <div class="title-wrapper has-text-centered kp-industry-hero">
-    <p class="subtitle is-6" style="color: var(--katran-blue-2); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.8rem;">Отраслевое решение</p>
+  <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+    <p class="kp-about-hero__tag">Отраслевое решение</p>
     <h1 class="kp-hero-title">
       {% if industry.icon_class %}<i class="{{ industry.icon_class }}" style="color: var(--katran-blue-2);" aria-hidden="true"></i>{% endif %}
       {{ industry.title }}
     </h1>
     <div class="kp-solutions-divider"></div>
     {% if industry.short_description %}
-      <p class="subtitle is-5 mt-2" style="max-width: 600px; margin: 0 auto;">{{ industry.short_description }}</p>
+      <p class="subtitle is-6 mt-2" style="max-width: 600px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">{{ industry.short_description }}</p>
     {% endif %}
   </div>
 
@@ -72,24 +72,25 @@
         <h2 class="kp-section-heading">Проекты в отрасли «{{ industry.title }}»</h2>
       </div>
     </div>
-    <div class="columns is-multiline mt-3">
+    <div class="columns is-multiline is-variable is-2 mt-3">
       {% for case in cases %}
         <div class="column is-4 is-full-mobile">
           <a href="{{ case.get_absolute_url }}" class="no-hl-link">
-            <div class="box kp-solution-card" style="min-height: 180px;">
-              <p class="kp-solution-card__title">{{ case.title }}</p>
+            <div class="kp-sol-case">
+              <div class="kp-sol-case__title">{{ case.title }}</div>
               {% if case.client_name %}
-                <p class="subtitle is-7"><strong>Клиент:</strong> {{ case.client_name }}</p>
+                <div class="kp-sol-case__row">
+                  <div class="kp-sol-case__label">Клиент</div>
+                  <div class="kp-sol-case__text">{{ case.client_name }}</div>
+                </div>
               {% endif %}
-              <p class="kp-solution-card__desc">{{ case.problem }}</p>
-              {% if case.metric_label and case.metric_value %}
-                <p class="mt-2">
-                  <span class="tag is-info">{{ case.metric_value }} {{ case.metric_label }}</span>
-                </p>
-              {% endif %}
-              <div class="kp-solution-card__arrow" aria-hidden="true">
-                <i class="fa-solid fa-arrow-right"></i>
+              <div class="kp-sol-case__row">
+                <div class="kp-sol-case__label">Задача</div>
+                <div class="kp-sol-case__text">{{ case.problem }}</div>
               </div>
+              {% if case.metric_label and case.metric_value %}
+                <div class="kp-sol-case__metric">{{ case.metric_value }} {{ case.metric_label }}</div>
+              {% endif %}
             </div>
           </a>
         </div>

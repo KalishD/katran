@@ -35,11 +35,20 @@ from django.views.decorators.csrf import csrf_exempt
 
 def import_substitution(request):
     """Страница «Подберём аналог» — импортозамещение."""
+    from apps.store.models import Product
+
     description = 'Подберём аналог пневматического инструмента Atlas Copco, Chicago Pneumatic, Desoutter, Ingersoll Rand, Fuji, Sumake. Российские замены для импортного пневмоинструмента.'
     keywords = 'импортозамещение пневмоинструмент, аналог Atlas Copco, замена Chicago Pneumatic, российский пневмоинструмент'
+    analog_products = Product.objects.filter(
+        analog__isnull=False, is_visible=True, is_import=False
+    ).select_related(
+        'brand', 'category__main_category',
+        'analog', 'analog__brand', 'analog__category__main_category',
+    ).order_by('-created_at')[:12]
     context = {
         'description': description,
         'keywords': keywords,
+        'analog_products': analog_products,
     }
     return render(request, 'import_substitution.html', context)
 
@@ -217,8 +226,8 @@ def production(request):
     rm_list = [rm8,rm12,rm16]
     tramb_list = [tp28a, tpv3a]
     pvm_list = [ppf420, pvm, ru64]
-    keywords = ''
-    description = 'Пневматический инструмент российского производства. Шлифовальные машины, пневмомолотки и трамбовки от производителя в Санкт-Петербурге. '
+    keywords = 'пневматический инструмент, производство, шлифовальная машина, трамбовка, рубильный молоток, пневмошлифмашина, промышленный пневмоинструмент, Санкт-Петербург'
+    description = 'Собственное производство пневматического инструмента ООО «Катран-Пневмо»: цанговые шлифмашины МП-006/МП-011, торцевая шлифмашина МПС-2215, виброзащищенные трамбовки, рубильные молотки серии РМ. Сертификаты, патенты, доставка по РФ и СНГ.'
     context = {
         'mp006': mp006,
         'mp01122': mp01122,

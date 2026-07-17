@@ -1,44 +1,44 @@
 {% load core_extras %}
 <div class="column is-3 is-3-fullhd is-3-desktop p-4 pl-5 is-hidden-mobile">
-	<aside class="menu side-menu-container"> {# Added side-menu-container #}
-	  <p class="menu-label has-text-centered-touch has-text-left-desktop fc-red has-text-weight-bold">
-	      Каталог товаров
-	  </p>
-	  <ul class="menu-list is-relative" id="sidebarapp">
-	    {% for maincat in menu_main_categories %}
-	      {# Each main category becomes a hoverable item #}
-	      <li class="side-menu-item" :class="{ 'is-active': accClass[{{ maincat.id }}] }"
-	          
-	        @mouseleave="closeSideMegaMenu({{ maincat.id }})"> {# Add mouseleave for desktop #}
-	        <a class="menu-link">{{ maincat.title }}</a> {# Use menu-link for better styling within menu #}
-	        
-	        {# This is the mega-menu dropdown #}
-	        <div class="side-mega-dropdown">
-	          {% with categories_for_maincat=menu_categories_filter|filter_by_main_category_id:maincat.id %}
-	          {% if categories_for_maincat %}
-	            {# Start the first column #}
-	            <div class="mega-menu-column">
-	              {% for cat in categories_for_maincat %}
-	                <a href="{% url 'category_detail' cat.main_category.slug cat.slug %}" class="mega-menu-item">
-	                    {{ cat.title }} <span class="smoo_after_title">({{ cat.count_visible_products }})</span>
-	                </a>
-	                {% if forloop.counter|divisibleby:side_items_per_column and not forloop.last %}
-	                  </div>{# Close current column #}
-	                  <div class="mega-menu-column"> {# Open new column #}
-	                {% endif %}
-	              {% endfor %}
-	            </div>{# Close the last column #}
-	          {% else %}
-	            <div class="mega-menu-column">
-	                <p class="column-title">Нет подкатегорий</p>
-	            </div>
-	          {% endif %}
-	          {% endwith %}
-	        </div>
-	      </li>
-	    {% endfor %}
-	  </ul>
-	</aside>
+  <aside class="menu side-menu-container"> {# Added side-menu-container #}
+    <p class="menu-label has-text-centered-touch has-text-left-desktop fc-red has-text-weight-bold">
+        Каталог товаров
+    </p>
+    <ul class="menu-list is-relative" id="sidebarapp">
+      {% for maincat in menu_main_categories %}
+        {# Each main category becomes a hoverable item #}
+        <li class="side-menu-item" :class="{ 'is-active': accClass[{{ maincat.id }}] }"
+            
+          @mouseleave="closeSideMegaMenu({{ maincat.id }})"> {# Add mouseleave for desktop #}
+          <a class="menu-link">{{ maincat.title }}</a> {# Use menu-link for better styling within menu #}
+          
+          {# This is the mega-menu dropdown #}
+          <div class="side-mega-dropdown">
+            {% with categories_for_maincat=menu_categories_filter|filter_by_main_category_id:maincat.id %}
+            {% if categories_for_maincat %}
+              {# Start the first column #}
+              <div class="mega-menu-column">
+                {% for cat in categories_for_maincat %}
+                  <a href="{% url 'category_detail' cat.main_category.slug cat.slug %}" class="mega-menu-item">
+                      {{ cat.title }} <span class="smoo_after_title">({{ cat.count_visible_products }})</span>
+                  </a>
+                  {% if forloop.counter|divisibleby:side_items_per_column and not forloop.last %}
+                    </div>{# Close current column #}
+                    <div class="mega-menu-column"> {# Open new column #}
+                  {% endif %}
+                {% endfor %}
+              </div>{# Close the last column #}
+            {% else %}
+              <div class="mega-menu-column">
+                  <p class="column-title">Нет подкатегорий</p>
+              </div>
+            {% endif %}
+            {% endwith %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </aside>
   <div class="katran--free_space"></div>
 
   <div class="columns is-multiline is-hidden-mobile">

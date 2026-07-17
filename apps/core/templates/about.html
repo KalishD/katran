@@ -5,40 +5,288 @@
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
+{% block ogimage %}https://katran-pnevmo.ru/static/images/katran-pnevmo-production.jpg{% endblock %}
 {% block content %}
-  <div class="column has-text-centered-touch" id="productionsapp">
-    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
-      <ul>
-        <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
-        <li><a href="" class="no-hl-link">ООО "Катран-Пневмо"</a></li>
-      </ul>
-    </nav>
-    <div class="title-wrapper has-text-centered">
-      <p class="subtitle is-6">ООО "Катран-Пневмо"</p>
-      <h2 class="title is-3">О НАС</h2>
-      <!-- <p class="subtitle is-6">Пневматические шлифовальные машины производства ООО «Катран-Пневмо» </p> -->
-    </div>
-  
-    <div class="columns mt-3 is-multiline">
-      <div class="column is-full content">
-        <p>Продаём промышленный пневматический инструмент с 1990 года. Поставляем шлифмашины, гайковерты, молотки, трамбовки и перфораторы для судостроения, машиностроения и нефтегазовой отрасли.</p>
-        <p>Каждый инструмент проходит стендовые испытания и предпродажную подготовку на нашем предприятии. Специалисты с учёными степенями измеряют технические и виброакустические характеристики — в каталоге только то, что прошло проверку.</p>
-        <p>Производим собственные модели (патенты, сертификаты ТУ), а также являемся авторизованным дистрибьютором U-Tools (Япония) и Daewoo Air Tools (Корея). Гарантия 12 месяцев. Гарантийное и постгарантийное обслуживание.</p> 
-      </div>
-      <div class="column is-full content">
-        <p>Наши услуги востребованы, когда предприятию нужен надёжный промышленный инструмент под конкретную задачу.</p>
+<div class="column has-text-centered-touch" id="productionsapp">
 
-        <strong>Поможем, если:</strong>
-        <ul>
-          <li>закупаете пневмоинструмент для производства впервые и не знаете, какую модель выбрать под ваш тип работ;</li>
-          <li>ищете аналог снятого с производства инструмента КЗМИ (ИП-2014, ИП-2106, ИП-4126 и другие);</li>
-          <li>нужна поставка сразу нескольких единиц оборудования с проверкой и настройкой перед отправкой;</li>
-          <li>требуется инструмент для работы во взрывопожароопасных зонах, где электроинструмент запрещён;</li>
-          <li>вышел из строя инструмент и нужно срочно подобрать замену или запчасти;</li>
-          <li>хотите сравнить характеристики моделей разных производителей и выбрать оптимальное соотношение цены и ресурса.</li>
-        </ul>
+  {# ── Хлебные крошки ── #}
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li class="is-active"><a href="{% url 'about' %}" aria-current="page">О компании</a></li>
+    </ul>
+  </nav>
 
+  {# ══════════════════════════════════════════════════════ #}
+  {# ── Hero ── #}
+  {# ══════════════════════════════════════════════════════ #}
+  <div class="kp-about-hero">
+    <div class="kp-about-hero__watermark">1990</div>
+    <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+      <div class="kp-about-hero__tag">О компании</div>
+      <h1 class="kp-hero-title">Производитель пневматического инструмента с&nbsp;1990&nbsp;года</h1>
+      <p class="subtitle is-6 mt-2" style="max-width: 520px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">Собственное производство в&nbsp;Санкт-Петербурге, стендовые испытания, поставки по&nbsp;всей России и&nbsp;странам СНГ</p>
+      <div class="buttons mt-3 is-justify-content-center">
+        <a href="{% url 'catalog' %}" class="button is-primary">
+          <strong>Перейти в каталог</strong>
+        </a>
+        <a href="{% url 'contacts' %}" class="button is-light">
+          <strong>Связаться с нами</strong>
+        </a>
       </div>
     </div>
   </div>
+
+  {# ══════════════════════════════════════════════════════ #}
+  {# ── Цифры и факты ── #}
+  {# ══════════════════════════════════════════════════════ #}
+  <div class="columns is-multiline is-variable is-3 mt-4 mb-5">
+    <div class="column is-3 is-6-mobile">
+      <div class="kp-about-stat-card has-text-centered">
+        <div class="kp-about-stat-card__number">35+</div>
+        <div class="kp-about-stat-card__label">лет на рынке пневмоинструмента</div>
+      </div>
+    </div>
+    <div class="column is-3 is-6-mobile">
+      <div class="kp-about-stat-card has-text-centered">
+        <div class="kp-about-stat-card__number">500+</div>
+        <div class="kp-about-stat-card__label">моделей в каталоге</div>
+      </div>
+    </div>
+    <div class="column is-3 is-6-mobile">
+      <div class="kp-about-stat-card has-text-centered">
+        <div class="kp-about-stat-card__number">12 мес</div>
+        <div class="kp-about-stat-card__label">гарантии на весь инструмент</div>
+      </div>
+    </div>
+    <div class="column is-3 is-6-mobile">
+      <div class="kp-about-stat-card has-text-centered">
+        <div class="kp-about-stat-card__number">100%</div>
+        <div class="kp-about-stat-card__label">предпродажная проверка</div>
+      </div>
+    </div>
+  </div>
+
+  {# ══════════════════════════════════════════════════════ #}
+  {# ── Основной текст ── #}
+  {# ══════════════════════════════════════════════════════ #}
+  <div class="columns mt-5 is-multiline">
+    <div class="column is-8-desktop is-offset-2-desktop is-full has-text-left kp-about-seo">
+      <p>ООО «Катран-Пневмо» — российский производитель и&nbsp;поставщик промышленного пневматического инструмента. Работаем с&nbsp;1990&nbsp;года: проектируем, производим и&nbsp;поставляем пневмоинструмент для&nbsp;предприятий судостроения, машиностроения, нефтегазовой отрасли и&nbsp;других промышленных отраслей.</p>
+      <p>Собственное производство в&nbsp;Санкт-Петербурге позволяет контролировать качество на&nbsp;каждом этапе — от&nbsp;разработки технических условий до&nbsp;стендовых испытаний готовой продукции. Каждый инструмент проходит предпродажную подготовку: наши специалисты с&nbsp;учёными степенями измеряют технические и&nbsp;виброакустические характеристики, проводят нагрузочные тесты. В&nbsp;каталог попадает только то, что прошло проверку.</p>
+    </div>
+  </div>
+
+  {# ══════════════════════════════════════════════════════ #}
+  {# ── Что мы делаем ── #}
+  {# ══════════════════════════════════════════════════════ #}
+  <div class="columns mt-5 is-multiline">
+    <div class="column is-full">
+      <p class="kp-section-label kp-section-label--center">Деятельность</p>
+      <h2 class="kp-section-heading" style="text-align: center;">Что мы делаем</h2>
+      <div class="kp-solutions-divider"></div>
+    </div>
+  </div>
+
+  <div class="columns is-multiline is-variable is-2 mt-3">
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-sol-cap">
+        <div class="kp-sol-cap__header">
+          <div class="kp-sol-cap__icon"><i class="fa-solid fa-industry"></i></div>
+          <div class="kp-sol-cap__title">Собственное производство</div>
+        </div>
+        <div class="kp-sol-cap__desc">Производим пневматические шлифовальные машины (ПШМ), углошлифовальные машины (УШМ/пневмоболгарки), трамбовки и&nbsp;другие модели по&nbsp;собственным ТУ. Все корпусные детали изготавливаются на&nbsp;нашем оборудовании, что обеспечивает полный контроль геометрии и&nbsp;балансировки.</div>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-sol-cap">
+        <div class="kp-sol-cap__header">
+          <div class="kp-sol-cap__icon"><i class="fa-solid fa-flask"></i></div>
+          <div class="kp-sol-cap__title">Стендовые испытания</div>
+        </div>
+        <div class="kp-sol-cap__desc">Каждая единица инструмента проходит испытания на&nbsp;собственном стенде: измерение крутящего момента, расхода воздуха, уровня вибрации и&nbsp;шума. Результаты фиксируются в&nbsp;паспорте изделия — покупатель получает проверенный инструмент с&nbsp;документами.</div>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="kp-sol-cap">
+        <div class="kp-sol-cap__header">
+          <div class="kp-sol-cap__icon"><i class="fa-solid fa-truck-fast"></i></div>
+          <div class="kp-sol-cap__title">Поставки по России</div>
+        </div>
+        <div class="kp-sol-cap__desc">Отправляем пневмоинструмент по&nbsp;всей России и&nbsp;СНГ. Бесплатная доставка до&nbsp;терминала транспортной компании в&nbsp;Санкт-Петербурге. Работаем с&nbsp;юридическими лицами: договоры, НДС, закрывающие документы.</div>
+      </div>
+    </div>
+  </div>
+
+  {# ══════════════════════════════════════════════════════ #}
+  {# ── Почему выбирают нас ── #}
+  {# ══════════════════════════════════════════════════════ #}
+  <div class="columns mt-5 is-multiline">
+    <div class="column is-full">
+      <p class="kp-section-label kp-section-label--center">Преимущества</p>
+      <h2 class="kp-section-heading" style="text-align: center;">Почему выбирают «Катран-Пневмо»</h2>
+      <div class="kp-solutions-divider"></div>
+    </div>
+  </div>
+
+  <div class="columns is-multiline mt-3">
+    <div class="column is-6 is-full-mobile has-text-left">
+      <div class="kp-about-adv">
+        <div class="kp-about-adv__num">1</div>
+        <div>
+          <div class="kp-about-adv__title">Производитель + дистрибьютор</div>
+          <div class="kp-about-adv__text">Совмещаем оба направления. Производим инструмент под&nbsp;собственной маркой по&nbsp;ТУ с&nbsp;патентами и&nbsp;являемся авторизованным дистрибьютором U-Tools (Япония), Daewoo Air Tools (Корея), JSD Tools (Китай).</div>
+        </div>
+      </div>
+      <div class="kp-about-adv">
+        <div class="kp-about-adv__num">2</div>
+        <div>
+          <div class="kp-about-adv__title">Подбор аналогов</div>
+          <div class="kp-about-adv__text">Помогаем найти замену снятому с&nbsp;производства инструменту КЗМИ, ПЗПИ и&nbsp;других отечественных производителей — ИП-2014, ИП-2106, ИП-4126 и&nbsp;другие популярные модели без&nbsp;изменения технологического процесса.</div>
+        </div>
+      </div>
+      <div class="kp-about-adv">
+        <div class="kp-about-adv__num">3</div>
+        <div>
+          <div class="kp-about-adv__title">Взрывопожароопасные зоны</div>
+          <div class="kp-about-adv__text">Пневматический инструмент — единственный безопасный вариант для&nbsp;работы во&nbsp;взрывоопасных зонах, где электроинструмент запрещён. Поставляем сертифицированное оборудование для&nbsp;нефтегазовой отрасли.</div>
+        </div>
+      </div>
+    </div>
+    <div class="column is-6 is-full-mobile has-text-left">
+      <div class="kp-about-adv">
+        <div class="kp-about-adv__num">4</div>
+        <div>
+          <div class="kp-about-adv__title">Гарантия и сервис</div>
+          <div class="kp-about-adv__text">Гарантийный срок на&nbsp;весь инструмент — 12&nbsp;месяцев. После окончания гарантии выполняем постгарантийное обслуживание: ремонт, замена лопаток ротора, расходных частей. Все работы — собственными специалистами.</div>
+        </div>
+      </div>
+      <div class="kp-about-adv">
+        <div class="kp-about-adv__num">5</div>
+        <div>
+          <div class="kp-about-adv__title">Предпродажная подготовка</div>
+          <div class="kp-about-adv__text">Перед отправкой каждый инструмент проходит проверку на&nbsp;стенде: измеряются характеристики, проверяется компрессорное масло, комплектность. Покупатель получает готовый к&nbsp;работе инструмент «из&nbsp;коробки».</div>
+        </div>
+      </div>
+      <div class="kp-about-adv">
+        <div class="kp-about-adv__num">6</div>
+        <div>
+          <div class="kp-about-adv__title">Широкий ассортимент</div>
+          <div class="kp-about-adv__text">В&nbsp;каталоге более 500 моделей: шлифовальные машины (прямые, орбитальные, торцевые, цанговые, угловые), гайковерты, молотки (отбойные, рубильные, клепальные), трамбовки, перфораторы, пилы, краскораспылители и запчасти.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ══════════════════════════════════════════════════════ #}
+  {# ── Отрасли ── #}
+  {# ══════════════════════════════════════════════════════ #}
+  <div class="kp-about-industries mt-5">
+    <div class="columns is-multiline">
+      <div class="column is-full">
+        <p class="kp-section-label kp-section-label--center" style="color: rgba(255,255,255,0.7);">Отрасли</p>
+        <h2 class="kp-section-heading" style="text-align: center; color: #fff;">Где применяется наш инструмент</h2>
+        <div class="kp-solutions-divider" style="opacity: 0.4;"></div>
+        <p class="subtitle is-6" style="text-align: center; color: rgba(255,255,255,0.55); max-width: 600px; margin: 0.5rem auto 0;">Пневматический инструмент незаменим там, где требуется надёжность, безопасность во&nbsp;взрывоопасных зонах и&nbsp;непрерывная работа в&nbsp;суровых условиях.</p>
+      </div>
+    </div>
+    <div class="columns is-multiline is-mobile mt-3">
+      <div class="column is-3 is-6-mobile">
+        <div class="kp-about-industry">
+          <div class="kp-about-industry__icon"><i class="fa-solid fa-ship"></i></div>
+          <div class="kp-about-industry__title">Судостроение</div>
+          <div class="kp-about-industry__text">Обработка корпусов, зачистка швов, клёпка</div>
+        </div>
+      </div>
+      <div class="column is-3 is-6-mobile">
+        <div class="kp-about-industry">
+          <div class="kp-about-industry__icon"><i class="fa-solid fa-gear"></i></div>
+          <div class="kp-about-industry__title">Машиностроение</div>
+          <div class="kp-about-industry__text">Шлифовка, полировка, заточка, сборка узлов</div>
+        </div>
+      </div>
+      <div class="column is-3 is-6-mobile">
+        <div class="kp-about-industry">
+          <div class="kp-about-industry__icon"><i class="fa-solid fa-oil-well"></i></div>
+          <div class="kp-about-industry__title">Нефтегаз</div>
+          <div class="kp-about-industry__text">Работы во взрывоопасных зонах, обслуживание трубопроводов</div>
+        </div>
+      </div>
+      <div class="column is-3 is-6-mobile">
+        <div class="kp-about-industry">
+          <div class="kp-about-industry__icon"><i class="fa-solid fa-helmet-safety"></i></div>
+          <div class="kp-about-industry__title">Строительство</div>
+          <div class="kp-about-industry__text">Демонтаж, уплотнение грунта, сверление бетона</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ══════════════════════════════════════════════════════ #}
+  {# ── Партнёры / Бренды ── #}
+  {# ══════════════════════════════════════════════════════ #}
+  <div class="columns mt-5 is-multiline">
+    <div class="column is-full">
+      <p class="kp-section-label kp-section-label--center">Партнёры</p>
+      <h2 class="kp-section-heading" style="text-align: center;">Производители, которых мы представляем</h2>
+      <div class="kp-solutions-divider"></div>
+    </div>
+  </div>
+
+  <div class="columns is-multiline is-vcentered is-mobile mt-3">
+    {% for b in menu_brands %}
+      {% if b.get_products.count != 0 %}
+        <div class="column is-2 is-4-mobile">
+          <a href="{% url 'brand_detail' b.slug %}" class="kp-about-partner no-hl-link">
+            <img src="{{ b.image.url }}" alt="{{ b.title }} — пневматический инструмент" title="{{ b.title }}">
+            <span class="kp-about-partner__name">{{ b.title }}</span>
+          </a>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {# ══════════════════════════════════════════════════════ #}
+  {# ── SEO-текст ── #}
+  {# ══════════════════════════════════════════════════════ #}
+  <div class="columns mt-5 is-multiline">
+    <div class="column is-8-desktop is-offset-2-desktop is-full has-text-left kp-about-seo">
+      <h2 class="kp-section-heading" style="text-align: left; margin-bottom: 1rem;">О пневматическом инструменте Катран-Пневмо</h2>
+
+      <p>Пневматический инструмент — это промышленное оборудование, работающее от&nbsp;сжатого воздуха. В&nbsp;отличие от&nbsp;электрического инструмента, пневмоинструмент не&nbsp;создаёт искр, не&nbsp;перегревается и&nbsp;безопасен для&nbsp;работы во&nbsp;взрывоопасных средах. Именно поэтому пневмоинструмент незаменим на&nbsp;предприятиях судостроения, нефтегазовой отрасли и&nbsp;химической промышленности.</p>
+
+      <p>Пневматические шлифовальные машины (ПШМ) — основная группа продукции «Катран-Пневмо». Мы производим прямые (радиальные), орбитальные, торцевые (вертикальные), цанговые и&nbsp;угловые (пневмоболгарки) шлифмашины. Каждая модель разработана с&nbsp;учётом требований промышленной эксплуатации: алюминиевый корпус, прецизионные подшипники, сбалансированный ротор.</p>
+
+      <p>Гайковерты пневматические применяются для&nbsp;затяжки и&nbsp;откручивания резьбовых соединений на&nbsp;сборочных линиях, в&nbsp;ремонтных мастерских и&nbsp;на&nbsp;стройках. Пневматические молотки (отбойные, рубильные, клепальные) используются для&nbsp;демонтажа, зачистки и&nbsp;клёпки металлоконструкций. Пневматические трамбовки незаменимы при&nbsp;уплотнении грунта в&nbsp;траншеях и&nbsp;котлованах.</p>
+
+      <p>Все модели пневматического инструмента «Катран-Пневмо» проходят стендовые испытания на&nbsp;нашем предприятии в&nbsp;Санкт-Петербурге. Мы измеряем крутящий момент, расход воздуха, уровень вибрации и&nbsp;шума — результаты фиксируются в&nbsp;паспорте изделия. Это гарантирует, что покупатель получает инструмент, соответствующий заявленным характеристикам.</p>
+
+      <p>Помимо собственного производства, «Катран-Пневмо» является авторизованным дистрибьютором пневматического инструмента U-Tools (Япония), Daewoo Air Tools (Корея) и&nbsp;JSD Tools (Китай). Это позволяет предложить покупателю широкий выбор моделей — от&nbsp;бюджетных решений до&nbsp;профессионального оборудования премиум-класса.</p>
+
+      <p>Гарантия на&nbsp;весь пневматический инструмент — 12&nbsp;месяцев. В&nbsp;случае поломки выполняем гарантийное и&nbsp;постгарантийное обслуживание: ремонт редукторов, замена лопаток ротора, восстановление корпусных деталей. Все работы выполняются собственными специалистами на&nbsp;нашем предприятии.</p>
+    </div>
+  </div>
+
+  {# ══════════════════════════════════════════════════════ #}
+  {# ── CTA ── #}
+  {# ══════════════════════════════════════════════════════ #}
+  <div class="columns mt-5 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box">
+        <p class="kp-cta-box__title">Нужен пневматический инструмент под вашу задачу?</p>
+        <p class="kp-cta-box__text">Позвоните нам или отправьте заявку — подберём модель, рассчитаем стоимость и&nbsp;организуем доставку по&nbsp;РФ и&nbsp;СНГ</p>
+        <div class="buttons mt-3 is-justify-content-center">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Связаться с нами</strong>
+          </a>
+          <a href="tel:+78123317909" class="button is-light">
+            <strong>+7 (812) 331 79 09</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 {% endblock %}

@@ -24,13 +24,14 @@
     </ul>
   </nav>
 
-  <div class="title-wrapper has-text-centered">
+  <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
     {% if case.industry %}
-      <p class="subtitle is-6" style="color: var(--katran-blue-2);">{{ case.industry.title }}</p>
+      <p class="kp-about-hero__tag">{{ case.industry.title }}</p>
     {% endif %}
     <h1 class="kp-hero-title">{{ case.title }}</h1>
+    <div class="kp-solutions-divider"></div>
     {% if case.client_name %}
-      <p class="subtitle is-5 mt-2">Клиент: {{ case.client_name }}</p>
+      <p class="subtitle is-6 mt-2" style="color: var(--katran-font-sm-color);">Клиент: {{ case.client_name }}</p>
     {% endif %}
   </div>
 
@@ -125,13 +126,15 @@
         <h2 class="kp-section-heading">Похожие кейсы</h2>
       </div>
     </div>
-    <div class="columns is-multiline mt-3">
+    <div class="columns is-multiline is-variable is-2 mt-3">
       {% for rc in related_cases %}
         <div class="column is-4 is-full-mobile">
           <a href="{{ rc.get_absolute_url }}" class="no-hl-link">
-            <div class="box">
-              <p class="title is-6">{{ rc.title }}</p>
-              <p class="subtitle is-7">{{ rc.problem|truncatewords:12 }}</p>
+            <div class="kp-sol-case">
+              <div class="kp-sol-case__title">{{ rc.title }}</div>
+              <div class="kp-sol-case__row">
+                <div class="kp-sol-case__text">{{ rc.problem|truncatewords:12 }}</div>
+              </div>
             </div>
           </a>
         </div>
