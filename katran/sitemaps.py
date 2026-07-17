@@ -21,12 +21,14 @@ class StaticViewSitemap(Sitemap):
 
 class CategorySitemap(Sitemap):
     def items(self):
-        return Category.objects.all()
+        return Category.objects.select_related('main_category').only('slug', 'main_category__slug')
 
 
 class ProductSitemap(Sitemap):
     def items(self):
-        return Product.objects.all()
+        return Product.objects.select_related(
+            'category__main_category'
+        ).only('slug', 'created_at', 'category__slug', 'category__main_category__slug')
 
     def lastmod(self, obj):
         return obj.created_at
@@ -34,12 +36,12 @@ class ProductSitemap(Sitemap):
 
 class BrandSitemap(Sitemap):
     def items(self):
-        return Brand.objects.all()
+        return Brand.objects.only('slug')
 
 
 class PostsSitemap(Sitemap):
     def items(self):
-        return Post.objects.all()
+        return Post.objects.only('slug', 'created_at')
 
     def lastmod(self, obj):
         return obj.created_at

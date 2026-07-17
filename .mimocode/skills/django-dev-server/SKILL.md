@@ -5,9 +5,7 @@ description: Start/restart Django dev server on Windows with correct PYTHONPATH 
 
 # Django Dev Server (Windows)
 
-The `env` venv has packages at `D:\[projects]\katran\env\Lib\site-packages` but `.\env\Scripts\python.exe` doesn't include this in sys.path. Every manage.py command and the dev server require the PYTHONPATH workaround.
-
-**Important:** Paths contain square brackets `[]` which PowerShell treats as wildcards. Always use variables for paths, never inline them in `Start-Process -FilePath`.
+The `env` venv has packages at `D:\Projects\katran\env\Lib\site-packages` but `.\env\Scripts\python.exe` doesn't include this in sys.path. Every manage.py command and the dev server require the PYTHONPATH workaround.
 
 ## Start/restart dev server
 
@@ -16,18 +14,18 @@ The `env` venv has packages at `D:\[projects]\katran\env\Lib\site-packages` but 
 Get-Process python -ErrorAction SilentlyContinue | Stop-Process -Force
 Start-Sleep -Seconds 1
 
-# Set PYTHONPATH and start server (assign paths to variables first!)
-$pythonPath = "D:\[projects]\katran\env\Scripts\python.exe"
-$managePy = "D:\[projects]\katran\manage.py"
-$env:PYTHONPATH = "D:\[projects]\katran\env\Lib\site-packages"
+# Set PYTHONPATH and start server
+$pythonPath = "D:\Projects\katran\env\Scripts\python.exe"
+$managePy = "D:\Projects\katran\manage.py"
+$env:PYTHONPATH = "D:\Projects\katran\env\Lib\site-packages"
 Start-Process -FilePath $pythonPath -ArgumentList "$managePy runserver"
 ```
 
 ## Run any manage.py command
 
 ```powershell
-$env:PYTHONPATH = "D:\[projects]\katran\env\Lib\site-packages"
-& "D:\[projects]\katran\env\Scripts\python.exe" "D:\[projects]\katran\manage.py" <command>
+$env:PYTHONPATH = "D:\Projects\katran\env\Lib\site-packages"
+& "D:\Projects\katran\env\Scripts\python.exe" "D:\Projects\katran\manage.py" <command>
 ```
 
 ## Verify server is running

@@ -20,6 +20,8 @@ def comparison_detail(request):
                 'title': p.title,
                 'url': url,
                 'image': p.image.url if p.image else '',
+                'image_sm': p.get_resized_url('image', 'sm') if p.image else '',
+                'image_md': p.get_resized_url('image', 'md') if p.image else '',
                 'brand': p.brand.title if p.brand else '',
                 'brand_url': brand_url,
                 'price': str(p.price) if p.price else '',

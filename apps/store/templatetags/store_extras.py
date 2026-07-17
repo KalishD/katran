@@ -1,6 +1,8 @@
 from django import template
+from django.utils.safestring import mark_safe
 from collections import OrderedDict as SortedDict
 import bleach
+import os
 
 register = template.Library()
 
@@ -58,3 +60,46 @@ def product_card(product):
     return {
         'p': product,
     }
+
+
+@register.simple_tag
+def responsive_img(image_field, alt='', css_class='', loading='lazy', sizes=None):
+    """
+    Render an <img> with srcset for responsive images.
+
+    Usage:
+        {% responsive_img product.image "Product title" css_class="image" loading="lazy" %}
+
+    Generates srcset with _sm (400w), _md (800w), and full-size variants.
+    Falls back to plain <img src> if field is empty.
+    """
+    if not image_field or not image_field.name:
+        return ''
+
+    url = image_field.url
+    base, ext = os.path.splitext(url)
+
+    # Build srcset: try _sm and _md variants, fall back to full
+    srcset_parts = []
+    for suffix, width in [('sm', 400), ('md', 800)]:
+        variant_url = f'{base}_{suffix}{ext}'
+        srcset_parts.append(f'{variant_url} {width}w')
+    srcset_parts.append(f'{url} 1200w')
+
+    srcset = ', '.join(srcset_parts)
+
+    if sizes is None:
+        sizes = '(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw'
+
+    attrs = [
+        f'src="{url}"',
+        f'srcset="{srcset}"',
+        f'sizes="{sizes}"',
+        f'alt="{alt}"',
+    ]
+    if css_class:
+        attrs.append(f'class="{css_class}"')
+    if loading:
+        attrs.append(f'loading="{loading}"')
+
+    return mark_safe(f'<img {" ".join(attrs)}>')

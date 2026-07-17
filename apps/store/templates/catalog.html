@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load core_extras %}
+{% load store_extras %}
 {% block title %}Каталог пневматического инструмента — купить в СПб | Катран-Пневмо{% endblock %}
 {% block ogtitle %}Каталог пневматического инструмента — купить в СПб | Катран-Пневмо{% endblock %}
 {% block description %}{{ description }}{% endblock %}
@@ -32,7 +33,7 @@
                 <div class="kp-cat-card">
                   <div class="kp-cat-card__img">
                     {% if cat.image %}
-                      <img src="{{ cat.image.url }}" alt="{{ cat.title }} — купить в СПб" title="{{ cat.title }}">
+                      {% responsive_img cat.image cat.title|add:" — купить в СПб" %}
                     {% else %}
                       <i class="fa-solid fa-box-open" style="font-size: 2.5rem; color: var(--katran-icon-color);"></i>
                     {% endif %}

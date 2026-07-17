@@ -441,8 +441,21 @@ class ProductAdmin(ExportActionMixin, SummernoteModelAdmin, admin.ModelAdmin):
 
   inlines = [VariableInline, PatentInline, ProductFAQInline]
   save_as = True
-  actions = ['rename_images']
+  actions = ['rename_images', 'generate_image_variants']
   # summernote_fields = ('description',)
+
+  @admin.action(description='Создать _sm/_md версии изображений')
+  def generate_image_variants(self, request, queryset):
+    count = 0
+    for obj in queryset:
+      if not obj.image or obj.image.name == 'static/images/blank_prodimg.jpg':
+        continue
+      try:
+        obj.generate_variants('image', obj.slug)
+        count += 1
+      except Exception as e:
+        self.message_user(request, f'Ошибка для {obj.title}: {e}', level='error')
+    self.message_user(request, f'Созданы варианты для {count} товаров')
 
   @admin.action(description='Переименовать изображения по slug')
   def rename_images(self, request, queryset):
@@ -479,7 +492,20 @@ class BrandAdmin(admin.ModelAdmin):
   list_display = ("title",'is_on',"product_count","ordering","country")
   fields = ("title","slug","description",'is_on',"ordering","country", "image")
   prepopulated_fields = {'slug': ('title',) }
-  actions = ['rename_images']
+  actions = ['rename_images', 'generate_image_variants']
+
+  @admin.action(description='Создать _sm/_md версии изображений')
+  def generate_image_variants(self, request, queryset):
+    count = 0
+    for obj in queryset:
+      if not obj.image or obj.image.name == 'static/images/blank_prodimg.jpg':
+        continue
+      try:
+        obj.generate_variants('image', obj.slug)
+        count += 1
+      except Exception as e:
+        self.message_user(request, f'Ошибка для {obj.title}: {e}', level='error')
+    self.message_user(request, f'Созданы варианты для {count} брендов')
 
   @admin.action(description='Переименовать изображения по slug')
   def rename_images(self, request, queryset):
@@ -617,7 +643,20 @@ class CategoryAdmin(admin.ModelAdmin):
   prepopulated_fields = {'slug': ('title',)
   # summernote_fields = ('summer_description',)
   }
-  actions = ['rename_images']
+  actions = ['rename_images', 'generate_image_variants']
+
+  @admin.action(description='Создать _sm/_md версии изображений')
+  def generate_image_variants(self, request, queryset):
+    count = 0
+    for obj in queryset:
+      if not obj.image or obj.image.name == 'static/images/blank_prodimg.jpg':
+        continue
+      try:
+        obj.generate_variants('image', obj.slug)
+        count += 1
+      except Exception as e:
+        self.message_user(request, f'Ошибка для {obj.title}: {e}', level='error')
+    self.message_user(request, f'Созданы варианты для {count} категорий')
 
   @admin.action(description='Переименовать изображения по slug')
   def rename_images(self, request, queryset):

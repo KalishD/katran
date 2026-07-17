@@ -53,7 +53,20 @@ class PostAdmin(ExportActionMixin, SummernoteModelAdmin, admin.ModelAdmin):
     summernote_fields = ('body',)
     prepopulated_fields = {'slug': ('title',) }
     filter_horizontal = ('linked_products',)
-    actions = ['rename_images']
+    actions = ['rename_images', 'generate_image_variants']
+
+    @admin.action(description='Создать _sm/_md версии изображений')
+    def generate_image_variants(self, request, queryset):
+        count = 0
+        for obj in queryset:
+            if not obj.image or obj.image.name == 'static/images/blank_prodimg.jpg':
+                continue
+            try:
+                obj.generate_variants('image', obj.slug)
+                count += 1
+            except Exception as e:
+                self.message_user(request, f'Ошибка для {obj.title}: {e}', level='error')
+        self.message_user(request, f'Созданы варианты для {count} статей')
 
     @admin.action(description='Переименовать изображения по slug')
     def rename_images(self, request, queryset):

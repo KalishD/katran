@@ -50,7 +50,7 @@
                   <img src="{{ product.image.url }}" alt="{{ product.title }}" title="{{ product.title }}">
                   {% if product.brand %}
                       <figure class="image product-card_brand-image is-64x64">
-                          <img src="{{product.brand.image.url}}" 
+                          <img loading="lazy" src="{{ product.brand.image.url }}"
                               alt="{{ product.brand }} | купить с доставкой по всей России"
                               title="{{ product.brand }} | купить с доставкой по всей России">
                       </figure>
@@ -68,12 +68,12 @@
                         class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
                       <a href="{% url 'product_detail' product.analog.category.main_category.slug product.analog.category.slug product.analog.slug %}">
                         <figure class="image">
-                          <img src="{{ product.analog.image.url }}" alt="Image" />
+                          <img loading="lazy" src="{{ product.analog.image.url }}" alt="Image" />
                         </figure>
                       </a>
                       {% if product.analog.brand %}
                           <figure class="image product-card_brand-image is-64x64">
-                              <img src="{{product.analog.brand.image.url}}" 
+                              <img loading="lazy" src="{{product.analog.brand.image.url}}"
                                   alt="{{ product.analog.brand }} | купить с доставкой по всей России"
                                   title="{{ product.analog.brand }} | купить с доставкой по всей России">
                           </figure>
@@ -141,7 +141,7 @@
                         <div class="column is-3">
                           <figure class="image is-64x64">
                             <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">
-                              <img src="{{product.brand.image.url}}" 
+                              <img loading="lazy" src="{{product.brand.image.url}}"
                               alt="{{ product.brand }} | купить с доставкой по всей России"
                               title="{{ product.brand }} | купить с доставкой по всей России">
                             </a>

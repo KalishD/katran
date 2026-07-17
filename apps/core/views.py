@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps import views as sitemap_views
 from django.urls import get_resolver
+from django.views.decorators.cache import cache_page, never_cache
 import csv, codecs, os, re, operator, io, requests
 from io import BytesIO
 import openpyxl
@@ -148,9 +149,12 @@ def temp(request):
     return render(request, 'temp.html', context)
 
 
+@never_cache
 def error_404_view(request):
     main_brand_id = getattr(settings, 'MAIN_BRAND_ID', 1)
-    katran_products = Product.objects.filter(brand=main_brand_id, category__main_category__in=range(1, 2), is_visible=True).order_by('sku')
+    katran_products = Product.objects.filter(
+        brand=main_brand_id, category__main_category__in=range(1, 2), is_visible=True
+    ).select_related('brand', 'category__main_category').order_by('sku')
     description = 'Эта страница не найдена, но у нас много другого инструмента в каталоге.'
     context = {
         'katran_products': katran_products,
@@ -158,9 +162,12 @@ def error_404_view(request):
     }
     return render(request, '404.html', context)
 
+@never_cache
 def error_500_view(request):
     main_brand_id = getattr(settings, 'MAIN_BRAND_ID', 1)
-    katran_products = Product.objects.filter(brand=main_brand_id, category__main_category__in=range(1, 2), is_visible=True).order_by('sku')
+    katran_products = Product.objects.filter(
+        brand=main_brand_id, category__main_category__in=range(1, 2), is_visible=True
+    ).select_related('brand', 'category__main_category').order_by('sku')
     description = 'Ой, что-то с нашим сервером. Но мы скоро всё починим.'
 
     context = {
@@ -171,13 +178,22 @@ def error_500_view(request):
 
 
 
+@cache_page(60 * 15)  # 15 minutes
 def frontpage(request):
     main_brand_id = getattr(settings, 'MAIN_BRAND_ID', 1)
-    katran_products = Product.objects.filter(brand=main_brand_id, category__main_category__in=range(1, 2), is_visible=True).order_by('category')
-    cangairgrinders = Product.objects.filter(category__in=getattr(settings, 'AIR_GRINDER_CATEGORIES', [16]), is_visible=True).order_by('sku')
-    anglegrinders = Product.objects.filter(category__in=getattr(settings, 'ANGLE_GRINDER_CATEGORIES', [15]), is_visible=True).order_by('-price')
-    airhammers = Product.objects.filter(category__in=range(5, 7), is_visible=True).order_by('-price')
-    posts = Post.objects.all()
+    katran_products = Product.objects.filter(
+        brand=main_brand_id, category__main_category__in=range(1, 2), is_visible=True
+    ).select_related('brand', 'category__main_category').order_by('category')
+    cangairgrinders = Product.objects.filter(
+        category__in=getattr(settings, 'AIR_GRINDER_CATEGORIES', [16]), is_visible=True
+    ).select_related('brand', 'category__main_category').order_by('sku')
+    anglegrinders = Product.objects.filter(
+        category__in=getattr(settings, 'ANGLE_GRINDER_CATEGORIES', [15]), is_visible=True
+    ).select_related('brand', 'category__main_category').order_by('-price')
+    airhammers = Product.objects.filter(
+        category__in=range(5, 7), is_visible=True
+    ).select_related('brand', 'category__main_category').order_by('-price')
+    posts = Post.objects.all().select_related('postcategory')
     keywords = 'Купить пневмоинструмент, пневматические молотки отбойные, пневматические молотки рубильные, российский пневмоинструмент'
     description = 'Магазин пневматического инструмента, ООО "Катран-Пневмо" более 30 лет на рынке. Купить пневмоинструмент в СПб.'
     context = {
@@ -192,6 +208,7 @@ def frontpage(request):
 
     return render(request, 'frontpage.html', context)
 
+@cache_page(60 * 60 * 24)  # 24 hours
 def politics(request):
     keywords = ''
     description = 'Политика обработки персональных данных'
@@ -201,6 +218,7 @@ def politics(request):
     }
     return render(request, 'politics.html', context)
 
+@cache_page(60 * 60 * 24)  # 24 hours
 def politics_agree(request):
     keywords = ''
     description = 'Согласие с политикой персональных данных'
@@ -210,18 +228,25 @@ def politics_agree(request):
     }
     return render(request, 'politics_agree.html', context)
 
+@cache_page(60 * 60)  # 1 hour
 def production(request):
-    mp006 = Product.objects.filter(sku = 4).first()
-    mp01122 = Product.objects.filter(sku = 5882).first()
-    rm8 = Product.objects.filter(sku = 17).first()
-    rm12 = Product.objects.filter(sku = 18).first()
-    rm16 = Product.objects.filter(sku = 19).first()
-    tp28a = Product.objects.filter(sku = 31).first()
-    tpv3a = Product.objects.filter(sku = 237).first()
-    mps = Product.objects.filter(sku = 1).first()
-    ppf420 = Product.objects.filter(sku = 15).first()
-    pvm = Product.objects.filter(sku = 774).first()
-    ru64 = Product.objects.filter(sku = 3397).first()
+    sku_list = [4, 5882, 17, 18, 19, 31, 237, 1, 15, 774, 3397]
+    products_qs = Product.objects.filter(sku__in=sku_list).select_related(
+        'brand', 'category__main_category'
+    )
+    products_by_sku = {p.sku: p for p in products_qs}
+
+    mp006 = products_by_sku.get(4)
+    mp01122 = products_by_sku.get(5882)
+    rm8 = products_by_sku.get(17)
+    rm12 = products_by_sku.get(18)
+    rm16 = products_by_sku.get(19)
+    tp28a = products_by_sku.get(31)
+    tpv3a = products_by_sku.get(237)
+    mps = products_by_sku.get(1)
+    ppf420 = products_by_sku.get(15)
+    pvm = products_by_sku.get(774)
+    ru64 = products_by_sku.get(3397)
     mp011_list = [mp01122,]
     rm_list = [rm8,rm12,rm16]
     tramb_list = [tp28a, tpv3a]
@@ -246,6 +271,7 @@ def production(request):
     return render(request, 'production.html', context)
 
 
+@cache_page(60 * 60)  # 1 hour
 def about(request):
     keywords = 'О компании Катран-Пневмо, производитель пневматического инструмента, патенты, история компании, пневмоинструмент Санкт-Петербург, пневматические шлифмашин гайковерты молотки'
     description = 'ООО «Катран-Пневмо» — производитель и поставщик промышленного пневматического инструмента с 1990 года. Собственное производство в СПб, стендовые испытания, авторизованный дистрибьютор U-Tools и Daewoo. Гарантия 12 месяцев.'
@@ -255,6 +281,7 @@ def about(request):
     }
     return render(request, 'about.html', context)
 
+@cache_page(60 * 60)  # 1 hour
 def contacts(request):
     keywords = 'Контакты Катран-Пневмо, телефон, адрес, реквизиты, Санкт-Петербург'
     description = 'Контакты ООО "Катран-Пневмо": телефон +7 (812) 331 79 09, адрес в Санкт-Петербурге, банковские реквизиты, график работы.'
@@ -266,8 +293,16 @@ def contacts(request):
 
 
 def sale_price(request):
-    products = Product.objects.filter(is_in_sales_price = True).order_by('title')
-    categories = Category.objects.filter(products__is_in_sales_price=True).distinct().order_by('ordering', '-id')
+    products = Product.objects.filter(
+        is_in_sales_price=True
+    ).select_related(
+        'brand', 'category__main_category'
+    ).prefetch_related(
+        'variable_set__varitem'
+    ).order_by('title')
+    categories = Category.objects.filter(
+        products__is_in_sales_price=True
+    ).select_related('main_category').distinct().order_by('ordering', '-id')
     keywords = ''
     description = 'Прайс-лист пневматического инструмента фирмы Jesda'
     context = {
@@ -294,20 +329,34 @@ def export_pricelist(request):
     IMG_HEIGHT_PX = 80
     # Ширина колонки 'A' установлена в 20.
 
-    products = Product.objects.filter(is_in_sales_price = True).order_by('title')
-    categories = Category.objects.filter(products__is_in_sales_price=True).distinct().order_by('ordering', '-id')
+    products = Product.objects.filter(
+        is_in_sales_price=True
+    ).select_related(
+        'brand', 'category__main_category'
+    ).prefetch_related(
+        'variable_set__varitem'
+    ).order_by('title')
+    categories = Category.objects.filter(
+        products__is_in_sales_price=True
+    ).select_related('main_category').distinct().order_by('ordering', '-id')
     counter = 0
+    # Group products by category to avoid re-querying
+    products_by_category = {}
+    for product in products:
+        cat_id = product.category_id
+        if cat_id not in products_by_category:
+            products_by_category[cat_id] = []
+        products_by_category[cat_id].append(product)
+
     for category in categories:
       counter += 1
       ws.append([category.title,'',''])
-      print(counter)
-      print('Fill cell')
-      ws.merge_cells(start_row=counter, start_column=1, end_row=counter, end_column=3)  
+      ws.merge_cells(start_row=counter, start_column=1, end_row=counter, end_column=3)
       cell_index = 'A'+str(counter)
-      cell = ws[cell_index]  
+      cell = ws[cell_index]
       cell.fill = PatternFill(start_color='dae9f6', end_color='dae9f6', fill_type='solid')
       cell.font = Font(bold=True, size=16)
-      for product in  Product.objects.filter(is_in_sales_price = True, category = category.id).order_by('title'):
+      for product in products_by_category.get(category.id, []):
         counter += 1
         ws.row_dimensions[counter].height = 75
         
