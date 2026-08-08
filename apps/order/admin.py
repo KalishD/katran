@@ -23,6 +23,6 @@ class OrderAdmin(admin.ModelAdmin):
     return sum
   order_sum.short_decription = "Total price"
     
-  list_display = ("name","email","phone","address", "created_at", "item_count", "order_sum")
+  list_display = ("id","name","email","phone","address", "created_at", "item_count", "order_sum")
   inlines = [OrderItemInline]
 

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load core_extras %}
+{% block title %}Каталог пневматического инструмента{% endblock %}
+{% block ogtitle %}Каталог пневматического инструмента{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+{% block content %}
+
+    <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
+      <h1 class="title is-3">Каталог пневматического инструмента</h1>
+      {% for maincat in menu_main_categories %}
+      <h2 class="title is-4">{{ maincat.title }}</h2>
+      <div class="columns is-flex-wrap-wrap">
+        {% with categories_for_maincat=menu_categories_filter|filter_by_main_category_id:maincat.id %}
+        {% if categories_for_maincat %}
+          {% for cat in categories_for_maincat %}
+          <div class="column is-4">
+            <h3 class="subtitle is-5">{{ cat.title }}</h3>
+          </div>
+          {% endfor %}
+        {% endif %}
+        {% endwith %}
+      </div>
+      {% endfor %}
+    </div>
+  
+{% endblock %}

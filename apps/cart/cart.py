@@ -15,13 +15,15 @@ class Cart(object):
   def __iter__(self):
     product_ids = self.cart.keys()
 
-    product_clean_ids = []
+    # Batch-fetch all products in a single query instead of N individual queries
+    products = Product.objects.filter(pk__in=product_ids).select_related(
+        'category__main_category', 'brand'
+    )
+    products_map = {str(p.id): p for p in products}
 
     for p in product_ids:
-      product_clean_ids.append(p)
+      self.cart[str(p)]['product'] = products_map.get(str(p))
 
-      self.cart[str(p)]['product'] = Product.objects.get(pk=p)
-    
     for item in self.cart.values():
       item['total_price'] = float(float(item['price']) * int(item['quantity']))
 
@@ -33,7 +35,7 @@ class Cart(object):
 
   def add(self, product, quantity=1, update_quantity=False):
     product_id = str(product.id)
-    price = product.price
+    price = float(product.price)
 
     if product_id not in self.cart:
       self.cart[product_id] = {'quantity': 0, 'price': price, 'id': product_id}
@@ -57,7 +59,7 @@ class Cart(object):
       # return sum(float(item['total_price']) for item in self)
     # else:
       # return 0
-    return sum(float(item['total_price']) for item in self)
+    return sum(int(item['total_price']) for item in self)
 
   def remove(self, product_id):
     if str(product_id) in self.cart:

@@ -1,0 +1,30 @@
+User-agent: *
+Disallow: 
+Crawl-delay: 5
+Disallow: /old/
+Disallow: /test/
+Disallow: /*?t
+Disallow: /*?g
+Disallow: /*?i
+Disallow: /*/catalog*
+Disallow: /*_yclid*
+Disallow: /*g0*
+Disallow: /*_etext*
+Disallow: /*t6*
+Clean-param: etext
+Clean-param: yclid
+
+Sitemap: https://katran-pnevmo.ru/robots/sitemap.xml
+Sitemap: https://katran-pnevmo.ru/robots/image-sitemap.xml
+
+User-agent: Aport
+Disallow: /
+User-agent: msnbot
+Disallow: /
+User-agent: psbot
+Disallow: /
+User-agent: yahoo-slurp
+Disallow: /
+
+
+

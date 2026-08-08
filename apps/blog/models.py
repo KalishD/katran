@@ -1,0 +1,51 @@
+from django.db import models
+from apps.store.models import Product, ImageProcessingMixin
+
+class PostCategory(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
+    class Meta:
+        verbose_name_plural = "postcategories"
+    def __str__(self):
+        return self.name
+
+class Post(ImageProcessingMixin, models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
+    body = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
+    postcategory = models.ForeignKey(PostCategory, on_delete=models.CASCADE)
+
+    image = models.ImageField(upload_to="uploads/posts/", blank=True, null=True, default='static/images/blank_prodimg.jpg', max_length=255)
+    thumbnail = models.ImageField(upload_to="uploads/posts/", blank=True, null=True, max_length=255)
+
+    linked_products = models.ManyToManyField('store.Product', symmetrical=False, blank=True, related_name='linked_products')
+
+    class Meta:
+        verbose_name = 'Статья'
+        verbose_name_plural = 'Статьи'
+        ordering = ('-created_at','title')
+        indexes = [
+            models.Index(fields=['-created_at']),
+            models.Index(fields=['slug']),
+        ]
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        is_new = self._is_new_upload('image')
+        if is_new:
+            self._delete_existing('image', target_name=f'{self.slug}.jpg')
+            self._delete_existing('image', target_name=f'{self.slug}_sm.jpg')
+            self._delete_existing('image', target_name=f'{self.slug}_md.jpg')
+            self.image = self.convert_rgb(self.image, target_name=f'{self.slug}.jpg')
+            self._delete_existing('thumbnail', target_name=f'{self.slug}_thumb.jpg')
+            self.thumbnail = self.make_thumbnail(self.image, target_name=f'{self.slug}_thumb.jpg')
+        super().save(*args, **kwargs)
+        if is_new:
+            self.generate_variants('image', self.slug)
+
+    def get_absolute_url(self):
+        return '/blog/%s' % (self.slug)
