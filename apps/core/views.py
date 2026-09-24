@@ -230,7 +230,7 @@ def politics_agree(request):
 
 @cache_page(60 * 60)  # 1 hour
 def production(request):
-    sku_list = [4, 5882, 17, 18, 19, 31, 237, 1, 15, 774, 3397]
+    sku_list = [4, 5882, 3, 6591, 17, 18, 19, 31, 237, 1, 6771, 15, 774, 5958, 3397]
     products_qs = Product.objects.filter(sku__in=sku_list).select_related(
         'brand', 'category__main_category'
     )
@@ -238,28 +238,35 @@ def production(request):
 
     mp006 = products_by_sku.get(4)
     mp01122 = products_by_sku.get(5882)
+    mp011u = products_by_sku.get(3)
+    mp011r = products_by_sku.get(6591)
     rm8 = products_by_sku.get(17)
     rm12 = products_by_sku.get(18)
     rm16 = products_by_sku.get(19)
     tp28a = products_by_sku.get(31)
     tpv3a = products_by_sku.get(237)
     mps = products_by_sku.get(1)
+    mps2107shch = products_by_sku.get(6771)
     ppf420 = products_by_sku.get(15)
     pvm = products_by_sku.get(774)
+    pvm_drive = products_by_sku.get(5958)
     ru64 = products_by_sku.get(3397)
     mp011_list = [mp01122,]
-    rm_list = [rm8,rm12,rm16]
+    rm_list = [rm8, rm12, rm16]
     tramb_list = [tp28a, tpv3a]
-    pvm_list = [ppf420, pvm, ru64]
-    keywords = 'пневматический инструмент, производство, шлифовальная машина, трамбовка, рубильный молоток, пневмошлифмашина, промышленный пневмоинструмент, Санкт-Петербург'
-    description = 'Собственное производство пневматического инструмента ООО «Катран-Пневмо»: цанговые шлифмашины МП-006/МП-011, торцевая шлифмашина МПС-2215, виброзащищенные трамбовки, рубильные молотки серии РМ. Сертификаты, патенты, доставка по РФ и СНГ.'
+    pvm_list = [ppf420, pvm, pvm_drive, ru64]
+    keywords = 'пневматический инструмент, собственное производство, пневмошлифмашина цанговая, торцевая пневмошлифмашина, зачистная угловая машина, пневмотрамбовка, пневматическая трамбовка, рубильный молоток пневматический, пневмозубило, пневмопривод, Катран-Пневмо, Санкт-Петербург'
+    description = 'Собственное производство пневматического инструмента ООО «Катран-Пневмо»: цанговые шлифмашины МП-006, МП-011, МП-011У, МП-011Р, торцевая шлифмашина МПС-2215, зачистная угловая машина МПС-2107Щ, виброзащищенные трамбовки, рубильные молотки серии РМ, пневмоприводы. Сертификаты, патенты, доставка по РФ и СНГ.'
     context = {
         'mp006': mp006,
         'mp01122': mp01122,
+        'mp011u': mp011u,
+        'mp011r': mp011r,
         'rm8': rm8,
         'rm12': rm12,
         'rm16': rm16,
         'mps': mps,
+        'mps2107shch': mps2107shch,
         'mp011_list': mp011_list,
         'rm_list': rm_list,
         'tramb_list': tramb_list,

@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Пневматический инструмент собственного производства — шлифмашины, трамбовки, молотки | Катран-Пневмо{% endblock %}
-{% block ogtitle %}Пневматический инструмент собственного производства — шлифмашины, трамбовки, молотки | Катран-Пневмо{% endblock %}
+{% load store_extras %}
+{% block title %}Пневматический инструмент собственного производства — цанговые, торцевые шлифмашины, трамбовки, рубильные молотки | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Пневматический инструмент собственного производства — пневмошлифмашины, пневмотрамбовки, рубильные молотки | Катран-Пневмо{% endblock %}
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
@@ -24,7 +25,7 @@
     <p class="kp-about-hero__tag">Собственное производство</p>
     <h1 class="kp-hero-title">Пневматический инструмент<br>производства «Катран-Пневмо»</h1>
     <div class="kp-solutions-divider"></div>
-    <p class="subtitle is-6 mt-1" style="max-width: 600px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">Цанговые и торцевые шлифмашины, виброзащищенные трамбовки, рубильные молотки — вся продукция проходит стендовые испытания на&nbsp;предприятии в&nbsp;Санкт-Петербурге. Сертификаты, патенты, гарантия 12&nbsp;месяцев.</p>
+    <p class="subtitle is-6 mt-1" style="max-width: 600px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">Цанговые и&nbsp;торцевые пневмошлифмашины, зачистные угловые машины, виброзащищенные пневмотрамбовки, рубильные молотки и&nbsp;пневмоприводы — вся продукция проходит стендовые испытания на&nbsp;предприятии в&nbsp;Санкт-Петербурге. Сертификаты, патенты, гарантия 12&nbsp;месяцев.</p>
     <div class="buttons mt-3 is-justify-content-center">
       <a href="{% url 'contacts' %}" class="button is-primary">
         <strong>Получить консультацию</strong>
@@ -89,6 +90,52 @@
 
   <hr class="katran-line-sep mt-3 mb-3">
 
+  {# ── МП-011У ── #}
+  {% if mp011u %}
+  <div class="kp-prod-section mt-3" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+    <div class="kp-prod-section__top">
+      <div class="kp-prod-section__text">
+        <h3 class="kp-section-subheading" itemprop="name">Цанговая шлифмашина МП-011У</h3>
+        <div class="kp-prod-section__desc content" itemprop="description">
+          <p class="katran-content">Пневмошлифмашина МП-011У — укороченная версия МП-011 для работ в&nbsp;стеснённых условиях. Мощность 0,5&nbsp;кВт, частота вращения 22&nbsp;000 об/мин, длина корпуса всего 190&nbsp;мм, вес 1,1&nbsp;кг.</p>
+          <p class="katran-content">Собственная патентованная разработка «Катран-Пневмо» (патент №&nbsp;19874) для обработки штампов, пресс-форм и&nbsp;труднодоступных мест. Цанги 3/6/8&nbsp;мм — расширенный набор оснастки.</p>
+        </div>
+      </div>
+      <div class="kp-prod-section__img">
+        {% responsive_img mp011u.image "Цанговая шлифмашина МП-011У — производство Катран-Пневмо" %}
+      </div>
+    </div>
+    <div class="kp-prod-section__cards">
+      {% include "production_product_card.html" with p=mp011u %}
+    </div>
+  </div>
+  {% endif %}
+
+  <hr class="katran-line-sep mt-3 mb-3">
+
+  {# ── МП-011Р ── #}
+  {% if mp011r %}
+  <div class="kp-prod-section mt-3" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+    <div class="kp-prod-section__top">
+      <div class="kp-prod-section__text">
+        <h3 class="kp-section-subheading" itemprop="name">Цанговая шлифмашина МП-011Р</h3>
+        <div class="kp-prod-section__desc content" itemprop="description">
+          <p class="katran-content">Пневмошлифмашина МП-011Р — версия цанговой машины с&nbsp;рычажным механизмом пуска. Рычаг удобно зажимается ладонью, инструмент уверенно удерживается одной рукой при длительной шлифовке.</p>
+          <p class="katran-content">Характеристики аналогичны базовой МП-011: мощность 0,5&nbsp;кВт, частота вращения 22&nbsp;000 об/мин, цанги 3/6/8&nbsp;мм. Собственное производство, гарантия 12&nbsp;месяцев.</p>
+        </div>
+      </div>
+      <div class="kp-prod-section__img">
+        {% responsive_img mp011r.image "Цанговая шлифмашина МП-011Р с рычажным пуском — производство Катран-Пневмо" %}
+      </div>
+    </div>
+    <div class="kp-prod-section__cards">
+      {% include "production_product_card.html" with p=mp011r %}
+    </div>
+  </div>
+  {% endif %}
+
+  <hr class="katran-line-sep mt-3 mb-3">
+
   {# ── МПС-2215 ── #}
   <div class="kp-prod-section mt-3" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
     <div class="kp-prod-section__top">
@@ -107,6 +154,29 @@
       {% include "production_product_card.html" with p=mps %}
     </div>
   </div>
+
+  <hr class="katran-line-sep mt-3 mb-3">
+
+  {# ── МПС-2107Щ ── #}
+  {% if mps2107shch %}
+  <div class="kp-prod-section mt-3" itemprop="itemListElement" itemscope itemtype="https://schema.org/Offer">
+    <div class="kp-prod-section__top">
+      <div class="kp-prod-section__text">
+        <h3 class="kp-section-subheading" itemprop="name">Зачистная угловая машина МПС-2107Щ</h3>
+        <div class="kp-prod-section__desc content" itemprop="description">
+          <p class="katran-content">Пневматическая зачистная угловая машина МПС-2107Щ — собственный инструмент для&nbsp;обработки сварных швов и&nbsp;поверхностей проволочными щётками Ø100&nbsp;мм. Мощность 1,1&nbsp;кВт, частота вращения 7&nbsp;600 об/мин.</p>
+          <p class="katran-content">Надёжная машина для зачистки коррозии, окалины и&nbsp;подготовки поверхности к&nbsp;покраске. Компактный корпус, высокая производительность, гарантия 12&nbsp;месяцев.</p>
+        </div>
+      </div>
+      <div class="kp-prod-section__img">
+        {% responsive_img mps2107shch.image "Зачистная угловая машина МПС-2107Щ — производство Катран-Пневмо" %}
+      </div>
+    </div>
+    <div class="kp-prod-section__cards">
+      {% include "production_product_card.html" with p=mps2107shch %}
+    </div>
+  </div>
+  {% endif %}
 
   {# ══════════════════════════════════════════════════════ #}
   {# ── Трамбовки ── #}
@@ -169,7 +239,7 @@
       <p class="kp-section-label kp-section-label--center">Продукция</p>
       <h2 class="kp-section-heading" style="text-align: center;">Пневматическая реверсивная машина ПВМ-12</h2>
       <div class="kp-solutions-divider"></div>
-      <p class="subtitle is-6 mt-2" style="max-width: 700px; margin: 0 auto; text-align: center; color: var(--katran-font-sm-color);">Пневматический привод для механизмов, вальцевания труб и&nbsp;сверления отверстий. Высокая надёжность, повышенный ресурс, компактная конструкция.</p>
+      <p class="subtitle is-6 mt-2" style="max-width: 700px; margin: 0 auto; text-align: center; color: var(--katran-font-sm-color);">Пневматические приводы для механизмов, вальцевания труб и&nbsp;сверления отверстий: реверсивная машина ПВМ-12, привод ПВМ-12, пневмопривод ППФ-420, редуктор РУ-6,4. Высокая надёжность, повышенный ресурс, компактная конструкция.</p>
     </div>
   </div>
 
@@ -232,7 +302,7 @@
     <div class="column is-10-desktop is-offset-1-desktop">
       <div class="content" style="color: var(--katran-font-sm-color); font-size: 0.9rem; line-height: 1.7;">
         <p class="katran-content">ООО «Катран-Пневмо» — российский производитель промышленного пневматического инструмента с&nbsp;1990&nbsp;года. Собственное производство в&nbsp;Санкт-Петербурге включает полный цикл: от&nbsp;конструирования до&nbsp;стендовых испытаний готовой продукции. Все модели шлифовальных машин, трамбовок и&nbsp;рубильных молотков сертифицированы и&nbsp;защищены патентами Российской Федерации.</p>
-        <p class="katran-content">Мы поставляем пневмоинструмент для&nbsp;судостроения, машиностроения, нефтегазовой отрасли и&nbsp;литейных производств по&nbsp;всей России и&nbsp;странам СНГ. Гарантия 12&nbsp;месяцев, бесплатная консультация по&nbsp;подбору оборудования. <a href="{% url 'catalog' %}">Перейти в каталог →</a></p>
+        <p class="katran-content">В&nbsp;линейке собственного производства — цанговые пневмошлифмашины МП-006, МП-011, МП-011У и&nbsp;МП-011Р, торцевая шлифмашина МПС-2215, зачистная угловая машина МПС-2107Щ, виброзащищенные пневмотрамбовки ТП-28А и&nbsp;ТПВ-3А, рубильные молотки серии РМ, пневмоприводы ППФ-420 и&nbsp;ПВМ-12. Мы поставляем пневмоинструмент для&nbsp;судостроения, машиностроения, нефтегазовой отрасли и&nbsp;литейных производств по&nbsp;всей России и&nbsp;странам СНГ. Гарантия 12&nbsp;месяцев, бесплатная консультация по&nbsp;подбору оборудования. <a href="{% url 'catalog' %}">Перейти в каталог →</a></p>
       </div>
     </div>
   </div>
