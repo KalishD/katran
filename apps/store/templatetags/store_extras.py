@@ -71,19 +71,24 @@ def responsive_img(image_field, alt='', css_class='', loading='lazy', sizes=None
         {% responsive_img product.image "Product title" css_class="image" loading="lazy" %}
 
     Generates srcset with _sm (400w), _md (800w), and full-size variants.
-    Falls back to plain <img src> if field is empty.
+    Only existing variant files are included; falls back to plain <img src>.
     """
     if not image_field or not image_field.name:
         return ''
 
+    storage = image_field.storage
     url = image_field.url
-    base, ext = os.path.splitext(url)
 
-    # Build srcset: try _sm and _md variants, fall back to full
+    base_name, ext = os.path.splitext(image_field.name)
+
     srcset_parts = []
     for suffix, width in [('sm', 400), ('md', 800)]:
-        variant_url = f'{base}_{suffix}{ext}'
-        srcset_parts.append(f'{variant_url} {width}w')
+        variant_name = f'{base_name}_{suffix}{ext}'
+        try:
+            if storage.exists(variant_name):
+                srcset_parts.append(f'{storage.url(variant_name)} {width}w')
+        except Exception:
+            pass
     srcset_parts.append(f'{url} 1200w')
 
     srcset = ', '.join(srcset_parts)

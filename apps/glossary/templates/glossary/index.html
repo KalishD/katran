@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Справочник по пневмоинструменту | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Справочник по пневмоинструменту | Катран-Пневмо{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+
+{% block content %}
+<div class="column has-text-centered-touch  is-9 is-9-fullhd is-9-desktop is-full-mobile">
+
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li class="is-active"><a href="{% url 'glossary_index' %}" aria-current="page">Справочник</a></li>
+    </ul>
+  </nav>
+
+  <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+    <p class="kp-about-hero__tag">Катран-Пневмо</p>
+    <h1 class="kp-hero-title">Справочник по пневмоинструменту</h1>
+    <div class="kp-solutions-divider"></div>
+    <p class="subtitle is-6 mt-2" style="max-width: 620px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">
+      Разбираемся: что означает термин, какой инструмент под вашу задачу, как выбрать под компрессор
+    </p>
+  </div>
+
+  {% for group in groups %}
+    <div class="columns mt-5 is-multiline">
+      <div class="column is-full has-text-centered">
+        <p class="kp-section-label kp-section-label--center">{{ group.label }}</p>
+        <h2 class="kp-section-heading" style="text-align: center;">{{ group.label }}</h2>
+      </div>
+    </div>
+    <div class="columns is-multiline mt-3">
+      {% for p in group.items %}
+        <div class="column is-4 is-full-mobile">
+          <a href="{{ p.get_absolute_url }}" class="no-hl-link" aria-label="Открыть: {{ p.title }}">
+            <div class="box has-text-left" style="height: 100%; transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;">
+              <p class="title is-6 mb-2">{{ p.title }}</p>
+              {% if p.short_description %}
+                <p class="content is-7" style="color: var(--katran-font-sm-color); font-size: 0.9rem;">{{ p.short_description }}</p>
+              {% else %}
+                <p class="content is-7" style="color: var(--katran-font-sm-color); font-size: 0.9rem;">Открыть страницу</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% empty %}
+    <div class="columns">
+      <div class="column is-8-desktop is-offset-2-desktop has-text-centered">
+        <p>Раздел наполняется. Скоро здесь появятся статьи справочника.</p>
+      </div>
+    </div>
+  {% endfor %}
+
+  <div class="columns mt-6 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box kp-cta-box--solutions">
+        <p class="kp-cta-box__title">Не нашли ответ в справочнике?</p>
+        <p class="kp-cta-box__text">Подберём инструмент под вашу задачу и ответим на вопросы по применению.</p>
+        <div class="buttons mt-3 is-justify-content-center">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Получить консультацию</strong>
+          </a>
+          <a href="tel:+78123317909" class="button is-light">
+            <strong>+7 (812) 331 79 09</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

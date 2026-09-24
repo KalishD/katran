@@ -24,6 +24,7 @@ def cart_detail(request):
             'image': product.image.url if product.image else '',
             'image_sm': product.get_resized_url('image', 'sm') if product.image else '',
             'image_md': product.get_resized_url('image', 'md') if product.image else '',
+            'srcset': product.get_srcset('image') if product.image else '',
         })
 
     context = {

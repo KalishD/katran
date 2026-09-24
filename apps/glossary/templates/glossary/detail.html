@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load core_extras %}
+{% load store_extras %}
+{% block title %}{{ page.meta_title|default:page.title }}{% endblock %}
+{% block ogtitle %}{{ page.meta_title|default:page.title }}{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+
+{% block breadcrumbs_extra %}
+{ "position": 2, "name": "Справочник", "item": "https://katran-pnevmo.ru/glossary/" },
+{ "position": 3, "name": "{{ page.title }}", "item": "https://katran-pnevmo.ru{{ page.get_absolute_url }}" }
+{% endblock %}
+
+{% block content %}
+<div class="column has-text-centered-touch is-9 is-9-fullhd is-9-desktop is-full-mobile">
+
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li><a href="{% url 'glossary_index' %}" class="no-hl-link">Справочник</a></li>
+      <li class="is-active"><a href="{{ page.get_absolute_url }}" aria-current="page">{{ page.title }}</a></li>
+    </ul>
+  </nav>
+
+  <div class="title-wrapper has-text-centered">
+    <p class="subtitle is-6">{{ page.get_page_type_display }}</p>
+    <h1 class="kp-hero-title">{{ page.title }}</h1>
+    <div class="kp-solutions-divider"></div>
+  </div>
+
+  {% if page.short_description %}
+    <p class="subtitle is-6 mt-2" style="max-width: 640px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">{{ page.short_description }}</p>
+  {% endif %}
+
+  {% if page.body %}
+    <div class="columns mt-5 is-multiline">
+      <div class="column is-8-desktop is-offset-2-desktop is-full content has-text-left">
+        {{ page.body|safe }}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if faq %}
+    <div class="columns mt-5 is-multiline">
+      <div class="column is-8-desktop is-offset-2-desktop is-full">
+        <h2 class="kp-section-heading">Частые вопросы</h2>
+        {% for item in faq %}
+          <div class="box p-4 mt-3">
+            <p class="title is-6 mb-2"><strong>{{ item.q }}</strong></p>
+            <div class="content is-7">{{ item.a|safe }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if page.related_categories.all %}
+    <div class="columns mt-6 is-multiline">
+      <div class="column is-full has-text-centered">
+        <p class="kp-section-label kp-section-label--center">Каталог</p>
+        <h2 class="kp-section-heading" style="text-align: center;">Категории по теме</h2>
+      </div>
+    </div>
+    <div class="columns is-multiline mt-3">
+      {% for cat in page.related_categories.all %}
+        <div class="column is-3 is-6-mobile">
+          <a href="{{ cat.get_absolute_url }}" class="no-hl-link">
+            <div class="box has-text-centered" style="transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;">
+              <figure class="image is-64x64" style="margin: 0 auto;">
+                {% if cat.image %}
+                <img src="{{ cat.image.url }}" alt="{{ cat.title }}" loading="lazy">
+                {% endif %}
+              </figure>
+              <p class="title is-6 mt-2">{{ cat.title }}</p>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if page.related_products.all %}
+    <div class="columns is-multiline mt-6">
+      <div class="column is-12 has-text-centered">
+        <div class="kp-section-label kp-section-label--center">Товары</div>
+        <h2 class="kp-section-heading" style="text-align: center;">Подходящий пневмоинструмент</h2>
+        <div class="carousel-wrapper">
+          <div class="owl-carousel owl-theme">
+            {% for p in page.related_products.all|product_category_sort:'category' %}
+              {% product_card p %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if page.related_pages.all %}
+    <div class="columns mt-5 is-multiline">
+      <div class="column is-full has-text-centered">
+        <p class="kp-section-label kp-section-label--center">Справочник</p>
+        <h2 class="kp-section-heading" style="text-align: center;">Читайте также</h2>
+      </div>
+    </div>
+    <div class="columns is-multiline mt-3">
+      {% for rp in page.related_pages.all %}
+        <div class="column is-4 is-full-mobile">
+          <a href="{{ rp.get_absolute_url }}" class="no-hl-link" aria-label="Открыть: {{ rp.title }}">
+            <div class="box has-text-left" style="height: 100%; transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;">
+              <p class="subtitle is-7 mb-1" style="color: var(--katran-accent-color);">{{ rp.get_page_type_display }}</p>
+              <p class="title is-6 mb-2">{{ rp.title }}</p>
+              {% if rp.short_description %}
+                <p class="content is-7" style="color: var(--katran-font-sm-color); font-size: 0.9rem;">{{ rp.short_description }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="columns mt-6 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box kp-cta-box--solutions">
+        <p class="kp-cta-box__title">Нужна помощь с выбором?</p>
+        <p class="kp-cta-box__text">Позвоните — подскажем, какой инструмент подойдёт, и рассчитаем компрессор под него.</p>
+        <div class="buttons mt-3 is-justify-content-center">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Получить консультацию</strong>
+          </a>
+          <a href="{% url 'catalog' %}" class="button is-light">
+            <strong>Смотреть каталог</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.owl-carousel:not(".brands-carousel"):not(".half-carousel"):not(".info-carousel")').owlCarousel(
+      {
+        items: 4,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        autoplay: true,
+        autoplayTimeout: 8000,
+        responsive:{
+            0:{ items:1, nav:true },
+            480:{ items:1, nav:false },
+            700:{ items:3, nav:false },
+            1000:{ items:5, nav:false },
+            1200:{ items:5, nav:false, loop:false }
+        },
+      }
+    );
+  });
+</script>
+{% endblock %}

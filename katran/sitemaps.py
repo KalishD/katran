@@ -4,6 +4,7 @@ from django.shortcuts import reverse
 from apps.store.models import Category, Product, Brand
 from apps.blog.models import Post
 from apps.solutions.models import Industry, CaseStudy
+from apps.glossary.models import GlossaryPage
 
 
 class StaticViewSitemap(Sitemap):
@@ -58,3 +59,11 @@ class CaseStudySitemap(Sitemap):
 
     def lastmod(self, obj):
         return obj.created_at
+
+
+class GlossarySitemap(Sitemap):
+    def items(self):
+        return GlossaryPage.objects.filter(is_visible=True).only('slug', 'updated_at')
+
+    def lastmod(self, obj):
+        return obj.updated_at

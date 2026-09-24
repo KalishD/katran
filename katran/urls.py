@@ -31,7 +31,7 @@ from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
 
 from .sitemaps import (
     StaticViewSitemap, CategorySitemap, ProductSitemap, BrandSitemap,
-    PostsSitemap, IndustrySitemap, CaseStudySitemap,
+    PostsSitemap, IndustrySitemap, CaseStudySitemap, GlossarySitemap,
 )
 
 sitemaps = {
@@ -42,6 +42,7 @@ sitemaps = {
     'post': PostsSitemap,
     'industry': IndustrySitemap,
     'case_study': CaseStudySitemap,
+    'glossary': GlossarySitemap,
 }
 
 # Solutions app
@@ -100,6 +101,8 @@ urlpatterns = [
     path('temp/', temp, name="temp"),
     path('blog/', blog, name="blog"),
     path('blog/<slug:slug>/', post_detail, name='post_detail'),
+    #GLOSSARY
+    path('glossary/', include('apps.glossary.urls')),
 ]
 
 # Summernote URLs

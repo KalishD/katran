@@ -82,13 +82,34 @@ class ImageProcessingMixin:
         return File(thumb_io, name=name)
 
     def get_resized_url(self, field_name, suffix):
-        """Get URL for a resized variant (e.g. _sm, _md). Falls back to original."""
+        """Get URL for a resized variant (e.g. _sm, _md). Empty if variant file is missing."""
         field = getattr(self, field_name)
         if not field or not field.name:
             return ''
-        url = field.url
-        base, ext = os.path.splitext(url)
-        return f'{base}_{suffix}{ext}'
+        storage = field.storage
+        name = field.name
+        base, ext = os.path.splitext(name)
+        variant_name = f'{base}_{suffix}{ext}'
+        try:
+            if storage.exists(variant_name):
+                return storage.url(variant_name)
+        except Exception:
+            return ''
+        return ''
+
+    def get_srcset(self, field_name='image', widths=None):
+        """Build srcset string with only existing variant files. Always includes original."""
+        widths = widths or [('sm', 400), ('md', 800)]
+        field = getattr(self, field_name)
+        if not field or not field.name:
+            return ''
+        parts = []
+        for suffix, width in widths:
+            vurl = self.get_resized_url(field_name, suffix)
+            if vurl:
+                parts.append(f'{vurl} {width}w')
+        parts.append(f'{field.url} 1200w')
+        return ', '.join(parts)
 
     def generate_variants(self, field_name='image', slug=None):
         """Generate _sm and _md resized variants for an image field."""
