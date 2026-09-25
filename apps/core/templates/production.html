@@ -21,30 +21,50 @@
   </nav>
 
   {# ── Hero ── #}
-  <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+  <div class="title-wrapper has-text-centered">
     <p class="kp-about-hero__tag">Собственное производство</p>
     <h1 class="kp-hero-title">Пневматический инструмент<br>производства «Катран-Пневмо»</h1>
     <div class="kp-solutions-divider"></div>
-    <p class="subtitle is-6 mt-1" style="max-width: 600px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">Цанговые и&nbsp;торцевые пневмошлифмашины, зачистные угловые машины, виброзащищенные пневмотрамбовки, рубильные молотки и&nbsp;пневмоприводы — вся продукция проходит стендовые испытания на&nbsp;предприятии в&nbsp;Санкт-Петербурге. Сертификаты, патенты, гарантия 12&nbsp;месяцев.</p>
+    <p class="subtitle is-6 mt-1">Цанговые и&nbsp;торцевые пневмошлифмашины, зачистные угловые машины, виброзащищенные пневмотрамбовки, рубильные молотки и&nbsp;пневмоприводы — вся продукция проходит стендовые испытания на&nbsp;предприятии в&nbsp;Санкт-Петербурге. Сертификаты, патенты, гарантия 12&nbsp;месяцев, прямые цены от&nbsp;производителя.</p>
     <div class="buttons mt-3 is-justify-content-center">
-      <a href="{% url 'contacts' %}" class="button is-primary">
+      <a href="#production-catalog" class="button is-primary">
+        <strong>Смотреть модели</strong>
+      </a>
+      <a href="{% url 'contacts' %}" class="button is-info is-outlined">
         <strong>Получить консультацию</strong>
       </a>
-      <a href="{% url 'catalog' %}" class="button is-light">
-        <strong>Перейти в каталог</strong>
-      </a>
+    </div>
+  </div>
+
+  {# ── Почему Катран-Пневмо (доверие + конверсия) ── #}
+  <div class="columns mt-5 is-multiline is-centered">
+    <div class="column is-6-tablet is-3-desktop has-text-centered">
+      <p class="title is-4 mb-0">с&nbsp;1990&nbsp;года</p>
+      <p class="subtitle is-7 mt-1">собственное производство&nbsp;в Санкт-Петербурге</p>
+    </div>
+    <div class="column is-6-tablet is-3-desktop has-text-centered">
+      <p class="title is-4 mb-0">5&nbsp;патентов</p>
+      <p class="subtitle is-7 mt-1">на конструкции собственных изделий</p>
+    </div>
+    <div class="column is-6-tablet is-3-desktop has-text-centered">
+      <p class="title is-4 mb-0">12&nbsp;месяцев</p>
+      <p class="subtitle is-7 mt-1">гарантия и&nbsp;постгарантийный&nbsp;сервис</p>
+    </div>
+    <div class="column is-6-tablet is-3-desktop has-text-centered">
+      <p class="title is-4 mb-0">100%</p>
+      <p class="subtitle is-7 mt-1">стендовые испытания на&nbsp;предприятии</p>
     </div>
   </div>
 
   {# ══════════════════════════════════════════════════════ #}
   {# ── Шлифовальные машины ── #}
   {# ══════════════════════════════════════════════════════ #}
-  <div class="columns mt-5 is-multiline">
+  <div class="columns mt-5 is-multiline" id="production-catalog">
     <div class="column is-full">
       <p class="kp-section-label kp-section-label--center">Продукция</p>
-      <h2 class="kp-section-heading" style="text-align: center;">Пневматические шлифовальные машины</h2>
+      <h2 class="kp-section-heading">Пневматические шлифовальные машины</h2>
       <div class="kp-solutions-divider"></div>
-      <p class="subtitle is-6 mt-2" style="max-width: 700px; margin: 0 auto; text-align: center; color: var(--katran-font-sm-color);">Цанговые и торцевые пневмошлифмашины для точной обработки штампов, пресс-форм и&nbsp;металлических поверхностей. Высокие обороты, компактные размеры, защита от&nbsp;взрывоопасных сред.</p>
+      <p class="subtitle is-6 mt-2">Цанговые, торцевые и&nbsp;зачистные угловые пневмошлифмашины собственного производства для точной обработки штампов, пресс-форм, зачистки сварных швов и&nbsp;металлических поверхностей. Высокие обороты, компактные размеры, безопасность во&nbsp;взрывоопасных и&nbsp;влажных средах.</p>
     </div>
   </div>
 
@@ -184,16 +204,16 @@
   <div class="columns mt-5 is-multiline">
     <div class="column is-full">
       <p class="kp-section-label kp-section-label--center">Продукция</p>
-      <h2 class="kp-section-heading" style="text-align: center;">Пневматические виброзащищенные трамбовки</h2>
+      <h2 class="kp-section-heading">Пневматические виброзащищенные трамбовки</h2>
       <div class="kp-solutions-divider"></div>
-      <p class="subtitle is-6 mt-2" style="max-width: 700px; margin: 0 auto; text-align: center; color: var(--katran-font-sm-color);">Трамбовки для уплотнения формовочных смесей в&nbsp;литейном производстве. Встроенная виброзащита снижает нагрузку на&nbsp;оператора. Патентованные конструкции.</p>
+      <p class="subtitle is-6 mt-2">Пневматические трамбовки для уплотнения формовочных смесей, грунта и&nbsp;сыпучих материалов в&nbsp;литейном, строительном производстве и&nbsp;дорожных работах. Встроенная виброзащита снижает нагрузку на&nbsp;руки оператора. Патентованные конструкции, ремонт и&nbsp;запчасти&nbsp;— от&nbsp;производителя.</p>
     </div>
   </div>
 
   {# ── ТП-28А ── #}
   <div class="kp-prod-section kp-prod-section--center mt-3">
     <div class="kp-prod-section__top kp-prod-section__top--single">
-      <div class="kp-prod-section__text" style="text-align: center;">
+      <div class="kp-prod-section__text">
         <h3 class="kp-section-subheading">Пневматическая виброзащищенная трамбовка ТП-28А</h3>
         <div class="kp-prod-section__desc content">
           <p class="katran-content">Пневмотрамбовка ТП-28А предназначена для уплотнения формовочных смесей в&nbsp;литейном производстве и&nbsp;других аналогичных работ. Снабжена встроенной виброзащитой для снижения нагрузки на&nbsp;руки оператора.</p>
@@ -202,7 +222,7 @@
       </div>
     </div>
     <div class="kp-prod-section__cards kp-prod-section__cards--center">
-      <div class="kp-prod-section__img" style="width: 100%;">
+      <div class="kp-prod-section__img">
         <img src="{% static 'images/production/tp-28a.jpg' %}" alt="Пневматическая трамбовка ТП-28А — производство Катран-Пневмо">
       </div>
     </div>
@@ -237,9 +257,9 @@
   <div class="columns mt-5 is-multiline">
     <div class="column is-full">
       <p class="kp-section-label kp-section-label--center">Продукция</p>
-      <h2 class="kp-section-heading" style="text-align: center;">Пневматическая реверсивная машина ПВМ-12</h2>
+      <h2 class="kp-section-heading">Пневматическая реверсивная машина ПВМ-12</h2>
       <div class="kp-solutions-divider"></div>
-      <p class="subtitle is-6 mt-2" style="max-width: 700px; margin: 0 auto; text-align: center; color: var(--katran-font-sm-color);">Пневматические приводы для механизмов, вальцевания труб и&nbsp;сверления отверстий: реверсивная машина ПВМ-12, привод ПВМ-12, пневмопривод ППФ-420, редуктор РУ-6,4. Высокая надёжность, повышенный ресурс, компактная конструкция.</p>
+      <p class="subtitle is-6 mt-2">Пневматические приводы для механизмов, вальцевания труб и&nbsp;сверления отверстий: реверсивная машина ПВМ-12, привод ПВМ-12, пневмопривод ППФ-420, редуктор РУ-6,4. Высокая надёжность, повышенный ресурс, компактная конструкция.</p>
     </div>
   </div>
 
@@ -269,9 +289,9 @@
   <div class="columns mt-5 is-multiline">
     <div class="column is-full">
       <p class="kp-section-label kp-section-label--center">Продукция</p>
-      <h2 class="kp-section-heading" style="text-align: center;">Пневматические рубильные молотки серии РМ</h2>
+      <h2 class="kp-section-heading">Пневматические рубильные молотки серии РМ</h2>
       <div class="kp-solutions-divider"></div>
-      <p class="subtitle is-6 mt-2" style="max-width: 700px; margin: 0 auto; text-align: center; color: var(--katran-font-sm-color);">Молотки для обрубки прибылей и&nbsp;заливов на&nbsp;отливках, удаления пригара и&nbsp;стержней, вырубки дефектов. Три модели по&nbsp;энергии удара: 8, 12 и&nbsp;16&nbsp;Дж.</p>
+      <p class="subtitle is-6 mt-2">Пневматические молотки и&nbsp;пневмозубила для обрубки прибылей и&nbsp;заливов на&nbsp;отливках, удаления пригара и&nbsp;стержней, вырубки дефектов, снятия сайлентблоков в&nbsp;автосервисе. Три модели по&nbsp;энергии удара: 8, 12 и&nbsp;16&nbsp;Дж. Мощные и&nbsp;надёжные, с&nbsp;комплектом насадок и&nbsp;концевой пружиной.</p>
     </div>
   </div>
 
@@ -300,9 +320,18 @@
   {# ══════════════════════════════════════════════════════ #}
   <div class="columns mt-5 mb-3">
     <div class="column is-10-desktop is-offset-1-desktop">
-      <div class="content" style="color: var(--katran-font-sm-color); font-size: 0.9rem; line-height: 1.7;">
+      <div class="content">
         <p class="katran-content">ООО «Катран-Пневмо» — российский производитель промышленного пневматического инструмента с&nbsp;1990&nbsp;года. Собственное производство в&nbsp;Санкт-Петербурге включает полный цикл: от&nbsp;конструирования до&nbsp;стендовых испытаний готовой продукции. Все модели шлифовальных машин, трамбовок и&nbsp;рубильных молотков сертифицированы и&nbsp;защищены патентами Российской Федерации.</p>
-        <p class="katran-content">В&nbsp;линейке собственного производства — цанговые пневмошлифмашины МП-006, МП-011, МП-011У и&nbsp;МП-011Р, торцевая шлифмашина МПС-2215, зачистная угловая машина МПС-2107Щ, виброзащищенные пневмотрамбовки ТП-28А и&nbsp;ТПВ-3А, рубильные молотки серии РМ, пневмоприводы ППФ-420 и&nbsp;ПВМ-12. Мы поставляем пневмоинструмент для&nbsp;судостроения, машиностроения, нефтегазовой отрасли и&nbsp;литейных производств по&nbsp;всей России и&nbsp;странам СНГ. Гарантия 12&nbsp;месяцев, бесплатная консультация по&nbsp;подбору оборудования. <a href="{% url 'catalog' %}">Перейти в каталог →</a></p>
+        <p class="katran-content">В&nbsp;линейке собственного производства — цанговые пневмошлифмашины МП-006, МП-011, МП-011У и&nbsp;МП-011Р, торцевая шлифмашина МПС-2215, зачистная угловая машина МПС-2107Щ, виброзащищенные пневмотрамбовки ТП-28А и&nbsp;ТПВ-3А, рубильные молотки серии РМ, пневмоприводы ППФ-420 и&nbsp;ПВМ-12. Мы поставляем пневмоинструмент для&nbsp;судостроения, машиностроения, нефтегазовой отрасли и&nbsp;литейных производств по&nbsp;всей России и&nbsp;странам СНГ.</p>
+
+        <h3 class="kp-section-subheading mt-4">Почему выгодно заказывать напрямую у&nbsp;производителя</h3>
+        <p class="katran-content">Прямые цены от&nbsp;завода без наценок посредников, гарантия 12&nbsp;месяцев и&nbsp;постгарантийное обслуживание. Каждое изделие проходит стендовые испытания и&nbsp;имеет патент на&nbsp;конструкцию, поэтому готово&nbsp;к интенсивной эксплуатации на&nbsp;литейных, судостроительных и&nbsp;машиностроительных предприятиях. Подберём модель под вашу задачу, оперативно предоставим запчасти и&nbsp;выполним ремонт пневмоинструмента.</p>
+
+        <h3 class="kp-section-subheading mt-4">Какой инструмент выбрать для конкретной работы</h3>
+        <p class="katran-content">Для&nbsp;обработки штампов, пресс-форм и&nbsp;труднодоступных мест подойдут цанговые пневмошлифмашины МП-006 и&nbsp;МП-011 — точные, с&nbsp;частотами до&nbsp;30&nbsp;000 об/мин. Зачистку сварных швов и&nbsp;коррозии выполнят торцевая МПС-2215 и&nbsp;зачистная угловая МПС-2107Щ. Уплотнение формовочных смесей и&nbsp;грунта — задача виброзащищённых трамбовок ТП-28А и&nbsp;ТПВ-3А. Обрубку прибылей, заливов и&nbsp;вырубку дефектов на&nbsp;отливках — рубильные молотки серии РМ. Пневмоприводы ППФ-420 и&nbsp;ПВМ-12 применяются для&nbsp;механизмов, вальцевания труб и&nbsp;сверления отверстий.</p>
+
+        <h3 class="kp-section-subheading mt-4">Условия и&nbsp;сервис</h3>
+        <p class="katran-content">Бесплатная консультация по&nbsp;подбору оборудования и&nbsp;компрессора, доставка по&nbsp;РФ и&nbsp;СНГ, гарантия 12&nbsp;месяцев, сервис и&nbsp;запчасти в&nbsp;Санкт-Петербурге. Работаем с&nbsp;промышленными предприятиями, автосервисами и&nbsp;оптовыми клиентами. <a href="{% url 'catalog' %}">Перейти в каталог →</a></p>
       </div>
     </div>
   </div>

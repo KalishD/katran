@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q, F, Value
 from django.db.models.functions import Coalesce, Lower
 from django.http import JsonResponse
@@ -25,8 +25,8 @@ def search(request):
 
     if not raw_query:
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'products_html'})
-        return render(request, 'search.html', {'query': raw_query, 'products': [], 'keywords': ''})
+            return JsonResponse({'products_html': ''})
+        return redirect('frontpage')
 
     query = raw_query
 

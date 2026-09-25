@@ -729,7 +729,19 @@
                 }
             }
         });
-    </script>    
+    </script>
+
+    <script>
+        document.querySelectorAll('form[action*="/search/"]').forEach(function (form) {
+            form.addEventListener('submit', function (e) {
+                var input = form.querySelector('input[name="query"]');
+                if (input && !input.value.trim()) {
+                    e.preventDefault();
+                    input.focus();
+                }
+            });
+        });
+    </script>
     {% block scripts %}{% endblock %}
 
 	<div id="cookie-banner" style="display: none;">

@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'apps.order',
     'apps.blog',
     'apps.solutions',
+    'apps.glossary',
 
     'phonenumber_field',
     'fontawesomefree',

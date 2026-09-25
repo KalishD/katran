@@ -1,6 +1,5 @@
 {% load store_extras %}
-{# Reusable product card for production page #}
-{# Expects: p — product object #}
+
 {% if p and p.category_id and p.category.main_category_id and p.slug and p.category.slug and p.category.main_category.slug %}
 <div class="kp-prod-card">
   <a href="{% url 'product_detail' p.category.main_category.slug p.category.slug p.slug %}">
