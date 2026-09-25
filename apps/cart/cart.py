@@ -21,10 +21,12 @@ class Cart(object):
     )
     products_map = {str(p.id): p for p in products}
 
-    for p in product_ids:
-      self.cart[str(p)]['product'] = products_map.get(str(p))
+    # Never mutate self.cart (which is the session dict) with model objects —
+    # Django serializes session data as JSON and would fail on Product.
 
-    for item in self.cart.values():
+    for p in product_ids:
+      item = dict(self.cart[str(p)])
+      item['product'] = products_map.get(str(p))
       item['total_price'] = float(float(item['price']) * int(item['quantity']))
 
       yield item
