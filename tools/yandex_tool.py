@@ -298,9 +298,9 @@ def cmd_metrika_conversion(args):
     ensure_own(cfg)
     if args.goal:
         g = args.goal
-        metric = f"ym:gv:goal{g}reaches,ym:gv:goal{g}visits,ym:gv:goal{g}conversionRate"
+        metric = f"ym:s:goal{g}reaches,ym:s:goal{g}visits,ym:s:goal{g}conversionRate"
     else:
-        metric = "ym:gv:goalsReaches,ym:gv:goalsVisits,ym:gv:goalsConversionRate"
+        metric = "ym:s:anyGoalReaches,ym:s:anyGoalVisits,ym:s:anyGoalConversionRate"
     params = {
         "ids": args.counter,
         "metrics": metric,

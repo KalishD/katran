@@ -153,6 +153,11 @@ def category_detail(request, maincategory_slug, slug):
 
     keywords = f'Заказать {category.title}'
     description = f'Заказать {category.title}'
+    if category.description:
+        clean_desc = ' '.join(re.sub(r'<[^>]+>', ' ', category.description).split())
+        if len(clean_desc) > 60:
+            description = clean_desc[:170].rsplit(' ', 1)[0] + '…'
+            keywords = f'купить {category.title}, {category.title}, {category.main_category.title}'
 
     context = {
         'category': category,
