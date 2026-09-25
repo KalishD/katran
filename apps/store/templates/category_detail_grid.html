@@ -34,7 +34,7 @@
         <button class="button is-black is-small cart-btn" @click="addToCart({{ p.id }})">
             <i class="fa-solid fa-cart-shopping"></i>
             &nbsp;
-            <span class="cart-btn-label">Купить</span>
+            <span class="cart-btn-label">{% if p.price != 0 %}Купить{% else %}Запросить цену{% endif %}</span>
         </button>
     </div>
   {% endfor %}

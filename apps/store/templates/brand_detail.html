@@ -152,7 +152,7 @@
                 <div class="column is-4-widescreen is-4-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
                   <button class="button is-primary is-small" @click="addToCart(product.id)">
                     <i class="fa-solid fa-cart-shopping"></i>&nbsp;
-                    <span class="">Купить</span>
+                    <span class="">[[ product.price ? 'Купить' : 'Запросить цену' ]]</span>
                   </button>
                 </div>
                 <div class="column is-8-widescreen is-8-mobile is-full-tablet is-full-desktop">
@@ -212,7 +212,7 @@
                 <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
                   <button class="button is-primary is-small" @click="addToCart(product.id)">
                     <i class="fa-solid fa-cart-shopping"></i><i class="shiny_btn"></i>&nbsp;
-                    <span class="">Купить</span>
+                    <span class="">[[ product.price ? 'Купить' : 'Запросить цену' ]]</span>
                   </button>
                 </div>
               </div>

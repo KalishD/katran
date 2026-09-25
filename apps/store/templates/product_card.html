@@ -54,7 +54,7 @@
         <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
             <button class="button is-primary is-small" @click="addToCart({{ p.id }}, '{{ p.title|escapejs }}')">
             <i class="fa-solid fa-cart-shopping"></i><i class="shiny_btn"></i>&nbsp;
-            <span class="">Купить</span>
+            <span class="">{% if p.price != 0 %}Купить{% else %}Запросить цену{% endif %}</span>
             </button>
         </div>
         

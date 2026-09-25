@@ -113,7 +113,7 @@
             </p>
 
             <button class="button is-primary is-normal mb-3" @click="addToCart({{ product.id }})" aria-label="Добавить в корзину">
-              Купить <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> <i class="shiny_btn" aria-hidden="true"></i>
+              {% if product.price != 0 %}Купить{% else %}Запросить цену{% endif %} <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> <i class="shiny_btn" aria-hidden="true"></i>
             </button>
             <button class="button is-success is-light is-normal mb-3" @click="toggleComparison({{ product.id }})" :aria-label="inComparison ? 'Убрать из сравнения' : 'Добавить к сравнению'">
               <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>&nbsp;&nbsp;[[ inComparison ? 'Убрать' : 'Сравнить' ]]

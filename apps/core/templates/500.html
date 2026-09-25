@@ -267,7 +267,7 @@ a.more-link {
           <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
             <button class="button is-primary is-small" @click="addToCart({{ p.id }})">
               <i class="fa-solid fa-cart-shopping"></i>&nbsp;
-              <span class="">Купить</span>
+              <span class="">{% if p.price != 0 %}Купить{% else %}Запросить цену{% endif %}</span>
             </button>
           </div>
           <div class="column is-9-widescreen is-9-mobile is-full-tablet is-full-desktop">

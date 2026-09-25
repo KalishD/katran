@@ -81,7 +81,7 @@
             <td class="has-text-centered" v-for="p in products" :key="'act-'+p.id">
               <div class="buttons is-centered">
                 <button class="button is-primary is-small" @click="addToCart(p.id)">
-                  <i class="fa-solid fa-cart-shopping"></i>&nbsp;Купить
+                  <i class="fa-solid fa-cart-shopping"></i>&nbsp;[[ p.price ? 'Купить' : 'Запросить цену' ]]
                 </button>
                 <button class="button is-danger is-small is-light" @click="removeFromComparison(p.id)">
                   <i class="fa-solid fa-trash-can"></i>
