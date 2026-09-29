@@ -10,21 +10,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %}</title>
   <meta name="yandex-verification" content="cc46f3878c1e243d" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://code.jquery.com">
+  <link rel="preconnect" href="https://unpkg.com">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   {% block summernote_css %}{% endblock %}
 
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
   
   <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon">
   
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css" />
+  <link rel="stylesheet" href="{% static 'css/fontawesome-subset.css' %}" />
   
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
   {% block summernote_js %}{% endblock %}
-  <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script>
 
   <meta name="description" content="{% block description %}Пневматический инструмент для промышленности. ООО «Катран-Пневмо» — поставщик пневмоинструмента в СПб и по России с 1990 года.{% endblock %}" />
   <link rel="canonical" href="{% block canonicalurl %}https://katran-pnevmo.ru{{ request.path  }}{% endblock %}" />
@@ -184,11 +186,11 @@
 
         <div class="navbar-brand">
           <a class="navbar-item is-hidden-desktop no-hl-link is-hidden-fullhd is-hidden-widescreen" href="{% url 'frontpage' %}">
-            <img class="katran-logo-img"
+            <picture><source type="image/webp" srcset="{% static 'images/kp-logo-text.webp' %}"><img class="katran-logo-img"
             		 fetchpriority="high" 
                  src="{% static 'images/kp-logo-text.png' %}" 
                  alt="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ" 
-                 title="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ">
+                 title="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ"></picture>
           </a>
           <a @click="toggleMenu()" role="button" class="navbar-burger" aria-label="Меню навигации" :aria-expanded="menuClass.toString()" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
@@ -369,10 +371,10 @@
       <div class="columns is-vcentered">
         <div class="column is-4 is-centered pr-6 pl-6 pt-0 pb-0 has-text-right has-text-centered-mobile is-hidden-mobile is-hidden-tablet-only">
           <a href="{% url 'frontpage' %}" class="no-hl-link">
-            <img class="katran-logo-img" 
+            <picture><source type="image/webp" srcset="{% static 'images/kp-logo-text.webp' %}"><img class="katran-logo-img" 
                  src="{% static 'images/kp-logo-text.png' %}" 
                  alt="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ" 
-                 title="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ">
+                 title="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ"></picture>
           </a>
         </div>
         <div class="column is-8 
@@ -460,7 +462,7 @@
       <div class="columns">
         <div class="column">
           <div class="mb-5">
-            <img class="katran-logo-img" src="{% static 'images/kp-logo-text.png' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент">
+            <picture><source type="image/webp" srcset="{% static 'images/kp-logo-text.webp' %}"><img class="katran-logo-img" src="{% static 'images/kp-logo-text.png' %}" alt="Интернет-магазин пневматического инструмента | Катран-Пневмо | Пневматический инструмент"></picture>
           </div>
           <div class="content">
             <p>ООО "Катран-Пневмо"</p>
@@ -520,7 +522,6 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js'></script>
   <script type="text/javascript" src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
 
 <script>
