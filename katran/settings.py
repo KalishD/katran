@@ -101,7 +101,7 @@ TEMPLATES = [
                 'apps.store.context_processors.featured_product',
                 'apps.store.context_processors.all_products',
                 'apps.store.context_processors.menu_brands',
-                'apps.store.context_processors.featured_categories',
+                'apps.store.context_processors.catalog_menu',
                 'apps.store.context_processors.featured_product_success',
                 'apps.store.context_processors.bestsellers_product',
                 

@@ -418,36 +418,34 @@
       <!-- Go To Top -->
       <a href="#" id="goToTop" class="button go_top" aria-label="Наверх"><i class="fa-solid fa-angles-up" aria-hidden="true"></i></a>
 
-    <!-- популярные категории -->
-      <div class="columns mb-0" id="">
-        <div class="column has-text-centered is-full pb-0 pt-0 mb-0">
-          <div class="content pt-3">
-            <div id="categorySpoilerWrapper">
-              <div class="category-top mb-1 columns is-multiline">
-                {% for fc in featured_categories %}
-                  <a href="{% url 'category_detail' fc.main_category.slug fc.slug %}">
-                    <div class="category-block is-flex pr-3 pl-1 m-6-tablet m-1-desktop mb-0
-                    is-vcentered">
-                      <figure class="image is-24x24 m-0 mr-1 ml-1">
-                        {% responsive_img fc.image fc.title|add:" | купить со склада в СПБ" css_class="is-rounded" %}
-                      </figure>
-                      <p class="pt-1 title is-6 fc-black has-text-left pb-1 pl-1 pt-0 pr-2">{{ fc.title }}</p>
-                    </div>
-                  </a>
-                {% endfor %}
-              </div>
+    <!-- каталог: горизонтальная полка с выпадающей навигацией -->
+      <nav class="kp-catalog-rail" aria-label="Каталог товаров">
+        <a class="kp-rail-head" href="{% url 'catalog' %}">
+          <i class="fa-solid fa-table-list" aria-hidden="true"></i>
+          <span>Каталог</span>
+        </a>
+        {% for mc in catalog_menu %}
+          <div class="kp-rail-item">
+            <div class="kp-rail-item-head">
+              <a class="kp-rail-link" href="{% url 'main_category_detail' mc.slug %}">{{ mc.title }}</a>
+              <button class="kp-rail-toggle" type="button" aria-expanded="false"
+                      aria-controls="rail-panel-{{ mc.id }}"
+                      aria-label="Открыть категории раздела «{{ mc.title }}»">
+                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              </button>
             </div>
-
-            <div class="has-text-left mt-0 mb-0 box pt-2 pl-3 has-text-centered-mobile">
-              <a href="javascript:void(0);" onclick="toggleCategories()" class="more-categories-toggle menu-label is-6 fc-red has-text-weight-bold">
-                <span id="toggleText">Популярные категории</span>
-                <span class="icon is-small"><i class="fas fa-chevron-down" aria-hidden="true"></i></span>
-              </a>
+            <div class="kp-rail-panel" id="rail-panel-{{ mc.id }}" style="--kp-cols: {{ mc.cols }}">
+              {% for cat in mc.categories %}
+                <a class="kp-rail-cat" href="{% url 'category_detail' mc.slug cat.slug %}">
+                  <span class="kp-rail-cat-img">{% responsive_img cat.image cat.title sizes="40px" %}</span>
+                  <span class="kp-rail-cat-title">{{ cat.title }}</span>
+                  <span class="kp-rail-cat-count" title="Товаров в категории">{{ cat.products_count }}</span>
+                </a>
+              {% endfor %}
             </div>
           </div>
-          <!-- carousel end -->
-        </div>
-      </div>
+        {% endfor %}
+      </nav>
     <!--  -->
 
   <div class="columns is-fullhd mt-3">
@@ -525,18 +523,36 @@
   <script type="text/javascript" src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
 
 <script>
-  let isOpen = false;
-
-  function toggleCategories() {
-    const wrapper = document.getElementById('categorySpoilerWrapper');
-    const text = document.getElementById('toggleText');
-    const icon = document.querySelector('#toggleText + .icon i');
-
-    isOpen = !isOpen;
-    wrapper.classList.toggle('is-open', isOpen);
-    text.textContent = isOpen ? 'Популярные категории' : 'Популярные категории';
-    icon.className = isOpen ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
-  }
+  (function () {
+    const rail = document.querySelector('.kp-catalog-rail');
+    if (!rail) return;
+    const items = Array.prototype.slice.call(rail.querySelectorAll('.kp-rail-item'));
+    const closeAll = function (except) {
+      items.forEach(function (item) {
+        if (item !== except) {
+          item.classList.remove('is-open');
+          const b = item.querySelector('.kp-rail-toggle');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        }
+      });
+    };
+    items.forEach(function (item) {
+      const btn = item.querySelector('.kp-rail-toggle');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        const isOpen = item.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        closeAll(item);
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!rail.contains(e.target)) closeAll();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAll();
+    });
+  })();
+</script>
 </script>
 
     <script>

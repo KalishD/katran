@@ -81,13 +81,32 @@ def menu_brands(request):
     return {'menu_brands': brands}
 
 
-def featured_categories(request):
-    cache_key = 'featured_categories'
-    featuredcategories = cache.get(cache_key)
-    if featuredcategories is None:
-        featuredcategories = Category.objects.filter(is_features=True).select_related('main_category').order_by('ordering')
-        cache.set(cache_key, featuredcategories, 600)  # 10 minutes
-    return {'featured_categories': featuredcategories}
+def catalog_menu(request):
+    cache_key = 'catalog_menu'
+    data = cache.get(cache_key)
+    if data is None:
+        import math
+        from django.db.models import Count, Q
+        categories = (
+            Category.objects
+            .filter(main_category__isnull=False)
+            .select_related('main_category')
+            .annotate(products_count=Count('products', filter=Q(products__is_visible=True)))
+            .order_by('main_category__ordering', 'ordering', 'id')
+        )
+        sections = {}
+        order = []
+        for c in categories:
+            mc = c.main_category
+            if mc.id not in sections:
+                sections[mc.id] = {'id': mc.id, 'slug': mc.slug, 'title': mc.title, 'categories': [], 'cols': 1}
+                order.append(mc.id)
+            sections[mc.id]['categories'].append(c)
+        for section in sections.values():
+            section['cols'] = max(1, min(4, math.ceil(len(section['categories']) / 5)))
+        data = [sections[i] for i in order]
+        cache.set(cache_key, data, 600)  # 10 minutes
+    return {'catalog_menu': data}
 
 def bestsellers_product(request):
     cache_key = 'bestsellers_product_ids'
