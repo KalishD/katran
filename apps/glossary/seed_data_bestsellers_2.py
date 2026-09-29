@@ -62,8 +62,8 @@ BESTS2 = [
         'meta_description': 'Купить прямую пневмошлифмашину ИП-2014 (ИП-2014Б): 150 мм, 1,3 кВт, 5100 об/мин, М22. Для крупной зачистки металла. Доставка по России!',
         'meta_keywords': 'шлифмашина прямая ИП-2014, пневмошлифмашина ИП-2014Б, радиальная шлифмашина 150 мм, шлифмашина М22, купить ИП-2014',
         'products': ['ИП-2014/'],
-        'product_categories': ['shlifmashiny-radialnye-priamye'],
-        'related': ['shlifmashiny-radialnye-priamye', 'lopatki-dlia-pnevmoshlifmashin'],
+        'product_categories': ['shlifmashiny-radialnye-pryamye-pnevmaticheskie'],
+        'related': ['shlifmashiny-radialnye-pryamye-pnevmaticheskie', 'lopatki-dlia-pnevmoshlifmashin'],
     },
     {
         'type': 'model',
@@ -184,8 +184,8 @@ BESTS2 = [
         'meta_description': 'Купить прямую пневмошлифмашину S60A (ПШМ-60): 63 мм, 15000 об/мин, 0,6 кВт. Вес 1,7 кг, М16. Доставка по России!',
         'meta_keywords': 'шлифмашина S60A, пневмошлифмашина ПШМ-60, прямая шлифмашина 63 мм, купить прямую шлифмашину',
         'products': ['S60A ('],
-        'product_categories': ['shlifmashiny-radialnye-priamye'],
-        'related': ['shlifmashiny-radialnye-priamye', 'lopatki-dlia-pnevmoshlifmashin'],
+        'product_categories': ['shlifmashiny-radialnye-pryamye-pnevmaticheskie'],
+        'related': ['shlifmashiny-radialnye-pryamye-pnevmaticheskie', 'lopatki-dlia-pnevmoshlifmashin'],
     },
     {
         'type': 'model',
@@ -305,7 +305,7 @@ BESTS2 = [
         'meta_description': 'Купить орбитальную пневмошлифмашину AT-980-6V: 12000 об/мин, эксцентрик 6 мм, 150 мм. Вес 0,95 кг. Доставка по России!',
         'meta_keywords': 'орбитальная пневмошлифмашина AT-980-6V, орбиталка пневматическая, пневмошлифмашина для кузова, эксцентриковая шлифмашина 150 мм',
         'products': ['AT-980-6V'],
-        'product_categories': ['shlifmashiny-orbitalnye'],
-        'related': ['shlifmashiny-orbitalnye'],
+        'product_categories': ['shlifmashiny-orbitalnye-pnevmaticheskie'],
+        'related': ['shlifmashiny-orbitalnye-pnevmaticheskie'],
     },
 ]

@@ -51,27 +51,27 @@ INDUSTRIES = [
 <tbody>
 <tr>
 <td>Зачистка сварных швов</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-priamye/">Пневмошлифмашина прямая</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-pryamye-pnevmaticheskie/">Пневмошлифмашина прямая</a></td>
 <td>МП-011, МП-006</td>
 </tr>
 <tr>
 <td>Полировка поверхностей</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye/">Пневмошлифмашина орбитальная</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye-pnevmaticheskie/">Пневмошлифмашина орбитальная</a></td>
 <td>ПШМ-150</td>
 </tr>
 <tr>
 <td>Резка и шлифовка</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki/">Пневмоболгарка</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie/">Пневмоболгарка</a></td>
 <td>УШМ-125, УШМ-180</td>
 </tr>
 <tr>
 <td>Демонтаж, удаление окалины</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otboinye-i-betonolomy/">Пневмомолоток отбойный</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otbojnye-i-betonolomy-pnevmaticheskie/">Пневмомолоток отбойный</a></td>
 <td>МО-2К, МО-2Б</td>
 </tr>
 <tr>
 <td>Удаление наплавленного металла</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/molotki-rubilnye-i-pnevmozubila/">Пневмомолоток рубильный</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/molotki-rubilnye-pnevmaticheskie-i-pnevmozubila/">Пневмомолоток рубильный</a></td>
 <td>РМ-8, РМ-12, РМ-16</td>
 </tr>
 <tr>
@@ -131,17 +131,17 @@ INDUSTRIES = [
 <tbody>
 <tr>
 <td>Точечная обработка поверхностей</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-priamye/">Пневмошлифмашина прямая</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-pryamye-pnevmaticheskie/">Пневмошлифмашина прямая</a></td>
 <td>МП-011, МП-006</td>
 </tr>
 <tr>
 <td>Полировка, шлифовка плоскостей</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye/">Пневмошлифмашина орбитальная</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye-pnevmaticheskie/">Пневмошлифмашина орбитальная</a></td>
 <td>ПШМ-150</td>
 </tr>
 <tr>
 <td>Затяжка и откручивание</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/gaikoverty/">Пневмогайковерт</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/gajkoverty-pnevmaticheskie/">Пневмогайковерт</a></td>
 <td>ГМ-100, ГМ-200</td>
 </tr>
 <tr>
@@ -151,7 +151,7 @@ INDUSTRIES = [
 </tr>
 <tr>
 <td>Резка, шлифовка</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki/">Пневмоболгарка</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie/">Пневмоболгарка</a></td>
 <td>УШМ-125, УШМ-180</td>
 </tr>
 <tr>
@@ -204,12 +204,12 @@ INDUSTRIES = [
 <tbody>
 <tr>
 <td>Зачистка труб и фитингов</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-priamye/">Пневмошлифмашина прямая</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-pryamye-pnevmaticheskie/">Пневмошлифмашина прямая</a></td>
 <td>МП-011</td>
 </tr>
 <tr>
 <td>Шлифовка трубопроводов</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye/">Пневмошлифмашина орбитальная</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye-pnevmaticheskie/">Пневмошлифмашина орбитальная</a></td>
 <td>ПШМ-150</td>
 </tr>
 <tr>
@@ -219,17 +219,17 @@ INDUSTRIES = [
 </tr>
 <tr>
 <td>Затяжка фланцевых соединений</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/gaikoverty/">Пневмогайковерт</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/gajkoverty-pnevmaticheskie/">Пневмогайковерт</a></td>
 <td>ГМ-100, ГМ-200</td>
 </tr>
 <tr>
 <td>Демонтаж оборудования</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otboinye-i-betonolomy/">Пневмомолоток отбойный</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otbojnye-i-betonolomy-pnevmaticheskie/">Пневмомолоток отбойный</a></td>
 <td>МО-2К</td>
 </tr>
 <tr>
 <td>Резка и шлифовка</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki/">Пневмоболгарка</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie/">Пневмоболгарка</a></td>
 <td>УШМ-125</td>
 </tr>
 </tbody>
@@ -277,22 +277,22 @@ INDUSTRIES = [
 <tbody>
 <tr>
 <td>Уплотнение формовочных смесей</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/trambovki/">Пневматическая трамбовка</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/trambovki-pnevmaticheskie/">Пневматическая трамбовка</a></td>
 <td>ТП-28А, ТПВ-3А</td>
 </tr>
 <tr>
 <td>Зачистка отливок</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-priamye/">Пневмошлифмашина прямая</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-pryamye-pnevmaticheskie/">Пневмошлифмашина прямая</a></td>
 <td>МП-011, МП-006</td>
 </tr>
 <tr>
 <td>Удаление окалины, прибылей</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otboinye-i-betonolomy/">Пневмомолоток отбойный</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otbojnye-i-betonolomy-pnevmaticheskie/">Пневмомолоток отбойный</a></td>
 <td>МО-2К, МО-2Б</td>
 </tr>
 <tr>
 <td>Резка и шлифовка проката</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki/">Пневмоболгарка</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie/">Пневмоболгарка</a></td>
 <td>УШМ-180</td>
 </tr>
 <tr>
@@ -337,22 +337,22 @@ INDUSTRIES = [
 <tbody>
 <tr>
 <td>Трамбовка песчаных форм</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/trambovki/">Пневматическая трамбовка</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/trambovki-pnevmaticheskie/">Пневматическая трамбовка</a></td>
 <td>ТП-28А, ТПВ-3А</td>
 </tr>
 <tr>
 <td>Зачистка отливок</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-priamye/">Пневмошлифмашина прямая</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-pryamye-pnevmaticheskie/">Пневмошлифмашина прямая</a></td>
 <td>МП-011</td>
 </tr>
 <tr>
 <td>Удаление литниковой системы</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otboinye-i-betonolomy/">Пневмомолоток отбойный</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otbojnye-i-betonolomy-pnevmaticheskie/">Пневмомолоток отбойный</a></td>
 <td>МО-2К</td>
 </tr>
 <tr>
 <td>Шлифовка для контроля</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye/">Пневмошлифмашина орбитальная</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye-pnevmaticheskie/">Пневмошлифмашина орбитальная</a></td>
 <td>ПШМ-150</td>
 </tr>
 </tbody>
@@ -392,12 +392,12 @@ INDUSTRIES = [
 <tbody>
 <tr>
 <td>Шлифовка лопаток турбин</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-priamye/">Пневмошлифмашина прямая</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-pryamye-pnevmaticheskie/">Пневмошлифмашина прямая</a></td>
 <td>МП-011</td>
 </tr>
 <tr>
 <td>Затяжка фланцев</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/gaikoverty/">Пневмогайковерт</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/gajkoverty-pnevmaticheskie/">Пневмогайковерт</a></td>
 <td>ГМ-100, ГМ-200</td>
 </tr>
 <tr>
@@ -407,12 +407,12 @@ INDUSTRIES = [
 </tr>
 <tr>
 <td>Демонтаж оборудования</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otboinye-i-betonolomy/">Пневмомолоток отбойный</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otbojnye-i-betonolomy-pnevmaticheskie/">Пневмомолоток отбойный</a></td>
 <td>МО-2К</td>
 </tr>
 <tr>
 <td>Шлифовка поверхностей</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye/">Пневмошлифмашина орбитальная</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye-pnevmaticheskie/">Пневмошлифмашина орбитальная</a></td>
 <td>ПШМ-150</td>
 </tr>
 </tbody>
@@ -509,12 +509,12 @@ INDUSTRIES = [
 <tbody>
 <tr>
 <td>Затяжка болтовых соединений</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/gaikoverty/">Пневмогайковерт</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/gajkoverty-pnevmaticheskie/">Пневмогайковерт</a></td>
 <td>ГМ-100, ГМ-200</td>
 </tr>
 <tr>
 <td>Обработка поверхностей</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-priamye/">Пневмошлифмашина прямая</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-pryamye-pnevmaticheskie/">Пневмошлифмашина прямая</a></td>
 <td>МП-011</td>
 </tr>
 <tr>
@@ -524,7 +524,7 @@ INDUSTRIES = [
 </tr>
 <tr>
 <td>Резка металла</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki/">Пневмоболгарка</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie/">Пневмоболгарка</a></td>
 <td>УШМ-125, УШМ-180</td>
 </tr>
 </tbody>
@@ -572,7 +572,7 @@ INDUSTRIES = [
 <tbody>
 <tr>
 <td>Рыхление породы</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otboinye-i-betonolomy/">Пневмомолоток отбойный</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/molotki-otbojnye-i-betonolomy-pnevmaticheskie/">Пневмомолоток отбойный</a></td>
 <td>МО-2К, МО-2Б</td>
 </tr>
 <tr>
@@ -582,12 +582,12 @@ INDUSTRIES = [
 </tr>
 <tr>
 <td>Обслуживание оборудования</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/gaikoverty/">Пневмогайковерт</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/gajkoverty-pnevmaticheskie/">Пневмогайковерт</a></td>
 <td>ГМ-100</td>
 </tr>
 <tr>
 <td>Зачистка и шлифовка</td>
-<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-priamye/">Пневмошлифмашина прямая</a></td>
+<td><a href="/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-pryamye-pnevmaticheskie/">Пневмошлифмашина прямая</a></td>
 <td>МП-011</td>
 </tr>
 </tbody>

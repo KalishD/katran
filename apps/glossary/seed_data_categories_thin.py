@@ -8,7 +8,7 @@ CATS = [
         "type": "category",
         "title": "Пилы пневматические",
         "slug": "cat-pily",
-        "category_slug": "pily",
+        "category_slug": "pily-pnevmaticheskie",
         "short_description": "Цепная пневмопила ПП-2 для распила древесины во взрывоопасных зонах: шахты, ЛПК, ремонт. Без искр, без электроники, от компрессора. Доставка по России!",
         "body": """<h3>Пневмопилы — рез без электричества и искр</h3>
 <p>Пневматическая пила работает от сжатого воздуха и не требует электроэнергии: вращение редуктора приводит цепь или сабельное полотно, а привод находится на безопасном расстоянии от зоны реза. В отличие от электрического и аккумуляторного аналога, пневмопила не создаёт искр, не греет корпус при длительной работе и не боится влажности, поэтому она — стандартный инструмент для взрыво- и пожароопасных производств.</p>
@@ -63,7 +63,7 @@ CATS = [
         "meta_description": "Цепная пневмопила ПП-2 для распила дерева во взрывоопасных зонах. Без искр, от компрессора, гарантия 12 мес. Доставка по России, в наличии в СПб.",
         "meta_keywords": "пневмопила, пила пневматическая, пневмопила цепная, пила пневматическая ПП-2, пневмопила купить, пила для взрывоопасных зон",
         "products": ["ПП-2"],
-        "product_categories": ["pily"],
+        "product_categories": ["pily-pnevmaticheskie"],
         "related": ["rukava-vozdushnye-pnevmoshlangi", "soedinitelnye-elementy"],
     },
     {
@@ -125,7 +125,7 @@ CATS = [
         "meta_keywords": "пневмоотвертка, пневмовинтоверт, винтоверт пневматический, пневмоотвертка прямая, винтоверт с регулировкой момента, пневмоотвертка купить",
         "products": ["AT-4050", "AT-4060B", "AT-W9", "ПВ-М4", "DS-4TS-10"],
         "product_categories": ["vintoverty-pnevmootvertki"],
-        "related": ["gaikoverty", "podgotovka-vozdukha"],
+        "related": ["gajkoverty-pnevmaticheskie", "podgotovka-vozdukha"],
     },
     {
         "type": "category",
@@ -184,7 +184,7 @@ CATS = [
         "meta_description": "Клепальные молотки ИП-4009М/4010М и КМП-14М, пневмоперфораторы ПП-36/54/63В2, резьбонарезная машина РМ 22-8. Доставка по России, работа с юрлицами!",
         "meta_keywords": "клепальный молоток, пневмоперфоратор, перфоратор пневматический, резьбонарезная машина, ИП-4010М, КМП-14М, ПП-54В2, РМ 22-8",
         "products": ["КМП", "ИП-4010", "ИП-4009", "ПП-54", "ПП-36", "ПП-63", "РМ 22"],
-        "product_categories": ["molotki-klepalnye", "perforatory", "rezbonareznye-mashiny"],
-        "related": ["perforatory", "rezbonareznye-mashiny"],
+        "product_categories": ["molotki-klepalnye", "perforatory-pnevmaticheskie", "rezbonareznye-mashiny"],
+        "related": ["perforatory-pnevmaticheskie", "rezbonareznye-mashiny"],
     },
 ]

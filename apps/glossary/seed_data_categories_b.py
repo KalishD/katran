@@ -8,7 +8,7 @@ CATS_B = [
         "type": "category",
         "title": "Молотки отбойные пневматические",
         "slug": "cat-otbojnye-molotki",
-        "category_slug": "molotki-otboinye-i-betonolomy",
+        "category_slug": "molotki-otbojnye-i-betonolomy-pnevmaticheskie",
         "short_description": "Отбойные молотки МО-1Б/2Б/3Б/4Б, МОП-2/3/4 (ТЭМЗ, ТЗК) для бетона, мерзлого грунта и угля. Работают от компрессора без электропитания. Доставка по России!",
         "body": """<h3>Отбойные молотки — демонтаж без электричества</h3>
 <p>Пневматический отбойный молоток дробит бетон, кирпич, мерзлый грунт и асфальт энергией сжатого воздуха: ударный механизм переводит давление в удары бойка, а пика передаёт их в материал. В отличие от электрического отбойника, пневмомолоток не имеет мотора и редуктора под напряжением — нет риска поражения током и искрообразования, поэтому он штатно используется во влажных зонах и на объектах с ограничением применения электроинструмента.</p>
@@ -61,14 +61,14 @@ CATS_B = [
         "meta_description": "Пневматические отбойные молотки МО-1Б/2Б/3Б/4Б и МОП-2/3/4 (ТЭМЗ, ТЗК) для бетона и мёрзлого грунта. Без электричества, от компрессора 0,63 МПа. Доставка по России!",
         "meta_keywords": "отбойный молоток пневматический, отбойник пневматический, молоток МО-2Б, МО-4Б, МОП-3, пика для отбойного молотка, отбойный молоток купить",
         "products": ["МО-1Б", "МО-2Б", "МО-3Б", "МО-4Б", "МОП-2", "МОП-3", "МОП-4", "МО-2К"],
-        "product_categories": ["molotki-otboinye-i-betonolomy"],
+        "product_categories": ["molotki-otbojnye-i-betonolomy-pnevmaticheskie"],
         "related": ["zapchasti-dlia-otboinykh-pnevmomolotkov", "piki-dlia-otboinykh-pnevmomolotkov", "podgotovka-vozdukha"],
     },
     {
         "type": "category",
         "title": "Шлифмашины угловые пневматические (пневмоболгарки)",
         "slug": "cat-pnevmobolgarki",
-        "category_slug": "shlifmashiny-uglovye-pnevmobolgarki",
+        "category_slug": "shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie",
         "short_description": "Пневмоболгарки 125 и 180 мм: S125B, SJ180, ИП-2106А, DAG-5SX/6SX. Резка и зачистка металла без электроискры. Доставка по России!",
         "body": """<h3>Угловые пневмошлифмашины — резка и зачистка без электроинструмента</h3>
 <p>Пневматическая угловая шлифмашина (пневмоболгарка) вращает абразивный круг сжатым воздухом — режет металлопрокат, зачищает сварные швы и снимает окалину. Лопастной ротор обеспечивает высокие обороты при компактных габаритах, а отсутствие электромотора делает машину безопасной во влажных и взрывоопасных средах.</p>
@@ -121,14 +121,14 @@ CATS_B = [
         "meta_description": "Пневмоболгарки 125 и 180 мм: S125B, SJ180, ИП-2106А, DAG-5SX/6SX. Резка и зачистка металла без электроискры. От компрессора 0,63 МПа. Доставка по России!",
         "meta_keywords": "пневмоболгарка, пневмоболгарка 125мм, угловая шлифмашина пневматическая, пневмо-УШМ купить, диски на пневмоболгарку, ИП-2106А",
         "products": ["S125B", "SJ180", "S180J60", "ИП-2106А", "РПМ-2215", "РПМ-2211", "DAG-5SX", "DAG-6SX", "DAG-6LXA", "DAG-5LX", "SJ125X"],
-        "product_categories": ["shlifmashiny-uglovye-pnevmobolgarki"],
+        "product_categories": ["shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie"],
         "related": ["zapchasti-dlia-pnevmobolgarok-ushm", "podgotovka-vozdukha"],
     },
     {
         "type": "category",
         "title": "Гайковерты пневматические (ударные)",
         "slug": "cat-gaikoverty",
-        "category_slug": "gaikoverty",
+        "category_slug": "gajkoverty-pnevmaticheskie",
         "short_description": "Пневмогайковерты ударные от 400 до 2108 Нм, квадрат 1/2\"–1\": AT-238, NF-65, NF-A661, NF-5K300, NF-3883. Для СТО, шиномонтажа и грузовых. Доставка по России!",
         "body": """<h3>Гайковерты пневматические — момент без реакции на руку</h3>
 <p>Пневматический гайковерт отворачивает и затягивает резьбовой крепёж ударным механизмом: ударная «ракетка» накапливает энергию и передаёт её короткими рывками на головку. Благодаря этому ударный режим не даёт сильной реакции на руку и справляется с закисшим и перетянутым крепежом, где динамометрический инструмент бессилен.</p>
@@ -181,7 +181,7 @@ CATS_B = [
         "meta_description": "Ударные пневмогайковерты 330–2108 Нм: AT-238, NF-65, NF-A661, NF-5K300, NF-3883. Квадрат 1/2\", 3/4\", 1\" для шиномонтажа, СТО и грузовиков. Доставка по России!",
         "meta_keywords": "пневмогайковерт, гайковерт пневматический, пневмогайковерт ударный, гайковерт 1/2, грузовой пневмогайковерт, пневмогайковерт купить, NF-3883",
         "products": ["NF-A661", "NF-5K300", "NF-65", "AT-238", "NF-3883"],
-        "product_categories": ["gaikoverty"],
+        "product_categories": ["gajkoverty-pnevmaticheskie"],
         "related": ["golovki-dlia-pnevmogaikovertov", "zapchasti-dlia-pnevmogaikovertov", "podgotovka-vozdukha"],
     },
     {
@@ -242,13 +242,13 @@ CATS_B = [
         "meta_keywords": "пневмодрель, пневмодрель купить, сверлильная машина пневматическая, пневмодрель прямая, пневмодрель угловая, ИП-1016Б, ПВМ-12",
         "products": ["ПВМ-12", "ИП-1009", "ИП-1016", "DR-8RH", "ИП-1027", "ИП-1026", "DRS-4R", "AT-4031", "AT-4041", "СМ 21"],
         "product_categories": ["sverlilnye-mashiny-pnevmodreli"],
-        "related": ["podgotovka-vozdukha", "shlifmashiny-radialnye-priamye"],
+        "related": ["podgotovka-vozdukha", "shlifmashiny-radialnye-pryamye-pnevmaticheskie"],
     },
     {
         "type": "category",
         "title": "Шлифмашины прямые и торцевые пневматические",
         "slug": "cat-pryamye-tortsevye",
-        "category_slug": "shlifmashiny-radialnye-priamye",
+        "category_slug": "shlifmashiny-radialnye-pryamye-pnevmaticheskie",
         "short_description": "Прямые пневмошлифмашины ИП-2009/2014, ПШМ-60/100/150, МП-011С и торцевые МПС-2215М, ИП-2203А. Зачистка, притирка, фрезеровка. Доставка по России!",
         "body": """<h3>Прямые и торцевые пневмошлифмашины — зачистка и притирка</h3>
 <p>Прямая пневмошлифмашина держит оснастку на оси вращения — работает щётками, войлоком и абразивными корундовыми кругами, доходит до ниш, куда угловая машина не попадает. Торцевая машина запирает круг плоскостью корпуса — удобна для плоской зачистки и полировки поверхностей без канта.</p>
@@ -301,7 +301,7 @@ CATS_B = [
         "meta_description": "Прямые пневмошлифмашины ИП-2009/2014, ПШМ-60/100/150, МП-011С и торцевые ИП-2203А, МПС-2215М. Зачистка швов, притирка. Доставка по России!",
         "meta_keywords": "прямая пневмошлифмашина, пневмошлифмашина прямая, торцевая шлифмашина пневматическая, ИП-2009, ПШМ-100, МПС-2215М, ИП-2203А",
         "products": ["ИП-2009", "ИП-2014", "S60A", "S100Z70", "S150Z66A", "DSG-25HW", "МП-011С", "ИП-2203", "МПС-2215"],
-        "product_categories": ["shlifmashiny-radialnye-priamye", "shlifmashiny-tortsevye-vertikalnye"],
+        "product_categories": ["shlifmashiny-radialnye-pryamye-pnevmaticheskie", "shlifmashiny-torcevye-vertikalnye-pnevmaticheskie"],
         "related": ["shlifmashiny-tsangovye", "lopatki-dlia-pnevmoshlifmashin", "podgotovka-vozdukha"],
     },
     {
@@ -362,13 +362,13 @@ CATS_B = [
         "meta_keywords": "пневмошлифмашина цанговая, пневмотурбинка, бормашинка пневматическая, МП-006, МП-011, AT-7032, цанга 6 мм, турбинка купить",
         "products": ["МП-006", "МП-011", "AT-7032", "AT-7033", "DG-50", "DG-38", "DGL-38", "DSG-25HC", "AT-010K", "РПМ-2114", "РПМ-2121", "DMG-3M"],
         "product_categories": ["shlifmashiny-tsangovye"],
-        "related": ["shlifmashiny-radialnye-priamye", "lopatki-dlia-pnevmoshlifmashin", "podgotovka-vozdukha"],
+        "related": ["shlifmashiny-radialnye-pryamye-pnevmaticheskie", "lopatki-dlia-pnevmoshlifmashin", "podgotovka-vozdukha"],
     },
     {
         "type": "category",
         "title": "Молотки рубильные и пневмозубила",
         "slug": "cat-rubilnye-molotki",
-        "category_slug": "molotki-rubilnye-i-pnevmozubila",
+        "category_slug": "molotki-rubilnye-pnevmaticheskie-i-pnevmozubila",
         "short_description": "Рубильные молотки ИП-4126, МР-22/36, РМ-8А/12А/16А и пневмозубило DCH-24. Рубка металла и автосервис. Доставка по России!",
         "body": """<h3>Рубильные молотки и пневмозубила — рубка и снятие без электроэнергии</h3>
 <p>Пневматический рубильный молоток рубит металл, снимает заусенцы и обрубает детали через зубило, установленное в ствол: ударный механизм бьёт по хвостовику с частотой до десятков ударов в секунду. Пневмозубило — компактный вариант той же схемы для автосервиса и монтажных работ, часто с комплектом насадок.</p>
@@ -421,7 +421,7 @@ CATS_B = [
         "meta_description": "Рубильные молотки ИП-4126, МР-22/36, РМ-8А/12А/16А и пневмозубило DCH-24. Рубка металла, обрубка припусков, автосервис. От компрессора 0,63 МПа. Доставка по России!",
         "meta_keywords": "рубильный молоток, пневмозубило, пневмозубило для автосервиса, молоток рубильный ИП-4126, МР-22, РМ-16А, пневмозубило купить",
         "products": ["МР-36", "МР-22", "ИП-4126", "DCH-24", "РМ-16А", "РМ-12А", "РМ-8А", "ЗПШМ-1"],
-        "product_categories": ["molotki-rubilnye-i-pnevmozubila"],
+        "product_categories": ["molotki-rubilnye-pnevmaticheskie-i-pnevmozubila"],
         "related": ["zubila-dlia-rubilnykh-pnevmomolotkov", "zapchasti-dlia-rubilnykh-pnevmomolotkov", "podgotovka-vozdukha"],
     },
     {
@@ -482,6 +482,6 @@ CATS_B = [
         "meta_keywords": "краскопульт пневматический, краскопульт hvlp, краскопульт 1.4, краскораспылитель пневматический, краскопульт для покраски авто, краскопульт купить",
         "products": ["AS-1005", "AS-1007", "AS-2005G", "AS-4001B", "КРП-31", "КРП-41"],
         "product_categories": ["kraskoraspyliteli"],
-        "related": ["podgotovka-vozdukha", "shlifmashiny-orbitalnye"],
+        "related": ["podgotovka-vozdukha", "shlifmashiny-orbitalnye-pnevmaticheskie"],
     },
 ]

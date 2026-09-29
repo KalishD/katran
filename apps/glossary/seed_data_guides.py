@@ -62,7 +62,7 @@ GUIDES = [
         'meta_description': 'Как выбрать пневмогайковерт: ударный или нет, момент Нм, посадочный квадрат, расход воздуха. Сравнение моделей из каталога. Купить в СПб!',
         'meta_keywords': 'как выбрать пневмогайковерт, пневмогайковерт какой лучше, гайковерт ударный 1/2 дюйма, момент затяжки гайковерта, пневмогайковерт купить',
         'products': ['NF-3883', 'NF-5K300', 'NF-A661', 'AT-238'],
-        'categories': ['gaikoverty', 'golovki-dlia-pnevmogaikovertov', 'zapchasti-dlia-pnevmogaikovertov', 'rukava-vozdushnye-pnevmoshlangi'],
+        'categories': ['gajkoverty-pnevmaticheskie', 'golovki-dlia-pnevmogaikovertov', 'zapchasti-dlia-pnevmogaikovertov', 'rukava-vozdushnye-pnevmoshlangi'],
     },
     {
         'type': 'guide',
@@ -122,7 +122,7 @@ GUIDES = [
         'meta_description': 'Как выбрать пневматический отбойный молоток: энергия удара Дж, вес, расход воздуха, пики. Модели МО/МОП из каталога. Купить в СПб!',
         'meta_keywords': 'как выбрать отбойный молоток, отбойный молоток пневматический купить, отбойный молоток моп, пневматический отбойный молоток для бетона, пики для отбойного молотка',
         'products': ['МО-2К', 'МОП-2', 'МОП-3', 'МОП-4', 'МО-1Б', 'МО-2Б', 'МО-3Б', 'МО-4Б'],
-        'categories': ['molotki-otboinye-i-betonolomy', 'piki-dlia-otboinykh-pnevmomolotkov', 'zapchasti-dlia-otboinykh-pnevmomolotkov'],
+        'categories': ['molotki-otbojnye-i-betonolomy-pnevmaticheskie', 'piki-dlia-otboinykh-pnevmomolotkov', 'zapchasti-dlia-otboinykh-pnevmomolotkov'],
     },
     {
         'type': 'guide',
@@ -245,7 +245,7 @@ GUIDES = [
         'meta_description': 'Как выбрать пневмозубило: энергия удара Дж, вес, совместимость зубил 17,5 мм. РМ-8А/12А/16А, ИП-4126 из каталога. Купить в СПб!',
         'meta_keywords': 'как выбрать пневмозубило, пневмозубило мощное, рубильный молоток пневматический, пневмозубило для сайлентблоков, зубила для пневмомолотка, пневмозубило купить',
         'products': ['РМ-8А', 'РМ-12А', 'РМ-16А', 'ИП-4126'],
-        'categories': ['molotki-rubilnye-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov', 'zapchasti-dlia-rubilnykh-pnevmomolotkov'],
+        'categories': ['molotki-rubilnye-pnevmaticheskie-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov', 'zapchasti-dlia-rubilnykh-pnevmomolotkov'],
     },
     {
         'type': 'guide',

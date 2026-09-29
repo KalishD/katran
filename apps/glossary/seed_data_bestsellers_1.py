@@ -61,7 +61,7 @@ BESTS1 = [
         'meta_description': 'Купить мощный ударный пневмогайковерт NF-3883 (2108 Нм, квадрат 1") для грузового транспорта. Вес 8,5 кг, расход 800 л/мин. Доставка по России!',
         'meta_keywords': 'гайковерт ударный пневматический NF-3883, пневмогайковерт для грузовиков, гайковерт 2108 Нм, гайковерт квадрат 1 дюйм, Nanfang NF-3883',
         'products': ['NF-3883'],
-        'product_categories': ['gaikoverty'],
+        'product_categories': ['gajkoverty-pnevmaticheskie'],
         'related': ['golovki-dlia-pnevmogaikovertov', 'zapchasti-dlia-pnevmogaikovertov', 'rukava-vozdushnye-pnevmoshlangi'],
     },
     {
@@ -123,8 +123,8 @@ BESTS1 = [
         'meta_description': 'Купить пневмоболгарку S180J60 (аналог DAG-6SX): 180 мм, 7600 об/мин, 1,1 кВт. Вес 2,8 кг, резьба 3/8". Доставка по России!',
         'meta_keywords': 'пневмошлифмашина угловая S180J60, пневмоболгарка 180 мм, JSD Tools аналог DAG-6SX, пневмоболгарка 1.1 кВт, купить пневмоболгарку',
         'products': ['S180J60'],
-        'product_categories': ['shlifmashiny-uglovye-pnevmobolgarki'],
-        'related': ['shlifmashiny-uglovye-pnevmobolgarki', 'zapchasti-dlia-pnevmobolgarok-ushm', 'lopatki-dlia-pnevmoshlifmashin'],
+        'product_categories': ['shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie'],
+        'related': ['shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie', 'zapchasti-dlia-pnevmobolgarok-ushm', 'lopatki-dlia-pnevmoshlifmashin'],
     },
     {
         'type': 'model',
@@ -184,8 +184,8 @@ BESTS1 = [
         'meta_description': 'Купить угловую пневмошлифмашину SJ180 (аналог DAG-6SX-1): 180 мм, 1,1 кВт, 7600 об/мин. Запчасти в наличии. Доставка по России!',
         'meta_keywords': 'пневмошлифмашина SJ180, аналог DAG-6SX-1, угловая пневмоболгарка 180 мм, пневмоболгарка JSD Tools, купить пневмоболгарку',
         'products': ['SJ180'],
-        'product_categories': ['shlifmashiny-uglovye-pnevmobolgarki'],
-        'related': ['shlifmashiny-uglovye-pnevmobolgarki', 'zapchasti-dlia-pnevmobolgarok-ushm'],
+        'product_categories': ['shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie'],
+        'related': ['shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie', 'zapchasti-dlia-pnevmobolgarok-ushm'],
     },
     {
         'type': 'model',
@@ -245,8 +245,8 @@ BESTS1 = [
         'meta_description': 'Купить компактную пневмоболгарку SJ125 (аналог DAG-5LX): 125 мм, 11000 об/мин, 0,6 кВт, вес 2,1 кг. Доставка по России!',
         'meta_keywords': 'пневмошлифмашина угловая SJ125, пневмоболгарка 125 мм, аналог DAG-5LX, компактная пневмоболгарка, купить пневмоболгарку 125',
         'products': ['SJ125'],
-        'product_categories': ['shlifmashiny-uglovye-pnevmobolgarki'],
-        'related': ['shlifmashiny-uglovye-pnevmobolgarki', 'zapchasti-dlia-pnevmobolgarok-ushm', 'lopatki-dlia-pnevmoshlifmashin'],
+        'product_categories': ['shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie'],
+        'related': ['shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie', 'zapchasti-dlia-pnevmobolgarok-ushm', 'lopatki-dlia-pnevmoshlifmashin'],
     },
     {
         'type': 'model',
@@ -306,7 +306,7 @@ BESTS1 = [
         'meta_description': 'Купить пневмоболгарку S125B (аналог DAG-5SX): 125 мм, 11000 об/мин, вес 2 кг. Зачистка и резка металла. Доставка по России!',
         'meta_keywords': 'пневмошлифмашина S125B, аналог DAG-5SX, угловая пневмоболгарка 125, пневмоболгарка легкая, купить пневмоболгарку',
         'products': ['S125B'],
-        'product_categories': ['shlifmashiny-uglovye-pnevmobolgarki'],
-        'related': ['shlifmashiny-uglovye-pnevmobolgarki', 'zapchasti-dlia-pnevmobolgarok-ushm', 'lopatki-dlia-pnevmoshlifmashin'],
+        'product_categories': ['shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie'],
+        'related': ['shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie', 'zapchasti-dlia-pnevmobolgarok-ushm', 'lopatki-dlia-pnevmoshlifmashin'],
     },
 ]

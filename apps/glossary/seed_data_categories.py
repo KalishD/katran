@@ -9,7 +9,7 @@ CATEGORIES = [
         'type': 'category',
         'title': 'Гайковерты пневматические (ударные)',
         'slug': 'cat-gaikoverty',
-        'category_slug': 'gaikoverty',
+        'category_slug': 'gajkoverty-pnevmaticheskie',
         'short_description': 'Ударные пневмогайковерты от 400 до 2108 Нм, квадрат 1/2"–1": для СТО, шиномонтажа и грузовой техники.',
         'body': '''
 <h3>Гайковерты пневматические — мощность без электричества</h3>
@@ -75,7 +75,7 @@ CATEGORIES = [
         'type': 'category',
         'title': 'Молотки отбойные пневматические',
         'slug': 'cat-otbojnye-molotki',
-        'category_slug': 'molotki-otboinye-i-betonolomy',
+        'category_slug': 'molotki-otbojnye-i-betonolomy-pnevmaticheskie',
         'short_description': 'Пневматические отбойные молотки МО/МОП: от 15 до 50 Дж. Снос, демонтаж, обработка бетона и кирпича.',
         'body': '''
 <h3>Отбойные молотки — ударная мощь сжатого воздуха</h3>
@@ -107,7 +107,7 @@ CATEGORIES = [
         'type': 'category',
         'title': 'Молотки рубильные и пневмозубила',
         'slug': 'cat-rubilnye-molotki',
-        'category_slug': 'molotki-rubilnye-i-pnevmozubila',
+        'category_slug': 'molotki-rubilnye-pnevmaticheskie-i-pnevmozubila',
         'short_description': 'Рубильные пневмомолотки РМ-8А/12А/16А и ИП-4126, зубила и пики с хвостовиком 17,5 мм.',
         'body': '''
 <h3>Рубильные молотки и пневмозубила — точная рубка металла</h3>
@@ -140,7 +140,7 @@ CATEGORIES = [
         'type': 'category',
         'title': 'Трамбовки пневматические',
         'slug': 'cat-trambovki',
-        'category_slug': 'trambovki',
+        'category_slug': 'trambovki-pnevmaticheskie',
         'short_description': 'Пневмотрамбовки ТП-28А (24 Дж) и ТПВ-3А (22 Дж) для уплотнения грунта, траншей и засыпок.',
         'body': '''
 <h3>Пневматические трамбовки — уплотнение в стеснённых условиях</h3>
@@ -171,7 +171,7 @@ CATEGORIES = [
         'type': 'category',
         'title': 'Шлифмашины угловые пневматические (пневмоболгарки)',
         'slug': 'cat-pnevmobolgarki',
-        'category_slug': 'shlifmashiny-uglovye-pnevmobolgarki',
+        'category_slug': 'shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie',
         'short_description': 'Угловые пневмошлифмашины 125 и 180 мм: зачистка, резка, обдирка металла. Лопатки в наличии.',
         'body': '''
 <h3>Пневмоболгарки — зачистка и резка без электросети</h3>
@@ -197,13 +197,13 @@ CATEGORIES = [
         'meta_description': 'Угловые пневмошлифмашины 125 и 180 мм: зачистка, резка, обдирка металла. Лопатки в наличии. Доставка по России!',
         'meta_keywords': 'пневмоболгарка, угловая пневмошлифмашина, пневмоболгарка 125 мм, пневмоболгарка 180 мм, лопатка для УШМ, запчасти для пневмоболгарок',
         'products': ['S125B', 'SJ125', 'S180J60', 'SJ180', 'МПС-2107Щ'],
-        'related': ['zapchasti-dlia-pnevmobolgarok-ushm', 'lopatki-dlia-pnevmoshlifmashin', 'shlifmashiny-radialnye-priamye'],
+        'related': ['zapchasti-dlia-pnevmobolgarok-ushm', 'lopatki-dlia-pnevmoshlifmashin', 'shlifmashiny-radialnye-pryamye-pnevmaticheskie'],
     },
     {
         'type': 'category',
         'title': 'Шлифмашины прямые и торцевые пневматические',
         'slug': 'cat-pryamye-tortsevye',
-        'category_slug': 'shlifmashiny-tortsevye-vertikalnye',
+        'category_slug': 'shlifmashiny-torcevye-vertikalnye-pnevmaticheskie',
         'short_description': 'Прямые (ИП-2014, S60A) и торцевые (МПС-2215М, 2 кВт) пневмошлифмашины: швы и большие плоскости.',
         'body': '''
 <h3>Прямые и торцевые пневмошлифмашины — для швов и плоскостей</h3>
@@ -229,7 +229,7 @@ CATEGORIES = [
         'meta_description': 'Прямые (ИП-2014, S60A) и торцевые (МПС-2215М, 2 кВт) пневмошлифмашины. Зачистка швов, обдирка больших плоскостей. Доставка по России!',
         'meta_keywords': 'прямая шлифмашина пневматическая, радиальная шлифмашина, торцевая шлифмашина, пневмошлифмашина ИП-2014, МПС-2215М, лопатка для ПШМ',
         'products': ['S60A', 'ИП-2014', 'МПС-2215М'],
-        'related': ['shlifmashiny-radialnye-priamye', 'lopatki-dlia-pnevmoshlifmashin', 'zapchasti-dlia-pnevmoshlifmashin-pshm'],
+        'related': ['shlifmashiny-radialnye-pryamye-pnevmaticheskie', 'lopatki-dlia-pnevmoshlifmashin', 'zapchasti-dlia-pnevmoshlifmashin-pshm'],
     },
     {
         'type': 'category',
@@ -268,7 +268,7 @@ CATEGORIES = [
         'type': 'category',
         'title': 'Пилы пневматические',
         'slug': 'cat-pily',
-        'category_slug': 'pily',
+        'category_slug': 'pily-pnevmaticheskie',
         'short_description': 'Пневматические пилы по металлу и дереву: сабельные, компактные. Работа от компрессора во влажных зонах.',
         'body': '''
 <h3>Пневмопилы — сабельный рез без электричества</h3>
@@ -465,6 +465,6 @@ CATEGORIES = [
         'meta_description': 'Клепальные молотки КМП, пневмоперфораторы, резьбонарезные машины для метизного производства и монтажа. Купить в СПб!',
         'meta_keywords': 'клепальный молоток, кмп, перфоратор пневматический, резьбонарезная машина, пневмозачистка, инструмент для котельных',
         'products': [],
-        'related': ['perforatory', 'rezbonareznye-mashiny'],
+        'related': ['perforatory-pnevmaticheskie', 'rezbonareznye-mashiny'],
     },
 ]

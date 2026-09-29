@@ -462,8 +462,8 @@ TERMS = [
         'meta_description': 'Реверс в пневмоинструменте: направление вращения и удара, откручивание крепежа, вывод сверла. Гайковерты и дрели с реверсом.',
         'meta_keywords': 'реверс пневмоинструмента, гайковерт с реверсом, пневмодрель реверсивная, винтоверт с реверсом, переключатель реверса',
         'products': ['гайковерт', 'винтоверт', 'отвертка', 'дрель', 'ПВМ-12', 'ИП-1016Б'],
-        'product_categories': ['gaikoverty', 'vintoverty-pnevmootvertki', 'sverlilnye-mashiny-pnevmodreli'],
-        'categories': ['gaikoverty', 'vintoverty-pnevmootvertki', 'sverlilnye-mashiny-pnevmodreli'],
+        'product_categories': ['gajkoverty-pnevmaticheskie', 'vintoverty-pnevmootvertki', 'sverlilnye-mashiny-pnevmodreli'],
+        'categories': ['gajkoverty-pnevmaticheskie', 'vintoverty-pnevmootvertki', 'sverlilnye-mashiny-pnevmodreli'],
     },
     {
         'type': 'term',

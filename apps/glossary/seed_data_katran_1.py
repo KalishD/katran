@@ -60,8 +60,8 @@ KATRAN1 = [
         'meta_description': 'Купить пневматический рубильный молоток РМ-8А (8 Дж, 40 Гц) в СПб. Вес 3,9 кг, расход 300 л/мин. Шестигранный хвостовик 17,5 мм. Доставка по России!',
         'meta_keywords': 'молоток рубильный РМ-8А, пневмозубило, рубильный молоток купить СПб, пневматический молоток 40 Гц, молоток для сайлентблоков',
         'products': ['РМ-8А ('],
-        'product_categories': ['molotki-rubilnye-i-pnevmozubila'],
-        'related': ['molotki-rubilnye-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov', 'zapchasti-dlia-rubilnykh-pnevmomolotkov'],
+        'product_categories': ['molotki-rubilnye-pnevmaticheskie-i-pnevmozubila'],
+        'related': ['molotki-rubilnye-pnevmaticheskie-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov', 'zapchasti-dlia-rubilnykh-pnevmomolotkov'],
     },
     {
         'type': 'model',
@@ -120,8 +120,8 @@ KATRAN1 = [
         'meta_description': 'Купить пневматический рубильный молоток РМ-12А (12 Дж, 27 Гц) в СПб. Вес 5,9 кг, шестигранный хвостовик 17,5 мм. Для рубки и зачистки металла. Доставка по России!',
         'meta_keywords': 'молоток рубильный РМ-12А, пневмозубило купить, пневматический рубильный молоток, молоток для зачистки металла, пневмомолоток 12 Дж',
         'products': ['РМ-12А ('],
-        'product_categories': ['molotki-rubilnye-i-pnevmozubila'],
-        'related': ['molotki-rubilnye-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov'],
+        'product_categories': ['molotki-rubilnye-pnevmaticheskie-i-pnevmozubila'],
+        'related': ['molotki-rubilnye-pnevmaticheskie-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov'],
     },
     {
         'type': 'model',
@@ -180,8 +180,8 @@ KATRAN1 = [
         'meta_description': 'Купить мощный рубильный молоток РМ-16А (16 Дж, 27 Гц) в СПб. Вес 6,1 кг, шестигранный хвостовик 17,5 мм. Тяжёлый съём металла и рубка. Доставка по России!',
         'meta_keywords': 'молоток рубильный РМ-16А, мощное пневмозубило, рубильный молоток для судостроения, пневматический молоток 16 Дж',
         'products': ['РМ-16А ('],
-        'product_categories': ['molotki-rubilnye-i-pnevmozubila'],
-        'related': ['molotki-rubilnye-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov'],
+        'product_categories': ['molotki-rubilnye-pnevmaticheskie-i-pnevmozubila'],
+        'related': ['molotki-rubilnye-pnevmaticheskie-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov'],
     },
     {
         'type': 'model',

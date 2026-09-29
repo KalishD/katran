@@ -57,7 +57,7 @@ SCENARIOS = [
         'meta_description': 'Пневмогайковерты для большегрузов: от 1 200 Нм, квадрат 1/2"-1". Ударные модели для колёсного крепежа и ходовой. Купить в СПб с доставкой по России!',
         'meta_keywords': 'пневмогайковерт для грузовых, пневмогайковерт для грузовиков, гайковерт 1 дюйм, ударный гайковерт 1200 нм, гайковерт для ходовой большегруза',
         'products': ['NF-3883', 'NF-5K300', 'NF-A661', 'AT-238'],
-        'categories': ['gaikoverty', 'golovki-dlia-pnevmogaikovertov', 'rukava-vozdushnye-pnevmoshlangi', 'zapchasti-dlia-pnevmogaikovertov'],
+        'categories': ['gajkoverty-pnevmaticheskie', 'golovki-dlia-pnevmogaikovertov', 'rukava-vozdushnye-pnevmoshlangi', 'zapchasti-dlia-pnevmogaikovertov'],
     },
     {
         'type': 'scenario',
@@ -171,7 +171,7 @@ SCENARIOS = [
         'meta_description': 'Пневмозубила и рубильные молотки для автосервиса: ИП-4126, РМ-8А/12А, зубила и пики. Съём швов, заклёпок, ржавчины. Купить в СПб!',
         'meta_keywords': 'пневмозубило для автосервиса, пневмозубило купить, насадки для пневмозубила, рубильный молоток для сто, пневмозубило для разбора',
         'products': ['РМ-8А', 'РМ-12А', 'РМ-16А', 'ИП-4126'],
-        'categories': ['molotki-rubilnye-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov', 'zapchasti-dlia-rubilnykh-pnevmomolotkov'],
+        'categories': ['molotki-rubilnye-pnevmaticheskie-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov', 'zapchasti-dlia-rubilnykh-pnevmomolotkov'],
     },
     {
         'type': 'scenario',
@@ -223,7 +223,7 @@ SCENARIOS = [
         'meta_description': 'Выпрессовка сайлентблоков пневмозубилом без повреждения рычагов: молотки РМ-А, насадки-выколотки, пошаговая схема. Купить в СПб!',
         'meta_keywords': 'пневмозубило для сайлентблоков, выпрессовка сайлентблоков пневмозубилом, пневмомолоток для сайлентблоков, снятие сайлентблоков без пресса',
         'products': ['РМ-8А', 'РМ-12А', 'ИП-4126'],
-        'categories': ['molotki-rubilnye-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov'],
+        'categories': ['molotki-rubilnye-pnevmaticheskie-i-pnevmozubila', 'zubila-dlia-rubilnykh-pnevmomolotkov'],
     },
     {
         'type': 'scenario',
@@ -278,7 +278,7 @@ SCENARIOS = [
         'meta_description': 'Пневмотрамбовки ТП-28А и ТПВ-3А для уплотнения траншей, пазух, оснований. 22–24 Дж, работа от компрессора. Купить с доставкой по России!',
         'meta_keywords': 'пневмотрамбовка для грунта, трамбовка пневматическая грунта, уплотнение грунта пневматическими трамбовками, пневмотрамбовка купить, трамбовка для траншей, ТП-28А',
         'products': ['ТП-28А', 'ТПВ-3А'],
-        'categories': ['trambovki', 'rukava-vozdushnye-pnevmoshlangi', 'zapchasti-dlia-pnevmotrambovok'],
+        'categories': ['trambovki-pnevmaticheskie', 'rukava-vozdushnye-pnevmoshlangi', 'zapchasti-dlia-pnevmotrambovok'],
     },
     {
         'type': 'scenario',

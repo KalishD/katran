@@ -54,8 +54,8 @@ KATRAN2 = [
         'meta_description': 'Купить угловую зачистную пневмомашину МПС-2107Щ (1,1 кВт, 7600 об/мин) для проволочных щёток 100 мм. Вес 2,8 кг, шпиндель М14. Доставка по России!',
         'meta_keywords': 'зачистная машина угловая МПС-2107Щ, проволочная щетка пневматическая, зачистка сварных швов пневмоинструментом',
         'products': [],
-        'product_categories': ['shlifmashiny-uglovye-pnevmobolgarki'],
-        'related': ['shlifmashiny-uglovye-pnevmobolgarki', 'shlifmashiny-tortsevye-vertikalnye', 'lopatki-dlia-pnevmoshlifmashin'],
+        'product_categories': ['shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie'],
+        'related': ['shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie', 'shlifmashiny-torcevye-vertikalnye-pnevmaticheskie', 'lopatki-dlia-pnevmoshlifmashin'],
     },
     {
         'type': 'model',
@@ -114,8 +114,8 @@ KATRAN2 = [
         'meta_description': 'Купить торцевую пневмошлифмашину МПС-2215М (2,0 кВт, 6500 об/мин, круг 230 мм), патент. Обдирка и зачистка металла. Доставка по России!',
         'meta_keywords': 'пневмошлифмашина МПС-2215М, торцевая шлифмашина пневматическая, обдирочная пневмошлифмашина, шлифмашина 2 кВт для металла, импортозамещение пневмоинструмент',
         'products': ['МПС-2215М (Катран-Пневмо)'],
-        'product_categories': ['shlifmashiny-tortsevye-vertikalnye'],
-        'related': ['shlifmashiny-tortsevye-vertikalnye', 'shlifmashiny-radialnye-priamye', 'lopatki-dlia-pnevmoshlifmashin'],
+        'product_categories': ['shlifmashiny-torcevye-vertikalnye-pnevmaticheskie'],
+        'related': ['shlifmashiny-torcevye-vertikalnye-pnevmaticheskie', 'shlifmashiny-radialnye-pryamye-pnevmaticheskie', 'lopatki-dlia-pnevmoshlifmashin'],
     },
     {
         'type': 'model',

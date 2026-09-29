@@ -81,7 +81,7 @@ MODELS = [
         "type": "model",
         "title": "Пневмомашина зачистная угловая МПС-2107Щ",
         "slug": "model-mps-2107sch",
-        "category_slug": "shlifmashiny-uglovye-pnevmobolgarki",
+        "category_slug": "shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie",
         "short_description": "Зачистная угловая пневмомашина МПС-2107Щ (Катран-Пневмо): проволочные щётки 100 мм, шпиндель М14, 1,1 кВт, 7600 об/мин. В наличии 24400 ₽, доставка по России!",
         "body": """<h3>МПС-2107Щ — угловая зачистная машина под проволочные щётки</h3>
 <p>Пневматическая зачистная угловая машина <strong>МПС-2107Щ (Катран-Пневмо)</strong> — специализированный инструмент для удаления окалины, ржавчины, старого покрытия и сварного грата проволочными щётками диаметром 100 мм. Шпиндель под резьбу М14 удерживает тарельчатые и чашечные щётки, а 7600 об/мин дают агрессивный съём без провисания оборотов.</p>
@@ -146,8 +146,8 @@ MODELS = [
         "meta_description": "Пневматическая зачистная угловая машина МПС-2107Щ: щётки 100 мм, шпиндель М14, 1,1 кВт, 7600 об/мин. Зачистка металла под покраску. В наличии 24400 ₽!",
         "meta_keywords": "МПС-2107Щ, зачистная пневмомашина, проволочная щетка пневматическая, зачистка металла перед покраской, МПС-2107Щ купить",
         "products": ["МПС-2215", "ИП-2203", "S125B", "SJ180"],
-        "product_categories": ["shlifmashiny-tortsevye-vertikalnye", "shlifmashiny-uglovye-pnevmobolgarki"],
-        "related": ["cat-pnevmobolgarki", "shlifmashiny-tortsevye-vertikalnye"],
+        "product_categories": ["shlifmashiny-torcevye-vertikalnye-pnevmaticheskie", "shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie"],
+        "related": ["cat-pnevmobolgarki", "shlifmashiny-torcevye-vertikalnye-pnevmaticheskie"],
     },
 ]
 

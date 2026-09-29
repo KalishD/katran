@@ -18,28 +18,11 @@ from apps.glossary.seed_data_models_guides import MODELS, MODELS_GUIDES
 
 ALL_PAGES = SCENARIOS + GUIDES + TERMS + CATEGORIES + BESTS1 + BESTS2 + KATRAN1 + KATRAN2 + CATS + CATS_B + CATS_C + MODELS + MODELS_GUIDES
 
-# Прод-слаги категорий переименованы; seed использует локальные слаги.
-CATEGORY_SLUG_ALIASES = {
-    'gaikoverty': 'gajkoverty-pnevmaticheskie',
-    'molotki-otboinye-i-betonolomy': 'molotki-otbojnye-i-betonolomy-pnevmaticheskie',
-    'molotki-rubilnye-i-pnevmozubila': 'molotki-rubilnye-pnevmaticheskie-i-pnevmozubila',
-    'perforatory': 'perforatory-pnevmaticheskie',
-    'pily': 'pily-pnevmaticheskie',
-    'shlifmashiny-orbitalnye': 'shlifmashiny-orbitalnye-pnevmaticheskie',
-    'shlifmashiny-radialnye-priamye': 'shlifmashiny-radialnye-pryamye-pnevmaticheskie',
-    'shlifmashiny-tortsevye-vertikalnye': 'shlifmashiny-torcevye-vertikalnye-pnevmaticheskie',
-    'shlifmashiny-uglovye-pnevmobolgarki': 'shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie',
-    'trambovki': 'trambovki-pnevmaticheskie',
-}
-
 
 def _resolve_category_slug(categories, seed_slug):
-    """Находит slug категории в текущей БД по seed-слагу (прямой или через алиас)."""
+    """Возвращает slug категории, если он есть в текущей БД."""
     if seed_slug in categories:
         return seed_slug
-    prod_slug = CATEGORY_SLUG_ALIASES.get(seed_slug)
-    if prod_slug and prod_slug in categories:
-        return prod_slug
     return None
 
 
