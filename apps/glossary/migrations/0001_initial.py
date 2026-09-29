@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('store', '0064_alter_brand_image_alter_brand_thumbnail_and_more'),
+        ('store', '0001_initial'),
     ]
 
     operations = [

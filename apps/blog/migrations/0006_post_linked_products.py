@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('blog', '0005_rename_category_post_postcategory'),
-        ('store', '0038_category_image'),
+        ('store', '0001_initial'),
     ]
 
     operations = [

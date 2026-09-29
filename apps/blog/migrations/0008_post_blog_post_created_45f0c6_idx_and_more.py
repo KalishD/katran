@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('blog', '0007_remove_post_categories'),
-        ('store', '0063_alter_brand_is_on_alter_product_is_import_and_more'),
+        ('store', '0001_initial'),
     ]
 
     operations = [

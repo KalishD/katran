@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('store', '0061_remove_category_summer_description'),
+        ('store', '0001_initial'),
     ]
 
     operations = [

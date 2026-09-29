@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0026_alter_variableitem_dimention'),
+        ('store', '0001_initial'),
         ('order', '0005_alter_order_address'),
     ]
 
