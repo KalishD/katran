@@ -49,6 +49,9 @@ coverage.xml
 # Django cache
 cache/
 
+# Collectstatic output (generated)
+staticfiles/
+
 # Sphinx documentation
 docs/_build/
 
