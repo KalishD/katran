@@ -48,4 +48,4 @@ class Post(ImageProcessingMixin, models.Model):
             self.generate_variants('image', self.slug)
 
     def get_absolute_url(self):
-        return '/blog/%s' % (self.slug)
+        return '/blog/%s/' % (self.slug)
