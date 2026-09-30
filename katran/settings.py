@@ -209,3 +209,37 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 META_SITE_PROTOCOL = 'https'
 META_SITE_DOMAIN = '127.0.0.1:8000'
 META_USE_SCHEMAORG_PROPERTIES = True
+
+# ── Content-Security-Policy ─────────────────────────────────────
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = (
+    "'self'",
+    "'unsafe-inline'",
+    "'unsafe-eval'",
+    "https://cdn.jsdelivr.net",
+    "https://cdnjs.cloudflare.com",
+    "https://code.jquery.com",
+    "https://unpkg.com",
+    "https://mc.yandex.ru",
+    "https://datafa.st",
+)
+CSP_STYLE_SRC = (
+    "'self'",
+    "'unsafe-inline'",
+    "https://cdn.jsdelivr.net",
+    "https://cdnjs.cloudflare.com",
+    "https://fonts.googleapis.com",
+)
+CSP_FONT_SRC = (
+    "'self'",
+    "https://fonts.gstatic.com",
+    "https://cdnjs.cloudflare.com",
+)
+CSP_IMG_SRC = (
+    "'self'",
+    "data:",
+    "https://mc.yandex.ru",
+    "https://mc.webvisor.org",
+)
+CSP_CONNECT_SRC = ("'self'",)
+CSP_FRAME_SRC = ("'none'",)
