@@ -380,6 +380,36 @@
         <div class="column is-8 
                     is-vcentered is-right
                     is-hidden-mobile is-hidden-tablet-only">
+        </div>
+
+      </div>
+    <!-- каталог: горизонтальная полка с выпадающей навигацией -->
+      <nav class="kp-catalog-rail is-centered is-hidden-mobile is-hidden-tablet-only" aria-label="Каталог товаров">
+        <a class="kp-rail-head" href="{% url 'catalog' %}">
+          <i class="fa-solid fa-table-list" aria-hidden="true"></i>
+          <span>Каталог</span>
+        </a>
+        {% for mc in catalog_menu %}
+          <div class="kp-rail-item">
+            <div class="kp-rail-item-head">
+              <a class="kp-rail-link" href="{% url 'main_category_detail' mc.slug %}">{{ mc.title }}</a>
+              <button class="kp-rail-toggle" type="button" aria-expanded="false"
+                      aria-controls="rail-panel-{{ mc.id }}"
+                      aria-label="Открыть категории раздела «{{ mc.title }}»">
+                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="kp-rail-panel" id="rail-panel-{{ mc.id }}" style="--kp-cols: {{ mc.cols }}">
+              {% for cat in mc.categories %}
+                <a class="kp-rail-cat" href="{% url 'category_detail' mc.slug cat.slug %}">
+                  <span class="kp-rail-cat-img">{% responsive_img cat.image cat.title sizes="40px" %}</span>
+                  <span class="kp-rail-cat-title">{{ cat.title }}</span>
+                  <span class="kp-rail-cat-count" title="Товаров в категории">{{ cat.products_count }}</span>
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
           <div class="search-btn">
             <form  method="get" action="{% url 'search' %}" role="search">
               <div class="level-item">
@@ -409,43 +439,13 @@
               </a>
             </div>
           </div>
-          
-        </div>
+      </nav>
 
-      </div>
     </div>
     <div class="section is-relative pt-0" id="block-content">
       <!-- Go To Top -->
       <a href="#" id="goToTop" class="button go_top" aria-label="Наверх"><i class="fa-solid fa-angles-up" aria-hidden="true"></i></a>
 
-    <!-- каталог: горизонтальная полка с выпадающей навигацией -->
-      <nav class="kp-catalog-rail" aria-label="Каталог товаров">
-        <a class="kp-rail-head" href="{% url 'catalog' %}">
-          <i class="fa-solid fa-table-list" aria-hidden="true"></i>
-          <span>Каталог</span>
-        </a>
-        {% for mc in catalog_menu %}
-          <div class="kp-rail-item">
-            <div class="kp-rail-item-head">
-              <a class="kp-rail-link" href="{% url 'main_category_detail' mc.slug %}">{{ mc.title }}</a>
-              <button class="kp-rail-toggle" type="button" aria-expanded="false"
-                      aria-controls="rail-panel-{{ mc.id }}"
-                      aria-label="Открыть категории раздела «{{ mc.title }}»">
-                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-              </button>
-            </div>
-            <div class="kp-rail-panel" id="rail-panel-{{ mc.id }}" style="--kp-cols: {{ mc.cols }}">
-              {% for cat in mc.categories %}
-                <a class="kp-rail-cat" href="{% url 'category_detail' mc.slug cat.slug %}">
-                  <span class="kp-rail-cat-img">{% responsive_img cat.image cat.title sizes="40px" %}</span>
-                  <span class="kp-rail-cat-title">{{ cat.title }}</span>
-                  <span class="kp-rail-cat-count" title="Товаров в категории">{{ cat.products_count }}</span>
-                </a>
-              {% endfor %}
-            </div>
-          </div>
-        {% endfor %}
-      </nav>
     <!--  -->
 
   <div class="columns is-fullhd mt-3">

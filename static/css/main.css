@@ -3037,7 +3037,8 @@ i.shiny_btn {
     flex: 0 0 520px;
     min-width: 520px;
     display: flex;
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
     background: #fff;
     border: 1px solid var(--katran-shadow-border-color);
     border-radius: 12px;
@@ -3175,7 +3176,8 @@ i.shiny_btn {
     flex-wrap: wrap;
     align-items: stretch;
     gap: .25rem;
-    padding: .35rem .5rem;
+    padding: .5rem 0;
+    margin-top: .5rem;
     background: var(--katran-white-color);
     border: 1px solid var(--katran-shadow-border-color);
     border-radius: .5rem;
