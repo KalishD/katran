@@ -141,10 +141,6 @@ body{
 .menu-accordion-item.active .menu-accordion-item_inner{
   height:inherit;
 }
-.smoo_after_title{
-    /*font-size: 0.9em;*/
-    color: var(--katran-font-sm-color);
-}
 .search .icon{
     position: absolute;
     top: 0;
@@ -1059,109 +1055,6 @@ hr.katran-line-sep{
         }
         /* --- END General Navbar/Mega-Menu CSS --- */
 
-        /* --- Custom CSS for Side Mega-Menu --- */
-        .side-menu-container {
-            position: relative; /* Needed for positioning the mega-menu */
-            /* Ensure the sidebar has a defined width */
-            width: 100%; /* Or specific width for your sidebar column */
-        }
-
-        .side-mega-dropdown {
-            display: none; /* Hidden by default */
-            position: absolute;
-            left: 100%; /* Position to the right of the parent li */
-            top: 0; /* Align with the top of the parent li */
-            min-width: 400px; /* Adjust as needed for your columns */
-            min-height:  240px;
-            background-color: white;
-            box-shadow: 8px 8px 16px var(--katran-shadow-color); /* Shadow to the right */
-            border: 1px solid #dbdbdb;
-            padding: .5rem;
-            z-index: 990; /* Ensure it's above other content but below main nav */
-            flex-wrap: wrap;
-            /* Added for smooth transition */
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
-        }
-
-        /* Show on hover for desktop */
-        @media screen and (min-width: 1024px) {
-            .side-menu-item:hover > .side-mega-dropdown {
-                display: flex;
-                opacity: 1;
-                visibility: visible;
-            }
-        }
-
-        /* Show on active (click) for mobile (handled by JS) */
-        .side-menu-item.is-active > .side-mega-dropdown {
-            display: flex;
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        /* Mega-menu columns (reused from main nav, adjust if different styles needed) */
-        .side-mega-dropdown .mega-menu-column {
-            flex-basis: 100%;
-            padding: 0 1rem;
-            box-sizing: border-box;
-        }
-
-        .side-mega-dropdown .column-title {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #363636;
-        }
-
-        .side-mega-dropdown .mega-menu-item { /* Use a distinct class for items inside side mega-menu */
-            display: block;
-            padding: 0.5rem 0;
-            color: var(--katran-font-color);
-        }
-
-        .side-mega-dropdown .mega-menu-item:hover {
-            background-color: transparent;
-            color: var(--katran-blue-2);
-        }
-
-        /* Mobile specific adjustments for side mega-menu */
-        @media screen and (max-width: 1023px) {
-            .side-mega-dropdown {
-                position: relative; /* Stack below parent on mobile */
-                left: 0;
-                top: auto;
-                width: 100%;
-                box-shadow: none;
-                border: none;
-                padding: 0; /* Remove padding */
-                flex-direction: column; /* Stack columns vertically */
-                max-height: 0; /* Initially collapsed */
-                overflow: hidden; /* Hide overflow */
-                transition: max-height 0.3s ease-out; /* Smooth transition for height */
-            }
-
-            .side-menu-item.is-active > .side-mega-dropdown {
-                max-height: 500px; /* Adjust based on content height; large enough to show all content */
-                /* Remove opacity/visibility transitions as max-height is used */
-                opacity: 1;
-                visibility: visible;
-            }
-
-            .side-mega-dropdown .mega-menu-column {
-                flex-basis: 100%; /* Full width columns on mobile */
-                padding: 1rem 1rem;
-            }
-
-            .side-mega-dropdown .mega-menu-item {
-                padding-left: 1.5rem; /* Indent items */
-            }
-            /* Make the parent link clickable on mobile */
-            .side-menu-item > a {
-                 cursor: pointer; /* Indicate it's clickable */
-            }
-        }
-        /* --- END Custom CSS for Side Mega-Menu --- */
 
         /* Remaining general styles (from previous response) */
         body { padding-top: 52px; }
@@ -3037,8 +2930,7 @@ i.shiny_btn {
     flex: 0 0 520px;
     min-width: 520px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
     background: #fff;
     border: 1px solid var(--katran-shadow-border-color);
     border-radius: 12px;
@@ -3174,7 +3066,8 @@ i.shiny_btn {
 .kp-catalog-rail {
     display: flex;
     flex-wrap: wrap;
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
     gap: .25rem;
     padding: .5rem 0;
     margin-top: .5rem;

@@ -21,7 +21,6 @@ def menu_category(request):
         main_categories = MainCategory.objects.filter(category__in=categories).distinct()
         total_items = len(categories)
         items_per_column = math.ceil(total_items / 4)
-        side_items_per_column = math.ceil(total_items / 4)
 
         # Annotate each category with visible product count to avoid N+1 in templates
         from django.db.models import Count, Q
@@ -33,7 +32,6 @@ def menu_category(request):
             'menu_categories_filter': categories,
             'menu_main_categories': main_categories,
             'items_per_column': items_per_column,
-            'side_items_per_column': side_items_per_column,
         }
         cache.set(cache_key, data, 600)  # 10 minutes
     return data
