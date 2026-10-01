@@ -57,7 +57,19 @@ docs/_build/
 
 # VENV
 venvkatran/
+venv/
 env/
+
+# Local dev database (production uses MySQL/PostgreSQL)
+db.sqlite3
+db.sqlite3-journal
+
+# Tooling caches
+.trace-mcp/
+
+# Stale accidental copy of apps/store/templates (snapshot of 2026-07-17,
+# superseded by the templates in the parent dir)
+apps/store/templates/templates/
 
 settings.py
 
