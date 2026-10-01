@@ -36,6 +36,9 @@
                 <span class="fc-red mb-0 mt-0">
                 {{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
                 </span>
+                {% if p.category.is_one_piece_price %}
+                    <span class="product-hero__price-sub"> за 1шт.</span>
+                  {% endif %}
                 <br>
                 <span class="subtitle has-text-right is-7 m-0">с НДС 22%</span>
             {% else %}

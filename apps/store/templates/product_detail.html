@@ -99,8 +99,12 @@
               <span class="kp-hero-title fc-red">
                 {% if product.price != 0 %}
                   {{ product.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign" aria-hidden="true"></i>
+                  {% if product.category.is_one_piece_price %}
+                    <span class="product-hero__price-sub"> за 1шт.</span>
+                  {% endif %}
                 {% else %}По запросу{% endif %}
               </span>
+
             </div>
             {% if product.price != 0 %}
               <p class="product-hero__price-sub">с НДС 22%</p>

@@ -639,7 +639,7 @@ class CategoryAdmin(admin.ModelAdmin):
       
   list_display = ("title", "id", "main_category", "is_features", "description", "ordering","product_count")
   product_count.short_description = "Products"
-  fields = ("title", "main_category", "is_features", "description", "ordering", "slug", "image")
+  fields = ("title", "main_category", "is_features", "is_one_piece_price", "description", "ordering", "slug", "image")
   prepopulated_fields = {'slug': ('title',)
   # summernote_fields = ('summer_description',)
   }

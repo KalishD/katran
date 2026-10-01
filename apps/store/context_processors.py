@@ -52,7 +52,7 @@ def featured_product(request):
     if product_ids is None:
         product_ids = list(
             Product.objects.filter(is_features=True, is_visible=True)
-            .order_by('?')[:3].values_list('id', flat=True)
+            .order_by('?')[:5].values_list('id', flat=True)
         )
         cache.set(cache_key, product_ids, 600)
     featured_product = Product.objects.filter(id__in=product_ids).select_related('brand', 'category__main_category')

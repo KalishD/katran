@@ -1675,7 +1675,7 @@ i.shiny_btn {
     line-height: 1.2;
     letter-spacing: -0.02em;
     margin-bottom: 0.25rem;
-    margin-left: auto;
+    /*margin-left: auto;*/
     margin-right: auto;
 }
 .kp-hero-subtitle {

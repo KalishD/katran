@@ -149,7 +149,7 @@ class Category(ImageProcessingMixin, models.Model):
     main_category = models.ForeignKey(MainCategory, on_delete=models.SET_NULL, blank=True, null=True)
     is_features = models.BooleanField(default=False)
     description = models.TextField(blank=True, null=True)
-
+    is_one_piece_price = models.BooleanField(default=False)
     image = models.ImageField(upload_to="uploads/categories/", blank=True, null=True, default='static/images/blank_prodimg.jpg', max_length=255)
 
     def save(self, *args, **kwargs):
