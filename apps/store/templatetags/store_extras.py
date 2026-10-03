@@ -1,0 +1,143 @@
+from django import template
+from django.utils.safestring import mark_safe
+from collections import OrderedDict as SortedDict
+import bleach
+import os
+
+register = template.Library()
+
+ALLOWED_TAGS = list(bleach.ALLOWED_TAGS) + ['p', 'br', 'h1', 'h2', 'h3', 'h4', 'ul', 'ol', 'li', 'span', 'div', 'table', 'thead', 'tbody', 'tr', 'th', 'td']
+ALLOWED_ATTRIBUTES = dict(bleach.ALLOWED_ATTRIBUTES)
+ALLOWED_ATTRIBUTES['a'] = ['href', 'title', 'target']
+ALLOWED_ATTRIBUTES['img'] = ['src', 'alt', 'width', 'height']
+ALLOWED_ATTRIBUTES['td'] = ['colspan', 'rowspan']
+ALLOWED_ATTRIBUTES['th'] = ['colspan', 'rowspan']
+
+@register.filter
+def sanitize_html(value):
+    """Sanitize HTML to prevent XSS while keeping safe formatting tags."""
+    if not value:
+        return value
+    return bleach.clean(value, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES, strip=True)
+
+@register.filter
+def variable_by_var(variables, var):
+    filtered_var = variables.filter(varitem = var).first()
+    return filtered_var
+
+
+@register.filter
+def intcomma(value):
+    """Thousand-separated integer.
+
+    ``django.contrib.humanize`` is not in INSTALLED_APPS, so this avoids
+    adding a dependency just for number formatting in category copy.
+    """
+    try:
+        number = int(value)
+    except (TypeError, ValueError):
+        return value
+    return f'{number:,}'.replace(',', ' ')
+
+
+@register.simple_tag
+def ru_plural(value, one, few, many):
+    """Russian noun plural: 1 товар / 2 товара / 5 товаров.
+
+    Django's built-in ``pluralize`` only handles one/few, and returns an empty
+    string for a three-form argument, so it cannot be used for Russian copy.
+    """
+    try:
+        number = int(value)
+    except (TypeError, ValueError):
+        return ''
+    number = abs(number)
+    if number % 10 == 1 and number % 100 != 11:
+        return one
+    if 2 <= number % 10 <= 4 and not 12 <= number % 100 <= 14:
+        return few
+    return many
+
+# @register.filter
+# def listsort(value):
+#     if isinstance(value, dict):
+#         new_dict = SortedDict()
+#         key_list = sorted(value.keys())
+#         for key in key_list:
+#             new_dict[key] = value[key]
+#         return new_dict
+#     elif isinstance(value, list):
+#         return sorted(value)
+#     else:
+#         return value
+#     listsort.is_safe = True
+
+@register.filter
+def category_sort(categories, order):
+    filtered_cat = categories.order_by(order)
+    return filtered_cat
+
+
+@register.filter
+def dict_get(d, key):
+    return d.get(key, [])
+
+
+@register.filter
+def is_visible(products):
+	is_visible__products = products.filter(is_visible = True)
+	return is_visible__products
+
+@register.inclusion_tag('product_card.html')
+def product_card(product):
+    return {
+        'p': product,
+    }
+
+
+@register.simple_tag
+def responsive_img(image_field, alt='', css_class='', loading='lazy', sizes=None):
+    """
+    Render an <img> with srcset for responsive images.
+
+    Usage:
+        {% responsive_img product.image "Product title" css_class="image" loading="lazy" %}
+
+    Generates srcset with _sm (400w), _md (800w), and full-size variants.
+    Only existing variant files are included; falls back to plain <img src>.
+    """
+    if not image_field or not image_field.name:
+        return ''
+
+    storage = image_field.storage
+    url = image_field.url
+
+    base_name, ext = os.path.splitext(image_field.name)
+
+    srcset_parts = []
+    for suffix, width in [('sm', 400), ('md', 800)]:
+        variant_name = f'{base_name}_{suffix}{ext}'
+        try:
+            if storage.exists(variant_name):
+                srcset_parts.append(f'{storage.url(variant_name)} {width}w')
+        except Exception:
+            pass
+    srcset_parts.append(f'{url} 1200w')
+
+    srcset = ', '.join(srcset_parts)
+
+    if sizes is None:
+        sizes = '(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw'
+
+    attrs = [
+        f'src="{url}"',
+        f'srcset="{srcset}"',
+        f'sizes="{sizes}"',
+        f'alt="{alt}"',
+    ]
+    if css_class:
+        attrs.append(f'class="{css_class}"')
+    if loading:
+        attrs.append(f'loading="{loading}"')
+
+    return mark_safe(f'<img {" ".join(attrs)}>')

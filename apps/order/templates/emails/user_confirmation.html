@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ваш заказ на сайте katran-pnevmo.ru принят!</title>
+    <link rel="important stylesheet" href="chrome://messagebody/skin/messageBody.css">
+</head>
+<body style="padding:0;margin:0">
+
+<div class="moz-text-html" lang="x-unicode">
+<table style="width:100%;background:none;border-collapse:collapse;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+        <td style="background:#e2e2e2;" align="center">
+            <table style="width:600px;background:#ffffff;border-collapse:collapse;" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr>
+                <td style="padding:16px 16px 25px;">
+                    <table style="width:568px;background:none;border-collapse:collapse;" border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                        <tr>
+                            <td width="286px">
+                              <a href="https://katran-pnevmo.ru/" style="outline:none;text-decoration:none;">
+                                <img src="https://katran-pnevmo.ru/static/images/kp-logo-text.png"
+                                    width="240" height="36" style="border:none;display:block;"
+                                    alt="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ" 
+                                    title="Катран-Пневмо | Интернет-магазин пневматического инструмента | Купить Пневматический инструмент в СПБ">
+                              </a>
+                             </td>
+                            <td align="right" valign="middle">
+                                <p style="padding:0;margin:0;font-family:Arial;font-size:20px;font-weight:bold;color:#d60000;">
+                                    <a href="tel:+78123317907" title="8 812 331-79-09" style="text-decoration:none;color:#d60000;">8 (812) 331 79 09</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table style="width:568px;background:none;border-collapse:collapse;margin:16px 0 0;" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr>
+                            <td align="center">
+                                <p style="padding:0;margin:0;font-family:Arial;font-size:24px;line-height:28px;font-weight:bold;color:#000000;">Здравствуйте!</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="13px" style="line-height:13px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                <p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;">Ваш заказ ООО "Катран-Пневмо" принят!<br>Если допущена ошибка, свяжитесь с нами по телефону, и мы все исправим.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="13px" style="line-height:13px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;font-weight:bold;">Состав заказа:</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+            <td align="center" style="padding:16px 16px 25px;">
+        <table  style="width:568px;background:none;border-collapse:collapse;margin:16px 0 0;" border="0" cellspacing="0" cellpadding="0">
+            <thead>
+            <tr>
+                <td width="270px" height="30px" style="border-bottom:1px solid #cccccc;">
+                    <p style="padding:0;margin:0;font-family:Arial;font-size:14px;line-height:20px;color:#000000;">Наименование</p>
+                </td>
+                <td width="100px" height="30px" style="border-bottom:1px solid #cccccc;">
+                    <p style="padding:0;margin:0;font-family:Arial;font-size:14px;line-height:20px;color:#000000;">Цена</p>
+                </td>
+                <td width="50px" height="30px" style="border-bottom:1px solid #cccccc;" align="center">
+                    <p style="padding:0;margin:0;font-family:Arial;font-size:14px;line-height:20px;color:#000000;">Кол-во</p>
+                </td>
+                <td height="30px" style="border-bottom:1px solid #cccccc;" align="center">
+                    <p style="padding:0;margin:0;font-family:Arial;font-size:14px;line-height:20px;color:#000000;">Стоимость</p>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item_data in items_with_totals %}
+            <tr>
+                <td width="270px" style="padding:15px 0 0;" valign="top">
+                    <p style="padding:0 20px 0 0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;">
+                    <a href="https://katran-pnevmo.ru{% url 'product_detail' item_data.item.product.category.main_category.slug  item_data.item.product.category.slug  item_data.item.product.slug %}"
+                    style="color:#000000;text-decoration:underline;">{{ item_data.item.product.title }}</a></p>
+                </td>
+                <td style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;font-weight:bold;"><p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;font-weight:bold;">{% if item_data.item.price %}{{ item_data.item.price|floatformat:2 }}{% else %}По запросу{% endif %}</p>
+                </td>
+                <td width="50px" style="padding:15px 0 0;" align="center" valign="top">
+                    <p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;">{{ item_data.item.quantity }}                    </p>
+                </td>
+                <td style="padding:15px 0 0;" align="center" valign="top">
+                    <p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#d60000;font-weight:bold;">{% if item_data.item_total %}{{ item_data.item_total|floatformat:2 }}{% else %}По запросу{% endif %}</p>
+                </td>
+            </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </td>
+        </tr>
+<tr>
+    <td height="30px" style="line-height:30px;">&nbsp;</td>
+</tr>
+<tr><td align="center" style="padding:16px 16px 25px;">
+    <table  style="width:568px;background:none;border-collapse:collapse;margin:16px 0 0;" border="0" cellspacing="0" cellpadding="0">
+<tbody>        
+<tr>
+    <td align="left" style="padding:16px 16px 25px;">
+<p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;">Сумма заказа: <strong>{% if total_order_price != 0 %}{{ total_order_price|floatformat:2 }} руб.{% else %}По запросу{% endif %}</strong></p>
+<p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;">Номер заказа: <strong>{{ order.id }}</strong></p>
+<p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;">Способ доставки: <strong> уточняйте у менеджера</strong></p>
+<p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;">Адрес склада: <strong>м.Садовая, г. Санкт-Петербург, Английский пр., д. 33</strong></p>
+<p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;">Дата создания: <strong>{{ order.created_at }}</strong></p>
+    </td>
+</tr>
+<tr>
+    <td height="13px" style="line-height:13px;">&nbsp;</td>
+</tr>
+
+<tr>
+    <td align="left" style="padding:16px 16px 25px;">
+        <p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;">Обращаем ваше внимание, что рассылка носит информационный характер. Об окончательных данных заказа при его изменении вам сообщат в ответном письме.</p>
+    </td>
+</tr>
+<tr>
+    <td height="13px" style="line-height:13px;">&nbsp;</td>
+</tr>
+<tr>
+    <td align="left" style="padding:16px 16px 25px;">
+        <p style="padding:0;margin:0;font-family:Arial;font-size:16px;line-height:20px;color:#000000;">Мы благодарим вас за заказ и надеемся, что вы придете снова!</p>
+    </td>
+</tr>
+<tr>
+    <td height="13px" style="line-height:13px;">&nbsp;</td>
+</tr></p>
+</td>
+</tr>
+</tbody>
+</table>
+               
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" valign="top" style="background:#f3f3f3;">
+                        <table style="width:568px;background:#f3f3f3;border-collapse:collapse;" border="0" cellspacing="0" cellpadding="0">
+                            <tbody>
+                            <tr>
+                                <td height="56px" align="left" valign="middle" >
+                                    <p style="padding:0 0 0 34px;margin:0;font-family:Arial;font-size:20px;line-height:26px;color:#212121;"><a href="tel:88123317909" title="8 812 331-79-09" style="text-decoration:none;color:#212121;">8 812 331-79-09</a></p>
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+</div>
+</body>
+</html>

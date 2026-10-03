@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0010_rename_thumbnail_200_product_thumbnail_and_more'),
+        ('store', '0001_initial'),
         ('order', '0003_alter_order_phone'),
     ]
 

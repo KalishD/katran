@@ -1,12 +1,66 @@
 {% extends 'base.html' %}
+{% load store_extras %}
 
 {% block title %}Инструмент заказан{% endblock %}
 
 {% block content %}
-<div class="columns">
-  {% include "side-bar.html" %}
-  <div class="column has-text-centered">
-    <h1 class="title">Заказ отправлен</h1>
-  </div>
-</div> 
+
+  <div class="column has-text-centered is-clipped">
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+      <ul>
+        <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+        <li><a href="" class="no-hl-link">Ваш заказ </a></li>
+      </ul>
+    </nav>
+    <h1 class="kp-hero-title">Заказ отправлен</h1>
+  	<p class="subtitle is-5 mb-6">Обработаем Ваш заказ и свяжемся с вами в ближайшее время</p>
+
+		<div class="carousel-wrapper mt-3">
+			<div class="owl-carousel owl-theme">
+				  {% for p in featured_product_success %}
+				    <div class="kp-pcard-cell m-2">
+				      {% include "includes/kp_product_card.html" with product=p %}
+				    </div>
+				  {% endfor %}
+			</div>
+		</div>
+	</div>
+  
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.owl-carousel:not(".brands-carousel")').owlCarousel(
+      {
+        items: 7,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        responsive:{
+            0:{
+                items:3,
+                nav:true
+            },
+            480:{
+                items:4,
+                nav:false
+            },
+            700:{
+                items:6,
+                nav:false
+            },
+            1000:{
+                items:7,
+                nav:false,
+                loop:false
+            }
+        },
+      }
+    );
+  });
+    </script>
 {% endblock %}

@@ -1,51 +1,244 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load core_extras %}
+{% load store_extras %}
 {% block title %}Результаты поиска: {{ query }} {% endblock %}
+{% block ogtitle %}Результаты поиска: {{ query }} {% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
 {% block content %}
-    <div class="columns">
-        {% include "side-bar.html" %}
-        <div class="column has-text-centered-touch has-text-left-desktop is-three-quarters">
-            <h1 class="title is-3">Результаты поиска</h1>
-            <p class="subtitle">по запросу {{ query }}</p>
-            <hr>
-            <div class="table-container is-fullwidth product-table">
-                <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Наименование</th>
-                            <th>Производитель</th>
-                            <th>Цена</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product in products %}
-                            <tr>
-                                <td class="th-w-img p-0">
-                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
-                                        <img src="{{ product.thumbnail.url }}"
-                                        alt="{{ product.title }}"
-                                        title="{{ product.title }}">
-                                    </a>
-                                </td>
-                                <td>
-                                    <a class="no-hl-link" href="{% url 'product_detail' product.category.slug product.slug %}">
-                                        <p>{{product.title}}</p>
-                                    </a>
-                                </td>
-                                <td><a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">{{ product.brand }}</a></td>
-                                <td>
-                                    {% if product.price != 0 %}
-                                        {{ product.price|floatformat:2 }}
-                                    {% else %}
-                                        По запросу
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+
+
+    <div class="column has-text-centered-touch" id="app">
+      <!-- Хлебные крошки -->
+      <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+        <ul class="" itemscope itemtype="{% breadcrumb_schema %}">
+          {% breadcrumb_home '/' 'Катран-Пневмо' %}
+          {% breadcrumb_item "" query 2 %}
+        </ul>
+      </nav>
+
+        <!-- Level Main container -->
+        <nav class="level">
+          <!-- Left side -->
+          <div class="level-left">
+            <div class="level-item">
+              <p class="subtitle is-5">Нашлось <strong>{{count}}</strong></p>
             </div>
-            
+            <form  method="get" action="{% url 'search' %}">
+              <div class="level-item">
+                <div class="field has-addons">
+                  <p class="control">
+                    <input id="katran-search" type="text"
+                           class="input is-active"
+                           placeholder="Поиск в каталоге" 
+                           name="query"
+                           value="{{query}}"
+                           />
+                  </p>
+                  <button class="button is-info is-light is-active">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right side -->
+          <div class="level-right">
+            <div class="level-item">
+              <div class="field is-grouped has-text-right">
+                <div class="control">
+                  <span class="tags has-addons">
+                    <span class="tag is-dark">Вид:</span>
+                    <span class="tag is-info is-light" @click="currentView = 'grid'" :class="{'is-active': currentView === 'grid'}">
+                      <span class="icon"><i class="fa-solid fa-th"></i></span>
+                    </span>
+                    <span class="tag is-info is-light" @click="currentView = 'list'" :class="{'is-active': currentView === 'list'}">
+                      <span class="icon"><i class="fas fa-bars"></i></span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="level-item">
+              <div class="field is-grouped has-text-right">
+                <div class="control">
+                  <span class="tags has-addons">
+                    <span class="tag is-dark">Сортировать по:</span>
+                    <span class="tag sort-button is-info is-light" @click="changeSort('ordering')" :class="{'is-active': sortField === 'ordering'}">
+                      <i class="fa-solid fa-star"></i>
+                    </span>
+                    <span class="tag sort-button is-info is-light" @click="changeSort('title')" :class="{'is-active': sortField === 'title'}">
+                      Название <span class="icon"><i :class="sortField === 'title' ? sortIcon : 'fas'"></i></span>
+                    </span>
+                    <span class="tag sort-button is-info is-light" @click="changeSort('price')" :class="{'is-active': sortField === 'price'}">
+                      Цена <span class="icon"><i :class="sortField === 'price' ? sortIcon : 'fas'"></i></span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </nav>
+        <!-- Level Main container -->
+    <!-- <h1 class="title is-3">Поиск в каталоге</h1> -->
+    <hr class="katran-line-sep">
+<!-- Grid View -->
+      <div v-if="currentView === 'grid'" class="columns is-multiline">
+        <div class="column is-3-widescreen is-4-desktop is-6-tablet is-full-mobile" v-for="product in sortedProducts" :key="product.id">
+          <article class="kp-pcard">
+            <a class="kp-pcard__media" :href="product.url" tabindex="-1" aria-hidden="true">
+              <img :src="product.image" :srcset="product.srcset" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 25vw" loading="lazy" :alt="product.title" :title="product.title">
+              <figure v-if="product.brand_image" class="image kp-pcard__brand">
+                <img :src="product.brand_image" :srcset="`${product.brand_image} 1x`" loading="lazy" :alt="product.brand">
+              </figure>
+            </a>
+            <div class="kp-pcard__body">
+              <h3 class="kp-pcard__title"><a class="no-hl-link" :href="product.url" :title="product.title">[[ product.title ]]</a></h3>
+            </div>
+            <p class="kp-pcard__specs" v-if="product.specs && product.specs.spec_rows && product.specs.spec_rows.length">
+              <span v-for="(row, si) in product.specs.spec_rows" :key="si">[[ row.prefix ]]<b>[[ row.text ]]</b></span>
+            </p>
+            <div class="kp-pcard__specs kp-pcard__specs--empty" v-else aria-hidden="true"></div>
+            <div class="kp-pcard__foot">
+              <p class="kp-pcard__stock" :class="product.in_stock === 1 ? 'kp-pcard__stock--in' : (product.in_stock === 0 ? 'kp-pcard__stock--order' : 'kp-pcard__stock--none')">
+                <span v-if="product.in_stock === 1">В наличии</span>
+                <span v-else-if="product.in_stock === 0">Под заказ</span>
+                <span v-else>Нет в наличии</span>
+              </p>
+              <p class="kp-pcard__price">
+                <span v-if="product.price">[[ product.price ]] ₽ <small>с НДС 22%</small></span>
+                <span v-else>По запросу</span>
+              </p>
+            </div>
+          </article>
         </div>
+      </div>
+      <!-- Grid View -->
+
+    <!-- List View -->
+    <div v-else-if="currentView === 'list'">
+      <div class="table-container is-fullwidth product-table">
+        <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Наименование</th>
+              <th>Производитель</th>
+              <th>Цена</th>
+              {% for var in all_cat_vars %}
+                <th>
+                  {{ var }}<br>
+                  {% if var.dimention %}{{ var.dimention }}{% endif %}
+                </th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="product in sortedProducts" :key="product.id">
+              <td class="th-w-img p-0">
+                <a class="no-hl-link" :href="product.url">
+                  <figure class="image is-128x128">
+<img :src="product.image" :srcset="product.srcset" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" :alt="product.title" :title="product.title">
+                  </figure>
+                </a>
+              </td>
+              <td>
+                <a class="no-hl-link" :href="product.url">
+                  <p>[[ product.title ]]</p>
+                </a>
+              </td>
+              <td>
+                <a v-if="product.brand_url" class="no-hl-link" :href="product.brand_url">[[ product.brand ]]</a>
+                <span v-else>-</span>
+              </td>
+              <td>
+                <span class="fc-red">
+                  <span v-if="product.price">[[ product.price ]],00 ₽</span>
+                  <span v-else>По запросу</span>
+                </span>
+              </td>
+              {% for var in all_cat_vars %}
+                <td>[[ product.characteristics["{{ forloop.counter0 }}"] ]]</td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+    <!-- List View -->
+
+    </div>
+  </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  new Vue({
+    el: '#app',
+    delimiters: ['[[', ']]'],
+    store,
+    data() {
+      return {
+        products: [],
+        currentView: 'grid',
+        sortField: 'ordering',
+        sortOrder: 'asc',
+        showAddToCartMessage: false
+      };
+    },
+    computed: {
+      sortedProducts() {
+        return this.products.slice().sort((a, b) => {
+          let A = a[this.sortField], B = b[this.sortField];
+          if (this.sortOrder === 'desc') [A, B] = [B, A];
+          return A > B ? 1 : A < B ? -1 : 0;
+        });
+      },
+      sortIcon() {
+        return this.sortOrder === 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down';
+      }
+    },
+    mounted() {
+      fetch('/api/search/?query={{query}}')
+      // fetch(`/api/brands/{{ brand.slug }}/`)
+        .then(res => res.json())
+        .then(data => {
+          this.products = data.products;
+        });
+    },
+    methods: {
+      changeSort(field) {
+        if (this.sortField === field) {
+          this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+          this.sortField = field;
+          this.sortOrder = 'asc';
+        }
+      },
+      addToCart(product_id) {
+        fetch('/api/api_add_to_cart/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify({ product_id, update: false, quantity: 1 })
+        })
+        .then(() => {
+          this.showAddToCartMessage = true;
+          this.$store.commit('increment', 1);
+          setTimeout(() => { this.showAddToCartMessage = false; }, 2000);
+        })
+        .catch(console.error);
+      }
+    }
+  });
+</script>
 {% endblock %}

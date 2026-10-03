@@ -1,0 +1,16 @@
+User-Agent: *
+
+Disallow:
+Disallow: /admin/
+Disallow: /catalog_*.html
+Disallow: /articles/*
+Disallow: /search/*
+Disallow: /cart/*
+Disallow: /api/*
+Disallow: /politics_agree/
+Disallow: /privacy-policy/
+
+Sitemap: https://katran-pnevmo.ru/sitemap.xml
+
+User-agent: Yandex
+Clean-param: utm_source&utm_medium *

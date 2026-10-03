@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ meta_title }}{% endblock %}
+{% block ogtitle %}{{ meta_title }}{% endblock %}
+{% block description %}{{ meta_description }}{% endblock %}
+{% block ogdescription %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<div class="column has-text-centered-touch">
+
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li class="is-active"><a href="{% url 'cases_index' %}">Проекты и кейсы</a></li>
+    </ul>
+  </nav>
+
+  <div class="title-wrapper has-text-centered" style="padding: 1rem 0 0.5rem;">
+    <p class="kp-about-hero__tag">Портфолио</p>
+    <h1 class="kp-hero-title">Проекты и кейсы</h1>
+    <div class="kp-solutions-divider"></div>
+    <p class="subtitle is-6 mt-2" style="max-width: 560px; margin: 0 auto; color: var(--katran-font-sm-color); line-height: 1.6;">Реальные задачи, которые мы решили для наших клиентов</p>
+  </div>
+
+  <div class="columns is-multiline is-variable is-2 mt-5">
+    {% for case in cases %}
+      <div class="column is-4 is-full-mobile">
+        <a href="{{ case.get_absolute_url }}" class="no-hl-link">
+          <div class="kp-sol-case">
+            {% if case.industry %}
+              <div class="kp-sol-case__label" style="margin-bottom: 0.5rem;">{{ case.industry.title }}</div>
+            {% endif %}
+            <div class="kp-sol-case__title">{{ case.title }}</div>
+            {% if case.client_name %}
+              <div class="kp-sol-case__row">
+                <div class="kp-sol-case__label">Клиент</div>
+                <div class="kp-sol-case__text">{{ case.client_name }}</div>
+              </div>
+            {% endif %}
+            <div class="kp-sol-case__row">
+              <div class="kp-sol-case__text">{{ case.problem|truncatewords:20 }}</div>
+            </div>
+            {% if case.metric_label and case.metric_value %}
+              <div class="kp-sol-case__metric">{{ case.metric_value }} {{ case.metric_label }}</div>
+            {% endif %}
+          </div>
+        </a>
+      </div>
+    {% empty %}
+      <div class="column is-full">
+        <div class="kp-sol-case has-text-centered" style="min-height: auto; padding: 3rem;">
+          <div class="kp-sol-cap__icon" style="margin: 0 auto 1rem;">
+            <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+          </div>
+          <div class="kp-sol-case__title">Кейсы скоро появятся</div>
+          <div class="kp-sol-case__text">Мы готовим описание наших лучших проектов для публикации.</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {# ── CTA ── #}
+  <div class="columns mt-5 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box">
+        <p class="kp-cta-box__title">Хотите аналогичный проект?</p>
+        <p class="kp-cta-box__text">Расскажите о вашей задаче — подберём решение и рассчитаем стоимость.</p>
+        <a href="{% url 'contacts' %}" class="button is-info is-outlined mt-2">
+          <strong>Обсудить проект</strong>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

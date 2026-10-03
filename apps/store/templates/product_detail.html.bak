@@ -1,0 +1,654 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load core_extras %}
+{% load store_extras %}
+{% block title %}{{product.get_clean_title}} {% if product.brand %}{{product.brand}} {% endif %}{% if product.analog %}аналог {{product.analog.get_last_word_title}} {% endif %}{{variables_list}}{% if product.article %} | {{product.article}}{% endif %}{% endblock %}
+{% block ogtitle %}{{product.get_clean_title}} {% if product.brand %}{{product.brand}} {% endif %}{% if product.analog %}аналог {{product.analog.get_last_word_title}} {% endif %}{{variables_list}}{% if product.article %} | {{product.article}}{% endif %}{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+{% block ogimage %}https://katran-pnevmo.ru{{ product.image.url }}{% endblock %}
+{% block canonicalurl %}https://katran-pnevmo.ru{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}{% endblock %}
+{% block breadcrumbs_extra %}
+          ,{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{{ product.category.main_category.title }}",
+            "item": "https://katran-pnevmo.ru/catalog/{{ product.category.main_category.slug }}/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{{ product.category.title }}",
+            "item": "https://katran-pnevmo.ru{% url 'category_detail' product.category.main_category.slug product.category.slug %}"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "{{ product.title }}",
+            "item": "https://katran-pnevmo.ru{% url 'product_detail' product.category.main_category.slug product.category.slug product.slug %}"
+          }
+{% endblock %}
+{% block content %}
+
+    <div class="column is-9-fullhd is-9-desktop is-full-tablet is-9 has-text-centered-touch">
+      <!-- Хлебные крошки -->
+      <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+        <ul class="" itemscope itemtype="{% breadcrumb_schema %}">
+          {% breadcrumb_home '/' 'Катран-Пневмо' %}
+          {% breadcrumb_item product.category.main_category.get_absolute_url product.category.main_category.title 2 %}
+          {% breadcrumb_item product.category.get_absolute_url product.category.title 3 %}
+          {% breadcrumb_active product.get_absolute_url product.title 4 %}
+        </ul>
+      </nav>
+
+
+      
+      <div id="productapp">
+                
+        <div class="columns is-multiline" id="product-page">
+          <!-- image -->
+          <div class="column is-4 is-4-fullhd is-4-desktop is-full-tablet box carousel-item--img-wrapper">
+            <div class="image is-256x256">
+              <div class="features-icons_prod-image_wrap">
+                <!-- PARTLIST -->
+              {% if product.partlist %}
+                <button class="icon_prod-image partlist-icon_image js-modal-trigger" data-target="partlist_modal_desktop">
+                  <figure class="image is-16x16 m-0 mr-1">
+                    <img src="{% static 'images/icons/partlist_gear_only.png' %}" alt="Partlist, взрыв-схема">
+                  </figure>
+                  <i class="shiny_btn"></i>
+                  <span>Partlist</span>
+                </button>
+                <div class="modal" id="partlist_modal_desktop">
+                  <div class="modal-background"></div>
+                  <div class="modal-content">
+                    <p class="image">
+                      <img src="{{product.partlist.url}}" alt="">
+                    </p>
+                  </div>
+                  <button class="modal-close is-large" aria-label="close"></button>
+                </div>
+              {% endif %}
+              <!-- PATENT -->
+              {% if product.get_patent.first %}
+                <button class="icon_prod-image patent-icon_image js-modal-trigger mt-1" data-target="patent_modal_desktop">
+                  <figure class="image is-16x16 m-0 mr-1">
+                    <img src="{% static 'images/icons/patent.png' %}" alt="Патент на полезную модель">
+                  </figure>
+                  <i class="shiny_btn"></i>
+                  <span>Патент</span>
+                </button>
+                <div class="modal" id="patent_modal_desktop">
+                  <div class="modal-background"></div>
+                  <div class="modal-content">
+                    <p class="image">
+                      <img src="{{product.get_patent.first.document_image.url}}" alt="">
+                    </p>
+                  </div>
+                  <button class="modal-close is-large" aria-label="close"></button>
+                </div>
+              {% endif %}
+              </div>
+                <img src="{{ product.image.url }}" alt="{{ product.title }}" title="{{ product.title }}">
+                {% if product.brand %}
+                    <figure class="image product-card_brand-image is-32x32">
+                        <img src="{{product.brand.image.url}}" 
+                            alt="{{ product.brand }} | купить с доставкой по всей России"
+                            title="{{ product.brand }} | купить с доставкой по всей России">
+                    </figure>
+                {% endif %}
+            </div>
+          </div>
+
+
+          <div class="column is-7-fullhd is-8-desktop is-full-tablet">
+            <div class="has-text-centered box">
+              <h1 class="title is-3" id="product_name">{{ product.title }}</h1>
+              <p class="subtitle is-6">Купить с доставкой по всей России</p>
+              <hr class="katran-line-sep">
+              <div class="columns is-multiline">
+                <div class="column is-5-fullhd is-5-desktop is-5-tablet is-full-mobile has-text-left-fullhd has-text-centered">
+                  <p class="title is-3">цена:
+                    <span class="fc-red">
+                      {% if product.price != 0 %}
+                          {{ product.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i>
+                      {% else %}
+                          По запросу
+                      {% endif %}
+                    </span>
+                  </p>
+                  {% if product.price != 0 %}
+                    <p class="subtitle is-5 mb-1">с НДС 22%</p>
+                  {% endif %}
+                  <p class="subtitle has-text-left is-6">
+                    <span class="has-text-weight-bold is-6">Наличие: </span>
+                    {% if product.in_stock == 1 %}
+                      <span>много на складе</span>
+                    {% elif product.in_stock == 0 %}
+                      <span>ожидается поставка</span>
+                    {% endif %}
+                  </p>
+                  <button class="button is-primary is-normal mb-3" @click="addToCart({{ product.id }})">Купить &nbsp;&nbsp;<i class="fa-solid fa-cart-shopping"></i> <i class="shiny_btn"></i></button>
+                  <button class="button is-success is-light is-normal mb-3" @click="toggleComparison({{ product.id }})">
+                    <i class="fa-solid fa-scale-balanced"></i>&nbsp;&nbsp;[[ inComparison ? 'Убрать' : 'Сравнить' ]]
+                  </button>
+                  {% if product.brand %}
+                  <hr class="katran-line-sep">
+                  <div class="columns is-vcentered">
+                    <div class="column is-3">
+                      <figure class="image is-64x64">
+                        <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">
+                          <img src="{{product.brand.image.url}}" 
+                          alt="{{ product.brand }} | купить с доставкой по всей России"
+                          title="{{ product.brand }} | купить с доставкой по всей России">
+                        </a>
+                      </figure>
+                    </div>
+                    <div class="column is-9">
+                      <p class="title is-6 has-text-left">
+                        <a class="no-hl-link" href="{% url 'brand_detail' product.brand.slug %}">Бренд: <strong>{{ product.brand }}</strong></a>
+                      </p>
+                    </div>
+                  </div>
+                  {% endif %}
+
+                  <article class="message is-primary" v-if="showAddToCartMessage">
+                      <div class="message-body">
+                        <strong>{{ product.title }}</strong> добавлен в корзину.
+                      </div>
+                  </article>                      
+                </div>
+                <div class="column is-7-fullhd is-7-desktop is-7-tablet is-full-mobile">
+                  
+                  <p class="has-text-left is-6">
+                    <span class="has-text-weight-bold is-6">Группа: </span>
+                    <a class="no-hl-link" href="{% url 'main_category_detail' product.category.main_category.slug %}">{{ product.category.main_category }}</a>
+                  </p>
+                  <p class="has-text-left is-6">
+                    <span class="has-text-weight-bold is-6">Категория: </span>
+                    <a class="no-hl-link" href="{% url 'category_detail' product.category.main_category.slug product.category.slug %}">{{ product.category }}</a>
+                  </p>
+                  {% if product.article  %}
+                  <p class="has-text-left is-6">
+                    <span class="has-text-weight-bold is-6">Артикул: </span>{{ product.article }}
+                  </p>
+                  {% endif %}
+                  {% if product.get_patent.first %}
+									<p class="has-text-left is-6">
+                   	<span class="has-text-weight-bold is-6">Патент: </span><span class="copy_info-btn js-modal-trigger no-hl-link" data-target="patent_modal_desktop">{{ product.get_patent.first }} <i class="fa-solid fa-award fc-red" ></i></span>
+                  </p>
+                  {% endif %}
+                  <hr class="katran-line-sep">
+                  <p class="has-text-left"><i class="fa-solid fa-box-open fc-black"></i></i>
+                    <span>Бесплатная доставка до ТК</span>
+                  </p>
+                  <p class="has-text-left"><i class="fa-regular fa-star fc-black"></i>
+                    <span>Сертифицированная продукция</span>
+                  </p>
+                  <p class="has-text-left"><i class="fas fa-thumbs-up fc-black"></i>
+                    <span>Товар в наличии и под заказ</span>
+                  </p>
+                  <p class="has-text-left"><i class="fas fa-truck fc-black"></i>
+                    <span>Доставка по РФ и СНГ</span>
+                  </p>
+                  <p id="copyToClipboard_btn" class="title is-6 copy_info-btn mt-3 has-text-left"
+                  @click="copyToClipboard()">
+                  <i class="fa fa-clipboard"></i>
+                  &nbsp;&nbsp;Скопировать информацию
+                    </p>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          {% if product.analog %}
+            <div class="column is-11-fullhd is-11-desktop is-full-tablet box is-hidden-mobile">
+            <p class="menu-label has-text-centered-touch has-text-left-desktop">Аналог товара:</p>
+            <div class="product_card carousel-item--img-wrapper">
+              <div class="columns is-multiline">
+                
+                <div class="column is-2 is-2-fullhd is-2-desktop is-full-mobile is-vcentered is-relative">
+                  <a href="{% url 'product_detail' product.analog.category.main_category.slug product.analog.category.slug product.analog.slug %}"
+                    class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                  <a href="{% url 'product_detail' product.analog.category.main_category.slug product.analog.category.slug product.analog.slug %}">
+                    <figure class="image">
+                      <img src="{{ product.analog.image.url }}" alt="Image" />
+                    </figure>
+                  </a>
+                  {% if product.analog.brand %}
+                      <figure class="image product-card_brand-image is-32x32">
+                          <img src="{{product.analog.brand.image.url}}" 
+                              alt="{{ product.analog.brand }} | купить с доставкой по всей России"
+                              title="{{ product.analog.brand }} | купить с доставкой по всей России">
+                      </figure>
+                  {% endif %} 
+                </div>
+                
+                <div class="column is-10 is-10-fullhd is-10-desktop is-full-tablet ">
+                  <div class="columns is-multiline">
+                    <div class="column is-one-third">
+                      <div class="content">
+                        <p class="has-text-left is-6 mb-6"><span class="is-6 has-text-weight-bold">
+                          <a class="no-hl-link" href="{% url 'product_detail' product.analog.category.main_category.slug product.analog.category.slug product.analog.slug %}">{{ product.analog.title }}</a></span>
+                        </p>
+                        <p class="has-text-left is-7"><span class="has-text-weight-bold is-6">Группа:</span> 
+                          <a class="no-hl-link" href="{% url 'main_category_detail' product.analog.category.main_category.slug %}">{{ product.analog.category.main_category }}</a></p>
+                        <p class="has-text-left is-7"><span class="has-text-weight-bold is-6">Категория:</span> <a class="no-hl-link" href="{% url 'category_detail' product.analog.category.main_category.slug product.category.slug %}">{{ product.analog.category }}</a></p>
+                        {% if product.analog.brand %}
+                          <p class="has-text-left is-7"><span class="has-text-weight-bold is-6">Производитель:</span> <a class="no-hl-link" href="{% url 'brand_detail' product.analog.brand.slug %}">{{ product.analog.brand }}</a></p>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="column is-one-third">
+                      <div class="content">
+                        {% if product.analog.variable_set.all %}
+                        <p class="has-text-left is-6 mb-6"><span class="is-6 has-text-weight-bold">Характеристики</span></p>
+                          {% for var in product.analog.variable_set.all %}
+                              <p class="has-text-left is-7"><span class="has-text-weight-bold is-6">{{ var.varitem.title }}:</span> {{ var.value }}&nbsp;&nbsp;{% if var.varitem.dimention %}{{var.varitem.dimention}}{% endif %}</p>
+                          {% endfor %}
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="column is-one-third">
+                      <hr class="katran-line-sep">
+                      <p class="title has-text-left is-5 ">
+                        <span class="has-text-weight-bold">Цена: </span>
+                        <span class="fc-red">
+                        {% if product.analog.price != 0 %}
+                          {{ product.analog.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i> <span class="subtitle is-7 fc-black">с НДС 22%</span>
+                        {% else %}
+                            По запросу
+                        {% endif %}
+                        </span>
+                      </p>
+                      <p class="title has-text-left is-6 ">
+                        <span class="has-text-weight-bold">Наличие: </span>
+                        <span class="fc-red">
+                        {% if product.analog.in_stock != 0 %}
+                          на складе <i class="fa-solid fa-boxes-stacked"></i>
+                        {% else %}
+                          ожидается поставка <i class="fa-solid fa-boxes-stacked"></i>
+                        {% endif %}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              </div>
+            </div>
+          {% endif %}
+          
+          {% if variables %}
+          <div class="column is-5 is-5-fullhd is-10-desktop is-full-touch box">
+            <div class="has-text-justified">
+              <p class="menu-label has-text-centered-touch has-text-left-desktop">Технические характеристики:</p>
+              <!-- <p class="title is-5 fc-red mt-3 mb-3">Технические характеристики</p> -->
+            </div>
+            <table class="table is-striped is-hoverable is-fullwidth" id="tech_variables">
+              <tbody>
+                {% for var in variables %}
+                <tr>
+                  <td class="has-text-left-fullhd has-text-centered-desktop has-text-left-mobile">{{ var.varitem.title }}</td>
+                  <td class="has-text-left">{{ var.value }}&nbsp;&nbsp;{% if var.varitem.dimention %}{{var.varitem.dimention}}{% endif %}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+
+            {% if product.partlist %}
+            <div class="is-hidden-desktop">
+              <div class="has-text-centered">
+                <p class="title is-5 fc-red mt-3 mb-3">Деталировка/Взрыв схема</p>
+                <button class="button is-normal is-black js-modal-trigger" data-target="partlist_modal">Посмотреть взрыв схему &nbsp;&nbsp;<i class="fa-solid fa-cog"></i><i class="shiny_btn"></i></button>
+              </div>
+              <div class="modal" id="partlist_modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                  <p class="image">
+                    <img src="{{product.partlist.url}}" alt="">
+                  </p>
+                </div>
+                <button class="modal-close is-large" aria-label="close"></button>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+
+          {% if product.description %}
+          <div class="column is-6 is-6-fullhd is-11-desktop is-full-touch box">
+            <div class="has-text-justified">
+              <p class="menu-label has-text-centered-touch has-text-left-desktop">Описание товара:</p>
+              <!-- <p class="title is-5 fc-red mt-3 mb-3 has-text-centered">Описание товара</p> -->
+              <p>{{ product.description|sanitize_html|safe }}</p>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if product.faqs.all %}
+          <div class="column is-full box product-faq-section">
+            <p class="menu-label has-text-centered-touch has-text-left-desktop">Вопросы и ответы (FAQ):</p>
+            <div class="product-faq-list">
+              {% for faq in product.faqs.all %}
+              <div class="product-faq-item">
+                <div class="product-faq-question">
+                  <span class="product-faq-icon"><i class="fa-solid fa-circle-question"></i></span>
+                  <span>{{ faq.question }}</span>
+                </div>
+                <div class="product-faq-answer">
+                  {{ faq.answer|sanitize_html|safe }}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {% for faq in product.faqs.all %}
+              {
+                "@type": "Question",
+                "name": "{{ faq.question|escapejs }}",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "{{ faq.answer|striptags|escapejs }}"
+                }
+              }{% if not forloop.last %},{% endif %}
+              {% endfor %}
+            ]
+          }
+          </script>
+          {% endif %}
+          
+        </div>
+          
+                 <div class="columns">
+                  <div class="column is-full">
+               <!-- tabs -->
+                    {% if product.parts.exists or product.similar_products.exists %}
+                   <div class="tabs is-fullwidth block" id="navigation-tabs">
+                     <ul>
+                       {% if product.parts.exists %}
+                       <li data-target="spareparts-block">
+                         <a>
+                           <span>Запчасти</span>
+                         </a>
+                       </li>
+                       {% endif %}
+                       {% if product.similar_products.exists %}
+                       <li data-target="relaited-block">
+                         <a>
+                           <span>Похожие товары</span>
+                         </a>
+                       </li>
+                       {% endif %}
+                     </ul>
+                   </div>
+                   <!-- /tabs -->
+
+                  <!-- relaited products -->
+                  {% if product.similar_products.exists %}
+                  <div class="tab-block is-hidden" style="overflow: hidden; max-width: 1200px !important;" id="relaited-block">
+                    <p class="menu-label has-text-centered-touch has-text-left-desktop">Похожие товары:</p>
+                    <!-- carousel   -->
+                    <div class="carousel-wrapper">
+                      <div class="owl-carousel owl-theme">
+                        {% for p in product.similar_products.all %}
+                          {% product_card p %}
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <!-- carousel   -->
+                  </div>
+                  {% endif %}
+                  <!-- relaited products -->
+
+                  <!-- spareparts -->
+                  {% if product.parts.exists %}
+                  <div class="tab-block is-hidden" style="overflow: hidden;max-width: 1200px !important" id="spareparts-block">
+                    <p class="menu-label has-text-centered-touch has-text-left-desktop">Запчасти и аксессуары:</p>
+                    <!-- carousel   -->
+                    <div class="carousel-wrapper">
+                      <div class="owl-carousel owl-theme">
+                        {% for p in product.parts.all %}
+                          {% product_card p %}
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <!-- carousel   -->  
+                  </div>
+                  {% endif %}
+                  <!-- spareparts -->
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Functions to open and close a modal
+  function openModal($el) {
+    $el.classList.add('is-active');
+  }
+
+  function closeModal($el) {
+    $el.classList.remove('is-active');
+  }
+
+  function closeAllModals() {
+    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+      closeModal($modal);
+    });
+  }
+
+  // Add a click event on buttons to open a specific modal
+  (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+    const modal = $trigger.dataset.target;
+    const $target = document.getElementById(modal);
+
+    $trigger.addEventListener('click', () => {
+      openModal($target);
+    });
+  });
+
+  // Add a click event on various child elements to close the parent modal
+  (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+    const $target = $close.closest('.modal');
+
+    $close.addEventListener('click', () => {
+      closeModal($target);
+    });
+  });
+
+  // Add a keyboard event to close all modals
+  document.addEventListener('keydown', (event) => {
+    if(event.key === "Escape") {
+      closeAllModals();
+    }
+  });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs = document.querySelectorAll('#navigation-tabs li');
+  const blocks = document.querySelectorAll('.tab-block');
+  const first_tab = tabs[0];
+  const first_targetId = first_tab.getAttribute('data-target');
+  const first_targetBlock = document.getElementById(first_targetId);
+  if (first_tab) {
+    first_tab.classList.add('is-active');
+  }
+  if (first_targetBlock) {
+    first_targetBlock.classList.remove('is-hidden');
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Удаляем .is-active у всех вкладок
+      tabs.forEach(t => t.classList.remove('is-active'));
+
+      // Добавляем .is-active только к текущей
+      tab.classList.add('is-active');
+
+      // Скрываем все блоки
+      blocks.forEach(block => block.classList.add('is-hidden'));
+
+      // Показываем выбранный блок
+      const targetId = tab.getAttribute('data-target');
+      const targetBlock = document.getElementById(targetId);
+      if (targetBlock) {
+        targetBlock.classList.remove('is-hidden');
+      }
+    });
+  });
+});
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.owl-carousel:not(".brands-carousel")').owlCarousel(
+      {
+        items: 3,
+        nav: false,
+        loop: false,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        autoplay: true,
+        autoplayTimeout: 8000,
+        responsive:{
+            0:{
+                items:1,
+                nav:true
+            },
+            480:{
+                items:2,
+                nav:false
+            },
+            700:{
+                items:3,
+                nav:false
+            },
+            1000:{
+                items:4,
+                nav:false,
+                loop:false
+            }
+        },
+      }
+    );
+  });
+</script>
+
+<script>
+  var productapp = new Vue({
+    el: '#productapp',
+    delimiters: ['[[',']]'],
+    store: store,
+    data (){
+        return {
+            showAddToCartMessage: false,
+            inComparison: false
+        }
+    },
+    mounted(){
+        this.checkComparison();
+    },
+    methods: {
+        checkComparison() {
+            var ids = [{{ product.id }}];
+            var compIds = [];
+            {% for pid in comparison.get_product_ids %}
+            compIds.push({{ pid }});
+            {% endfor %}
+            this.inComparison = compIds.indexOf({{ product.id }}) !== -1;
+        },
+        toggleComparison(product_id) {
+            fetch('/api/api_toggle_comparison/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({ product_id: product_id })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    this.inComparison = data.added;
+                    store.commit('setCompCount', data.count);
+                }
+            })
+            .catch(console.error);
+        },
+        copyToClipboard(){
+            var copyToClipboardBTN = document.getElementById("copyToClipboard_btn");
+
+            var techVariables = document.getElementById("tech_variables").innerText;
+            var productName = document.getElementById("product_name").innerText;
+            var productURL = document.getElementById("product_name").baseURI;
+            var textToCopy = productName;
+   
+            textToCopy += "\n\nТехнические характеристики:\n";
+            textToCopy += techVariables;
+            textToCopy += "\nСсылка на товар: ";
+            textToCopy += productURL;
+          
+            const storage = document.createElement('textarea');
+            storage.innerHTML = textToCopy;
+            document.body.appendChild(storage);
+            // Copy the text in the fake `textarea` and remove the `textarea`
+            storage.select();
+            storage.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            storage.parentElement.removeChild(storage);
+        },
+        addToCart(product_id){
+            console.log('Adding Product_id', product_id);
+            var data = {
+                'product_id': product_id,
+                'update': false,
+                'quantity': 1
+            };
+            fetch('/api/api_add_to_cart/',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Hello');
+                this.showAddToCartMessage = true;
+                store.commit('increment', 1);
+                setTimeout(()=>{
+                    this.showAddToCartMessage = false;
+                }, 2000)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
+  });
+</script>
+{% endblock %}

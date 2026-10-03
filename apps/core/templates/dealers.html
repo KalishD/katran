@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Стать дилером — партнёрские условия | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Стать дилером — партнёрские условия | Катран-Пневмо{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+
+{% block breadcrumbs_extra %}
+{ "position": 2, "name": "Дилерам", "item": "https://katran-pnevmo.ru/dealers/" }
+{% endblock %}
+
+{% block content %}
+<div class="column has-text-centered-touch">
+
+  <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+    <ul>
+      <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+      <li class="is-active"><a href="{% url 'dealers' %}">Дилерам</a></li>
+    </ul>
+  </nav>
+
+  {# ── Hero ── #}
+  <div class="title-wrapper has-text-centered">
+    <p class="subtitle is-6">Партнёрство</p>
+    <h1 class="kp-hero-title">Станьте дилером<br>Катран-Пневмо</h1>
+    <p class="subtitle is-5 mt-2">Выгодные условия для перепродажи и сервиса пневматического инструмента</p>
+    <a href="{% url 'contacts' %}" class="button is-primary mt-3">
+      <strong>Стать партнёром</strong>
+    </a>
+  </div>
+
+  {# ── Что получает дилер ── #}
+  <div class="columns mt-5 is-multiline">
+    <div class="column is-full">
+      <p class="kp-section-label kp-section-label--center">Преимущества</p>
+      <h2 class="kp-section-heading">Что получает дилер</h2>
+    </div>
+  </div>
+
+  <div class="columns is-multiline mt-3">
+    <div class="column is-4 is-full-mobile">
+      <div class="box has-text-centered">
+        <p class="title is-4"><i class="fa-solid fa-percent" style="color: var(--katran-blue-2);"></i></p>
+        <p class="title is-6">Скидки</p>
+        <p class="subtitle is-7">Гибкая система скидок в зависимости от объёма закупок. Дополнительные бонусы за выполнение плана.</p>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="box has-text-centered">
+        <p class="title is-4"><i class="fa-solid fa-boxes-stacked" style="color: var(--katran-blue-2);"></i></p>
+        <p class="title is-6">Запчасти</p>
+        <p class="subtitle is-7">Доступ к складу запчастей. Поставка расходных материалов и комплектующих для ремонта.</p>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="box has-text-centered">
+        <p class="title is-4"><i class="fa-solid fa-book-open" style="color: var(--katran-blue-2);"></i></p>
+        <p class="title is-6">Обучение</p>
+        <p class="subtitle is-7">Обучение вашего персонала: характеристики продукта, работа с клиентами, сервисное обслуживание.</p>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="box has-text-centered">
+        <p class="title is-4"><i class="fa-solid fa-file-invoice" style="color: var(--katran-blue-2);"></i></p>
+        <p class="title is-6">Маркетинг</p>
+        <p class="subtitle is-7">Каталоги, прайс-листы, рекламные материалы. Помощь в продвижении на вашем рынке.</p>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="box has-text-centered">
+        <p class="title is-4"><i class="fa-solid fa-wrench" style="color: var(--katran-blue-2);"></i></p>
+        <p class="title is-6">Сервис</p>
+        <p class="subtitle is-7">Техническая поддержка. Диагностика и ремонт на нашем производстве в СПб.</p>
+      </div>
+    </div>
+    <div class="column is-4 is-full-mobile">
+      <div class="box has-text-centered">
+        <p class="title is-4"><i class="fa-solid fa-shield-halved" style="color: var(--katran-blue-2);"></i></p>
+        <p class="title is-6">Эксклюзив</p>
+        <p class="subtitle is-7">Возможность получения эксклюзивных прав на территорию при выполнении условий.</p>
+      </div>
+    </div>
+  </div>
+
+  {# ── Кому подходит ── #}
+  <div class="columns mt-5 is-multiline">
+    <div class="column is-full">
+      <p class="kp-section-label kp-section-label--center">Партнёры</p>
+      <h2 class="kp-section-heading">Кому подходит сотрудничество</h2>
+    </div>
+  </div>
+
+  <div class="columns is-multiline mt-3">
+    <div class="column is-6 is-full-mobile content has-text-left">
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--katran-shadow-border-color);">
+          <strong><i class="fa-solid fa-check" style="color: #48c78e; margin-right: 0.5rem;"></i>Магазины инструмента</strong>
+          <p class="subtitle is-6 mt-1">Расширение ассортимента за счёт промышленного сегмента. Высокая маржинальность.</p>
+        </li>
+        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--katran-shadow-border-color);">
+          <strong><i class="fa-solid fa-check" style="color: #48c78e; margin-right: 0.5rem;"></i>Оптовые компании</strong>
+          <p class="subtitle is-6 mt-1">Поставки крупным предприятиям. Стабильный объём, долгосрочные контракты.</p>
+        </li>
+        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--katran-shadow-border-color);">
+          <strong><i class="fa-solid fa-check" style="color: #48c78e; margin-right: 0.5rem;"></i>Сервисные центры</strong>
+          <p class="subtitle is-6 mt-1">Ремонт и обслуживание инструмента. Запчасти от производителя.</p>
+        </li>
+      </ul>
+    </div>
+    <div class="column is-6 is-full-mobile content has-text-left">
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--katran-shadow-border-color);">
+          <strong><i class="fa-solid fa-check" style="color: #48c78e; margin-right: 0.5rem;"></i>Региональные дистрибьюторы</strong>
+          <p class="subtitle is-6 mt-1">Представительство в регионах России. Помощь в развитии на местном рынке.</p>
+        </li>
+        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--katran-shadow-border-color);">
+          <strong><i class="fa-solid fa-check" style="color: #48c78e; margin-right: 0.5rem;"></i>Экспортёры</strong>
+          <p class="subtitle is-6 mt-1">Поставки в Казахстан, Беларусь, Узбекистан, Азербайджан, Армению.</p>
+        </li>
+        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--katran-shadow-border-color);">
+          <strong><i class="fa-solid fa-check" style="color: #48c78e; margin-right: 0.5rem;"></i>Промышленные предприятия</strong>
+          <p class="subtitle is-6 mt-1">Закупка для собственных нужд с возможностью перепродажи.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  {# ── Как начать ── #}
+  <div class="columns mt-5 is-multiline">
+    <div class="column is-full">
+      <p class="kp-section-label kp-section-label--center">Старт</p>
+      <h2 class="kp-section-heading">Как начать сотрудничество</h2>
+    </div>
+  </div>
+
+  <div class="columns is-multiline mt-3">
+    <div class="column is-4 is-6-mobile">
+      <div class="box has-text-centered">
+        <p class="title is-2 has-text-weight-bold" style="color: var(--katran-blue-2);">1</p>
+        <p class="title is-6">Заявка</p>
+        <p class="subtitle is-7">Отправьте заявку на партнёрство или позвоните нам</p>
+      </div>
+    </div>
+    <div class="column is-4 is-6-mobile">
+      <div class="box has-text-centered">
+        <p class="title is-2 has-text-weight-bold" style="color: var(--katran-blue-2);">2</p>
+        <p class="title is-6">Обсуждение</p>
+        <p class="subtitle is-7">Согласуем условия, регион, объёмы, скидки</p>
+      </div>
+    </div>
+    <div class="column is-4 is-6-mobile">
+      <div class="box has-text-centered">
+        <p class="title is-2 has-text-weight-bold" style="color: var(--katran-blue-2);">3</p>
+        <p class="title is-6">Старт</p>
+        <p class="subtitle is-7">Подписание договора, обучение, первая поставка</p>
+      </div>
+    </div>
+  </div>
+
+  {# ── CTA ── #}
+  <div class="columns mt-5 mb-4">
+    <div class="column is-8-desktop is-offset-2-desktop">
+      <div class="kp-cta-box">
+        <p class="kp-cta-box__title">Готовы стать дилером?</p>
+        <p class="kp-cta-box__text">Свяжитесь с нами — обсудим условия сотрудничества.</p>
+        <div class="buttons mt-2">
+          <a href="{% url 'contacts' %}" class="button is-info is-outlined">
+            <strong>Отправить заявку</strong>
+          </a>
+          <a href="tel:+78123317909" class="button is-light">
+            <strong>+7 (812) 331 79 09</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,2 +1,2 @@
-source ../bin/activate
+source venvkatran/bin/activate
 python manage.py runserver

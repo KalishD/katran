@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load core_extras %}
+{% load store_extras %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block ogtitle %}{{ post.title }}{% endblock %}
+{% block description %}{{ description }}{% endblock %}
+{% block ogdescription %}{{ description }}{% endblock %}
+{% block keywords %}{{ keywords }}{% endblock %}
+{% block content %}
+
+      <div class="column is-9 has-text-centered-touch" id="blogapp">
+        <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+          <ul>
+            <li class="pl-1 pt-1"><a href="/"><i class="fa-solid fa-house"></i></a></li>
+            <li><a href="{% url 'blog' %}" class="no-hl-link">Статьи</a></li>
+            <li><a href="{% url 'post_detail' post.slug %}" class="no-hl-link">{{ post.title }}</a></li>
+          </ul>
+        </nav>
+        <div class="title-wrapper has-text-centered">
+          <p class="subtitle is-6">{{ post.postcategory }}</p>
+          <h1 class="kp-hero-title">{{ post.title }}</h1>
+        </div>
+        <div class="columns mt-6">
+            <div class="column is-full content">
+                {{ post.body | safe }}
+            </div>
+        </div>
+        {% if post.linked_products %}
+        <div class="columns is-multiline">
+          <div class="column is-12 has-text-centered">
+<!--             <h2 class="title is-3">Продукция Катран-Пневмо</h2>
+            <p class="subtitle is-5">Пневматический инструмент российского производства</p> -->
+            <hr class="katran-line-sep">
+            <!-- carousel   -->
+            <div class="carousel-wrapper">
+              <div class="owl-carousel owl-theme">
+                {% for p in post.linked_products.all|product_category_sort:'category' %}
+{% product_card p %}
+                {% endfor %}
+              </div>
+            </div>
+            <!-- carousel   -->
+          </div>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.owl-carousel:not(".brands-carousel"):not(".half-carousel"):not(".info-carousel")').owlCarousel(
+      {
+        items: 4,
+        nav: false,
+        loop: true,
+        mouseDrag: true,
+        touchDrag: true,
+        responsiveClass:true,
+        autoplay: true,
+        autoplayTimeout: 8000,
+        responsive:{
+            0:{
+                items:1,
+                nav:true
+            },
+            480:{
+                items:1,
+                nav:false
+            },
+            700:{
+                items:3,
+                nav:false
+            },
+            1000:{
+                items:5,
+                nav:false,
+                loop:false
+            },
+            1200:{
+                items:5,
+                nav:false,
+                loop:false
+            }
+        },
+      }
+    );
+  });
+</script>
+{% endblock %}
+

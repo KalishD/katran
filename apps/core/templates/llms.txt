@@ -1,0 +1,106 @@
+# Катран-Пневмо
+
+> ООО «Катран-Пневмо» — интернет-магазин пневматического инструмента с собственным производством. Более 30 лет на рынке. Продажа оптом и в розницу, доставка по всей России и СНГ.
+
+Компания основана в 1990 году в Санкт-Петербурге для оснащения судостроительной промышленности качественным ручным пневмоинструментом. В 2014 году реорганизована в форму ООО. За время работы специалистами компании разработаны и запущены в производство более трёх десятков видов продукции. Заказчиками разработок выступали атомные электростанции, предприятия судостроительной и автомобильной промышленности.
+
+Адрес: г. Санкт-Петербург, пр. Римского-Корсакова, д. 73/33, лит. А, пом. 5Н, оф. 101 (вход с Английского пр., д. 33)
+Телефоны: +7 (812) 331-79-09, +7 (812) 714-20-30
+Email: office@katran-pnevmo.ru
+Режим работы: ПН–ПТ 9:30–17:30
+
+## Разделы сайта
+
+- [Главная](https://katran-pnevmo.ru/): Каталог товаров, акции, популярные товары, бренды
+- [О нас](https://katran-pnevmo.ru/about/): История компании, специализация, производство
+- [Контакты](https://katran-pnevmo.ru/contacts/): Адрес, телефоны, реквизиты
+- [Статьи](https://katran-pnevmo.ru/blog/): Обзоры и статьи о пневмоинструменте
+- [Продукция](https://katran-pnevmo.ru/production/): Собственное производство Катран-Пневмо
+
+## Каталог продукции
+
+### Пневматический инструмент
+
+- [Шлифмашины цанговые пневматические](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/shlifmashiny-tsangovye/) — 36 моделей
+- [Шлифмашины угловые (пневмоболгарки)](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/shlifmashiny-uglovye-pnevmobolgarki-pnevmaticheskie/) — 33 модели
+- [Шлифмашины радиальные (прямые)](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/shlifmashiny-radialnye-pryamye-pnevmaticheskie/) — 13 моделей
+- [Шлифмашины торцевые (вертикальные)](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/shlifmashiny-torcevye-vertikalnye-pnevmaticheskie/) — 2 модели
+- [Шлифмашины орбитальные](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/shlifmashiny-orbitalnye-pnevmaticheskie/) — 1 модель
+- [Гайковерты пневматические](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/gajkoverty-pnevmaticheskie/) — 7 моделей
+- [Трамбовки пневматические](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/trambovki-pnevmaticheskie/) — 12 моделей
+- [Краскораспылители](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/kraskoraspyliteli/) — 10 моделей
+- [Молотки отбойные и бетоноломы](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/molotki-otbojnye-i-betonolomy-pnevmaticheskie/) — 23 модели
+- [Молотки рубильные и пневмозубила](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/molotki-rubilnye-pnevmaticheskie-i-pnevmozubila/) — 11 моделей
+- [Молотки клепальные](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/molotki-klepalnye/) — 5 моделей
+- [Винтоверты (пневмоотвёртки)](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/vintoverty-pnevmootvertki/) — 5 моделей
+- [Сверлильные машины (пневмодрели)](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/sverlilnye-mashiny-pnevmodreli/) — 15 моделей
+- [Перфораторы пневматические](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/perforatory-pnevmaticheskie/) — 6 моделей
+- [Резьбонарезные машины](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/rezbonareznye-mashiny/) — 1 модель
+- [Пилы пневматические](https://katran-pnevmo.ru/catalog/pnevmaticheskij-instrument/pily-pnevmaticheskie/) — 1 модель
+
+### Пневматическое оборудование
+
+- [Редукторы](https://katran-pnevmo.ru/catalog/pnevmaticheskoe-oborudovanie/reduktory/)
+- [Пневмоприводы и пневмомоторы](https://katran-pnevmo.ru/catalog/pnevmaticheskoe-oborudovanie/pnevmoprivody-i-pnevmomotory/)
+- [Пневмовибраторы](https://katran-pnevmo.ru/catalog/pnevmaticheskoe-oborudovanie/pnevmovibratory/)
+
+### Инструментальные принадлежности
+
+- [Пики для отбойных пневмомолотков](https://katran-pnevmo.ru/catalog/instrumentalnye-prinadlezhnosti/piki-dlia-otboinykh-pnevmomolotkov/) — 5 видов
+- [Зубила для рубильных пневмомолотков](https://katran-pnevmo.ru/catalog/instrumentalnye-prinadlezhnosti/zubila-dlia-rubilnykh-pnevmomolotkov/) — 10 видов
+- [Головки для пневмогайковертов](https://katran-pnevmo.ru/catalog/instrumentalnye-prinadlezhnosti/golovki-dlia-pnevmogaikovertov/) — 18 видов
+
+### Запчасти
+
+- [Запчасти для отбойных пневмомолотков](https://katran-pnevmo.ru/catalog/zapchasti/zapchasti-dlia-otboinykh-pnevmomolotkov/) — 48 позиций
+- [Запчасти для пневмогайковертов](https://katran-pnevmo.ru/catalog/zapchasti/zapchasti-dlia-pnevmogaikovertov/) — 21 позиция
+- [Лопатки для пневмошлифмашин](https://katran-pnevmo.ru/catalog/zapchasti/lopatki-dlia-pnevmoshlifmashin/) — 18 позиций
+- [Запчасти для пневмоболгарок (УШМ)](https://katran-pnevmo.ru/catalog/zapchasti/zapchasti-dlia-pnevmobolgarok-ushm/) — 8 позиций
+- [Запчасти для пневмошлифмашин (ПШМ)](https://katran-pnevmo.ru/catalog/zapchasti/zapchasti-dlia-pnevmoshlifmashin-pshm/) — 7 позиций
+- [Запчасти для пневмотрамбовок](https://katran-pnevmo.ru/catalog/zapchasti/zapchasti-dlia-pnevmotrambovok/) — 3 позиции
+- [Запчасти для рубильных пневмомолотков](https://katran-pnevmo.ru/catalog/zapchasti/zapchasti-dlia-rubilnykh-pnevmomolotkov/)
+- [Лопатки для пневмогайковертов](https://katran-pnevmo.ru/catalog/zapchasti/lopatki-dlia-pnevmogaikovertov/)
+
+### Аксессуары
+
+- [Соединительные элементы](https://katran-pnevmo.ru/catalog/aksessuary/soedinitelnye-elementy/) — 7 позиций
+- [Рукава воздушные (пневмошланги)](https://katran-pnevmo.ru/catalog/aksessuary/rukava-vozdushnye-pnevmoshlangi/) — 2 позиции
+- [Подготовка воздуха](https://katran-pnevmo.ru/catalog/aksessuary/podgotovka-vozdukha/) — 1 позиция
+
+## Бренды
+
+- [Катран-Пневмо](https://katran-pnevmo.ru/brands/katran-pnevmo/) — собственное российское производство
+- [Hymair](https://katran-pnevmo.ru/brands/hymair/)
+- [JSD Tools](https://katran-pnevmo.ru/brands/jsd-tools/)
+- [Daewoo](https://katran-pnevmo.ru/brands/daewoo/)
+- [Byemax](https://katran-pnevmo.ru/brands/byemax/)
+- [Nanfang](https://katran-pnevmo.ru/brands/nanfang/)
+- [СудоРПМ](https://katran-pnevmo.ru/brands/sudorpm/)
+- [ТЗК](https://katran-pnevmo.ru/brands/tzk/)
+- [ТЭМЗ](https://katran-pnevmo.ru/brands/temz/)
+- [РМЗ](https://katran-pnevmo.ru/brands/rmz/)
+
+## Услуги и условия
+
+- Предпродажная подготовка: весь инструмент проверяется специалистами перед отправкой
+- Гарантийное обслуживание и ремонт любой сложности
+- Доставка по всей России и СНГ, бесплатная доставка до терминала транспортной компании
+- Продажа оптом и в розницу
+
+## Доставка
+
+- Бесплатная доставка до терминала транспортной компании
+- Отправка по всей России и СНГ
+
+# Ключевые особенности
+
+- Российский производитель пневматического инструмента
+- Оптовые продажи
+- Наличие товаров на складе
+- НДС 22%
+- Цены указаны в рублях
+
+# Техническая информация
+
+- Платформа: интернет-магазин (самописный)
+- Язык: Русский

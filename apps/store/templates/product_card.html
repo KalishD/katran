@@ -1,0 +1,14 @@
+{% load cache %}
+{% comment %}
+Обёртка inclusion-тега product_card. Сам дизайн карточки — в
+includes/kp_product_card.html, здесь только обёртка карусели: одинаковая
+ширина, вертикальные отступы и кэш фрагмента.
+{% endcomment %}
+{% cache 600 kp_product_card_v2 p.id %}
+<div class="kp-pcard-cell m-2">
+  {% include "includes/kp_product_card.html" with product=p %}
+  <button class="kp-pcard__compare" type="button" onclick="event.preventDefault(); event.stopPropagation(); window.toggleCompare &amp;&amp; window.toggleCompare({{ p.id }}, this);" aria-pressed="false" aria-label="Добавить к сравнению: {{ p.title|striptags }}">
+    <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
+  </button>
+</div>
+{% endcache %}
