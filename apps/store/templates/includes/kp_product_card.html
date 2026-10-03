@@ -32,7 +32,7 @@ Bulma-разметка.
       {% if product.in_stock == 1 %}В наличии{% elif product.in_stock == 0 %}Под заказ{% else %}Нет в наличии{% endif %}
     </p>
     <p class="kp-pcard__price">
-      {% if product.price %}{{ product.price|floatformat:0 }} ₽ <small>с НДС 22%</small>{% else %}По запросу{% endif %}
+      {% if product.price %}{{ product.price|floatformat:2 }} ₽ <small>с НДС 22%</small>{% else %}По запросу{% endif %}
     </p>
   </div>
 </article>

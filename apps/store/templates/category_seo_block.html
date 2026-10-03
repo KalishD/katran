@@ -17,7 +17,7 @@ SEO-блок внизу страницы категории. Все числа �
   <h2 class="kp-subsection-heading" id="kp-cat-seo-h">Как выбрать {{ category.title|lower }}</h2>
 
   <p class="kp-cat-seo__lead">
-    В категории «{{ category.title }}» — {{ seo.count }} {% ru_plural seo.count "товар" "товара" "товаров" %}{% if seo.has_priced %}, цены от {{ seo.price_min|floatformat:0|intcomma }} до {{ seo.price_max|floatformat:0|intcomma }} ₽ с НДС 22%{% endif %}{% if seo.on_request_count %}. Ещё {{ seo.on_request_count }} {% ru_plural seo.on_request_count "позиция" "позиции" "позиций" %} — по запросу, отгружаем под заказ{% endif %}{% if seo.brand_list %}. Производители: {{ seo.brand_list|join:", " }}{% endif %}.
+    В категории «{{ category.title }}» — {{ seo.count }} {% ru_plural seo.count "товар" "товара" "товаров" %}{% if seo.has_priced %}, цены от {{ seo.price_min|floatformat:2|intcomma }} до {{ seo.price_max|floatformat:2|intcomma }} ₽ с НДС 22%{% endif %}{% if seo.on_request_count %}. Ещё {{ seo.on_request_count }} {% ru_plural seo.on_request_count "позиция" "позиции" "позиций" %} — по запросу, отгружаем под заказ{% endif %}{% if seo.brand_list %}. Производители: {{ seo.brand_list|join:", " }}{% endif %}.
   </p>
 
   {# Числа, которые реально выбирают инструмент, вынесены в полосу — их видно без чтения прозы. #}

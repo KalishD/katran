@@ -36,7 +36,10 @@
               <a class="no-hl-link" :href="product.url">[[ product.title ]]</a>
               [[ product.product_parts ]]
             </th>
-            <th>[[ product.price ]]</th>
+            <th>
+              <span v-if="!product.price_on_request">[[ money(product.price) ]]</span>
+              <span v-else class="fc-warning">По запросу</span>
+            </th>
             <th class="th-w-quantity">
               <button class="button is-danger is-small" @click="decrementQuantity(product.id, product.quantity, product.price)">
                 <i class="fa-solid fa-minus"></i>
@@ -50,7 +53,10 @@
                 <i class="fa-solid fa-plus"></i>
               </button>
             </th>
-            <th>[[ product.total_price ]]</th>
+            <th>
+              <span v-if="!product.price_on_request">[[ money(product.total_price) ]]</span>
+              <span v-else class="fc-warning">По запросу</span>
+            </th>
             <th><button class="button is-danger is-small" @click="removeFromCart(product.id, product.quantity, product.price)"><i class="fa-solid fa-trash-can"></i></button></th>
           </tr>
           
@@ -61,7 +67,7 @@
             <td></td>
             <td></td>
             <td>[[ numItems ]]</td>
-            <td>[[ totalCost ]].00 <i class="fa fa-ruble-sign"></i></td>
+            <td>[[ totalCostFormatted ]] <i class="fa fa-ruble-sign"></i></td>
           </tr>
         </tfoot>
       </table>
@@ -210,9 +216,16 @@
           },
         totalCost: function(){
             return parseFloat(store.state.totalCost)
+          },
+        totalCostFormatted: function(){
+            return this.money(this.totalCost)
           }
         },
       methods: {
+        money(value){
+          // Все цены в корзине показываем с ровно двумя знаками после запятой
+          return parseFloat(value || 0).toFixed(2);
+        },
         submitForm (){
           console.log('Order Checkout');
 

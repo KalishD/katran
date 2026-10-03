@@ -2,91 +2,102 @@
 {% load static %}
 {% load core_extras %}
 {% load store_extras %}
-{% block title %}Результаты поиска: {{ query }} {% endblock %}
-{% block ogtitle %}Результаты поиска: {{ query }} {% endblock %}
+{% block title %}Результаты поиска: {{ query }} — купить в СПб | Катран-Пневмо{% endblock %}
+{% block ogtitle %}Результаты поиска: {{ query }} — купить в СПб | Катран-Пневмо{% endblock %}
 {% block keywords %}{{ keywords }}{% endblock %}
 {% block description %}{{ description }}{% endblock %}
 {% block ogdescription %}{{ description }}{% endblock %}
+{# Результаты поиска не должны попадать в индекс: содержимое определяется запросом,
+   и без noindex каждая комбинация слов плодит отдельную страницу. #}
+{% block robots %}noindex, follow{% endblock %}
+{% block canonicalurl %}https://katran-pnevmo.ru{% url 'search' %}{% endblock %}
+{% block ogurl %}https://katran-pnevmo.ru{% url 'search' %}{% endblock %}
 {% block content %}
 
+  <div class="column is-10" id="app">
+    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+      <ul class="" itemscope itemtype="{% breadcrumb_schema %}">
+        {% breadcrumb_home '/' 'Катран-Пневмо' %}
+        {% breadcrumb_item "" query 2 %}
+      </ul>
+    </nav>
 
-    <div class="column has-text-centered-touch" id="app">
-      <!-- Хлебные крошки -->
-      <nav class="breadcrumb is-small" aria-label="breadcrumbs">
-        <ul class="" itemscope itemtype="{% breadcrumb_schema %}">
-          {% breadcrumb_home '/' 'Катран-Пневмо' %}
-          {% breadcrumb_item "" query 2 %}
-        </ul>
-      </nav>
+    <header class="kp-cat-head">
+      <div class="kp-cat-head__main">
+        <p class="kp-cat-head__eyebrow">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          Поиск по каталогу
+        </p>
+        <h1 class="kp-hero-title kp-cat-head__title">{{ query }}</h1>
+      </div>
+      <div class="kp-cat-head__meta">
+        <span><b>[[ totalProducts ]]</b> [[ pluralRu(totalProducts) ]]</span>
+      </div>
+    </header>
 
-        <!-- Level Main container -->
-        <nav class="level">
-          <!-- Left side -->
-          <div class="level-left">
-            <div class="level-item">
-              <p class="subtitle is-5">Нашлось <strong>{{count}}</strong></p>
-            </div>
-            <form  method="get" action="{% url 'search' %}">
-              <div class="level-item">
-                <div class="field has-addons">
-                  <p class="control">
-                    <input id="katran-search" type="text"
-                           class="input is-active"
-                           placeholder="Поиск в каталоге" 
-                           name="query"
-                           value="{{query}}"
-                           />
-                  </p>
-                  <button class="button is-info is-light is-active">
-                      <i class="fa-solid fa-magnifying-glass"></i>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
+    <div class="kp-cat-bar">
+      <form class="kp-cat-bar__group" method="get" action="{% url 'search' %}">
+        <label class="kp-cat-bar__label" for="katran-search">Поиск</label>
+        <div class="field has-addons" style="margin-bottom:0">
+          <p class="control">
+            <input id="katran-search" type="text" class="input"
+                   placeholder="Название или артикул"
+                   name="query"
+                   value="{{ query }}" />
+          </p>
+          <p class="control">
+            <button type="submit" class="button is-info is-light" aria-label="Найти">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            </button>
+          </p>
+        </div>
+      </form>
 
-          <!-- Right side -->
-          <div class="level-right">
-            <div class="level-item">
-              <div class="field is-grouped has-text-right">
-                <div class="control">
-                  <span class="tags has-addons">
-                    <span class="tag is-dark">Вид:</span>
-                    <span class="tag is-info is-light" @click="currentView = 'grid'" :class="{'is-active': currentView === 'grid'}">
-                      <span class="icon"><i class="fa-solid fa-th"></i></span>
-                    </span>
-                    <span class="tag is-info is-light" @click="currentView = 'list'" :class="{'is-active': currentView === 'list'}">
-                      <span class="icon"><i class="fas fa-bars"></i></span>
-                    </span>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="level-item">
-              <div class="field is-grouped has-text-right">
-                <div class="control">
-                  <span class="tags has-addons">
-                    <span class="tag is-dark">Сортировать по:</span>
-                    <span class="tag sort-button is-info is-light" @click="changeSort('ordering')" :class="{'is-active': sortField === 'ordering'}">
-                      <i class="fa-solid fa-star"></i>
-                    </span>
-                    <span class="tag sort-button is-info is-light" @click="changeSort('title')" :class="{'is-active': sortField === 'title'}">
-                      Название <span class="icon"><i :class="sortField === 'title' ? sortIcon : 'fas'"></i></span>
-                    </span>
-                    <span class="tag sort-button is-info is-light" @click="changeSort('price')" :class="{'is-active': sortField === 'price'}">
-                      Цена <span class="icon"><i :class="sortField === 'price' ? sortIcon : 'fas'"></i></span>
-                    </span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="kp-cat-bar__group">
+        <span class="kp-cat-bar__label" id="kp-view-label">Вид</span>
+        <span class="tags has-addons" role="group" aria-labelledby="kp-view-label">
+          <button type="button" class="tag is-info is-light" @click="currentView = 'grid'" :class="{'is-active': currentView === 'grid'}" :aria-pressed="currentView === 'grid'" aria-label="Плитка">
+            <span class="icon" aria-hidden="true"><i class="fa-solid fa-th"></i></span>
+          </button>
+          <button type="button" class="tag is-info is-light" @click="currentView = 'list'" :class="{'is-active': currentView === 'list'}" :aria-pressed="currentView === 'list'" aria-label="Таблица">
+            <span class="icon" aria-hidden="true"><i class="fa-solid fa-list"></i></span>
+          </button>
+        </span>
+      </div>
 
-        </nav>
-        <!-- Level Main container -->
-    <!-- <h1 class="title is-3">Поиск в каталоге</h1> -->
-    <hr class="katran-line-sep">
-<!-- Grid View -->
+      <div class="kp-cat-bar__group">
+        <span class="kp-cat-bar__label" id="kp-sort-label">Сортировать</span>
+        <span class="tags has-addons" role="group" aria-labelledby="kp-sort-label">
+          <button type="button" class="tag sort-button is-info is-light" @click="changeSort('ordering')" :class="{'is-active': sortField === 'ordering'}" :aria-pressed="sortField === 'ordering'" aria-label="По умолчанию">
+            <i class="fa-solid fa-star" aria-hidden="true"></i> Рекомендуемые
+          </button>
+          <button type="button" class="tag sort-button is-info is-light" @click="changeSort('title')" :class="{'is-active': sortField === 'title'}" :aria-pressed="sortField === 'title'" aria-label="Сортировать по названию">
+            Название <span class="icon" aria-hidden="true"><i :class="sortField === 'title' ? sortIcon : 'fas'"></i></span>
+          </button>
+          <button type="button" class="tag sort-button is-info is-light" @click="changeSort('price')" :class="{'is-active': sortField === 'price'}" :aria-pressed="sortField === 'price'" aria-label="Сортировать по цене">
+            Цена <span class="icon" aria-hidden="true"><i :class="sortField === 'price' ? sortIcon : 'fas'"></i></span>
+          </button>
+        </span>
+      </div>
+
+      <span class="kp-cat-bar__count" v-if="totalProducts">Найдено <b>[[ totalProducts ]]</b></span>
+      {% if price_min is not None %}
+      <span class="kp-cat-bar__count">Цены от <b>{{ price_min|floatformat:2 }} ₽</b></span>
+      {% endif %}
+    </div>
+
+    <div v-if="loading" class="has-text-centered py-6">
+      <i class="fas fa-spinner fa-spin fa-3x"></i>
+      <p class="mt-3">Загрузка товаров...</p>
+    </div>
+
+    <div v-else-if="!totalProducts" class="has-text-centered py-6">
+      <p class="title is-5">По запросу «{{ query }}» ничего не нашлось</p>
+      <p class="mt-2">Попробуйте другое слово или проверьте артикул.</p>
+    </div>
+
+    <div v-else>
+      <!-- Grid View -->
       <div v-if="currentView === 'grid'" class="columns is-multiline">
         <div class="column is-3-widescreen is-4-desktop is-6-tablet is-full-mobile" v-for="product in sortedProducts" :key="product.id">
           <article class="kp-pcard">
@@ -96,13 +107,19 @@
                 <img :src="product.brand_image" :srcset="`${product.brand_image} 1x`" loading="lazy" :alt="product.brand">
               </figure>
             </a>
+            <button class="kp-pcard__compare" @click.stop.prevent="toggleComparison(product.id)" :class="{'is-active': isCompared(product.id)}" :aria-pressed="isCompared(product.id)" :aria-label="(isCompared(product.id) ? 'Убрать из сравнения: ' : 'Добавить к сравнению: ') + product.title">
+              <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
+            </button>
+
             <div class="kp-pcard__body">
               <h3 class="kp-pcard__title"><a class="no-hl-link" :href="product.url" :title="product.title">[[ product.title ]]</a></h3>
             </div>
+
             <p class="kp-pcard__specs" v-if="product.specs && product.specs.spec_rows && product.specs.spec_rows.length">
               <span v-for="(row, si) in product.specs.spec_rows" :key="si">[[ row.prefix ]]<b>[[ row.text ]]</b></span>
             </p>
             <div class="kp-pcard__specs kp-pcard__specs--empty" v-else aria-hidden="true"></div>
+
             <div class="kp-pcard__foot">
               <p class="kp-pcard__stock" :class="product.in_stock === 1 ? 'kp-pcard__stock--in' : (product.in_stock === 0 ? 'kp-pcard__stock--order' : 'kp-pcard__stock--none')">
                 <span v-if="product.in_stock === 1">В наличии</span>
@@ -110,68 +127,84 @@
                 <span v-else>Нет в наличии</span>
               </p>
               <p class="kp-pcard__price">
-                <span v-if="product.price">[[ product.price ]] ₽ <small>с НДС 22%</small></span>
+                <span v-if="product.price">[[ money(product.price) ]] ₽ <small>с НДС 22%</small></span>
                 <span v-else>По запросу</span>
               </p>
+              <button class="button is-primary is-small kp-pcard__buy" @click="addToCart(product.id)">
+                <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>&nbsp;[[ product.price ? 'Купить' : 'Запросить цену' ]]
+              </button>
             </div>
           </article>
         </div>
       </div>
       <!-- Grid View -->
 
-    <!-- List View -->
-    <div v-else-if="currentView === 'list'">
-      <div class="table-container is-fullwidth product-table">
-        <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Наименование</th>
-              <th>Производитель</th>
-              <th>Цена</th>
-              {% for var in all_cat_vars %}
-                <th>
-                  {{ var }}<br>
-                  {% if var.dimention %}{{ var.dimention }}{% endif %}
-                </th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="product in sortedProducts" :key="product.id">
-              <td class="th-w-img p-0">
-                <a class="no-hl-link" :href="product.url">
-                  <figure class="image is-128x128">
-<img :src="product.image" :srcset="product.srcset" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" :alt="product.title" :title="product.title">
-                  </figure>
-                </a>
-              </td>
-              <td>
-                <a class="no-hl-link" :href="product.url">
-                  <p>[[ product.title ]]</p>
-                </a>
-              </td>
-              <td>
-                <a v-if="product.brand_url" class="no-hl-link" :href="product.brand_url">[[ product.brand ]]</a>
-                <span v-else>-</span>
-              </td>
-              <td>
-                <span class="fc-red">
-                  <span v-if="product.price">[[ product.price ]],00 ₽</span>
-                  <span v-else>По запросу</span>
-                </span>
-              </td>
-              {% for var in all_cat_vars %}
-                <td>[[ product.characteristics["{{ forloop.counter0 }}"] ]]</td>
-              {% endfor %}
-            </tr>
-          </tbody>
-        </table>
+      <!-- List View -->
+      <div v-else-if="currentView === 'list'">
+        <div class="table-container is-fullwidth product-table">
+          <table class="product_table table is-striped is-hoverable is-fullwidth" style="vertical-align: middle;">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Наименование</th>
+                <th>Производитель</th>
+                <th>Цена</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="product in sortedProducts" :key="product.id">
+                <td class="th-w-img p-0">
+                  <a class="no-hl-link" :href="product.url">
+                    <figure class="image is-64x64">
+                      <img :src="product.image" :srcset="product.srcset" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" :alt="product.title" :title="product.title">
+                    </figure>
+                  </a>
+                </td>
+                <td>
+                  <a class="no-hl-link" :href="product.url">
+                    <p>[[ product.title ]]</p>
+                  </a>
+                </td>
+                <td>
+                  <a v-if="product.brand_url" class="no-hl-link" :href="product.brand_url">[[ product.brand ]]</a>
+                  <span v-else>-</span>
+                </td>
+                <td>
+                  <span class="fc-red">
+                    <span v-if="product.price">[[ money(product.price) ]] ₽</span>
+                    <span v-else>По запросу</span>
+                  </span>
+                </td>
+                <td>
+                  <button class="button is-link is-light is-small" @click="toggleComparison(product.id)" :class="{'is-link': isCompared(product.id), 'is-light': !isCompared(product.id)}" :aria-pressed="isCompared(product.id)" :aria-label="(isCompared(product.id) ? 'Убрать из сравнения: ' : 'Добавить к сравнению: ') + product.title">
+                    <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-    <!-- List View -->
+      <!-- List View -->
 
+      <nav class="pagination is-small" role="navigation" aria-label="pagination" v-if="totalPages > 1">
+        <a class="pagination-previous" :disabled="currentPage === 1" @click="changePage(currentPage - 1)">Предыдущая</a>
+        <a class="pagination-next" :disabled="currentPage === totalPages" @click="changePage(currentPage + 1)">Следующая</a>
+        <ul class="pagination-list">
+          <li v-for="page in paginationPages" :key="page">
+            <a v-if="page === '...'" class="pagination-link is-disabled">...</a>
+            <a v-else class="pagination-link" :class="{'is-current': page === currentPage}" @click="changePage(page)">[[ page ]]</a>
+          </li>
+        </ul>
+      </nav>
     </div>
+
+    <p class="kp-cat-note">
+      <span><i class="fa-solid fa-truck" aria-hidden="true"></i>Доставка по РФ и СНГ</span>
+      <span><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Гарантия на инструмент</span>
+      <span><i class="fa-solid fa-file-invoice" aria-hidden="true"></i>Работаем с юр. и физ. лицами</span>
+    </p>
   </div>
 
 {% endblock %}
@@ -189,30 +222,88 @@
         currentView: 'grid',
         sortField: 'ordering',
         sortOrder: 'asc',
-        showAddToCartMessage: false
+        currentPage: 1,
+        productsPerPage: 20,
+        totalPages: 1,
+        totalProducts: {{ count|default:0 }},
+        loading: true,
+        comparisonIds: {{ comparison.get_product_ids|safe }}
       };
     },
     computed: {
       sortedProducts() {
-        return this.products.slice().sort((a, b) => {
-          let A = a[this.sortField], B = b[this.sortField];
-          if (this.sortOrder === 'desc') [A, B] = [B, A];
-          return A > B ? 1 : A < B ? -1 : 0;
-        });
+        return this.products;
       },
       sortIcon() {
         return this.sortOrder === 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down';
+      },
+      paginationPages() {
+        const pages = [];
+        const total = this.totalPages;
+        const current = this.currentPage;
+        const delta = 2;
+
+        if (total > 0) {
+          pages.push(1);
+        }
+
+        for (let i = current - delta; i <= current + delta; i++) {
+          if (i > 1 && i < total) {
+            pages.push(i);
+          }
+        }
+
+        if (total > 1) {
+          pages.push(total);
+        }
+
+        const uniquePages = [...new Set(pages)].sort((a, b) => a - b);
+
+        const finalPages = [];
+        let lastPage = 0;
+        for (const page of uniquePages) {
+          if (page - lastPage > 1) {
+            finalPages.push('...');
+          }
+          finalPages.push(page);
+          lastPage = page;
+        }
+        return finalPages;
       }
     },
     mounted() {
-      fetch('/api/search/?query={{query}}')
-      // fetch(`/api/brands/{{ brand.slug }}/`)
-        .then(res => res.json())
-        .then(data => {
-          this.products = data.products;
-        });
+      this.fetchProducts();
     },
     methods: {
+      money(value) {
+        return parseFloat(value || 0).toFixed(2);
+      },
+      pluralRu(n) {
+        const n10 = n % 10, n100 = n % 100;
+        if (n10 === 1 && n100 !== 11) return 'товар';
+        if (n10 >= 2 && n10 <= 4 && (n100 < 12 || n100 > 14)) return 'товара';
+        return 'товаров';
+      },
+      async fetchProducts() {
+        this.loading = true;
+        // urlencode обязателен: запрос с «&», «+» или пробелом ломал URL
+        const url = `/api/search/?query={{ query|urlencode }}&page=${this.currentPage}&perPage=${this.productsPerPage}&sortField=${this.sortField}&sortOrder=${this.sortOrder}`;
+        try {
+          const res = await fetch(url);
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          const data = await res.json();
+          this.products = data.products;
+          this.currentPage = data.currentPage;
+          this.totalPages = data.totalPages;
+          this.totalProducts = data.totalProducts;
+        } catch (error) {
+          console.error("Ошибка при загрузке товаров:", error);
+        } finally {
+          this.loading = false;
+        }
+      },
       changeSort(field) {
         if (this.sortField === field) {
           this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
@@ -220,8 +311,17 @@
           this.sortField = field;
           this.sortOrder = 'asc';
         }
+        this.currentPage = 1;
+        this.fetchProducts();
+      },
+      changePage(page) {
+        if (page > 0 && page <= this.totalPages && page !== this.currentPage) {
+          this.currentPage = page;
+          this.fetchProducts();
+        }
       },
       addToCart(product_id) {
+        const name = (this.products.find(p => p.id === product_id) || {}).title || 'Товар';
         fetch('/api/api_add_to_cart/', {
           method: 'POST',
           headers: {
@@ -232,9 +332,34 @@
           body: JSON.stringify({ product_id, update: false, quantity: 1 })
         })
         .then(() => {
-          this.showAddToCartMessage = true;
           this.$store.commit('increment', 1);
-          setTimeout(() => { this.showAddToCartMessage = false; }, 2000);
+          showCartNotification(name);
+        })
+        .catch(console.error);
+      },
+      isCompared(product_id) {
+        return this.comparisonIds.indexOf(product_id) !== -1;
+      },
+      toggleComparison(product_id) {
+        fetch('/api/api_toggle_comparison/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify({ product_id: product_id })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            if (data.added) {
+              this.comparisonIds.push(product_id);
+            } else {
+              this.comparisonIds = this.comparisonIds.filter(id => id !== product_id);
+            }
+            store.commit('setCompCount', data.count);
+          }
         })
         .catch(console.error);
       }

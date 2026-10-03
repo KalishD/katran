@@ -2,6 +2,7 @@
 {% load static %}
 {% load core_extras %}
 {% load store_extras %}
+{% load l10n %}
 
 {% block title %}{{product.get_clean_title}} {% if product.brand %}{{product.brand}} {% endif %}{% if product.analog %}аналог {{product.analog.get_last_word_title}} {% endif %}{{variables_list}}{% if product.article %} | {{product.article}}{% endif %}{% endblock %}
 {% block ogtitle %}{{product.get_clean_title}} {% if product.brand %}{{product.brand}} {% endif %}{% if product.analog %}аналог {{product.analog.get_last_word_title}} {% endif %}{{variables_list}}{% if product.article %} | {{product.article}}{% endif %}{% endblock %}
@@ -32,7 +33,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="column is-9" id="productapp">
+<div class="column is-10" id="productapp">
 
   <nav class="breadcrumb is-small" aria-label="breadcrumbs">
     <ul itemscope itemtype="{% breadcrumb_schema %}">
@@ -124,9 +125,9 @@
               Купить <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> <i class="shiny_btn" aria-hidden="true"></i>
             </button>
             {% else %}
-            <button class="button is-primary is-normal mb-3" @click="openPriceRequest()"
+            <button class="button is-primary is-normal mb-3" @click="addToCart({{ product.id }})"
               aria-label="Запросить цену">
-              Запросить цену <i class="fa-solid fa-envelope" aria-hidden="true"></i> <i class="shiny_btn" aria-hidden="true"></i>
+              Запросить цену <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> <i class="shiny_btn" aria-hidden="true"></i>
             </button>
             {% endif %}
             <button class="button is-success is-light is-normal mb-3" @click="toggleComparison({{ product.id }})" :aria-label="inComparison ? 'Убрать из сравнения' : 'Добавить к сравнению'">
@@ -136,8 +137,7 @@
               <div class="message-body py-2 px-3"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> [[ cartError ]]</div>
             </article>
 
-            {% if product.price == 0 %}
-            {# Цена по запросу: заявка менеджеру, а не позиция в корзине. #}
+{% if product.price == 0 %}
             <div class="modal" :class="{ 'is-active': priceModal }" v-if="priceModal" role="dialog" aria-modal="true" aria-labelledby="kp-price-modal-title">
               <div class="modal-background" @click="closePriceRequest()"></div>
               <div class="modal-card">
@@ -358,6 +358,14 @@
     </div>
     {% endif %}
 
+    {# ── Description ── #}
+    {% if product.description %}
+    <div class="column is-6 is-6-fullhd is-11-desktop is-full-touch box">
+      <h2 class="menu-label has-text-left">Описание товара</h2>
+      <p>{{ product.description|sanitize_html|safe }}</p>
+    </div>
+    {% endif %}
+
     {# ── Compressor requirements ── #}
     {% with comp=product.get_compressor_requirements %}
     {% if comp.has_data %}
@@ -390,14 +398,6 @@
     </div>
     {% endif %}
     {% endwith %}
-
-    {# ── Description ── #}
-    {% if product.description %}
-    <div class="column is-6 is-6-fullhd is-11-desktop is-full-touch box">
-      <h2 class="menu-label has-text-left">Описание товара</h2>
-      <p>{{ product.description|sanitize_html|safe }}</p>
-    </div>
-    {% endif %}
 
     {# ── FAQ ── #}
     {% if product.faqs.all %}
@@ -621,7 +621,7 @@ var productapp = new Vue({
         title: '{{ product.title|escapejs }}',
         brand: '{{ product.brand.title|default:""|escapejs }}',
         category: '{{ product.category.title|escapejs }}',
-        price: '{{ product.price|floatformat:2 }}'
+        price: '{{ product.price|unlocalize }}'
       };
     },
     trackView: function() {
@@ -642,11 +642,7 @@ var productapp = new Vue({
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         if (e.key === 'Enter') {
           e.preventDefault();
-          {% if product.price != 0 %}
           self.addToCart({{ product.id }});
-          {% else %}
-          self.openPriceRequest();
-          {% endif %}
         }
         if (e.key === 'c' && !e.ctrlKey && !e.metaKey) {
           e.preventDefault();

@@ -1,14 +1,15 @@
 User-Agent: *
 
-Disallow:
 Disallow: /admin/
 Disallow: /catalog_*.html
 Disallow: /articles/*
-Disallow: /search/*
 Disallow: /cart/*
 Disallow: /api/*
 Disallow: /politics_agree/
 Disallow: /privacy-policy/
+# /search/ намеренно НЕ запрещён: страница отдаёт <meta name="robots" content="noindex">,
+# но краулер не прочитает этот тег, если не сможет её загрузить. Закрытый Disallow
+# оставлял бы результаты поиска в индексе как ссылки без сниппета.
 
 Sitemap: https://katran-pnevmo.ru/sitemap.xml
 

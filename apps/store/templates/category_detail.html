@@ -44,7 +44,7 @@
 {% endblock %}
 {% block content %}
 
-  <div class="column is-9" id="app">
+  <div class="column is-10" id="app">
     <nav class="breadcrumb is-small" aria-label="breadcrumbs">
       <ul class="" itemscope itemtype="{% breadcrumb_schema %}">
         {% breadcrumb_home '/' 'Катран-Пневмо' %}
@@ -64,7 +64,7 @@
           <div class="kp-cat-head__meta">
             <span><b>{{ seo.count }}</b> {% plural_ru seo.count "товар" "товара" "товаров" %} в наличии</span>
             {% if seo.has_priced %}
-              <span>цены от <b>{{ seo.price_min|floatformat:0 }} ₽</b></span>
+              <span>цены от <b>{{ seo.price_min|floatformat:2 }} ₽</b></span>
             {% endif %}
           </div>
         </header>
@@ -146,7 +146,7 @@
                 <span v-else>Нет в наличии</span>
               </p>
               <p class="kp-pcard__price">
-                <span v-if="product.price">[[ product.price ]] ₽ <small>с НДС 22%</small></span>
+                <span v-if="product.price">[[ money(product.price) ]] ₽ <small>с НДС 22%</small></span>
                 <span v-else>По запросу</span>
               </p>
               <button class="button is-primary is-small kp-pcard__buy" @click="addToCart(product.id)">
@@ -197,7 +197,7 @@
                 </td>
                 <td>
                   <span class="fc-red">
-                    <span v-if="product.price">[[ product.price ]] ₽</span>
+                    <span v-if="product.price">[[ money(product.price) ]] ₽</span>
                     <span v-else>По запросу</span>
                   </span>
                 </td>
@@ -342,6 +342,9 @@
       this.fetchProducts();
     },
     methods: {
+      money(value) {
+        return parseFloat(value || 0).toFixed(2);
+      },
       async fetchProducts() {
         this.loading = true; // Set loading to true before fetching
         this.show_products = false;

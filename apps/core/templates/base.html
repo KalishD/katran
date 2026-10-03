@@ -3,6 +3,7 @@
 {% load core_extras %}
 {% load store_extras %}
 {% load meta %}
+{% load l10n %}
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -30,6 +31,7 @@
   {% block summernote_js %}{% endblock %}
 
   <meta name="description" content="{% block description %}Пневматический инструмент для промышленности. ООО «Катран-Пневмо» — поставщик пневмоинструмента в СПб и по России с 1990 года.{% endblock %}" />
+  <meta name="robots" content="{% block robots %}index, follow{% endblock %}" />
   <link rel="canonical" href="{% block canonicalurl %}https://katran-pnevmo.ru{{ request.path  }}{% endblock %}" />
   <meta property="og:site_name" content="Интернет-магазин пневматического инструмента katran-pnevmo.ru" />
   <meta property="og:type" content="website" />
@@ -322,9 +324,13 @@
                         <figure class="media-left">
                           <p class="image is-24x24">
                             <!-- <a class="no-hl-link" href="{% url 'brand_detail' b.slug %}"> -->
+                                {% if b.thumbnail %}
                                 <img src="{{ b.thumbnail.url }}"
                                     alt="Пневмоинструмент фирмы {{ b }}"
                                     title="Пневмоинструмент фирмы {{ b }}">
+                                {% else %}
+                                <span class="tag is-rounded">{{ b }}</span>
+                                {% endif %}
                             <!-- </a> -->
                           </p>
                         </figure>
@@ -618,7 +624,9 @@
         var store = new Vuex.Store({
             state: {
                 numItems:{{ cart.get_total_length }},
-                totalCost:{{ cart.get_total_cost }},
+                // unlocalize is required: under ru-RU Django renders the decimal
+                // separator as a comma, which would break the JS numeric literal
+                totalCost:{{ cart.get_total_cost|unlocalize }},
                 compCount:{{ comparison|length }}
             },
             mutations: {

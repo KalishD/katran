@@ -22,7 +22,7 @@
           }
 {% endblock %}
 {% block content %}
-  <div class="column" id="app">
+  <div class="column is-10" id="app">
     <nav class="breadcrumb is-small" aria-label="breadcrumbs">
       <ul class="" itemscope itemtype="{% breadcrumb_schema %}">
         {% breadcrumb_home '/' 'Катран-Пневмо' %}
@@ -101,7 +101,7 @@
 
       <!-- Grid View -->
       <div v-if="currentView === 'grid'" class="columns is-multiline">
-        <div class="column is-4-widescreen is-4-desktop is-6-tablet is-6-mobile" v-for="product in sortedProducts" :key="product.id">
+        <div class="column is-3-widescreen is-4-desktop is-6-tablet is-full-mobile" v-for="product in sortedProducts" :key="product.id">
           <article class="kp-pcard">
             <a class="kp-pcard__media" :href="product.url" tabindex="-1" aria-hidden="true">
               <img :src="product.image" :srcset="product.srcset" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" :alt="product.title">
@@ -123,7 +123,7 @@
                 <span v-else>Нет в наличии</span>
               </p>
               <p class="kp-pcard__price">
-                <span v-if="product.price">[[ product.price ]],00 ₽ <small>с НДС 22%</small></span>
+                <span v-if="product.price">[[ money(product.price) ]] ₽ <small>с НДС 22%</small></span>
                 <span v-else>По запросу</span>
               </p>
             </div>
@@ -169,7 +169,7 @@
                 </td>
                 <td>
                   <span class="fc-red">
-                    <span v-if="product.price">[[ product.price ]],00 ₽</span>
+                    <span v-if="product.price">[[ money(product.price) ]] ₽</span>
                     <span v-else>По запросу</span>
                   </span>
                 </td>
@@ -285,6 +285,9 @@
       this.fetchProducts();
     },
     methods: {
+      money(value) {
+        return parseFloat(value || 0).toFixed(2);
+      },
       async fetchProducts() {
         this.loading = true; // Set loading to true before fetching
         this.show_products = false;

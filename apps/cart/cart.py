@@ -61,7 +61,8 @@ class Cart(object):
       # return sum(float(item['total_price']) for item in self)
     # else:
       # return 0
-    return sum(int(item['total_price']) for item in self)
+    # float, not int: int() truncated every fractional part (335.50 -> 335)
+    return sum(float(item['total_price']) for item in self)
 
   def remove(self, product_id):
     if str(product_id) in self.cart:

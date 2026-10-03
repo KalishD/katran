@@ -18,6 +18,9 @@ def cart_detail(request):
             'id': product.id,
             'title': product.title,
             'price': float(product.price),
+            # Цена 0 = «По запросу». В корзине такая позиция показывается
+            # отдельной подписью, но в сумму не идёт.
+            'price_on_request': float(product.price) == 0,
             'quantity': item['quantity'],
             'total_price': float(item['total_price']),
             'url': url,

@@ -1,4 +1,5 @@
 {% load store_extras %}
+{% load l10n %}
 
 {% if p and p.category_id and p.category.main_category_id and p.slug and p.category.slug and p.category.main_category.slug %}
 <div class="kp-prod-card">
@@ -28,7 +29,7 @@
     <div class="kp-prod-card__price">
       {% if p.price != 0 %}
         <span class="fc-red">{{ p.price|floatformat:2 }}&nbsp;<i class="fa-solid fa-ruble-sign"></i></span>
-        <meta itemprop="price" content="{{ p.price|floatformat:2 }}">
+        <meta itemprop="price" content="{{ p.price|unlocalize }}">
         <meta itemprop="priceCurrency" content="RUB">
       {% else %}
         <span class="fc-red">По запросу</span>

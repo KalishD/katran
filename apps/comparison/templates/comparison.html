@@ -44,7 +44,7 @@
             <td><strong>Цена с НДС</strong></td>
             <td class="has-text-centered" v-for="p in products" :key="'price-'+p.id">
               <span class="fc-red has-text-weight-bold">
-                <template v-if="p.price">[[ p.price ]] <i class="fa-solid fa-ruble-sign"></i></template>
+                <template v-if="p.price">[[ money(p.price) ]] <i class="fa-solid fa-ruble-sign"></i></template>
                 <template v-else>По запросу</template>
               </span>
             </td>
@@ -117,6 +117,9 @@ var comparisonapp = new Vue({
     specRows: specRowsData
   },
   methods: {
+    money(value) {
+      return parseFloat(value || 0).toFixed(2);
+    },
     addToCart(product_id) {
       fetch('/api/api_add_to_cart/', {
         method: 'POST',

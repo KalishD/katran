@@ -15,11 +15,6 @@ from django.db.models import Count
 from django.db.models import Avg, Max, Min, Sum
 import re
 
-def normalize_query(q):
-    # return q.lower().replace('-', '').replace(' ', '')
-    return q
-
-
 def spec_payload(product):
     """Compressor-relevant specs for listing cards, keyed by stable spec slug.
 
@@ -98,6 +93,63 @@ def category_seo_context(category, products_qs):
         'pressure_bar': pressure_bar,
     }
 
+def plural(n):
+    """Russian count noun: 1 товар / 2 товара / 5 товаров."""
+    n10, n100 = n % 10, n % 100
+    if n10 == 1 and n100 != 11:
+        return 'товар'
+    if 2 <= n10 <= 4 and not (12 <= n100 <= 14):
+        return 'товара'
+    return 'товаров'
+
+
+def sorted_products(products_qs, request, allowed_fields, default_field, tiebreakers=('id',)):
+    """Apply ``?sortField``/``?sortOrder`` to a product queryset.
+
+    The ordering has to end on a unique column. ``price`` is 0 for every
+    «по запросу» product and ``ordering`` repeats heavily, so rows sharing a
+    sort value could otherwise swap between pages — the same product appearing
+    twice on one listing and missing from another. ``tiebreakers`` defaults to
+    the primary key; pass extra columns before it to keep an intentional
+    grouping (the category listing groups by category).
+    """
+    sort_field = request.GET.get('sortField', default_field)
+    sort_order = request.GET.get('sortOrder', 'asc')
+
+    if sort_field not in allowed_fields:
+        sort_field = default_field
+
+    # Only an exact 'desc' flips the direction, so any other value — 'DESC',
+    # 'desc; DROP TABLE', '' — lands on ascending without a separate allowlist.
+    prefix = '-' if sort_order == 'desc' else ''
+    return products_qs.order_by(f'{prefix}{sort_field}', *tiebreakers)
+
+
+def search_queryset(raw_query):
+    """Single source of truth for «what does this query match».
+
+    The page view and the JSON API used to disagree: the view matched the whole
+    string as one term, the API split it into words and ANDed them. The count in
+    the header therefore changed once the client finished loading. Both go
+    through here now so they cannot drift apart again.
+    """
+    q_objects = Q()
+    for term in raw_query.split():
+        q_objects |= (
+            Q(title__icontains=term) |
+            Q(description__icontains=term) |
+            Q(article__icontains=term)
+        )
+
+    return (
+        Product.objects.filter(is_visible=True)
+        .filter(q_objects)
+        .distinct()
+        .select_related('brand', 'category__main_category')
+        .prefetch_related('variable_set__varitem')
+    )
+
+
 @never_cache
 def search(request):
     raw_query = request.GET.get('query')
@@ -109,51 +161,70 @@ def search(request):
 
     query = raw_query
 
-    products_list = Product.objects.filter(is_visible=True).filter(
-    Q(title__icontains=query, is_visible=True) |
-    Q(description__icontains=query, is_visible=True) |
-    Q(article__icontains=query, is_visible=True)
-    ).select_related('brand', 'category__main_category').distinct().order_by('price')
+    products_list = search_queryset(raw_query)
+    total = products_list.count()
 
-    products_count = len(products_list)
+    # «Цены от» for the results header. Aggregated in SQL rather than in Python
+    # so the whole match set is never pulled into memory; price 0 means
+    # «по запросу» and must not win the minimum.
+    price_min = products_list.filter(price__gt=0).aggregate(value=Min('price'))['value']
+
     context = {
         'query': query,
         'raw_query': raw_query,
         'products': products_list,
-        'count':products_count,
+        'total': total,
+        'price_min': price_min,
+        # Description used to be the same constant string on every search page.
+        # Naming the query and the hit count makes it both unique and truthful.
+        'count': total,
         'keywords': f'{raw_query} заказ с доставкой по всей России, доставка ТК',
-        'description': 'Результаты поиска на сайте katran-pnevmo.ru. ',
+        'description': (
+            f'Найдено {total} {plural(total)} по запросу «{raw_query}» — пневматический '
+            f'инструмент в наличии и под заказ в интернет-магазине Катран-Пневмо.'
+        ),
     }
     return render(request, 'search.html', context)
 
 @never_cache
 @require_GET
 def search_api(request):
+    """Search results with the same contract as ``category_products_api``.
+
+    The template used to pull the whole match set and sort it in the browser,
+    which meant a broad query shipped every product in the response. Sorting
+    and paging happen here now, so the payload stays one page wide.
+    """
     raw_query = request.GET.get('query')
     if not raw_query:
+        empty = {'products': [], 'currentPage': 1, 'totalPages': 0, 'totalProducts': 0}
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'products_html': '', 'pagination_html': ''})
+            return JsonResponse(empty)
         return render(request, 'search.html', {'query': raw_query, 'products': [], 'keywords': ''})
 
-    query = normalize_query(raw_query)
-    qs_products = Product.objects.filter(is_visible=True)
+    products_qs = search_queryset(raw_query)
+    products_qs = sorted_products(products_qs, request, ALLOWED_SORT_FIELDS_SEARCH, 'ordering')
 
-    search_terms = raw_query.split()
-    q_objects = Q()
+    page = request.GET.get('page', 1)
+    per_page = request.GET.get('perPage', 15)
+    try:
+        per_page = int(per_page)
+        if not (1 <= per_page <= 100):
+            per_page = 15
+    except ValueError:
+        per_page = 15
 
-    for term in search_terms:
-        q_objects |= (
-            Q(title__icontains=term) |
-            Q(description__icontains=term) |
-            Q(article__icontains=term)
-            )
+    paginator = Paginator(products_qs, per_page)
+    try:
+        products_page = paginator.page(page)
+    except PageNotAnInteger:
+        products_page = paginator.page(1)
+    except EmptyPage:
+        products_page = paginator.page(paginator.num_pages)
 
-    products_list = qs_products.filter(q_objects).distinct().select_related(
-        'brand', 'category__main_category'
-    ).prefetch_related('variable_set__varitem')
     products = []
-    for p in products_list:
-        
+    for p in products_page.object_list:
+
         products.append({
             'id': p.id,
             'title': p.title,
@@ -173,9 +244,13 @@ def search_api(request):
             'in_stock': p.in_stock,
             'specs': spec_payload(p),
             })
-    products_count = len(products)
 
-    return JsonResponse({'products': products, 'count': products_count})
+    return JsonResponse({
+        'products': products,
+        'currentPage': products_page.number,
+        'totalPages': paginator.num_pages,
+        'totalProducts': paginator.count,
+    })
 
 @cache_page(60 * 30)  # 30 minutes
 def catalog(request):
@@ -270,6 +345,9 @@ def category_detail(request, maincategory_slug, slug):
 
 ALLOWED_SORT_FIELDS_CATEGORY = {'is_features', 'title', 'price', 'price_wo_tax', 'sku', 'ordering', 'created_at'}
 
+# Поиск сортируется только по тому, что реально предлагает его панель.
+ALLOWED_SORT_FIELDS_SEARCH = {'ordering', 'title', 'price'}
+
 @never_cache
 @require_GET
 def category_products_api(request, main_category_slug, category_slug):
@@ -279,16 +357,9 @@ def category_products_api(request, main_category_slug, category_slug):
     category = get_object_or_404(Category, slug=category_slug, main_category__slug=main_category_slug)
     products_qs = Product.objects.filter(category=category, is_visible=True).select_related('brand', 'category__main_category').prefetch_related('variable_set__varitem')
 
-    sort_field = request.GET.get('sortField', 'is_features')
-    sort_order = request.GET.get('sortOrder', 'asc')
+    products_qs = sorted_products(products_qs, request, ALLOWED_SORT_FIELDS_CATEGORY, 'is_features',
+                                  tiebreakers=('category', 'id'))
 
-    if sort_field not in ALLOWED_SORT_FIELDS_CATEGORY:
-        sort_field = 'is_features'
-
-    if sort_order == 'desc':
-        products_qs = products_qs.order_by(f'-{sort_field}', 'category')
-    else:
-        products_qs = products_qs.order_by(sort_field, 'category')
     # Get pagination parameters from request.GET
     page = request.GET.get('page', 1)
     per_page = request.GET.get('perPage', 15) # Default items per page
@@ -491,16 +562,7 @@ def brand_products_api(request, slug):
     """
     products_qs = Product.objects.filter(brand=brand, is_visible=True).select_related('brand', 'category__main_category').prefetch_related('variable_set__varitem')
 
-    sort_field = request.GET.get('sortField', 'category__ordering')
-    sort_order = request.GET.get('sortOrder', 'asc')
-
-    if sort_field not in ALLOWED_SORT_FIELDS_BRAND:
-        sort_field = 'category__ordering'
-
-    if sort_order == 'desc':
-        products_qs = products_qs.order_by(f'-{sort_field}')
-    else:
-        products_qs = products_qs.order_by(sort_field)
+    products_qs = sorted_products(products_qs, request, ALLOWED_SORT_FIELDS_BRAND, 'category__ordering')
 
     # Get pagination parameters from request.GET
     page = request.GET.get('page', 1)
