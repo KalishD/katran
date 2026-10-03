@@ -62,7 +62,7 @@
             <h1 class="kp-hero-title kp-cat-head__title">{{ category.title }}</h1>
           </div>
           <div class="kp-cat-head__meta">
-            <span><b>{{ seo.count }}</b> {{ seo.count|pluralize:"товар,товара,товаров" }} в наличии</span>
+            <span><b>{{ seo.count }}</b> {% plural_ru seo.count "товар" "товара" "товаров" %} в наличии</span>
             {% if seo.has_priced %}
               <span>цены от <b>{{ seo.price_min|floatformat:0 }} ₽</b></span>
             {% endif %}
@@ -116,64 +116,6 @@
     <!-- Контейнер товаров -->
     <div v-if="show_products">
 
-      <!-- Table View -->
-      <div v-if="currentView === 'table'" class="columns is-multiline">
-        <div class="column is-4" v-for="product in sortedProducts" :key="product.id">
-          <div class="columns is-multiline is-relative box has-border-fancy mr-1 mb-1 p-0">
-            <div class="column is-one-third-widescreen is-full-mobile is-full-tablet is-vcentered is-relative">
-            <div class="box product_card carousel-item--img-wrapper">
-              <img :src="product.image" :srcset="product.srcset" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" loading="lazy" :alt="product.title">
-              <a :href="product.url" class="button is-black is-small carousel-item--more-btn" :aria-label="'Подробнее: ' + product.title"><i class="shiny_btn" aria-hidden="true"></i>Подробнее</a>
-              <figure v-if="product.brand_image" class="image product-card_brand-image is-32x32">
-                <img :src="product.brand_image" :srcset="`${product.brand_image} 1x`" loading="lazy" :alt="product.brand">
-              </figure>
-              <button class="product-card__compare" @click.stop.prevent="toggleComparison(product.id)" :class="{'is-active': isCompared(product.id)}" :aria-pressed="isCompared(product.id)" :aria-label="(isCompared(product.id) ? 'Убрать из сравнения: ' : 'Добавить к сравнению: ') + product.title">
-                <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
-              </button>
-            </div>
-            </div>
-            <div class="column is-two-thirds-widescreen is-full-mobile is-full-tablet">
-              <div class="content">
-                <p class="has-text-left is-6 mb-1"><span class="is-6 has-text-weight-bold"><a class="no-hl-link" :href="product.url" :title="product.title">[[ product.title ]]</a></span></p>
-
-                <p class="subtitle has-text-left is-7 mb-1"><span class="has-text-weight-bold is-6">Группа: </span><a :href="product.main_category_url">[[ product.main_category ]]</a></p>
-                <p class="subtitle has-text-left is-7 mb-1"><span class="has-text-weight-bold is-6">Категория: </span><a :href="product.category_url">[[ product.category ]]</a></p>
-                <p class="subtitle has-text-left is-7 mb-1" v-if="product.brand"><span class="has-text-weight-bold is-6">Производитель: </span><a :href="product.brand_url">[[ product.brand ]]</a></p>
-                <hr class="katran-line-sep">
-                {% for var in all_cat_vars %}
-                  <p v-if="product.characteristicsitems[{{ forloop.counter0 }}]" class="subtitle has-text-left is-7 mb-1">
-                    <span class="has-text-weight-bold is-6">
-                      [[ product.characteristicsitems["{{ forloop.counter0 }}"] ]]: 
-                    </span>
-                    [[ product.characteristics["{{ forloop.counter0 }}"] ]]&nbsp;[[ product.characteristicsdimention["{{ forloop.counter0 }}"] ]]
-                  </p>
-                {% endfor %}
-              </div>
-              <hr class="katran-line-sep">
-            </div>
-            <div class="column is-full is-relative">
-              <div class="columns is-vcentered is-multiline is-flex">
-                <div class="column is-3-widescreen is-3-mobile is-full-tablet is-full-desktop has-text-centered-tablet has-text-centered-mobile has-text-left-widescreen">
-                  <button class="button is-primary is-small" @click="addToCart(product.id)">
-                    <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><i class="shiny_btn" aria-hidden="true"></i>&nbsp;
-                    <span class="">[[ product.price ? 'Купить' : 'Запросить цену' ]]</span>
-                  </button>
-                </div>
-                <div class="column is-9-widescreen is-9-mobile is-full-tablet is-full-desktop">
-                  <p class="title has-text-right is-5 ">
-                    <span class="fc-red">
-                      <span v-if="product.price">[[ product.price ]] ₽<span class="fc-black has-text-weight-light subtitle is-7"> с НДС 22%</span></span>
-                      <span v-else>По запросу</span>
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-			<!-- Table View -->
       <!-- Grid View -->
       <div v-if="currentView === 'grid'" class="columns is-multiline">
         <div class="column is-3-widescreen is-4-desktop is-6-tablet is-full-mobile" v-for="product in sortedProducts" :key="product.id">
@@ -301,33 +243,9 @@
     {% if products %}
       <ul class="kp-ssr-list columns is-multiline">
         {% for product in products %}
-          {% with rows=product.get_spec_rows %}
           <li class="column is-4-desktop is-6-tablet is-12-mobile">
-            <article class="kp-pcard">
-              <a class="kp-pcard__media" href="{{ product.get_absolute_url }}" tabindex="-1" aria-hidden="true">
-                {% responsive_img product.image product.title css_class="kp-pcard__img" %}
-              </a>
-              <div class="kp-pcard__body">
-                <h3 class="kp-pcard__title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h3>
-              </div>
-              {% if rows %}
-                <p class="kp-pcard__specs">
-                  {% for row in rows %}<span>{{ row.prefix }}<b>{{ row.text }}</b></span>{% endfor %}
-                </p>
-              {% else %}
-                <div class="kp-pcard__specs kp-pcard__specs--empty" aria-hidden="true"></div>
-              {% endif %}
-              <div class="kp-pcard__foot">
-                <p class="kp-pcard__stock kp-pcard__stock--{% if product.in_stock == 1 %}in{% elif product.in_stock == 0 %}order{% else %}none{% endif %}">
-                  {% if product.in_stock == 1 %}В наличии{% elif product.in_stock == 0 %}Под заказ{% else %}Нет в наличии{% endif %}
-                </p>
-                <p class="kp-pcard__price">
-                  {% if product.price %}{{ product.price|floatformat:0 }} ₽ <small>с НДС 22%</small>{% else %}По запросу{% endif %}
-                </p>
-              </div>
-            </article>
+            {% include "includes/kp_product_card.html" %}
           </li>
-          {% endwith %}
         {% endfor %}
       </ul>
       {% if products_total > products|length %}

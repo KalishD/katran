@@ -1,0 +1,38 @@
+{% load store_extras %}
+{% comment %}
+Карточка товара в каталоге. Единственный источник разметки для .kp-pcard:
+её используют страница категории, бренд, поиск, сайдбар и карусели.
+Ожидает переменную product. Обёртка (li, column или ячейка карусели)
+остаётся на стороне вызывающего шаблона, потому что у разных сеток своя
+Bulma-разметка.
+{% endcomment %}
+<article class="kp-pcard">
+  <a class="kp-pcard__media" href="{{ product.get_absolute_url }}" tabindex="-1" aria-hidden="true">
+    {% responsive_img product.image product.title css_class="kp-pcard__img" %}
+  </a>
+  {% if product.brand %}
+    <a class="kp-pcard__brand" href="{{ product.brand.get_absolute_url }}">
+      <img src="{{ product.brand.image.url }}" alt="{{ product.brand.title }}" loading="lazy">
+    </a>
+  {% endif %}
+  <div class="kp-pcard__body">
+    <h3 class="kp-pcard__title"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h3>
+  </div>
+  {% with rows=product.get_spec_rows %}
+    {% if rows %}
+      <p class="kp-pcard__specs">
+        {% for row in rows %}<span>{{ row.prefix }}<b>{{ row.text }}</b></span>{% endfor %}
+      </p>
+    {% else %}
+      <div class="kp-pcard__specs kp-pcard__specs--empty" aria-hidden="true"></div>
+    {% endif %}
+  {% endwith %}
+  <div class="kp-pcard__foot">
+    <p class="kp-pcard__stock kp-pcard__stock--{% if product.in_stock == 1 %}in{% elif product.in_stock == 0 %}order{% else %}none{% endif %}">
+      {% if product.in_stock == 1 %}В наличии{% elif product.in_stock == 0 %}Под заказ{% else %}Нет в наличии{% endif %}
+    </p>
+    <p class="kp-pcard__price">
+      {% if product.price %}{{ product.price|floatformat:0 }} ₽ <small>с НДС 22%</small>{% else %}По запросу{% endif %}
+    </p>
+  </div>
+</article>

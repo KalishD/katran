@@ -3255,6 +3255,17 @@ i.shiny_btn {
 }
 .kp-cat-head__eyebrow a { color: var(--katran-blue); }
 .kp-cat-head__title { margin-bottom: 0; }
+/* Логотип бренда в заголовке: заголовок остаётся главным, знак только помечает бренд */
+.kp-cat-head__logo {
+    display: inline-block;
+    width: auto;
+    max-height: 30px;
+    max-width: 140px;
+    margin-right: var(--space-sm);
+    border-radius: var(--radius-sm);
+    object-fit: contain;
+    vertical-align: middle;
+}
 .kp-cat-head__meta {
     display: flex;
     flex-wrap: wrap;
@@ -3364,6 +3375,16 @@ i.shiny_btn {
 .kp-cat-bar .sort-button.is-active .icon { visibility: visible; }
 
 /* ── Карточка товара ── */
+/* Ячейка горизонтальной карусели: карточка тянется на всю высоту ряда,
+   а кнопка сравнения позиционируется от ячейки, а не от всей страницы. */
+.kp-pcard-cell {
+    position: relative;
+    display: flex;
+}
+.kp-pcard-cell > .kp-pcard {
+    flex: 1 1 auto;
+    min-width: 0;
+}
 .kp-pcard {
     position: relative;
     display: flex;

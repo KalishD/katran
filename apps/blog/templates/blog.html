@@ -32,7 +32,7 @@
 
                     <div class="card-image carousel-item--img-wrapper">
                         {% responsive_img p.image p.title %}
-                        <a href="{% url 'post_detail' p.slug %}" class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></a>
+                        <span class="button is-black is-small carousel-item--more-btn">Подробнее &nbsp;&nbsp;<i class="fa-solid fa-info"></i></span>
                     </div>
                     <footer class="card-footer">
                         <p class="card-footer-item">{{p.postcategory.name}}</p>    

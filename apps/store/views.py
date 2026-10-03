@@ -148,7 +148,9 @@ def search_api(request):
             Q(article__icontains=term)
             )
 
-    products_list = qs_products.filter(q_objects).distinct().select_related('brand', 'category__main_category')
+    products_list = qs_products.filter(q_objects).distinct().select_related(
+        'brand', 'category__main_category'
+    ).prefetch_related('variable_set__varitem')
     products = []
     for p in products_list:
         
@@ -168,6 +170,8 @@ def search_api(request):
             'brand_url': p.brand.get_absolute_url() if p.brand else None,
             'brand_image': p.brand.image.url if p.brand and p.brand.image else None,
             'url': p.get_absolute_url(),
+            'in_stock': p.in_stock,
+            'specs': spec_payload(p),
             })
     products_count = len(products)
 
