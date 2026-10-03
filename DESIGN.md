@@ -13,7 +13,8 @@ colors:
   neutral-border: "rgba(72, 95, 199, 0.125)"
   dark: "#34495e"
   dark-footer: "#1e272e"
-  success: "#48c78e"
+  success: "#23805a"
+  warning: "#8a5a0a"
   info: "#5B93C1"
   light-green: "#81ecec"
   light-blue: "#74b9ff"
@@ -91,6 +92,8 @@ components:
 - **Primary Deep** (`#485FC7`) — тёмный primary для hover-состояний
 - **Accent** (`#e41817`) — цены, важные акценты, предупреждения
 - **Warm accent** (`#f1ac2b`) — дополнительный тёплый акцент для выделения
+- **Success** (`#23805a`) — текстовый зелёный: «в наличии», подтверждение. Контраст к белому 4.9:1
+- **Warning** (`#8a5a0a`) — текстовый янтарный: «под заказ». Контраст к белому 5.9:1
 - **Dark** (`#34495e`) — заголовки, основной текст в подвалах
 - **Ink** (`#09131f`) — основной цвет текста
 - **Muted** (`#676f79`) — вторичный текст, подписи, метаданные
@@ -111,6 +114,33 @@ components:
 - **Label / Tag** (`kp-about-hero__tag`) — 0.7rem, weight 700, letter-spacing 0.12em, uppercase, цвет primary
 
 Иерархия: hero-title → section-heading → section-subheading → body → label. Не использовать serif шрифты — промышленный характер не предполагает редакционную типографику.
+
+Все цены на сайте — моноширинные цифры (`font-variant-numeric: tabular-nums` в правиле «Price Numerals»), чтобы разряды сумм выравнивались в колонку и цены можно было сравнивать на глаз.
+
+### Токены шкал
+
+Шкалы объявлены в `:root` файла `static/css/main.css`. В CSS используются токены, а не литералы.
+
+Типографическая шкала — **целочисленные px**, без дробных значений (шум от 11.2 / 14.08 / 15.2px недопустим).
+
+| Токен | Значение | Токен | Значение |
+| --- | --- | --- | --- |
+| `--space-xs` | `0.25rem` (4px) | `--text-xs` | `12px` |
+| `--space-sm` | `0.5rem` (8px) | `--text-sm` | `14px` |
+| `--space-md` | `1rem` (16px) | `--text-base` | `16px` |
+| `--space-lg` | `1.5rem` (24px) | `--text-lg` | `18px` |
+| `--space-xl` | `2rem` (32px) | `--text-xl` | `20px` |
+| `--space-2xl` | `3rem` (48px) | `--text-2xl` | `24px` |
+| `--radius-xs` | `4px` | | |
+| `--radius-sm` | `6px` | | |
+| `--radius-md` | `8px` | | |
+| `--radius-lg` | `12px` | | |
+| `--radius-xl` | `14px` | | |
+| `--radius-pill` | `9999px` | | |
+
+Шкала отступов покрывает только `padding` / `margin` / `gap` / позиционирование. Адаптивные заголовки остаются на `clamp()`, `font-size` в `em` не используется.
+
+**Исключения из шкалы (осознанные, витринные):** `.kp-about-hero__watermark` — `5rem` (80px), `.product-hero__price` — `1.75rem` (28px), `2rem` (32px) в заголовках разделов, `0.6rem` в `.kp-rail-note`. Эти размеры заданы вне шкалы сознательно и не снаппились.
 
 ## Elevation
 
@@ -344,9 +374,25 @@ components:
 - Использовать `transition: all` — указывать конкретные свойства
 - Использовать `ease-in` для UI-анимаций
 - Делать кнопки с `border-radius: 32px+` (card-style)
-- Использовать gradient text или glassmorphism как дефолт
+- Использовать gradient text или glassmorphism как дефолт (см. «Do»: допустим для оверлеев поверх контента)
 - Использовать serif шрифты для промышленного каталога
 - Делать анимации > 300ms без обоснования
 - Использовать Bulma `title is-*` классы вместо `kp-hero-title` / `kp-section-heading`
 - Использовать inline-стили для тегов hero (использовать `kp-about-hero__tag`)
 - Смешивать стили карточек на разных страницах (использовать общие компоненты)
+
+## Focus Visibility
+
+Кастомные контролы (`.kp-rail-*`, `.tag`, кнопки-иконки) не имеют собственных focus-стилей. В `main.css` есть базовый `:focus-visible` — `outline: 3px solid var(--katran-blue)` с отступом 2px. Он даёт кольцо фокуса при навигации с клавиатуры и не мешает клику мышью.
+
+Если компонент переопределяет индикатор фокуса, не использовать `outline: none` без замены.
+
+## Glassmorphism
+
+Запрещён как дефолт для поверхностей. Допустим для полупрозрачных слоёв, которые лежат **поверх** контента и должны читать то, что под ними:
+
+- `button.pulse-animation`, `.product-card__compare`, `.carousel-item--more-btn`
+- `hr.katran-line-sep`
+- `kp-trust-band`, `kp-faq-item`, `kp-delivery-cell`, `kp-cta-box`
+
+В этих правилах обязателен `-webkit-backdrop-filter` рядом с `backdrop-filter`.

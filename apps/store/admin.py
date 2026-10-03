@@ -12,7 +12,8 @@ from slugify import slugify
 import csv, codecs, os, re, operator, io, requests
 from io import BytesIO
 from PIL import Image
-from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory, Patent, ProductFAQ
+from apps.store.models import Category, Product, Brand, Variable, VariableItem, MainCategory, \
+    Patent, ProductFAQ, PriceRequest
 from urllib.parse import parse_qsl, urljoin, urlparse
 from urllib.request import urlopen
 from apps.core.utils import *
@@ -713,3 +714,27 @@ class PatentAdmin(admin.ModelAdmin):
         return bool(obj.image)
     has_image.boolean = True
     has_image.short_description = 'Изображение'
+
+
+@admin.register(PriceRequest)
+class PriceRequestAdmin(admin.ModelAdmin):
+    model = PriceRequest
+    list_display = ('id', 'created_at', 'product', 'name', 'email', 'phone', 'is_handled')
+    list_filter = ('is_handled', 'created_at')
+    list_editable = ('is_handled',)
+    search_fields = ('name', 'email', 'phone', 'comment', 'product__title')
+    raw_id_fields = ('product',)
+    readonly_fields = ('created_at',)
+    date_hierarchy = 'created_at'
+    list_per_page = 50
+    actions = ['mark_handled', 'mark_unhandled']
+
+    @admin.action(description='Отметить обработанными')
+    def mark_handled(self, request, queryset):
+        updated = queryset.update(is_handled=True)
+        self.message_user(request, f'Обработано: {updated}')
+
+    @admin.action(description='Вернуть в обработку')
+    def mark_unhandled(self, request, queryset):
+        updated = queryset.update(is_handled=False)
+        self.message_user(request, f'Возвращено в обработку: {updated}')

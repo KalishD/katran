@@ -8,6 +8,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>document.documentElement.className += ' kp-js';</script>
   <title>{% block title %}Интернет-магазин пневматического инструмента{% endblock %}</title>
   <meta name="yandex-verification" content="cc46f3878c1e243d" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -25,7 +26,7 @@
   
   <link rel="stylesheet" href="{% static 'css/fontawesome-subset.css' %}" />
   
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.min.js"></script>
   {% block summernote_js %}{% endblock %}
 
   <meta name="description" content="{% block description %}Пневматический инструмент для промышленности. ООО «Катран-Пневмо» — поставщик пневмоинструмента в СПб и по России с 1990 года.{% endblock %}" />
@@ -137,9 +138,13 @@
         ]
       }
     </script>
+
+    {% block extra_jsonld %}{% endblock %}
     
 	<!-- Yandex.Metrika counter -->
 	<script type="text/javascript">
+	    window.dataLayer = window.dataLayer || [];
+
 	    (function(m,e,t,r,i,k,a){
 	        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
 	        m[i].l=1*new Date();
@@ -148,6 +153,41 @@
 	    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
 
 	    ym(103116150, 'init', {webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+
+	    {% comment %}
+	    Счётчик объявлен с ecommerce:"dataLayer", но сам массив и события не
+	    отправлялись. Ниже тонкая обёртка: goal — обычная цель, order — выручка.
+	    Кнопки целей в кабинете можно завести по именам из KA_GOAL.
+	    {% endcomment %}
+	    window.katranMetrika = {
+	        counter: 103116150,
+	        goal: function(name, params) {
+	            params = params || {};
+	            try { ym(103116150, 'reachGoal', name, params); } catch (e) {}
+	        },
+	        productData: function(p) {
+	            return {
+	                product_id: String(p.id),
+	                name: p.title,
+	                brand: p.brand || '',
+	                category: p.category || '',
+	                price: String(p.price || ''),
+	                currency: 'RUB'
+	            };
+	        },
+	        addToDataLayer: function(action, product) {
+	            try {
+	                window.dataLayer.push({
+	                    ecommerce: 'detail',
+	                    action: action,
+	                    products: [this.productData(product)]
+	                });
+	            } catch (e) {}
+	        },
+	        order: function(payload) {
+	            try { ym(103116150, 'reachOrder', payload); } catch (e) {}
+	        }
+	    };
 	</script>
 	<noscript><div><img src="https://mc.yandex.ru/watch/103116150" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 	<!-- /Yandex.Metrika counter -->
@@ -452,6 +492,9 @@
     {% include "side-bar.html" %}
     {% block content %}{% endblock %}
   </div>
+
+  {# Контент во всю ширину, вне колонки каталога. Например SEO-текст категории. #}
+  {% block content_full %}{% endblock %}
 
 </div>
 </div>

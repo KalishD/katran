@@ -261,6 +261,30 @@
               .then((response) => {
                   console.log('Success');
 
+                  if (window.katranMetrika) {
+                      var products = [];
+                      for (var i = 0; i < self.products.length; i++) {
+                          var item = self.products[i];
+                          products.push({
+                              product_id: String(item.id),
+                              name: item.title,
+                              price: String(item.price),
+                              quantity: String(item.quantity),
+                              currency: 'RUB'
+                          });
+                      }
+                      window.katranMetrika.order({
+                          id: String(Date.now()),
+                          total: String(self.totalCost()),
+                          currency: 'RUB',
+                          products: products
+                      });
+                      window.katranMetrika.goal('order-complete', {
+                          order_total: String(self.totalCost()),
+                          order_items: products.length
+                      });
+                  }
+
                   window.location.href = '/cart/success/';
               })
               .catch(function(error){

@@ -46,6 +46,15 @@ coverage.xml
 *.log
 *.pot
 
+# Local config and data dumps must never be committed.
+# NOTE: these files are currently TRACKED (gitignore does not untrack), so they
+# are still in history. Removing them from history is a separate manual step.
+katran/settings.py
+*.sql
+*.sqlite3
+*.sqlite3-journal
+dump.json
+
 # Django cache
 cache/
 

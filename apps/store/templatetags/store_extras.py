@@ -25,6 +25,39 @@ def variable_by_var(variables, var):
     filtered_var = variables.filter(varitem = var).first()
     return filtered_var
 
+
+@register.filter
+def intcomma(value):
+    """Thousand-separated integer.
+
+    ``django.contrib.humanize`` is not in INSTALLED_APPS, so this avoids
+    adding a dependency just for number formatting in category copy.
+    """
+    try:
+        number = int(value)
+    except (TypeError, ValueError):
+        return value
+    return f'{number:,}'.replace(',', ' ')
+
+
+@register.simple_tag
+def ru_plural(value, one, few, many):
+    """Russian noun plural: 1 товар / 2 товара / 5 товаров.
+
+    Django's built-in ``pluralize`` only handles one/few, and returns an empty
+    string for a three-form argument, so it cannot be used for Russian copy.
+    """
+    try:
+        number = int(value)
+    except (TypeError, ValueError):
+        return ''
+    number = abs(number)
+    if number % 10 == 1 and number % 100 != 11:
+        return one
+    if 2 <= number % 10 <= 4 and not 12 <= number % 100 <= 14:
+        return few
+    return many
+
 # @register.filter
 # def listsort(value):
 #     if isinstance(value, dict):

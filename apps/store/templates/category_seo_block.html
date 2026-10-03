@@ -1,0 +1,160 @@
+{% load store_extras %}
+{% comment %}
+SEO-блок внизу страницы категории. Все числа берутся из живых данных каталога
+(category_seo_context в apps/store/views.py), поэтому текст отличается между
+категориями, а не является одной и той же простынёй на 33 страницах.
+
+Компактность достигается не вырезанием текста, а его сворачиванием: весь
+содержательный текст остаётся в DOM, но ниже линии-fold видны только
+заголовок, один абзац и полоса числовых диапазонов. FAQ лежит в <details>,
+поэтому схема FAQPage ниже продолжает объявлять полные ответы.
+
+Правило: этот блок не должен конкурировать с товарами. Всё, что можно
+свернуть, сворачивается.
+{% endcomment %}
+{% if seo %}
+<section class="kp-cat-seo" aria-labelledby="kp-cat-seo-h">
+  <h2 class="kp-subsection-heading" id="kp-cat-seo-h">Как выбрать {{ category.title|lower }}</h2>
+
+  <p class="kp-cat-seo__lead">
+    В категории «{{ category.title }}» — {{ seo.count }} {% ru_plural seo.count "товар" "товара" "товаров" %}{% if seo.has_priced %}, цены от {{ seo.price_min|floatformat:0|intcomma }} до {{ seo.price_max|floatformat:0|intcomma }} ₽ с НДС 22%{% endif %}{% if seo.on_request_count %}. Ещё {{ seo.on_request_count }} {% ru_plural seo.on_request_count "позиция" "позиции" "позиций" %} — по запросу, отгружаем под заказ{% endif %}{% if seo.brand_list %}. Производители: {{ seo.brand_list|join:", " }}{% endif %}.
+  </p>
+
+  {# Числа, которые реально выбирают инструмент, вынесены в полосу — их видно без чтения прозы. #}
+  {% if seo.disc_min and seo.disc_max or seo.air_min and seo.air_max or seo.pressure_label %}
+  <div class="kp-cat-seo__ranges">
+    {% if seo.disc_min and seo.disc_max %}
+      <span class="kp-cat-seo__range">&Oslash; круга <b>{{ seo.disc_min }}–{{ seo.disc_max }} мм</b></span>
+    {% endif %}
+    {% if seo.air_min and seo.air_max %}
+      <span class="kp-cat-seo__range">Расход воздуха <b>{{ seo.air_min|intcomma }}–{{ seo.air_max|intcomma }} л/мин</b></span>
+    {% endif %}
+    {% if seo.pressure_label %}
+      <span class="kp-cat-seo__range">Давление <b>{{ seo.pressure_label }} МПа{% if seo.pressure_bar %} (≈ {{ seo.pressure_bar }} бар){% endif %}</b></span>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if seo.disc_min and seo.disc_max %}
+  <details class="kp-cat-seo__extra">
+    <summary><span class="kp-cat-seo__chev" aria-hidden="true"></span>Как выбрать диаметр круга</summary>
+    <div class="kp-cat-seo__answer">
+      <p>
+        Диаметр абразивного круга в этой категории — от {{ seo.disc_min }} до {{ seo.disc_max }} мм.
+        {% if seo.disc_min == seo.disc_max %}Для этой категории это один типоразмер.{% endif %}
+        Диск подбирают под задачу и под материал: от {{ seo.disc_min }} мм для зачистки
+        швов и ржавчины, до {{ seo.disc_max }} мм для вскрытия покрасок, штукатурки
+        и больших плоскостей.
+      </p>
+    </div>
+  </details>
+  {% endif %}
+
+  {% if seo.air_min and seo.air_max %}
+  <details class="kp-cat-seo__extra">
+    <summary><span class="kp-cat-seo__chev" aria-hidden="true"></span>Требования к компрессору</summary>
+    <div class="kp-cat-seo__answer">
+      <p>
+        Пневматический инструмент работает от сжатого воздуха, и компрессор должен
+        выдавать его достаточно. Расход воздуха в этой категории —
+        от {{ seo.air_min|intcomma }} до {{ seo.air_max|intcomma }} л/мин{% if seo.pressure_label %} при рабочем давлении {{ seo.pressure_label }} МПа{% if seo.pressure_bar %} (≈ {{ seo.pressure_bar }} бар){% endif %}{% endif %}.
+        Если расход инструмента близок к паспортной производительности вашего компрессора,
+        инструмент будет «задыхаться»: падать обороты под нагрузкой.
+      </p>
+      <p>
+        Проверьте три вещи: производительность компрессора в л/мин, рабочее давление
+        в бар и диаметр штуцера подключения. Если сомневаетесь — напишите нам модель
+        компрессора, и мы подберём инструмент и нужный круг под ваше оборудование.
+      </p>
+    </div>
+  </details>
+  {% endif %}
+
+  <h3 class="kp-subsection-heading">Частые вопросы</h3>
+  <div class="kp-cat-seo__faq">
+    {% if seo.disc_min and seo.disc_max %}
+    <details>
+      <summary>Какой круг выбрать?</summary>
+      <div class="kp-cat-seo__answer">
+        <p>В категории «{{ category.title }}» представлены модели под круги от {{ seo.disc_min }} до {{ seo.disc_max }} мм.
+        Диаметр подбит под посадку шпинделя, а не под задачу, поэтому при замене
+        инструмента проверьте и диаметр, и посадочный размер.</p>
+      </div>
+    </details>
+    {% endif %}
+    {% if seo.air_min and seo.air_max %}
+    <details>
+      <summary>Подойдёт ли мой компрессор?</summary>
+      <div class="kp-cat-seo__answer">
+        <p>Сравните расход воздуха инструмента (от {{ seo.air_min|intcomma }} до {{ seo.air_max|intcomma }} л/мин
+        в этой категории) с паспортной производительностью компрессора. Компрессор
+        должен давать заметно больше, чем потребляет инструмент. Пришлите модель —
+        проверим и скажем точно.</p>
+      </div>
+    </details>
+    {% endif %}
+    {% if seo.has_priced %}
+    <details>
+      <summary>Что значит «цена по запросу»?</summary>
+      <div class="kp-cat-seo__answer">
+        <p>Это позиции под индивидуальный заказ: их стоимость зависит от объёма
+        партии и сроков поставки. Нажмите «Запросить цену» — менеджер пришлёт
+        предложение с актуальными условиями и сроками.</p>
+      </div>
+    </details>
+    {% endif %}
+    <details>
+      <summary>Как оформить заказ и получить товар?</summary>
+      <div class="kp-cat-seo__answer">
+        <p>Самовывоз из Санкт-Петербурга, бесплатная доставка до терминала транспортной
+        компании в СПб, отправка по всей России и СНГ. Для юридических лиц — оплата
+        по счёту с НДС и закрывающими документами.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% if seo.disc_min and seo.disc_max %}
+    {
+      "@type": "Question",
+      "name": "Какой круг выбрать?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В категории «{{ category.title }}» представлены модели под круги от {{ seo.disc_min }} до {{ seo.disc_max }} мм. Диаметр подбит под посадку шпинделя, поэтому при замене инструмента проверьте и диаметр, и посадочный размер."
+      }
+    },{% endif %}
+    {% if seo.air_min and seo.air_max %}
+    {
+      "@type": "Question",
+      "name": "Подойдёт ли мой компрессор?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Сравните расход воздуха инструмента (от {{ seo.air_min|intcomma }} до {{ seo.air_max|intcomma }} л/мин в этой категории) с паспортной производительностью компрессора. Компрессор должен давать заметно больше, чем потребляет инструмент. Пришлите модель — проверим и скажем точно."
+      }
+    },{% endif %}
+    {% if seo.has_priced %}
+    {
+      "@type": "Question",
+      "name": "Что значит «цена по запросу»?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Это позиции под индивидуальный заказ: их стоимость зависит от объёма партии и сроков поставки. Нажмите «Запросить цену» — менеджер пришлёт предложение с актуальными условиями и сроками."
+      }
+    },{% endif %}
+    {
+      "@type": "Question",
+      "name": "Как оформить заказ и получить товар?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Самовывоз из Санкт-Петербурга, бесплатная доставка до терминала транспортной компании в СПб, отправка по всей России и СНГ. Для юридических лиц — оплата по счёту с НДС и закрывающими документами."
+      }
+    }
+  ]
+}
+</script>
+{% endif %}

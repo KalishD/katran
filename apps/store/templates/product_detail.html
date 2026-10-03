@@ -112,19 +112,96 @@
 
             <p class="subtitle has-text-left is-6">
               <span class="has-text-weight-bold is-6">Наличие: </span>
-              {% if product.in_stock == 1 %}<span class="fc-success">на складе</span>
-              {% elif product.in_stock == 0 %}<span class="fc-warning">ожидается поставка</span>{% endif %}
+              {% if product.price == 0 %}<span class="fc-warning">по запросу</span>
+              {% elif product.in_stock == 1 %}<span class="fc-success">на складе</span>
+              {% elif product.in_stock == 0 %}<span class="fc-warning">ожидается поставка</span>
+              {% else %}<span class="fc-warning">уточняйте</span>{% endif %}
             </p>
 
-            <button class="button is-primary is-normal mb-3" @click="addToCart({{ product.id }})" aria-label="Добавить в корзину">
-              {% if product.price != 0 %}Купить{% else %}Запросить цену{% endif %} <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> <i class="shiny_btn" aria-hidden="true"></i>
+            {% if product.price != 0 %}
+            <button class="button is-primary is-normal mb-3" @click="addToCart({{ product.id }})"
+              aria-label="Добавить в корзину">
+              Купить <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> <i class="shiny_btn" aria-hidden="true"></i>
             </button>
+            {% else %}
+            <button class="button is-primary is-normal mb-3" @click="openPriceRequest()"
+              aria-label="Запросить цену">
+              Запросить цену <i class="fa-solid fa-envelope" aria-hidden="true"></i> <i class="shiny_btn" aria-hidden="true"></i>
+            </button>
+            {% endif %}
             <button class="button is-success is-light is-normal mb-3" @click="toggleComparison({{ product.id }})" :aria-label="inComparison ? 'Убрать из сравнения' : 'Добавить к сравнению'">
               <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>&nbsp;&nbsp;[[ inComparison ? 'Убрать' : 'Сравнить' ]]
             </button>
             <article class="message is-danger is-light mt-2" v-if="cartError" style="animation: none;" role="alert">
               <div class="message-body py-2 px-3"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> [[ cartError ]]</div>
             </article>
+
+            {% if product.price == 0 %}
+            {# Цена по запросу: заявка менеджеру, а не позиция в корзине. #}
+            <div class="modal" :class="{ 'is-active': priceModal }" v-if="priceModal" role="dialog" aria-modal="true" aria-labelledby="kp-price-modal-title">
+              <div class="modal-background" @click="closePriceRequest()"></div>
+              <div class="modal-card">
+                <header class="modal-card-head">
+                  <p class="modal-card-title" id="kp-price-modal-title">Запросить цену</p>
+                  <button class="delete" @click="closePriceRequest()" aria-label="Закрыть окно"></button>
+                </header>
+                <section class="modal-card-body">
+                  <p class="mb-3 is-size-7">
+                    «{{ product.title|escapejs }}» — {{ product.brand.title|default:"" }}, {{ product.category.title|escapejs }}.
+                    Цена зависит от объёма партии и сроков. Оставьте контакты, менеджер пришлёт расчёт.
+                  </p>
+
+                  <article class="message is-success is-light" v-if="priceSent" style="animation: none;" role="status">
+                    <div class="message-body py-2 px-3">
+                      <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                      Заявка №[[ priceRequestId ]] принята. Ответим на указанную почту.
+                    </div>
+                  </article>
+
+                  <template v-if="!priceSent">
+                    <div class="field">
+                      <label class="label" for="pr-name">Имя <span class="fc-red">*</span></label>
+                      <div class="control">
+                        <input class="input" id="pr-name" type="text" v-model="priceForm.name" autocomplete="name" required>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label" for="pr-email">E-mail <span class="fc-red">*</span></label>
+                      <div class="control">
+                        <input class="input" id="pr-email" type="email" v-model="priceForm.email" autocomplete="email" required>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label" for="pr-phone">Телефон</label>
+                      <div class="control">
+                        <input class="input" id="pr-phone" type="tel" v-model="priceForm.phone" autocomplete="tel">
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label" for="pr-comment">Комментарий</label>
+                      <div class="control">
+                        <textarea class="textarea" id="pr-comment" rows="2" v-model="priceForm.comment"
+                          placeholder="Тираж, сроки, нужен ли круг в комплекте"></textarea>
+                      </div>
+                    </div>
+                    <article class="message is-danger is-light" v-if="priceError" style="animation: none;" role="alert">
+                      <div class="message-body py-2 px-3"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> [[ priceError ]]</div>
+                    </article>
+                  </template>
+                </section>
+                <footer class="modal-card-foot" v-if="!priceSent">
+                  <button class="button is-primary" @click="requestPrice()" :class="{ 'is-loading': priceSending }" :disabled="priceSending">
+                    Отправить заявку
+                  </button>
+                  <button class="button" @click="closePriceRequest()">Отмена</button>
+                  <p class="ml-auto is-size-7 has-text-grey">Нажимая кнопку, вы соглашаетесь на обработку данных.</p>
+                </footer>
+                <footer class="modal-card-foot" v-if="priceSent">
+                  <button class="button is-primary" @click="closePriceRequest()">Закрыть</button>
+                </footer>
+              </div>
+            </div>
+            {% endif %}
 
             {% if product.brand %}
             <hr>
@@ -186,7 +263,7 @@
     {# ── Analog ── #}
     {% if product.analog %}
     <div class="column is-11-fullhd is-11-desktop is-full-tablet box is-hidden-mobile">
-      <p class="menu-label has-text-left">Аналог товара</p>
+      <h2 class="menu-label has-text-left">Аналог товара</h2>
       <div class="product_card carousel-item--img-wrapper">
         <div class="columns is-multiline">
           <div class="column is-2 is-2-fullhd is-2-desktop is-full-mobile is-vcentered is-relative">
@@ -255,7 +332,7 @@
     {# ── Specs ── #}
     {% if variables %}
     <div class="column is-5 is-5-fullhd is-10-desktop is-full-touch box">
-      <p class="menu-label has-text-left">Технические характеристики</p>
+      <h2 class="menu-label has-text-left">Технические характеристики</h2>
       <table class="table is-striped is-hoverable is-fullwidth" id="tech_variables">
         <tbody>
           {% for var in variables %}
@@ -281,10 +358,43 @@
     </div>
     {% endif %}
 
+    {# ── Compressor requirements ── #}
+    {% with comp=product.get_compressor_requirements %}
+    {% if comp.has_data %}
+    <div class="column is-full">
+      <div class="box kp-compressor">
+        <h2 class="menu-label has-text-left">
+          <i class="fa-solid fa-fan fc-blue" aria-hidden="true"></i>
+          Подойдёт ли ваш компрессор
+        </h2>
+        <div class="columns is-multiline is-variable is-4">
+          {% for spec in comp.rows %}
+          <div class="column is-3-desktop is-6-tablet is-12-mobile">
+            <p class="heading has-text-left">{{ spec.title }}</p>
+            <p class="title is-5 has-text-left">{{ spec.text }}</p>
+          </div>
+          {% endfor %}
+        </div>
+        {% if comp.hint %}
+        <p class="has-text-left is-7 kp-compressor__hint">
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          {{ comp.hint }}
+        </p>
+        {% endif %}
+        <p class="has-text-left is-7">
+          Не уверены, подойдёт ли? Напишите модель компрессора —
+          <a class="no-hl-link" href="#productapp">подберём инструмент под ваше оборудование</a>
+          и подскажем нужный диаметр круга.
+        </p>
+      </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+
     {# ── Description ── #}
     {% if product.description %}
     <div class="column is-6 is-6-fullhd is-11-desktop is-full-touch box">
-      <p class="menu-label has-text-left">Описание товара</p>
+      <h2 class="menu-label has-text-left">Описание товара</h2>
       <p>{{ product.description|sanitize_html|safe }}</p>
     </div>
     {% endif %}
@@ -292,7 +402,7 @@
     {# ── FAQ ── #}
     {% if product.faqs.all %}
     <div class="column is-full box product-faq-section">
-      <p class="menu-label has-text-left">Вопросы и ответы</p>
+      <h2 class="menu-label has-text-left">Вопросы и ответы</h2>
       <div class="product-faq-list">
         {% for faq in product.faqs.all %}
         <div class="product-faq-item">
@@ -488,20 +598,55 @@ var productapp = new Vue({
   delimiters: ['[[',']]'],
   store: store,
   data: function() {
-    return { inComparison: false, cartError: '' };
+    return {
+      inComparison: false,
+      cartError: '',
+      priceModal: false,
+      priceSending: false,
+      priceSent: false,
+      priceError: '',
+      priceRequestId: '',
+      priceForm: { name: '', email: '', phone: '', comment: '' }
+    };
   },
   mounted: function() {
     this.checkComparison();
     this.initKeyboardShortcuts();
+    this.trackView();
   },
   methods: {
+    productData: function() {
+      return {
+        id: {{ product.id }},
+        title: '{{ product.title|escapejs }}',
+        brand: '{{ product.brand.title|default:""|escapejs }}',
+        category: '{{ product.category.title|escapejs }}',
+        price: '{{ product.price|floatformat:2 }}'
+      };
+    },
+    trackView: function() {
+      if (!window.katranMetrika) return;
+      var p = this.productData();
+      window.katranMetrika.goal('product-view', {
+        product_id: p.id,
+        product_name: p.title,
+        product_brand: p.brand,
+        product_price: p.price,
+        has_price: '{{ product.price|yesno:"true,false" }}'
+      });
+      window.katranMetrika.addToDataLayer('detail', p);
+    },
     initKeyboardShortcuts: function() {
       var self = this;
       document.addEventListener('keydown', function(e) {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         if (e.key === 'Enter') {
           e.preventDefault();
+          {% if product.price != 0 %}
           self.addToCart({{ product.id }});
+          {% else %}
+          self.openPriceRequest();
+          {% endif %}
         }
         if (e.key === 'c' && !e.ctrlKey && !e.metaKey) {
           e.preventDefault();
@@ -570,10 +715,80 @@ var productapp = new Vue({
       .then(function() {
         store.commit('increment', 1);
         showCartNotification('{{ product.title|escapejs }}');
+        if (window.katranMetrika) {
+          var p = self.productData();
+          window.katranMetrika.goal('add-to-cart', {
+            product_id: p.id, product_name: p.title, product_price: p.price
+          });
+          window.katranMetrika.addToDataLayer('add', p);
+        }
       })
       .catch(function(err) {
         self.cartError = 'Не удалось добавить в корзину. Попробуйте позже.';
         setTimeout(function() { self.cartError = ''; }, 4000);
+      });
+    },
+    openPriceRequest: function() {
+      this.priceModal = true;
+      this.priceSent = false;
+      this.priceError = '';
+      this.priceRequestId = '';
+      this.$nextTick(function() {
+        var first = document.getElementById('pr-name');
+        if (first) first.focus();
+      });
+    },
+    closePriceRequest: function() {
+      this.priceModal = false;
+      this.priceSending = false;
+    },
+    requestPrice: function() {
+      var self = this;
+      self.priceError = '';
+      if (!self.priceForm.name.trim()) {
+        self.priceError = 'Укажите имя.';
+        return;
+      }
+      if (!self.priceForm.email.trim()) {
+        self.priceError = 'Проверьте e-mail.';
+        return;
+      }
+      self.priceSending = true;
+      fetch('/api/api_request_price/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          product_id: {{ product.id }},
+          name: self.priceForm.name,
+          email: self.priceForm.email,
+          phone: self.priceForm.phone,
+          comment: self.priceForm.comment,
+          source_url: window.location.href
+        })
+      })
+      .then(function(r) {
+        return r.json().then(function(data) { return { ok: r.ok, data: data }; });
+      })
+      .then(function(res) {
+        self.priceSending = false;
+        if (!res.ok || !res.data.success) {
+          self.priceError = res.data.error || 'Не удалось отправить заявку. Попробуйте позже.';
+          return;
+        }
+        self.priceSent = true;
+        self.priceRequestId = res.data.id;
+        self.priceForm = { name: '', email: '', phone: '', comment: '' };
+        if (window.katranMetrika) {
+          var p = self.productData();
+          window.katranMetrika.goal('price-request', {
+            product_id: p.id, product_name: p.title, product_price: '0'
+          });
+        }
+      })
+      .catch(function() {
+        self.priceSending = false;
+        self.priceError = 'Не удалось отправить заявку. Проверьте соединение или позвоните нам.';
       });
     }
   }

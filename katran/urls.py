@@ -27,7 +27,7 @@ from apps.comparison.api import api_add_to_comparison, api_remove_from_compariso
 from apps.core.views import frontpage, production, about, politics, contacts, RobotsTxtView, temp, html_sitemap, politics_agree, sale_price, export_pricelist, csp_report, import_substitution, custom_development
 from apps.store.views import category_detail, product_detail, catalog, brand_detail, search, main_category_detail, category_products_api, brands, brand_products_api, search_api
 from apps.blog.views import blog, post_detail
-from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout
+from apps.store.api import api_add_to_cart, api_remove_from_cart, api_checkout, api_request_price
 
 from .sitemaps import (
     StaticViewSitemap, CategorySitemap, ProductSitemap, BrandSitemap,
@@ -65,6 +65,7 @@ urlpatterns = [
     path('api/api_add_to_cart/', api_add_to_cart, name='api_add_to_cart'),
     path('api/api_remove_from_cart/', api_remove_from_cart, name='api_remove_from_cart'),
     path('api/api_checkout/', api_checkout, name='api_checkout'),
+path('api/api_request_price/', api_request_price, name='api_request_price'),
     path('api/api_toggle_comparison/', api_toggle_comparison, name='api_toggle_comparison'),
     path('api/api_remove_from_comparison/', api_remove_from_comparison, name='api_remove_from_comparison'),
 

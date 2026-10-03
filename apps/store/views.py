@@ -19,6 +19,85 @@ def normalize_query(q):
     # return q.lower().replace('-', '').replace(' ', '')
     return q
 
+
+def spec_payload(product):
+    """Compressor-relevant specs for listing cards, keyed by stable spec slug.
+
+    Surfacing air consumption / pressure / inlet next to the price is the
+    main thing competitors do not do, and it is the first question a buyer
+    of a pneumatic tool has.
+
+    ``spec_rows`` is the pre-ordered, pre-labelled, length-capped version of
+    the same data. The Vue card renders it directly instead of re-deriving the
+    priority and the unit wording, which is what kept the two render paths in
+    sync.
+    """
+    return {
+        slug: spec['text']
+        for slug, spec in product.get_specs().items()
+    } | {'spec_rows': product.get_spec_rows()}
+
+
+def category_seo_context(category, products_qs):
+    """Per-category copy numbers for the SEO block at the bottom of the page.
+
+    Everything here is derived from live catalog data, so the text differs
+    between categories instead of being one boilerplate paragraph.
+    """
+    visible = list(
+        products_qs.filter(is_visible=True)
+        .select_related('brand')
+        .prefetch_related('variable_set__varitem')
+    )
+    priced = [p for p in visible if p.price]
+
+    spec_values = {}
+    for product in visible:
+        for slug, spec in product.get_specs().items():
+            spec_values.setdefault(slug, []).append(spec['value'])
+
+    def _sortable(slug):
+        out = []
+        for value in spec_values.get(slug, []):
+            raw = str(value).replace(',', '.').replace(' ', '')
+            try:
+                out.append(float(raw))
+            except ValueError:
+                pass
+        return sorted(out)
+
+    discs = _sortable('disc')
+    consumption = _sortable('air_consumption')
+
+    brands = sorted({p.brand.title for p in visible if p.brand})
+    pressures = sorted({str(v) for v in spec_values.get('air_pressure', []) if v})
+
+    # МПа -> бар (1 МПа = 10 бар), formatted the Russian way, so the copy never
+    # states a bar figure that contradicts the pressure in the catalog.
+    pressure_bar = None
+    if pressures:
+        try:
+            pressure_bar = '{},{}'.format(
+                *('{:.1f}'.format(float(pressures[0].replace(',', '.')) * 10).split('.'))
+            )
+        except ValueError:
+            pressure_bar = None
+
+    return {
+        'count': len(visible),
+        'brand_list': brands,
+        'price_min': min((p.price for p in priced), default=None),
+        'price_max': max((p.price for p in priced), default=None),
+        'has_priced': bool(priced),
+        'on_request_count': len(visible) - len(priced),
+        'disc_min': int(discs[0]) if discs else None,
+        'disc_max': int(discs[-1]) if discs else None,
+        'air_min': int(consumption[0]) if consumption else None,
+        'air_max': int(consumption[-1]) if consumption else None,
+        'pressure_label': ' и '.join(pressures) if pressures else None,
+        'pressure_bar': pressure_bar,
+    }
+
 @never_cache
 def search(request):
     raw_query = request.GET.get('query')
@@ -159,13 +238,28 @@ def category_detail(request, maincategory_slug, slug):
             description = clean_desc[:170].rsplit(' ', 1)[0] + '…'
             keywords = f'купить {category.title}, {category.title}, {category.main_category.title}'
 
+    # SSR-данные для роботов/режима без JS. Порядок совпадает с дефолтной сортировкой Vue-сетки.
+    # prefetch обязателен: карточка рендерит get_specs(), иначе будет N+1 на каждый товар.
+    category_qs = (
+        Product.objects.filter(category=category, is_visible=True)
+        .select_related('brand')
+        .prefetch_related('variable_set__varitem')
+    )
+    seo = category_seo_context(category, Product.objects.filter(category=category))
+    products = list(category_qs.order_by('ordering'))
+    products_total = len(products)
+    products = products[:20]
+
     context = {
         'category': category,
         # 'products': products, # Products are now fetched via API
         # 'var_titles': first_product_vars,
         'all_cat_vars': all_cat_vars,
+        'products': products,
+        'products_total': products_total,
         'keywords': keywords,
         'description': description,
+        'seo': seo,
     }
     return render(request, 'category_detail.html', context)
 
@@ -267,6 +361,7 @@ def category_products_api(request, main_category_slug, category_slug):
             'is_features': p.is_features,
             'sku': p.sku,
             'in_stock': p.in_stock,
+            'specs': spec_payload(p),
         })
 
     return JsonResponse({
@@ -299,6 +394,16 @@ def product_detail(request, maincategory_slug, category_slug, slug):
                 + str(product.keywords)
     
     meta_description = f'{cln_title} {product.brand} с доставкой по всей России; {variables_list}'
+    if product.price:
+        brand_name = product.brand.title if product.brand else ''
+        head = f'{cln_title} — {brand_name}'.strip(' —')
+        meta_description = (
+            f'{head}, {product.price:.0f} ₽ с НДС 22%. '
+            f'{category.title.lower()}: в наличии на складе в СПб, отгрузка по РФ и СНГ, '
+            f'гарантия 12 месяцев, поможем подобрать диск и аналог.'
+        )
+    if len(meta_description) > 158:
+        meta_description = meta_description[:157].rsplit(' ', 1)[0] + '…'
     # Создание и передача объекта meta в контекст
     meta = product.as_meta(request)
 
@@ -468,6 +573,7 @@ def brand_products_api(request, slug):
             'is_features': p.is_features,
             'sku': p.sku,
             'in_stock': p.in_stock,
+            'specs': spec_payload(p),
         })
 
     return JsonResponse({

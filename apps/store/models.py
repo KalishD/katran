@@ -12,6 +12,109 @@ import os
 import re
 
 
+# Canonical spec slugs, matched case-insensitively against VariableItem.title.
+# Adding a key here makes the spec available to templates and the API payloads
+# without touching views.
+#
+# Several VariableItem titles describe the same physical quantity; they are
+# aliased onto one slug rather than renamed in the database, so the admin
+# keeps whatever wording the supplier used. ``Product.get_specs()`` keeps the
+# lowest-id row per slug when a product carries more than one alias.
+#
+# 'производитель' is deliberately absent: it duplicates Product.brand and is
+# unused by every product.
+SPEC_SLUG_BY_TITLE = {
+    # --- габариты и общие ---
+    'номинальная мощность': 'power',
+    'вес': 'weight',
+    'длина': 'length',
+    'габаритные размеры': 'dimensions',
+    'ширина': 'width',
+    'высота': 'height',
+    'ширина рабочей части шарошки': 'plate_width',
+    'размер рабочей поверхности': 'pad_size',
+    'число звездочек шарошки': 'plate_sprockets',
+    'диапазон рабочих температур': 'temperature_range',
+
+    # --- вращение и привод ---
+    'частота вращения шпинделя на холостом ходу': 'rpm',
+    'частота вращения на холостом ходу': 'rpm',
+    'частота вращения (правое / левое)': 'rpm',
+    'частота колебаний': 'oscillation_rate',
+    'статический момент дебаланса': 'balance_momentum',
+    'передаточное отношение': 'gear_ratio',
+    'шпиндель': 'spindle',
+    'резьба': 'thread',
+    'резьба шпинделя': 'spindle_thread',
+    'вылет шпинделя': 'spindle_projection',
+    'реверс': 'reverser',
+
+    # --- ударные ---
+    'энергия удара': 'impact_energy',
+    'частота удара': 'impact_rate',
+    'крутящий момент': 'torque',
+    'макс. момент затяжки': 'torque',
+    'макс. крутящий момент': 'torque',
+    'квадрат': 'drive_square',
+
+    # --- пневмосеть и цилиндр ---
+    'расход воздуха': 'air_consumption',
+    'рабочее давление': 'air_pressure',
+    'максимальное давление воздуха': 'air_pressure_max',
+    'присоединительная резьба штуцера': 'air_inlet',
+    'диаметр сопла': 'nozzle_diameter',
+    'внутренний диаметр шланга': 'hose_inner_diameter',
+    'диаметр поршня': 'piston_diameter',
+    'ход поршня': 'stroke',
+    'величина хода телескопического податчика': 'feed_extension',
+
+    # --- хвостовик и патрон ---
+    'тип хвостовика': 'shank_type',
+    'диаметр хвостовика': 'shank_diameter',
+    'длина хвостовика': 'shank_length',
+    'тип сверлильного патрона': 'chuck_type',
+    'диаметр цанги': 'chuck_diameter',
+
+    # --- оснастка и ёмкости ---
+    'диаметр абразивного инструмента': 'disc',
+    'диаметр проволочной щетки': 'wire_brush_diameter',
+    'диаметр башмака': 'shoe_diameter',
+    'диаметр заклепки': 'rivet_diameter',
+    'диаметр': 'diameter',
+    'макс. диаметр сверла': 'drill_capacity',
+    'макс. диаметр бурения': 'bore_capacity',
+    'макс. глубина бурения': 'bore_depth',
+    'макс. диаметр бор-фрезы': 'boring_cutter_capacity',
+    'макс. диаметр головки': 'head_capacity',
+    'макс. диаметр шлиф. головки': 'grinder_head_capacity',
+    'макс. диаметр затягиваемой резьбы': 'thread_capacity',
+    'макс. диаметр нарезаемой резьбы': 'threading_capacity',
+    'емкость бачка': 'tank_capacity',
+}
+
+# Card strip: ordered (slug, label) pairs plus a hard cap. The first five
+# entries are the compressor question every buyer of a pneumatic tool asks;
+# the rest fill the leftover slot on tools that have no disc or rpm.
+# Order is priority: SPEC_CARD_LIMIT cuts the tail, so raising the limit
+# never reshuffles what is already shown.
+SPEC_CARD_ROWS = (
+    ('disc', 'Ø'),
+    ('rpm', ''),
+    ('air_consumption', 'воздух'),
+    ('air_pressure', 'давл.'),
+    ('air_inlet', 'штуцер'),
+    ('impact_energy', 'энергия'),
+    ('impact_rate', 'частота'),
+    ('torque', 'момент'),
+    ('shank_diameter', 'хвост. Ø'),
+    ('shank_length', 'хвост. L'),
+    ('shank_type', 'тип хвост.'),
+    ('stroke', 'ход'),
+    ('drive_square', 'квадрат'),
+)
+SPEC_CARD_LIMIT = 5
+
+
 class ImageProcessingMixin:
     """Mixin providing image processing methods for models with image fields."""
 
@@ -326,15 +429,50 @@ class Product(ImageProcessingMixin, ModelMeta, models.Model):
         'sku': 'sku',
         'brand': 'get_schema_brand',
         'offers': 'get_schema_offer',
-        'category': 'get_schema_category'
+        'category': 'get_schema_category',
+        'additionalProperty': 'get_schema_properties',
     }
+
+    def get_schema_properties(self):
+        """Schema.org PropertyValue rows built from the real spec data."""
+        return [
+            {'@type': 'PropertyValue', 'name': spec['title'], 'value': spec['text']}
+            for spec in self.get_specs().values()
+        ]
+
+    @property
+    def schema(self):
+        """Product JSON-LD node, with empty values omitted.
+
+        django-meta's default ``schema`` includes a key even when the resolver
+        returns ``None``, which emits ``"offers": null`` for price-on-request
+        products. That is invalid Schema.org, so build the node here instead and
+        skip anything that resolved to nothing.
+        """
+        node = {}
+        for field, value in self._schema.items():
+            if not value:
+                continue
+            resolved = self._get_meta_value(field, value)
+            if resolved in (None, '', [], {}):
+                continue
+            node[field] = resolved
+        node.setdefault('@type', 'Product')
+        return node
+
     def get_schema_description(self):
         variables_list = ''
         for var in self.variable_set.all():
-            variables_list += var.value + var.varitem.dimention + '; '
+            unit = var.varitem.dimention or ''
+            variables_list += f'{var.value}{unit}; '
 
-        schema_description = f'{self.title}; {self.article} Характеристики: {variables_list}'
-        return strip_tags(schema_description)
+        article = strip_tags(self.article).strip() if self.article else ''
+        parts = [self.title]
+        if article:
+            parts.append(article)
+        if variables_list.strip('; '):
+            parts.append(f'Характеристики: {variables_list.strip("; ")}')
+        return '; '.join(parts)
 
     def get_schema_category(self):
         return self.category.title
@@ -365,7 +503,12 @@ class Product(ImageProcessingMixin, ModelMeta, models.Model):
     def get_schema_offer(self):
         """
         Создает объект Offer для текущего продукта.
+
+        Для товаров с нулевой ценой (цена по запросу) Offer не возвращается:
+        публиковать price="0.00" неверно, это ломает валидность Product в Schema.org.
         """
+        if not self.price:
+            return None
         return {
             '@context': 'https://schema.org/',
             '@type': 'Offer',
@@ -374,8 +517,15 @@ class Product(ImageProcessingMixin, ModelMeta, models.Model):
             'priceCurrency': 'RUB', # Установите валюту, например, 'RUB' или 'USD'
             'price': str(self.price),
             'itemCondition': 'https://schema.org/NewCondition',
-            'availability': 'https://schema.org/InStock', # Укажите актуальный статус наличия
-        }        
+            'availability': self.get_schema_availability(),
+        }
+
+    def get_schema_availability(self):
+        if self.in_stock == 1:
+            return 'https://schema.org/InStock'
+        if self.in_stock == 0:
+            return 'https://schema.org/BackOrder'
+        return 'https://schema.org/PreOrder'
 
     def get_clean_title(self):
         return re.sub(r'\s*\([^()]*\)$', '', self.title)
@@ -393,6 +543,124 @@ class Product(ImageProcessingMixin, ModelMeta, models.Model):
             return parts[-1]
         else:
             return ""
+
+    def get_specs(self):
+        """Canonical specs used by cards, the compressor block and JSON-LD.
+
+        Keyed by a stable slug instead of VariableItem pk, because pks differ
+        between databases. Memoised per instance because ``variable_set`` is
+        already prefetched by the views.
+        """
+        cached = getattr(self, '_specs_cache', None)
+        if cached is not None:
+            return cached
+
+        specs = {}
+        # Sorted in Python, not via .order_by(): once ``variable_set`` is
+        # prefetched Django serves the cached list and drops the ordering.
+        for var in sorted(self.variable_set.all(), key=lambda v: v.varitem_id):
+            slug = SPEC_SLUG_BY_TITLE.get((var.varitem.title or '').strip().lower())
+            if not slug or slug in specs:
+                continue
+            specs[slug] = {
+                'value': var.value,
+                'unit': var.varitem.dimention or '',
+                'text': f'{var.value} {var.varitem.dimention or ""}'.strip(),
+                'title': var.varitem.title,
+            }
+
+        self._specs_cache = specs
+        return specs
+
+    def get_spec_rows(self):
+        """Ordered, display-ready pairs for the card strip.
+
+        Single source of truth for both the SSR render and the Vue listing, so
+        the two branches cannot drift apart (they did once, when the unit was
+        hardcoded in the template on top of the already-joined spec text).
+        Capped by SPEC_CARD_LIMIT to hold the strip to one line, which is what
+        keeps the price blocks aligned across a row of cards.
+        """
+        cached = getattr(self, '_spec_rows_cache', None)
+        if cached is not None:
+            return cached
+
+        specs = self.get_specs()
+        rows = []
+        for slug, label in SPEC_CARD_ROWS:
+            spec = specs.get(slug)
+            if not spec or not spec['text']:
+                continue
+            rows.append({
+                'slug': slug,
+                'label': label,
+                'prefix': f'{label} ' if label else '',
+                'text': spec['text'],
+            })
+            if len(rows) >= SPEC_CARD_LIMIT:
+                break
+
+        self._spec_rows_cache = rows
+        return rows
+
+    def get_spec(self, slug):
+        return self.get_specs().get(slug)
+
+    def get_compressor_requirements(self):
+        """Compressor match block: rows plus a derived receiver hint.
+
+        This is the single most useful block for a pneumatic tool buyer. The
+        catalog data already carries air consumption, working pressure and the
+        inlet thread, and no competitor surfaces them together.
+        """
+        specs = self.get_specs()
+        rows = []
+        for slug in ('air_pressure', 'air_consumption', 'air_inlet', 'air_pressure_max'):
+            spec = specs.get(slug)
+            if spec and spec['value']:
+                rows.append(spec)
+
+        consumption = specs.get('air_consumption')
+        hint = ''
+        if consumption:
+            raw = (consumption['value'] or '').replace(',', '.').replace(' ', '')
+            try:
+                lit_min = float(raw)
+            except ValueError:
+                lit_min = None
+            if lit_min:
+                # Compressor must exceed sustained tool draw; pad for duty cycle.
+                # Receiver size is deliberately NOT estimated here: it depends on
+                # the duty cycle, which we cannot know from catalog data.
+                needed = lit_min * 1.2
+                needed_out = int(needed / 50.0 + 0.5) * 50
+
+                # State the bar figure only when the catalog actually has it,
+                # so the hint never contradicts the product specs above it.
+                pressure = specs.get('air_pressure')
+                bar = ''
+                if pressure:
+                    try:
+                        mpa = float(str(pressure['value']).replace(',', '.'))
+                        value = '{:.1f}'.format(mpa * 10).rstrip('0').rstrip('.')
+                        bar = f' и {value.replace(".", ",")} бар'
+                    except (TypeError, ValueError):
+                        bar = ''
+
+                hint = (
+                    f'Ориентир по компрессору — от {needed_out} л/мин{bar}. '
+                    f'Для импульсной работы (зачистка швов, короткие проходы) '
+                    f'ресивер 50–100 л загладит просадку давления. '
+                    f'Точный подбор сделаем под ваше оборудование — пришлите модель компрессора.'
+                )
+
+        return {
+            'rows': rows,
+            'has_data': bool(rows),
+            'consumption': consumption,
+            'hint': hint,
+        }
+
         
 class VariableItem(models.Model):
     title = models.CharField(max_length=255)
@@ -457,3 +725,69 @@ class ProductFAQ(models.Model):
 
     def __str__(self):
         return self.question
+
+
+class PriceRequestQuerySet(models.QuerySet):
+    def pending(self):
+        return self.filter(is_handled=False)
+
+
+class PriceRequest(models.Model):
+    """Lead captured from the «Запросить цену» button.
+
+    45 of 356 visible products have no price, so this is the only conversion
+    path for them. The row is stored before the email is sent: a mail failure
+    must never lose the lead.
+    """
+
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='price_requests', verbose_name='Товар')
+    name = models.CharField(max_length=150, verbose_name='Имя')
+    email = models.EmailField(max_length=254, verbose_name='E-mail')
+    phone = models.CharField(max_length=40, blank=True, default='', verbose_name='Телефон')
+    comment = models.TextField(blank=True, default='', verbose_name='Комментарий')
+    source_url = models.URLField(max_length=500, blank=True, default='', verbose_name='Страница')
+    is_handled = models.BooleanField(default=False, verbose_name='Обработан')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
+
+    objects = PriceRequestQuerySet.as_manager()
+
+    class Meta:
+        verbose_name = 'Запрос цены'
+        verbose_name_plural = 'Запросы цены'
+        ordering = ('-created_at',)
+        indexes = [
+            models.Index(fields=['is_handled', '-created_at']),
+        ]
+
+    def __str__(self):
+        return f'№{self.pk} {self.product_id} — {self.name}'
+
+    def get_specs_summary(self):
+        return ', '.join(
+            f"{spec['title']}: {spec['text']}" for spec in self.product.get_specs().values()
+        )
+
+    def send_office_email(self):
+        """Notify the sales office. Caller decides how to handle failures."""
+        from django.conf import settings
+        from django.core.mail import send_mail
+        from django.template.loader import render_to_string
+        from django.utils.html import strip_tags
+
+        recipient = getattr(settings, 'ORDER_EMAIL_RECIPIENT', 'office@katran-pnevmo.ru')
+        context = {
+            'request': self,
+            'product': self.product,
+            'specs_summary': self.get_specs_summary(),
+        }
+        html_message = render_to_string('emails/price_request.html', context)
+        subject = f'Запрос цены №{self.pk}: {self.product.title}'
+        send_mail(
+            subject,
+            strip_tags(html_message),
+            from_email=None,
+            recipient_list=[recipient],
+            html_message=html_message,
+            fail_silently=True,
+        )
