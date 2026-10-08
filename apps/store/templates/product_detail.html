@@ -365,7 +365,7 @@
       <p>{{ product.description|sanitize_html|safe }}</p>
     </div>
     {% endif %}
-
+{% comment %}
     {# ── Compressor requirements ── #}
     {% with comp=product.get_compressor_requirements %}
     {% if comp.has_data %}
@@ -398,7 +398,7 @@
     </div>
     {% endif %}
     {% endwith %}
-
+{% endcomment %}
     {# ── FAQ ── #}
     {% if product.faqs.all %}
     <div class="column is-full box product-faq-section">

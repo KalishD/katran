@@ -28,7 +28,7 @@
   <div class="columns is-multiline is-variable is-2 mt-5">
     {% for ind in industries %}
       <div class="column is-4 is-full-mobile">
-        <a href="{{ ind.get_absolute_url }}" class="no-hl-link" aria-label="Подробнее: {{ ind.title }}">
+        <a href="{{ ind.get_absolute_url }}" class="no-hl-link">
           <div class="kp-sol-card">
             <div class="kp-sol-card__icon">
               <i class="{{ ind.icon_class }}" aria-hidden="true"></i>

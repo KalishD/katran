@@ -107,7 +107,7 @@
     <div class="columns is-multiline mt-3">
       {% for rp in page.related_pages.all %}
         <div class="column is-4 is-full-mobile">
-          <a href="{{ rp.get_absolute_url }}" class="no-hl-link" aria-label="Открыть: {{ rp.title }}">
+          <a href="{{ rp.get_absolute_url }}" class="no-hl-link">
             <div class="box has-text-left" style="height: 100%; transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;">
               <p class="subtitle is-7 mb-1" style="color: var(--katran-accent-color);">{{ rp.get_page_type_display }}</p>
               <p class="title is-6 mb-2">{{ rp.title }}</p>

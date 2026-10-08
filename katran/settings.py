@@ -241,5 +241,13 @@ CSP_IMG_SRC = (
     "https://mc.yandex.ru",
     "https://mc.webvisor.org",
 )
-CSP_CONNECT_SRC = ("'self'",)
-CSP_FRAME_SRC = ("'none'",)
+CSP_CONNECT_SRC = (
+    "'self'",
+    "https://mc.yandex.ru",
+    "wss://mc.yandex.ru",
+    "https://datafa.st",
+)
+CSP_FRAME_SRC = (
+    "https://mc.yandex.ru",
+    "https://mc.webvisor.org",
+)

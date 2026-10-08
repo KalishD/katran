@@ -253,10 +253,10 @@
 
             <div class="navbar-item has-dropdown"
                   :class="{ 'is-active': dropdowns.solutions }">
-              <a class="navbar-link"
+              <button type="button" class="navbar-link"
                   @click.prevent="toggleDropdown('solutions')">
                 Решения
-              </a>
+              </button>
               <div class="navbar-dropdown" @mouseleave.prevent="closeDropdown('solutions')">
                 <a class="navbar-item" href="{% url 'solutions_index' %}">
                   Все отрасли
@@ -275,10 +275,10 @@
 
             {# Mega-Menu for Каталог #}
             <div class="navbar-item has-mega-dropdown is-hidden-desktop is-hidden-fullhd is-hidden-widescreen" :class="{ 'is-active': dropdowns.catalog }"> {# Add mouseleave for desktop #}
-                <a class="navbar-link"
+                <button type="button" class="navbar-link"
                 	@click.prevent="toggleDropdown('catalog')">
                     Каталог
-                </a>
+                </button>
                 <div class="navbar-dropdown" @mouseleave="closeDropdown('catalog')">
                     {% with total_items=menu_categories_filter|length %}
                     {% if items_per_column %}
@@ -311,11 +311,11 @@
             <div class="navbar-item has-dropdown"
                   :class="{ 'is-active': dropdowns.brands }">
                   
-              <a class="navbar-link"
+              <button type="button" class="navbar-link"
                   @click.prevent="toggleDropdown('brands')">
                   
                 Производители
-              </a>
+              </button>
       
               <div class="navbar-dropdown" @mouseleave.prevent="closeDropdown('brands')">
                 {% for b in menu_brands %}
@@ -494,6 +494,7 @@
 
     <!--  -->
 
+  <main id="main-content">
   <div class="columns is-fullhd mt-3">
     {% include "side-bar.html" %}
     {% block content %}{% endblock %}
@@ -502,7 +503,7 @@
   {# Контент во всю ширину, вне колонки каталога. Например SEO-текст категории. #}
   {% block content_full %}{% endblock %}
 
-</div>
+</main>
 </div>
   <footer class="footer mt-6 ml-6-desktop mr-6-desktop ml-0-mobile mr-0-mobile mb-0 pb-4 is-vcentered">
 
@@ -570,6 +571,16 @@
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script type="text/javascript" src="https://unpkg.com/vuex@3.5.1/dist/vuex.js"></script>
+
+<script>
+  jQuery(document).on('initialized.owl.carousel refreshed.owl.carousel', '.owl-carousel', function () {
+    jQuery(this).find('.owl-dot').each(function (index) {
+      if (!jQuery(this).attr('aria-label')) {
+        jQuery(this).attr('aria-label', 'Слайд ' + (index + 1));
+      }
+    });
+  });
+</script>
 
 <script>
   (function () {
